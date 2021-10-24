@@ -1,12 +1,29 @@
+/**
+ * Mise en oeuvre de Piece.h
+ *
+ * @file Piece.cxx
+ */
+
+// Utile pour l'affichage
 #include <iostream>
+// A besoin de la declaration de la classe
 #include "Piece.h"
+
+// Pour utiliser les flux de iostream sans mettre "std::" tout le temps.
 using namespace std;
+
+Piece::Piece()
+{
+    // ne fait rien => objet instancie mais non valide.
+    cout << "Constructeur Piece par defaut" << endl;
+}
 
 Piece::Piece( int x, int y, bool white )
 {
     m_x     = x;
     m_y     = y;
     m_white = white;
+    cout << "Constructeur Piece special" << endl;
 }
 
 Piece::Piece( const Piece &autre )
@@ -14,6 +31,12 @@ Piece::Piece( const Piece &autre )
     m_x     = autre.m_x;
     m_y     = autre.m_y;
     m_white = autre.m_white;
+    cout << "Constructeur Piece par copie" << endl;
+}
+
+Piece::~Piece()
+{
+    cout << "Destructeur Piece" << endl;
 }
 
 Piece &
@@ -76,6 +99,15 @@ Piece::vue()
 {
     return this->isWhite() ? 'B' : 'N';
 }
+
+/*
+bool
+Piece::mouvementValide( Echiquier &e, int x, int y )
+{
+    cout << "Mouvement Valide Piece" << endl;
+    return true;  // cette methode deviendra abstraite
+}
+*/
 
 Roi::Roi( bool white ) : Piece( 5, white ? 1 : 8, white )
 {

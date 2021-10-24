@@ -11,9 +11,11 @@ class Joueur
    public:
     Joueur();
     virtual ~Joueur();
+    //Joueur( bool white );
     void         affiche();
     virtual bool isWhite() = 0;
     bool         placerPieces( Echiquier &e );
+    /* bool placerPieces( Echiquier * e ); */
 };
 
 class JoueurBlanc : public Joueur

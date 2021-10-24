@@ -1,29 +1,16 @@
-/**
- * Mise en oeuvre de Piece.h
- *
- * @file Piece.cxx
- */
-
-// Utile pour l'affichage
 #include <iostream>
-// A besoin de la declaration de la classe
 #include "Piece.h"
-
-// Pour utiliser les flux de iostream sans mettre "std::" tout le temps.
+#include "Echiquier.h"
 using namespace std;
 
-Piece::Piece()
-{
-    // ne fait rien => objet instancie mais non valide.
-    cout << "Constructeur Piece par defaut" << endl;
-}
+Piece::Piece(){}
 
 Piece::Piece( int x, int y, bool white )
 {
     m_x     = x;
     m_y     = y;
     m_white = white;
-    cout << "Constructeur Piece special" << endl;
+    firstMove = true;
 }
 
 Piece::Piece( const Piece &autre )
@@ -31,13 +18,10 @@ Piece::Piece( const Piece &autre )
     m_x     = autre.m_x;
     m_y     = autre.m_y;
     m_white = autre.m_white;
-    cout << "Constructeur Piece par copie" << endl;
+    firstMove = autre.firstMove;
 }
 
-Piece::~Piece()
-{
-    cout << "Destructeur Piece" << endl;
-}
+Piece::~Piece(){}
 
 Piece &
 Piece::operator=( const Piece &autre )
@@ -45,7 +29,6 @@ Piece::operator=( const Piece &autre )
     m_x     = autre.m_x;
     m_y     = autre.m_y;
     m_white = autre.m_white;
-    cout << "Affectation Piece" << endl;
     return *this;
 }
 
@@ -100,29 +83,13 @@ Piece::vue()
     return this->isWhite() ? 'B' : 'N';
 }
 
-/*
-bool
-Piece::mouvementValide( Echiquier &e, int x, int y )
-{
-    cout << "Mouvement Valide Piece" << endl;
-    return true;  // cette methode deviendra abstraite
-}
-*/
+Roi::Roi( bool white ) : Piece( 5, white ? 1 : 8, white ){}
 
-Roi::Roi( bool white ) : Piece( 5, white ? 1 : 8, white )
-{
-    cout << "Constructeur Roi" << endl;
-}
-
-Roi::~Roi()
-{
-    cout << "Destructeur Roi" << endl;
-}
+Roi::~Roi(){}
 
 bool
 Roi::mouvementValide( Echiquier &e, int x, int y )
 {
-    cout << "Mouvement Valide Roi" << endl;
     return true;
 }
 
@@ -133,21 +100,12 @@ Roi::vue()
 }
 
 void
-Roi::roque()
-{
-    cout << "Roque Roi" << endl;
-}
+Roi::roque(){}
 
 Reine::Reine( bool white )
-    : Piece( 4, white ? 1 : 8, white ), Fou( white, true ), Tour( white, true )
-{
-    cout << "Constructeur Reine" << endl;
-}
+    : Piece( 4, white ? 1 : 8, white ), Fou( white, true ), Tour( white, true ){}
 
-Reine::~Reine()
-{
-    cout << "Destructeur Reine" << endl;
-}
+Reine::~Reine(){}
 
 bool
 Reine::mouvementValide( Echiquier &e, int x, int y )
@@ -161,20 +119,13 @@ Reine::vue()
     return Fou::m_white ? 'Q' : 'q';
 }
 
-Tour::Tour( bool white, bool gauche ) : Piece( gauche ? 1 : 8, white ? 1 : 8, white )
-{
-    cout << "Constructeur Tour" << endl;
-}
+Tour::Tour( bool white, bool gauche ) : Piece( gauche ? 1 : 8, white ? 1 : 8, white ){}
 
-Tour::~Tour()
-{
-    cout << "Destructeur Tour" << endl;
-}
+Tour::~Tour(){}
 
 bool
 Tour::mouvementValide( Echiquier &e, int x, int y )
 {
-    cout << "Mouvement Valide Tour" << endl;
     return false;
 }
 
@@ -184,20 +135,13 @@ Tour::vue()
     return m_white ? 'T' : 't';
 }
 
-Fou::Fou( bool white, bool gauche ) : Piece( gauche ? 3 : 6, white ? 1 : 8, white )
-{
-    cout << "Constructeur Fou" << endl;
-}
+Fou::Fou( bool white, bool gauche ) : Piece( gauche ? 3 : 6, white ? 1 : 8, white ){}
 
-Fou::~Fou()
-{
-    cout << "Destructeur Fou" << endl;
-}
+Fou::~Fou(){}
 
 bool
 Fou::mouvementValide( Echiquier &e, int x, int y )
 {
-    cout << "Mouvement Valide Fou" << endl;
     return false;
 }
 
@@ -207,20 +151,13 @@ Fou::vue()
     return m_white ? 'F' : 'f';
 }
 
-Cavalier::Cavalier( bool white, bool gauche ) : Piece( gauche ? 2 : 7, white ? 1 : 8, white )
-{
-    cout << "Constructeur Cavalier" << endl;
-}
+Cavalier::Cavalier( bool white, bool gauche ) : Piece( gauche ? 2 : 7, white ? 1 : 8, white ){}
 
-Cavalier::~Cavalier()
-{
-    cout << "Destructeur Cavalier" << endl;
-}
+Cavalier::~Cavalier(){}
 
 bool
 Cavalier::mouvementValide( Echiquier &e, int x, int y )
 {
-    cout << "Mouvement Valide Cavalier" << endl;
     return false;
 }
 
@@ -230,21 +167,37 @@ Cavalier::vue()
     return m_white ? 'C' : 'c';
 }
 
-Pion::Pion( bool white, int x ) : Piece( x, white ? 2 : 7, white )
-{
-    cout << "Constructeur Pion" << endl;
-}
+Pion::Pion( bool white, int x ) : Piece( x, white ? 2 : 7, white ){}
 
-Pion::~Pion()
-{
-    cout << "Destructeur Pion" << endl;
-}
+Pion::~Pion(){}
 
 bool
 Pion::mouvementValide( Echiquier &e, int x, int y )
 {
-    cout << "Mouvement Valide Pion" << endl;
-    return false;
+    if( this->m_x == x )
+    {
+        if (firstMove && y == this->m_y + 2 || y == this->m_y + 1)
+        {
+            Piece *maPiece = e.getPiece(x,y);
+
+            if (maPiece == nullptr)
+            {
+                cout << "First move" << endl;
+            }
+            else
+            {
+                cout << "Piece devant" << endl;
+            }
+        }
+        else if (y == this->m_y + 1 ? cout << "Move" << endl : cout << "Echec du deplacement en y" << endl )
+
+        firstMove = false;
+        return true;
+    }
+    else{
+        cout << "Echec du deplacement en x" << endl;
+        return false;
+    }
 }
 
 char

@@ -4,6 +4,10 @@
 
 using namespace std;
 
+Joueur::Joueur()
+{
+    cout << "Constructeur Joueur par defaut" << endl;
+}
 
 Joueur::~Joueur()
 {
@@ -11,6 +15,23 @@ Joueur::~Joueur()
         delete m_pieces[i];
     cout << "Destructeur Joueur" << endl;
 }
+
+/*
+Joueur::Joueur( bool white )
+{
+    int p   = 0;
+    int y   = ( white ? 1 : 8 );
+    for ( int x = 1; x <= 8; x++ ) {
+        m_pieces[p].init( x, y, white );
+        p++;
+    }
+    y = ( white ? 2 : 7 );
+    for ( int x = 1; x <= 8; x++ )
+        m_pieces[p++].init( x, y, white );
+    assert( p == 16 );
+    cout << "Constructeur Joueur" << endl;
+}
+*/
 
 void
 Joueur::affiche()
@@ -27,6 +48,17 @@ Joueur::placerPieces( Echiquier &e )
             return false;
     return true;
 }
+
+/*
+bool
+Joueur::placerPieces( Echiquier * e )
+{
+    for ( int i = 0; i < 16; i++ )
+        if ( !e->placer( &( m_pieces[i] ) ) )
+            return false;
+    return true;
+}
+*/
 
 JoueurBlanc::JoueurBlanc()
 {
@@ -81,6 +113,13 @@ JoueurNoir::JoueurNoir()
     assert( 16 == p );
     cout << "Constructeur JoueurNoir" << endl;
 }
+
+/* methode virtual pure
+bool Joueur::isWhite()
+{
+    return m_pieces[0].isWhite();
+}
+*/
 
 bool
 JoueurBlanc::isWhite()

@@ -30,13 +30,15 @@ main( int argc, char **argv )
 {
     Echiquier e;
     e.affiche();
-
+    // Joueur j( true ); classe abstraite
     JoueurBlanc jb;
     JoueurNoir  jn;
-    
     assert( jb.placerPieces( e ) );
     assert( jn.placerPieces( e ) );
-
+    /*
+    assert( jb.placerPieces( &e ) );
+    assert( jn.placerPieces( &e ) );
+    */
     e.affiche();
 
     Roi rb( true );
@@ -44,9 +46,10 @@ main( int argc, char **argv )
 
     assert( rb.mouvementValide( e, 2, 2 ) );
     Piece *ptr = &rb;
-    assert( ptr->mouvementValide( e, 2, 2 ) ); 
+    assert( ptr->mouvementValide( e, 2, 2 ) );  // polymorphisme ?
 
     ptr = &rb;
+    // Roi *rptr = ptr; // transtypage
     Roi *rptr = dynamic_cast<Roi *>( ptr );
     assert( nullptr != rptr );
     rptr->roque();
@@ -54,4 +57,6 @@ main( int argc, char **argv )
     Reine qb( true );
     qb.mouvementValide( e, 2, 2 );
 
+    // les objets definis dans cette fonction sont automatiquement detruits.
+    // Ex : p1
 }

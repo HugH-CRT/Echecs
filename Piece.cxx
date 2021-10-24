@@ -1,6 +1,22 @@
+/**
+ * Mise en oeuvre de Piece.h
+ *
+ * @file Piece.cxx
+ */
+
+// Utile pour l'affichage
 #include <iostream>
+// A besoin de la declaration de la classe
 #include "Piece.h"
+
+// Pour utiliser les flux de iostream sans mettre "std::" tout le temps.
 using namespace std;
+
+Piece::Piece()
+{
+    // ne fait rien => objet instancie mais non valide.
+    cout << "Constructeur Piece par defaut" << endl;
+}
 
 Piece::Piece( int x, int y, bool white )
 {
@@ -16,6 +32,11 @@ Piece::Piece( const Piece &autre )
     m_y     = autre.m_y;
     m_white = autre.m_white;
     cout << "Constructeur Piece par copie" << endl;
+}
+
+Piece::~Piece()
+{
+    cout << "Destructeur Piece" << endl;
 }
 
 Piece &
@@ -79,6 +100,15 @@ Piece::vue()
     return this->isWhite() ? 'B' : 'N';
 }
 
+/*
+bool
+Piece::mouvementValide( Echiquier &e, int x, int y )
+{
+    cout << "Mouvement Valide Piece" << endl;
+    return true;  // cette methode deviendra abstraite
+}
+*/
+
 Roi::Roi( bool white ) : Piece( 5, white ? 1 : 8, white )
 {
     cout << "Constructeur Roi" << endl;
@@ -114,6 +144,11 @@ Reine::Reine( bool white )
     cout << "Constructeur Reine" << endl;
 }
 
+Reine::~Reine()
+{
+    cout << "Destructeur Reine" << endl;
+}
+
 bool
 Reine::mouvementValide( Echiquier &e, int x, int y )
 {
@@ -129,6 +164,11 @@ Reine::vue()
 Tour::Tour( bool white, bool gauche ) : Piece( gauche ? 1 : 8, white ? 1 : 8, white )
 {
     cout << "Constructeur Tour" << endl;
+}
+
+Tour::~Tour()
+{
+    cout << "Destructeur Tour" << endl;
 }
 
 bool
@@ -149,6 +189,11 @@ Fou::Fou( bool white, bool gauche ) : Piece( gauche ? 3 : 6, white ? 1 : 8, whit
     cout << "Constructeur Fou" << endl;
 }
 
+Fou::~Fou()
+{
+    cout << "Destructeur Fou" << endl;
+}
+
 bool
 Fou::mouvementValide( Echiquier &e, int x, int y )
 {
@@ -167,6 +212,11 @@ Cavalier::Cavalier( bool white, bool gauche ) : Piece( gauche ? 2 : 7, white ? 1
     cout << "Constructeur Cavalier" << endl;
 }
 
+Cavalier::~Cavalier()
+{
+    cout << "Destructeur Cavalier" << endl;
+}
+
 bool
 Cavalier::mouvementValide( Echiquier &e, int x, int y )
 {
@@ -183,6 +233,11 @@ Cavalier::vue()
 Pion::Pion( bool white, int x ) : Piece( x, white ? 2 : 7, white )
 {
     cout << "Constructeur Pion" << endl;
+}
+
+Pion::~Pion()
+{
+    cout << "Destructeur Pion" << endl;
 }
 
 bool

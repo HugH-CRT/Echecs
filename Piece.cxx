@@ -174,39 +174,68 @@ Pion::~Pion(){}
 bool
 Pion::mouvementValide( Echiquier &e, int x, int y )
 {
-    /**************
-     * 
-     * To do : Les déplacements ne se font que vers le bas 1 -> 8 à gérer pour l'autre sens!!
-     * 
-     */
-    //Si on est sur la même ligne // Ou déplacement diag -> to Eat
-    if( this->m_x == x || this->m_x + 1 == x && this->m_y + 1 == y | this->m_x + -1 == x && this->m_y + 1 == y )
+    if ( m_white )
     {
-        //On récupère le pointeur vers lequel on souhaite se déplacer
-        Piece *maPiece = e.getPiece(x,y);
-
-        //Check la validité du déplacement déplacement
-        if ( ( firstMove && y == this->m_y + 2 || y == this->m_y + 1 )  || ( !firstMove &&  y == this->m_y + 1 ) )
+        //Si on est sur la même ligne // Ou déplacement diag -> to Eat
+        if( this->m_x == x || this->m_x + 1 == x && this->m_y + 1 == y || this->m_x - 1 == x && this->m_y + 1 == y )
         {
-            //Si y'a pas de pièce
-            if (maPiece == nullptr )
+            //On récupère le pointeur vers lequel on souhaite se déplacer
+            Piece *maPiece = e.getPiece(x,y);
+
+            //Check la validité du déplacement déplacement
+            if ( ( firstMove && y == this->m_y + 2 || y == this->m_y + 1 )  || ( !firstMove &&  y == this->m_y + 1 ) )
             {
-                firstMove = false;
-                return true;
-            }
-            else 
-            { 
-                //Si on va en diag 
-                if( this->m_x + 1 == x && this->m_y + 1 == y | this->m_x + -1 == x && this->m_y + 1 == y )
+                //Si y'a pas de pièce
+                if (maPiece == nullptr )
                 {
+                    firstMove = false;
                     return true;
                 }
-                else { return false; }
+                else 
+                { 
+                    //Si on va en diag 
+                    if( this->m_x + 1 == x && this->m_y + 1 == y || this->m_x - 1 == x && this->m_y + 1 == y )
+                    {
+                        return true;
+                    }
+                    else { return false; }
+                }
             }
+            else { return false; }
         }
         else { return false; }
     }
-    else { return false; }
+    else
+    {
+        //Si on est sur la même ligne // Ou déplacement diag -> to Eat
+        if( this->m_x == x || this->m_x - 1 == x && this->m_y + 1 == y | this->m_x - 1 == x && this->m_y - 1 == y )
+        {
+            //On récupère le pointeur vers lequel on souhaite se déplacer
+            Piece *maPiece = e.getPiece(x,y);
+
+            //Check la validité du déplacement déplacement
+            if ( ( firstMove && y == this->m_y - 2 || y == this->m_y - 1 )  || ( !firstMove &&  y == this->m_y - 1 ) )
+            {
+                //Si y'a pas de pièce
+                if (maPiece == nullptr )
+                {
+                    firstMove = false;
+                    return true;
+                }
+                else 
+                { 
+                    //Si on va en diag 
+                    if( this->m_x - 1 == x && this->m_y + 1 == y | this->m_x - 1 == x && this->m_y - 1 == y )
+                    {
+                        return true;
+                    }
+                    else { return false; }
+                }
+            }
+            else { return false; }
+        }
+        else { return false; }
+    }
 }
 
 char

@@ -30,16 +30,45 @@ main( int argc, char **argv )
     //Affiche l'echiquier
     e.affiche();
 
-    //Récupère le pion position x = 2 , y = 2
-    Piece *maPiece = e.getPiece(2,2);
+    /*
+    * Récupère le pion position x = 2 , y = 2
+    * Verifier si on peut le déplacer en avant de 2 cases
+    * Déplace la piece sur l'echiquier
+    * Affiche de nouveau l'echiquier avec le pion qui à avancer
+    */
 
-    //Verifier si on peut le déplacer en avant de 1 case
-    if( maPiece->mouvementValide( e , 2 , 3 ) )
+    Piece *maPieceBlanche = e.getPiece(2,2);
+
+    if( maPieceBlanche->mouvementValide( e , 2 , 4 ) )
     {
-        //Déplace la piece sur l'echiquier
-        e.deplacer( maPiece , 3 , 7 );
+        e.deplacer( maPieceBlanche , 2 , 4 );
     }
+    e.affiche();
 
-    //Affiche de nouveau l'echiquier avec le pion qui à avancer
+    /*
+    * Récupère le pion position x = 1 , y = 7
+    * Verifier si on peut le déplacer en avant de 2 cases
+    * Déplace la piece sur l'echiquier
+    * Affiche de nouveau l'echiquier avec le pion qui à avancer
+    */
+
+    Piece *maPieceNoire = e.getPiece(1,7);
+
+    if( maPieceNoire->mouvementValide( e , 1 , 5 ) )
+    {
+        e.deplacer( maPieceNoire , 1 , 5 );
+    }
+    e.affiche();
+
+    /*
+    * La piece blanche mange la noire en diagonale
+    * Déplace la piece sur l'echiquier
+    * Affiche de nouveau l'echiquier avec le pion qui à avancer
+    */
+
+    if( maPieceBlanche->mouvementValide( e , 1 , 5 ) )
+    {
+        e.deplacer( maPieceBlanche , 1 , 5 );
+    }
     e.affiche();
 }

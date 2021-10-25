@@ -126,6 +126,23 @@ Tour::~Tour(){}
 bool
 Tour::mouvementValide( Echiquier &e, int x, int y )
 {
+    //Si on bouge en horizontale ou en vertical
+    if( this->m_x == x && this->m_y != y || this->m_x != x && this->m_y == y  )
+    {
+        //On récupère le pointeur vers lequel on souhaite se déplacer
+        Piece *maPiece = e.getPiece(x,y);
+
+        //Si y'a pas de pièce
+        if ( maPiece == nullptr )
+        {
+            return true;
+        }
+        else
+        {
+            //On regarde que il y ai pas une piece allié
+            if ( maPiece->isWhite() != m_white ? true : false);
+        }
+    }
     return false;
 }
 
@@ -198,12 +215,9 @@ Pion::mouvementValide( Echiquier &e, int x, int y )
                     {
                         return true;
                     }
-                    else { return false; }
                 }
             }
-            else { return false; }
         }
-        else { return false; }
     }
     else
     {
@@ -229,13 +243,11 @@ Pion::mouvementValide( Echiquier &e, int x, int y )
                     {
                         return true;
                     }
-                    else { return false; }
                 }
             }
-            else { return false; }
         }
-        else { return false; }
     }
+    return false;
 }
 
 char

@@ -71,4 +71,20 @@ main( int argc, char **argv )
         e.deplacer( maPieceBlanche , 1 , 5 );
     }
     e.affiche();
+
+    /*
+    * La tour noir avance de 1 case
+    * Déplace la piece sur l'echiquier
+    * Affiche de nouveau l'echiquier avec le pion qui à avancer
+    */
+
+    Piece *maTourNoire = e.getPiece(1,8);
+
+    if( maTourNoire->mouvementValide( e , 1 , 7 ) )
+    {
+        e.deplacer( maTourNoire , 1 , 7 );
+    }
+    e.affiche();
+
+
 }

@@ -80,9 +80,9 @@ main( int argc, char **argv )
 
     Piece *maTourNoire = e.getPiece(1,8);
 
-    if( maTourNoire->mouvementValide( e , 1 , 7 ) )
+    if( maTourNoire->mouvementValide( e , 1 , 6 ) )
     {
-        e.deplacer( maTourNoire , 1 , 7 );
+        e.deplacer( maTourNoire , 1 , 6 );
     }
     e.affiche();
 

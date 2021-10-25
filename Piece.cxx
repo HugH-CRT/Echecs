@@ -129,19 +129,41 @@ Tour::mouvementValide( Echiquier &e, int x, int y )
     //Si on bouge en horizontale ou en vertical
     if( this->m_x == x && this->m_y != y || this->m_x != x && this->m_y == y  )
     {
+        if ( this->m_x != x && this->m_y == y )
+        {
+            for ( int i = m_x  + 1; i > x + 1  ; i--)
+            {
+                //On récupère le pointeur de la position suivante
+                Piece *maPiece = e.getPiece(i,y);
+
+                if ( maPiece != nullptr )
+                {
+                    return false;
+                }
+            }
+        }
+        else if ( this->m_x == x && this->m_y != y )
+        {
+
+            for ( int i = m_y -1  ; i > y + 1 ; i--)
+            {
+                //On récupère le pointeur de la position suivante
+                Piece *maPiece = e.getPiece(x,i);
+
+                cout << "Piece en x : " << x << " et y : " << i << " Resultat : " << maPiece << endl;
+                if ( maPiece != nullptr )
+                {
+                    return false;
+                }
+            }
+        }
+
         //On récupère le pointeur vers lequel on souhaite se déplacer
         Piece *maPiece = e.getPiece(x,y);
 
         //Si y'a pas de pièce
-        if ( maPiece == nullptr )
-        {
-            return true;
-        }
-        else
-        {
-            //On regarde que il y ai pas une piece allié
-            if ( maPiece->isWhite() != m_white ? true : false);
-        }
+        if ( maPiece == nullptr ) { return true; }
+        else if ( maPiece->isWhite() != m_white ? true : false );
     }
     return false;
 }

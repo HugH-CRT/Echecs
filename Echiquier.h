@@ -7,6 +7,7 @@ class Echiquier
    private:
 
     Piece *m_cases[64];
+    char matriceVisuel [8][8];
 
    public:
 
@@ -16,6 +17,7 @@ class Echiquier
     bool deplacer( Piece *p, int x, int y );
     Piece *enleverPiece( int x, int y );
     void affiche();
+    void afficheVisuel();
 };
 
 #endif 

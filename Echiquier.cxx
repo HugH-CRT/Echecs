@@ -8,6 +8,37 @@ Echiquier::Echiquier()
 {
     for ( int i = 0; i < 64; i++ )
         m_cases[i] = nullptr;
+
+    for ( int i = 0; i < 8; i++ )
+        for( int j = 0; j < 8 ; j++ )
+            matriceVisuel[i][j] = '.';
+
+    for( int j = 0; j < 8 ; j++ )
+    {
+        matriceVisuel[1][j] = 'P';
+        matriceVisuel[6][j] = 'P';
+    }
+
+    matriceVisuel[0][0] = 'T';
+    matriceVisuel[0][7] = 'T';
+    matriceVisuel[7][0] = 'T';
+    matriceVisuel[7][7] = 'T';
+
+    matriceVisuel[0][1] = 'C';
+    matriceVisuel[0][6] = 'C';
+    matriceVisuel[7][1] = 'C';
+    matriceVisuel[7][6] = 'C';
+
+    matriceVisuel[0][2] = 'F';
+    matriceVisuel[0][5] = 'F';
+    matriceVisuel[7][2] = 'F';
+    matriceVisuel[7][5] = 'F';
+
+    matriceVisuel[0][3] = 'Q';
+    matriceVisuel[0][4] = 'K';
+    matriceVisuel[7][3] = 'Q';
+    matriceVisuel[7][4] = 'K';
+
 }
 
 Piece *
@@ -70,4 +101,17 @@ Echiquier::affiche()
         cout << " " << y << endl;
     }
     cout << "  12345678" << endl;
+}
+
+void
+Echiquier::afficheVisuel()
+{
+    for ( int i = 0 ; i < 8 ; i++)
+    {
+        for ( int j = 0 ; j < 8 ; j++)
+        {
+            cout << " " << matriceVisuel[i][j];
+        }
+        cout << "" << endl;
+    }
 }

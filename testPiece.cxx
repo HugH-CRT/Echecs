@@ -132,5 +132,6 @@ main( int argc, char **argv )
     }
     e.affiche();
 
+    e.afficheVisuel();
 
 }

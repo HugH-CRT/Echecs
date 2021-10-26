@@ -214,6 +214,67 @@ Fou::~Fou(){}
 bool
 Fou::mouvementValide( Echiquier &e, int x, int y )
 {
+    //Vérifie si on se déplace en diagonale
+    if ( m_y != y && m_x != x)
+    {
+        int temp = m_y; 
+
+        //Diagonale Haut Gauche vers bas droite
+        if ( x > m_x && y > m_y )
+        {
+            for ( int i = m_x + 1 ; i < x ; i ++ )
+            {
+                temp++;
+
+                Piece *maPiece = e.getPiece(i,temp);
+
+                if ( maPiece != nullptr ) { return false; }
+            }
+        }
+        //Diagonale bas gauche vers en haut à droite
+        else if ( x > m_x && y < m_y )
+        {
+            for ( int i = m_x + 1 ; i < x ; i ++ )
+            {
+                temp--;
+
+                Piece *maPiece = e.getPiece(i,temp);
+
+                if ( maPiece != nullptr ) { return false; }
+            }
+        }
+        //Diagonale bas droite vers haut gauche
+        else if ( x < m_x && y < m_y ) 
+        {
+            for ( int i = m_x - 1 ; i < x ; i ++ )
+            {
+                temp--;
+
+                Piece *maPiece = e.getPiece(i,temp);
+
+                if ( maPiece != nullptr ) { return false; }
+            }
+        }
+        //Diagonale haut droite vers bas gauche
+        else
+        {
+            for ( int i = m_x - 1 ; i < x ; i ++ )
+            {
+                temp++;
+
+                Piece *maPiece = e.getPiece(i,temp);
+
+                if ( maPiece != nullptr ) { return false; }
+            }
+        }
+
+        //On récupère le pointeur vers lequel on souhaite se déplacer
+        Piece *maPiece = e.getPiece(x,y);
+
+        //Si y'a pas de pièce
+        if ( maPiece == nullptr ) { return true; }
+        else if ( m_white != maPiece->isWhite() ) { return true; } 
+    }
     return false;
 }
 

@@ -90,7 +90,17 @@ Roi::~Roi(){}
 bool
 Roi::mouvementValide( Echiquier &e, int x, int y )
 {
-    return true;
+
+    if ( ( x == m_x + 1 && ( y == m_y + 1 || y == m_y  || y == m_y - 1 ) ) ||  ( x == m_x - 1 && ( y == m_y + 1 || y == m_y  || y == m_y - 1 ) ) || x == m_x  && y == m_y + 1 || x == m_x  && y == m_y - 1 )
+    {
+        Piece *maPiece = e.getPiece(x,y);
+
+        //Si y'a pas de pièce
+        if ( maPiece == nullptr ) { return true; }
+        else if ( m_white != maPiece->isWhite() ) { return true; } 
+    }
+
+    return false;
 }
 
 char

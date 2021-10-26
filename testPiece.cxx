@@ -114,4 +114,23 @@ main( int argc, char **argv )
     }
     e.affiche();
 
+
+    Piece *monPionBlanc2 = e.getPiece( 5 , 7 );
+
+    if( monPionBlanc2->mouvementValide( e , 5 , 6 ) )
+    {
+        e.deplacer( monPionBlanc2 , 5 , 6 );
+    }
+    e.affiche();
+
+
+    Piece *monRoiBlanc = e.getPiece( 5 , 8 );
+
+    if( monRoiBlanc->mouvementValide( e , 5 , 7 ) )
+    {
+        e.deplacer( monRoiBlanc , 5 , 7 );
+    }
+    e.affiche();
+
+
 }

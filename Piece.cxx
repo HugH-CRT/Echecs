@@ -222,7 +222,7 @@ Fou::mouvementValide( Echiquier &e, int x, int y )
         //Diagonale Haut Gauche vers bas droite
         if ( x > m_x && y > m_y )
         {
-            for ( int i = m_x + 1 ; i < x ; i ++ )
+            for ( int i = m_x + 1 ; i < y ; i ++ )
             {
                 temp++;
 
@@ -246,7 +246,7 @@ Fou::mouvementValide( Echiquier &e, int x, int y )
         //Diagonale bas droite vers haut gauche
         else if ( x < m_x && y < m_y ) 
         {
-            for ( int i = m_x - 1 ; i < x ; i ++ )
+            for ( int i = m_x - 1 ; i > y ; i ++ )
             {
                 temp--;
 
@@ -268,6 +268,7 @@ Fou::mouvementValide( Echiquier &e, int x, int y )
             }
         }
 
+        cout << "test" << endl;
         //On récupère le pointeur vers lequel on souhaite se déplacer
         Piece *maPiece = e.getPiece(x,y);
 

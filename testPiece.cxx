@@ -86,6 +86,12 @@ main( int argc, char **argv )
     }
     e.affiche();
 
+    /*
+    * Le fou blanc avance vers en bas à gauche de 1 case
+    * Déplace la piece sur l'echiquier
+    * Affiche de nouveau l'echiquier avec le fou qui à avancer
+    */
+
     Piece *monFouBlanc = e.getPiece( 3 , 1 );
 
     if( monFouBlanc->mouvementValide( e , 2 , 2 ) )

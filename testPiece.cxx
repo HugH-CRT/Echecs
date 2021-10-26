@@ -101,4 +101,17 @@ main( int argc, char **argv )
     e.affiche();
 
 
+    /*
+    * Le cavalier noir avance vers en bas à gauche 
+    * Déplace la piece sur l'echiquier
+    * Affiche de nouveau l'echiquier avec le cavalier qui à avancer
+    */
+    Piece *monCavalierNoire = e.getPiece( 2 , 1 );
+
+    if( monCavalierNoire->mouvementValide( e , 1 , 3 ) )
+    {
+        e.deplacer( monCavalierNoire , 1 , 3 );
+    }
+    e.affiche();
+
 }

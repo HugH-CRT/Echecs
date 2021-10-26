@@ -268,7 +268,6 @@ Fou::mouvementValide( Echiquier &e, int x, int y )
             }
         }
 
-        cout << "test" << endl;
         //On récupère le pointeur vers lequel on souhaite se déplacer
         Piece *maPiece = e.getPiece(x,y);
 
@@ -292,6 +291,15 @@ Cavalier::~Cavalier(){}
 bool
 Cavalier::mouvementValide( Echiquier &e, int x, int y )
 {
+    if ( ( ( x == m_x + 2 ) && ( y == m_y + 1 || y == m_y - 1 ) )  ||    ( ( x == m_x - 2 )  && ( y == m_y + 1 || y == m_y - 1 ) )   ||   ( ( y == m_y + 2 )  && ( x == m_x + 1 || x == m_x - 1 )  ||  ( ( y == m_y - 2 )  && ( x == m_x + 1 || x == m_x - 1 ) )  ) )
+    {
+        Piece *maPiece = e.getPiece(x,y);
+
+        //Si y'a pas de pièce
+        if ( maPiece == nullptr ) { return true; }
+        else if ( m_white != maPiece->isWhite() ) { return true; } 
+    }                                                           
+
     return false;
 }
 

@@ -86,5 +86,16 @@ main( int argc, char **argv )
     }
     e.affiche();
 
+    if( maTourNoire->mouvementValide( e , 5 , 6 ) )
+    {
+        e.deplacer( maTourNoire , 5 , 6 );
+    }
+    e.affiche();
+
+    if( maTourNoire->mouvementValide( e , 1 , 6 ) )
+    {
+        e.deplacer( maTourNoire , 1 , 6 );
+    }
+    e.affiche();
 
 }

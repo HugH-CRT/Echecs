@@ -127,33 +127,66 @@ bool
 Tour::mouvementValide( Echiquier &e, int x, int y )
 {
     //Si on bouge en horizontale ou en vertical
-    if( this->m_x == x && this->m_y != y || this->m_x != x && this->m_y == y  )
+    if( m_x == x && m_y != y || m_x != x && m_y == y  )
     {
-        if ( this->m_x != x && this->m_y == y )
+        //Si on bouge en horizontale
+        if ( m_x != x && m_y == y )
         {
-            for ( int i = m_x  + 1; i > x + 1  ; i--)
+            //Si on va à droite
+            if ( x > m_x)
             {
-                //On récupère le pointeur de la position suivante
-                Piece *maPiece = e.getPiece(i,y);
-
-                if ( maPiece != nullptr )
+                for ( int i = m_x + 1; i < x - 1  ; i++)
                 {
-                    return false;
+                    //On récupère le pointeur de la position suivante
+                    Piece *maPiece = e.getPiece(i,y);
+
+                    if ( maPiece != nullptr )
+                    {
+                        return false;
+                    }
+                }
+            }
+            else
+            {
+                for ( int i = m_x - 1; i >= x + 1  ; i--)
+                {
+                    //On récupère le pointeur de la position suivante
+                    Piece *maPiece = e.getPiece(i,y);
+
+                    if ( maPiece != nullptr )
+                    {
+                        return false;
+                    }
                 }
             }
         }
         else if ( this->m_x == x && this->m_y != y )
         {
-
-            for ( int i = m_y -1  ; i > y + 1 ; i--)
+            //Si on va à en bas
+            if ( y > m_y)
             {
-                //On récupère le pointeur de la position suivante
-                Piece *maPiece = e.getPiece(x,i);
-
-                cout << "Piece en x : " << x << " et y : " << i << " Resultat : " << maPiece << endl;
-                if ( maPiece != nullptr )
+                for ( int i = m_y + 1; i < y - 1  ; i++)
                 {
-                    return false;
+                    //On récupère le pointeur de la position suivante
+                    Piece *maPiece = e.getPiece(i,y);
+
+                    if ( maPiece != nullptr )
+                    {
+                        return false;
+                    }
+                }
+            }
+            else
+            {
+                for ( int i = m_y - 1; i >= y + 1  ; i--)
+                {
+                    //On récupère le pointeur de la position suivante
+                    Piece *maPiece = e.getPiece(x,i);
+
+                    if ( maPiece != nullptr )
+                    {
+                        return false;
+                    }
                 }
             }
         }
@@ -163,7 +196,7 @@ Tour::mouvementValide( Echiquier &e, int x, int y )
 
         //Si y'a pas de pièce
         if ( maPiece == nullptr ) { return true; }
-        else if ( maPiece->isWhite() != m_white ? true : false );
+        else if ( m_white != maPiece->isWhite() ) { return true; } 
     }
     return false;
 }

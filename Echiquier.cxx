@@ -37,6 +37,7 @@ bool
 Echiquier::deplacer( Piece *p, int x, int y )
 {
     this->enleverPiece( p->x() , p->y() );
+    this->enleverPiece( x , y );
     p->move(x,y);
     this->placer(p);
 }

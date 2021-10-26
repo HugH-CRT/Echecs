@@ -80,9 +80,9 @@ main( int argc, char **argv )
 
     Piece *maTourNoire = e.getPiece(1,8);
 
-    if( maTourNoire->mouvementValide( e , 1 , 6 ) )
+    if( maTourNoire->mouvementValide( e , 1 , 5 ) )
     {
-        e.deplacer( maTourNoire , 1 , 6 );
+        e.deplacer( maTourNoire , 1 , 5 );
     }
     e.affiche();
 
@@ -106,32 +106,30 @@ main( int argc, char **argv )
     * Déplace la piece sur l'echiquier
     * Affiche de nouveau l'echiquier avec le cavalier qui à avancer
     */
-    Piece *monCavalierNoire = e.getPiece( 2 , 1 );
+    Piece *monCavalierNoire = e.getPiece( 2 , 8 );
 
-    if( monCavalierNoire->mouvementValide( e , 1 , 3 ) )
+    if( monCavalierNoire->mouvementValide( e , 1 , 6 ) )
     {
-        e.deplacer( monCavalierNoire , 1 , 3 );
+        e.deplacer( monCavalierNoire , 1 , 6 );
     }
     e.affiche();
 
 
-    Piece *monPionBlanc2 = e.getPiece( 5 , 7 );
+    Piece *monPionBlanc2 = e.getPiece( 5 , 2 );
 
-    if( monPionBlanc2->mouvementValide( e , 5 , 6 ) )
+    if( monPionBlanc2->mouvementValide( e , 5 , 3 ) )
     {
-        e.deplacer( monPionBlanc2 , 5 , 6 );
+        e.deplacer( monPionBlanc2 , 5 , 3 );
     }
     e.affiche();
 
 
-    Piece *monRoiBlanc = e.getPiece( 5 , 8 );
+    Piece *monRoiBlanc = e.getPiece( 5 , 1 );
 
-    if( monRoiBlanc->mouvementValide( e , 5 , 7 ) )
+    if( monRoiBlanc->mouvementValide( e , 5 , 2 ) )
     {
-        e.deplacer( monRoiBlanc , 5 , 7 );
+        e.deplacer( monRoiBlanc , 5 , 2 );
     }
     e.affiche();
-
-    e.afficheVisuel();
 
 }

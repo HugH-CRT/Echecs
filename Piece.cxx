@@ -390,3 +390,14 @@ Pion::vue()
 {
     return m_white ? 'P' : 'p';
 }
+
+
+bool
+Piece::Echec(Echiquier &e, int x, int y)
+{
+    if ( this->mouvementValide( e , x , y ) ) 
+    {
+        return true;
+    }
+    return false;
+}

@@ -67,10 +67,19 @@ Echiquier::placer( Piece *p )
 bool
 Echiquier::deplacer( Piece *p, int x, int y )
 {
-    this->enleverPiece( p->x() , p->y() );
-    this->enleverPiece( x , y );
+    char lettre = matriceVisuel[ p->y() - 1 ][ p->x() - 1 ];
+
+    matriceVisuel[ p->y() - 1 ][ p->x() - 1 ] = '.';
+    matriceVisuel[ y - 1 ][ x - 1 ] = '.';
+
+    enleverPiece( p->x() , p->y() );
+    enleverPiece( x , y );
+
     p->move(x,y);
-    this->placer(p);
+
+    matriceVisuel[ p->y() - 1 ][ p->x() - 1 ] = lettre;
+
+    placer(p);
 }
 
 
@@ -86,26 +95,6 @@ Echiquier::enleverPiece( int x, int y )
 void
 Echiquier::affiche()
 {
-    cout << endl << "  12345678" << endl;
-    for ( int y = 1; y <= 8; ++y ) {
-        cout << y << " ";
-        for ( int x = 1; x <= 8; ++x ) {
-            char   c;
-            Piece *p = getPiece( x, y );
-            if ( nullptr == p )
-                c = ( ( x + y ) % 2 ) == 0 ? '#' : '.';
-            else
-                c = p->vue();  // p->isWhite() ? 'B' : 'N';
-            cout << c;
-        }
-        cout << " " << y << endl;
-    }
-    cout << "  12345678" << endl;
-}
-
-void
-Echiquier::afficheVisuel()
-{
     for ( int i = 0 ; i < 8 ; i++)
     {
         for ( int j = 0 ; j < 8 ; j++)
@@ -114,4 +103,5 @@ Echiquier::afficheVisuel()
         }
         cout << "" << endl;
     }
+    cout << "" << endl;
 }

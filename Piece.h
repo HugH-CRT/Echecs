@@ -1,18 +1,8 @@
-/**
- * Header de Piece.cxx
- *
- * @file Piece.h
- */
-
 #if !defined Piece_h
 #define Piece_h
 
-//#include "Echiquier.h"
-class Echiquier;  // pb de reference croisee
+class Echiquier;  
 
-/**
- * Declaration d'une classe modelisant une piece de jeu d'echec.
- */
 class Piece
 {
    protected:
@@ -36,6 +26,7 @@ class Piece
     void         affiche();
     virtual char vue();
     virtual bool mouvementValide( Echiquier &e, int x, int y ) = 0;
+    bool Echec(Echiquier &e, int x, int y);
 };
 
 class Roi : public Piece
@@ -93,4 +84,4 @@ class Pion : public Piece
     bool mouvementValide( Echiquier &e, int x, int y );
 };
 
-#endif  // !defined Piece_h
+#endif  

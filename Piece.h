@@ -24,9 +24,9 @@ class Piece
     bool         isWhite();
     bool         isBlack();
     void         affiche();
-    virtual char vue();
     virtual bool mouvementValide( Echiquier &e, int x, int y ) = 0;
     bool Echec(Echiquier &e, int x, int y);
+    bool EchecMat(Echiquier &e, int x, int y , Piece *p);
 };
 
 class Roi : public Piece
@@ -34,7 +34,6 @@ class Roi : public Piece
    public:
     Roi( bool white );
     ~Roi();
-    char vue();
     bool mouvementValide( Echiquier &e, int x, int y );
     void roque();
 };
@@ -44,7 +43,6 @@ class Tour : virtual public Piece
    public:
     Tour( bool white, bool gauche );
     ~Tour();
-    char vue();
     bool mouvementValide( Echiquier &e, int x, int y );
 };
 
@@ -53,7 +51,6 @@ class Fou : virtual public Piece
    public:
     Fou( bool white, bool gauche );
     ~Fou();
-    char vue();
     bool mouvementValide( Echiquier &e, int x, int y );
 };
 
@@ -62,7 +59,6 @@ class Cavalier : public Piece
    public:
     Cavalier( bool white, bool gauche );
     ~Cavalier();
-    char vue();
     bool mouvementValide( Echiquier &e, int x, int y );
 };
 
@@ -71,7 +67,6 @@ class Reine : public Fou, public Tour
    public:
     Reine( bool white );
     ~Reine();
-    char vue();
     bool mouvementValide( Echiquier &e, int x, int y );
 };
 
@@ -80,7 +75,6 @@ class Pion : public Piece
    public:
     Pion( bool white, int x );
     ~Pion();
-    char vue();
     bool mouvementValide( Echiquier &e, int x, int y );
 };
 

@@ -77,12 +77,6 @@ Piece::affiche()
     cout << "Piece: x=" << m_x << " y=" << m_y << " " << ( m_white ? "blanche" : "noire" ) << endl;
 }
 
-char
-Piece::vue()
-{
-    return this->isWhite() ? 'B' : 'N';
-}
-
 Roi::Roi( bool white ) : Piece( 5, white ? 1 : 8, white ){}
 
 Roi::~Roi(){}
@@ -103,12 +97,6 @@ Roi::mouvementValide( Echiquier &e, int x, int y )
     return false;
 }
 
-char
-Roi::vue()
-{
-    return m_white ? 'R' : 'r';
-}
-
 void
 Roi::roque(){}
 
@@ -121,12 +109,6 @@ bool
 Reine::mouvementValide( Echiquier &e, int x, int y )
 {
     return Fou::mouvementValide( e, x, y ) || Tour::mouvementValide( e, x, y );
-}
-
-char
-Reine::vue()
-{
-    return Fou::m_white ? 'Q' : 'q';
 }
 
 Tour::Tour( bool white, bool gauche ) : Piece( gauche ? 1 : 8, white ? 1 : 8, white ){}
@@ -211,12 +193,6 @@ Tour::mouvementValide( Echiquier &e, int x, int y )
     return false;
 }
 
-char
-Tour::vue()
-{
-    return m_white ? 'T' : 't';
-}
-
 Fou::Fou( bool white, bool gauche ) : Piece( gauche ? 3 : 6, white ? 1 : 8, white ){}
 
 Fou::~Fou(){}
@@ -288,12 +264,6 @@ Fou::mouvementValide( Echiquier &e, int x, int y )
     return false;
 }
 
-char
-Fou::vue()
-{
-    return m_white ? 'F' : 'f';
-}
-
 Cavalier::Cavalier( bool white, bool gauche ) : Piece( gauche ? 2 : 7, white ? 1 : 8, white ){}
 
 Cavalier::~Cavalier(){}
@@ -311,12 +281,6 @@ Cavalier::mouvementValide( Echiquier &e, int x, int y )
     }                                                           
 
     return false;
-}
-
-char
-Cavalier::vue()
-{
-    return m_white ? 'C' : 'c';
 }
 
 Pion::Pion( bool white, int x ) : Piece( x, white ? 2 : 7, white ){}
@@ -385,13 +349,6 @@ Pion::mouvementValide( Echiquier &e, int x, int y )
     return false;
 }
 
-char
-Pion::vue()
-{
-    return m_white ? 'P' : 'p';
-}
-
-
 bool
 Piece::Echec(Echiquier &e, int x, int y)
 {
@@ -400,4 +357,29 @@ Piece::Echec(Echiquier &e, int x, int y)
         return true;
     }
     return false;
+}
+
+bool
+Piece::EchecMat(Echiquier &e, int x, int y , Piece *p)
+{
+    Piece *maPiece = e.getPiece(x,y);
+
+    bool Mat = false;
+
+    for ( int i = -1 ; i < 2 ; i++ )
+    {  
+        for ( int j = - 1 ; j < 2 ; j++ )
+        {
+            if ( maPiece->mouvementValide( e , i , j ) )
+            {
+                Mat = false;
+                if ( p->mouvementValide( e , i , j ) )
+                {
+                    Mat = true;
+                }
+            }
+        }
+    }
+
+    return Mat;
 }

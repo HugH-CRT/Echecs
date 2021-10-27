@@ -19,6 +19,7 @@ class Piece
     int          x();
     int          y();
     bool         isWhite();
+    bool         firstMove();
     virtual bool mouvementValide( Echiquier &e, int x, int y ) = 0;
     bool Echec(Echiquier &e, int x, int y);
     bool EchecMat(Echiquier &e, int x, int y );

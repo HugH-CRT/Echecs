@@ -151,3 +151,47 @@ Echiquier::VerifMoveRoiRoque(Roi *r,int x ,int y)
 
     return true;
 }
+
+bool 
+Echiquier::deplacementRoque( Roi *r, Tour *t)
+{
+
+    matriceVisuel[ r->y() - 1 ][ r->x() - 1 ] = '.';
+    matriceVisuel[ t->y() - 1 ][ t->x() - 1 ] = '.';
+
+    enleverPiece( r->x() , r->y() );
+    enleverPiece( t->x() , t->y() );
+
+    if ( r->isWhite() )
+    {
+        if ( r->x() > t->x() )
+        {
+            r->move( 3 , 8 );
+            t->move( 4 , 8 );
+        }
+        else
+        {
+            r->move( 7 , 8 );
+            t->move( 6 , 8 );
+        }
+    }
+    else
+    {
+        if ( r->x() > t->x() )
+        {
+            r->move( 3 , 1 );
+            t->move( 4 , 1 );
+        }
+        else
+        {
+            r->move( 7 , 1 );
+            t->move( 6 , 1 );
+        }
+    }
+
+    matriceVisuel[ r->y() - 1 ][ r->x() - 1 ] = 'R';
+    matriceVisuel[ t->y() - 1 ][ t->x() - 1 ] = 'T';
+
+    placer(r);
+    placer(t);
+}

@@ -30,6 +30,9 @@ int
 Piece::y() { return m_y; }
 
 bool
+Piece::firstMove() { return firstMove; }
+
+bool
 Piece::isWhite() { return m_white; }
 
 /** @brief Méthode appelée après chaque coup, elle regarde si la pièce qui vient de bouger peut en faisant 1 action aller au Roi adverse.
@@ -102,18 +105,14 @@ Roi::mouvementValide( Echiquier &e, int x, int y )
 bool
 Roi::roquePossible( Echiquier &e, Tour *p )
 {
-    //Si le roi n'a pas bougé
-    if (!firstMove)
+    //Si le roi et la tour n'ont pas bougés
+    if ( !firstMove && !p->firstMove())
     {
         if ( this->m_white )
         {
             //La tour se situe à droite 
             if ( p->x() > m_x )
-            {
-                //Vérifier que la tour n'as pas bougée
-                // Piece *maTour = e.getPiece(8,8);
-                // if (!maTour->MouvementRealise()){}
-                      
+            {         
                 for ( int i = m_x + 1; i < p->x() ; i++ )
                 {
                     Piece *maPiece = e.getPiece(i,8);
@@ -121,15 +120,9 @@ Roi::roquePossible( Echiquier &e, Tour *p )
                 }
 
                 return e.VerifMoveRoiRoque( this , 7 , 8);
-
             }
             else if ( p->x() > m_x && p->x() == 1 && p->y() == 8 )
             {
-
-                //Vérifier que la tour n'as pas bougée
-                // Piece *maTour = e.getPiece(1,8);
-                // if (!maTour->MouvementRealise()){}
-
                 for ( int i = m_x - 1; i > p->x() ; i-- )
                 {
                     Piece *maPiece = e.getPiece(i,8);
@@ -145,10 +138,6 @@ Roi::roquePossible( Echiquier &e, Tour *p )
             //La tour se situe à droite du roi 
             if ( p->x() < m_x  )
             {
-                //Vérifier que la tour n'as pas bougée
-                // Piece *maTour = e.getPiece(1,1);
-                // if (!maTour->MouvementRealise()){}
-
                 for ( int i = m_x - 1; i > p->x() ; i-- )
                 {
                     Piece *maPiece = e.getPiece(i,1);
@@ -159,9 +148,6 @@ Roi::roquePossible( Echiquier &e, Tour *p )
             }
             else if ( p->x() > m_x )
             {
-                //Vérifier que la tour n'as pas bougée
-                // Piece *maTour = e.getPiece(1,8);
-                // if (!maTour->MouvementRealise()){}
 
                 for ( int i = m_x + 1; i < p->x() ; i++ )
                 {

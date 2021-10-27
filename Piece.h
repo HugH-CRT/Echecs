@@ -29,14 +29,6 @@ class Piece
     bool EchecMat(Echiquier &e, int x, int y , Piece *p);
 };
 
-class Roi : public Piece
-{
-   public:
-    Roi( bool white );
-    ~Roi();
-    bool mouvementValide( Echiquier &e, int x, int y );
-    void roque();
-};
 
 class Tour : virtual public Piece
 {
@@ -44,6 +36,22 @@ class Tour : virtual public Piece
     Tour( bool white, bool gauche );
     ~Tour();
     bool mouvementValide( Echiquier &e, int x, int y );
+    bool MouvementRealise();
+
+    // private:
+    // bool MouvementRealise;
+};
+
+class Roi : public Piece
+{
+   public:
+    Roi( bool white );
+    ~Roi();
+    bool mouvementValide( Echiquier &e, int x, int y );
+    bool roquePossible(bool iswhite,  Tour *p, Echiquier &e);
+
+    private:
+    bool MouvementRealise;
 };
 
 class Fou : virtual public Piece

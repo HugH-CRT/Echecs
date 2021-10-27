@@ -77,7 +77,10 @@ Piece::affiche()
     cout << "Piece: x=" << m_x << " y=" << m_y << " " << ( m_white ? "blanche" : "noire" ) << endl;
 }
 
-Roi::Roi( bool white ) : Piece( 5, white ? 1 : 8, white ){}
+Roi::Roi( bool white ) : Piece( 5, white ? 1 : 8, white )
+{
+    MouvementRealise = false;
+}
 
 Roi::~Roi(){}
 
@@ -97,8 +100,74 @@ Roi::mouvementValide( Echiquier &e, int x, int y )
     return false;
 }
 
-void
-Roi::roque(){}
+bool
+Roi::roquePossible(bool iswhite,  Tour *p, Echiquier &e)
+{
+    //Si le roi n'a pas bougé
+    if (!MouvementRealise)
+    {
+        if ( iswhite )
+        {
+            //La tour se situe à droite et n'as pas bougée
+            if ( p->x() > m_x )
+            {
+                //Vérifier que la tour n'as pas bougée
+                // Piece *maTour = e.getPiece(8,8);
+                // if (!maTour->MouvementRealise()){}
+                      
+                for ( int i = m_x + 1; i < p->x() ; i++ )
+                {
+                    Piece *maPiece = e.getPiece(i,8);
+                    if ( maPiece != nullptr ) { return false; }
+                }
+
+            }
+            else if ( p->x() > m_x && p->x() == 1 && p->y() == 8 )
+            {
+
+                //Vérifier que la tour n'as pas bougée
+                // Piece *maTour = e.getPiece(1,8);
+                // if (!maTour->MouvementRealise()){}
+
+                for ( int i = m_x - 1; i > p->x() ; i-- )
+                {
+                    Piece *maPiece = e.getPiece(i,8);
+                    if ( maPiece != nullptr ) { return false; }
+                }
+            }
+            
+        }
+        else
+        {
+            //La tour se situe à droite du roi 
+            if ( p->x() < m_x  )
+            {
+                //Vérifier que la tour n'as pas bougée
+                // Piece *maTour = e.getPiece(1,1);
+                // if (!maTour->MouvementRealise()){}
+
+                for ( int i = m_x - 1; i > p->x() ; i-- )
+                {
+                    Piece *maPiece = e.getPiece(i,1);
+                    if ( maPiece != nullptr ) { return false; }
+                }
+            }
+            else if ( p->x() > m_x )
+            {
+                //Vérifier que la tour n'as pas bougée
+                // Piece *maTour = e.getPiece(1,8);
+                // if (!maTour->MouvementRealise()){}
+
+                for ( int i = m_x + 1; i < p->x() ; i++ )
+                {
+                    Piece *maPiece = e.getPiece(i,1);
+                    if ( maPiece != nullptr ) { return false; }
+                }
+            }
+        }
+    }
+    return true;
+}
 
 Reine::Reine( bool white )
     : Piece( 4, white ? 1 : 8, white ), Fou( white, true ), Tour( white, true ){}
@@ -111,9 +180,18 @@ Reine::mouvementValide( Echiquier &e, int x, int y )
     return Fou::mouvementValide( e, x, y ) || Tour::mouvementValide( e, x, y );
 }
 
-Tour::Tour( bool white, bool gauche ) : Piece( gauche ? 1 : 8, white ? 1 : 8, white ){}
+Tour::Tour( bool white, bool gauche ) : Piece( gauche ? 1 : 8, white ? 1 : 8, white )
+{
+    //MouvementRealise = false;
+}
 
 Tour::~Tour(){}
+
+// bool   
+// Tour::MouvementRealise()
+// {
+//     return MouvementRealise;
+// }
 
 bool
 Tour::mouvementValide( Echiquier &e, int x, int y )

@@ -17,6 +17,7 @@ class Echiquier
     bool deplacer( Piece *p, int x, int y );
     Piece *enleverPiece( int x, int y );
     void affiche();
+    bool VerifMoveRoiRoque();
 };
 
 #endif 

@@ -15,18 +15,13 @@ class Piece
     virtual ~Piece();
     Piece();
     Piece( int x, int y, bool white );
-    Piece( const Piece &autre );
-    Piece &      operator=( const Piece &autre );
-    void         init( int x, int y, bool white );
     void         move( int x, int y );
     int          x();
     int          y();
     bool         isWhite();
-    bool         isBlack();
-    void         affiche();
     virtual bool mouvementValide( Echiquier &e, int x, int y ) = 0;
     bool Echec(Echiquier &e, int x, int y);
-    bool EchecMat(Echiquier &e, int x, int y , Piece *p);
+    bool EchecMat(Echiquier &e, int x, int y );
 };
 
 
@@ -37,9 +32,6 @@ class Tour : virtual public Piece
     ~Tour();
     bool mouvementValide( Echiquier &e, int x, int y );
     bool MouvementRealise();
-
-    // private:
-    // bool MouvementRealise;
 };
 
 class Roi : public Piece
@@ -48,10 +40,7 @@ class Roi : public Piece
     Roi( bool white );
     ~Roi();
     bool mouvementValide( Echiquier &e, int x, int y );
-    bool roquePossible(bool iswhite,  Tour *p, Echiquier &e);
-
-    private:
-    bool MouvementRealise;
+    bool roquePossible( Echiquier &e, Tour *p);
 };
 
 class Fou : virtual public Piece

@@ -13,102 +13,101 @@ Piece::Piece( int x, int y, bool white )
     firstMove = true;
 }
 
-Piece::Piece( const Piece &autre )
-{
-    m_x     = autre.m_x;
-    m_y     = autre.m_y;
-    m_white = autre.m_white;
-    firstMove = autre.firstMove;
-}
-
 Piece::~Piece(){}
-
-Piece &
-Piece::operator=( const Piece &autre )
-{
-    m_x     = autre.m_x;
-    m_y     = autre.m_y;
-    m_white = autre.m_white;
-    return *this;
-}
-
-void
-Piece::init( int x, int y, bool white )
-{
-    m_x     = x;
-    m_y     = y;
-    m_white = white;
-}
 
 void
 Piece::move( int x, int y )
 {
     m_x = x;
     m_y = y;
+    firstMove = true;
 }
 
 int
-Piece::x()
-{
-    return m_x;
-}
+Piece::x() { return m_x; }
 
 int
-Piece::y()
-{
-    return m_y;
-}
+Piece::y() { return m_y; }
 
 bool
-Piece::isWhite()
-{
-    return m_white;
-}
+Piece::isWhite() { return m_white; }
+
+/** @brief Méthode appelée après chaque coup, elle regarde si la pièce qui vient de bouger peut en faisant 1 action aller au Roi adverse.
+    @param Echiquier &e 
+    @param int x -> Position x du roi adverse
+    @param int y -> Position y du roi adverse
+    @return bool -> true si il y'a echec ou false dans le cas contraire.  
+*/
 
 bool
-Piece::isBlack()
+Piece::Echec(Echiquier &e, int x, int y)
 {
-    return !m_white;
+    if ( this->mouvementValide( e , x , y ) ) 
+    {
+        return true;
+    }
+    return false;
 }
 
-void
-Piece::affiche()
+/** @brief Méthode appelée apres la méthode echec() , vérifie si le roi à un déplacement valide
+    @param Echiquier &e 
+    @param int x -> Position x du roi 
+    @param int y -> Position y du roi 
+    @return bool -> true si le roi possède un déplacement valable et que la piece qui l'as mis en echec ne le laisse pas en echec suite à ce déplacement , ou false dans le cas contraire
+*/
+bool
+Piece::EchecMat(Echiquier &e, int x, int y)
 {
-    cout << "Piece: x=" << m_x << " y=" << m_y << " " << ( m_white ? "blanche" : "noire" ) << endl;
+    Piece *maPiece = e.getPiece(x,y);
+
+    for ( int i = -1 ; i < 2 ; i++ )
+        for ( int j = - 1 ; j < 2 ; j++ )
+            if ( maPiece->mouvementValide( e , i , j ) )
+                if ( !this->mouvementValide( e , i , j ) ) { return false; }
+    return true;
 }
 
-Roi::Roi( bool white ) : Piece( 5, white ? 1 : 8, white )
-{
-    MouvementRealise = false;
-}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+Roi::Roi( bool white ) : Piece( 5, white ? 1 : 8, white ){}
 
 Roi::~Roi(){}
 
+/** @brief Verifie si les coordonnées renseigner sont un déplacement valide pour le roi
+    @param Echiquier &e 
+    @param int x -> Position x de la case souhaitée
+    @param int y -> Position y de la case souhaitée
+    @return bool -> true si le déplacement est possible false dans le cas contraire
+*/
 bool
 Roi::mouvementValide( Echiquier &e, int x, int y )
 {
-
     if ( ( x == m_x + 1 && ( y == m_y + 1 || y == m_y  || y == m_y - 1 ) ) ||  ( x == m_x - 1 && ( y == m_y + 1 || y == m_y  || y == m_y - 1 ) ) || x == m_x  && y == m_y + 1 || x == m_x  && y == m_y - 1 )
     {
         Piece *maPiece = e.getPiece(x,y);
 
-        //Si y'a pas de pièce
         if ( maPiece == nullptr ) { return true; }
         else if ( m_white != maPiece->isWhite() ) { return true; } 
     }
-
     return false;
 }
 
+
+/** @brief Vérifie si un "roque" est possible entre le roi et la tour en paramètre.
+    @param Echiquier &e 
+    @param *Tour x -> Pointeur vers la tour 
+    @return bool -> true si le déplacement est possible false dans le cas contraire
+*/
 bool
-Roi::roquePossible(bool iswhite,  Tour *p, Echiquier &e)
+Roi::roquePossible( Echiquier &e, Tour *p )
 {
     //Si le roi n'a pas bougé
-    if (!MouvementRealise)
+    if (!firstMove)
     {
-        if ( iswhite )
+        if ( this->m_white )
         {
-            //La tour se situe à droite et n'as pas bougée
+            //La tour se situe à droite 
             if ( p->x() > m_x )
             {
                 //Vérifier que la tour n'as pas bougée
@@ -120,6 +119,8 @@ Roi::roquePossible(bool iswhite,  Tour *p, Echiquier &e)
                     Piece *maPiece = e.getPiece(i,8);
                     if ( maPiece != nullptr ) { return false; }
                 }
+
+                return e.VerifMoveRoiRoque( this , 7 , 8);
 
             }
             else if ( p->x() > m_x && p->x() == 1 && p->y() == 8 )
@@ -134,6 +135,8 @@ Roi::roquePossible(bool iswhite,  Tour *p, Echiquier &e)
                     Piece *maPiece = e.getPiece(i,8);
                     if ( maPiece != nullptr ) { return false; }
                 }
+
+                return e.VerifMoveRoiRoque( this , 3 , 8);
             }
             
         }
@@ -151,6 +154,8 @@ Roi::roquePossible(bool iswhite,  Tour *p, Echiquier &e)
                     Piece *maPiece = e.getPiece(i,1);
                     if ( maPiece != nullptr ) { return false; }
                 }
+
+                return e.VerifMoveRoiRoque( this , 1 , 2);
             }
             else if ( p->x() > m_x )
             {
@@ -163,36 +168,45 @@ Roi::roquePossible(bool iswhite,  Tour *p, Echiquier &e)
                     Piece *maPiece = e.getPiece(i,1);
                     if ( maPiece != nullptr ) { return false; }
                 }
+
+                return e.VerifMoveRoiRoque( this , 1 , 7);
             }
         }
     }
-    return true;
+    return false;
 }
 
-Reine::Reine( bool white )
-    : Piece( 4, white ? 1 : 8, white ), Fou( white, true ), Tour( white, true ){}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+Reine::Reine( bool white ) : Piece( 4, white ? 1 : 8, white ), Fou( white, true ), Tour( white, true ){}
 
 Reine::~Reine(){}
 
+/** @brief Verifie si les coordonnées renseigner sont un déplacement valide pour la reine
+    @param Echiquier &e 
+    @param int x -> Position x de la case souhaitée
+    @param int y -> Position y de la case souhaitée
+    @return bool -> true si le déplacement est possible false dans le cas contraire
+*/
 bool
-Reine::mouvementValide( Echiquier &e, int x, int y )
-{
-    return Fou::mouvementValide( e, x, y ) || Tour::mouvementValide( e, x, y );
-}
+Reine::mouvementValide( Echiquier &e, int x, int y ) { return Fou::mouvementValide( e, x, y ) || Tour::mouvementValide( e, x, y ); }
 
-Tour::Tour( bool white, bool gauche ) : Piece( gauche ? 1 : 8, white ? 1 : 8, white )
-{
-    //MouvementRealise = false;
-}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+Tour::Tour( bool white, bool gauche ) : Piece( gauche ? 1 : 8, white ? 1 : 8, white ){}
 
 Tour::~Tour(){}
 
-// bool   
-// Tour::MouvementRealise()
-// {
-//     return MouvementRealise;
-// }
-
+/** @brief Vérifie si les coordonnées renseigner sont un déplacement valide pour la tour
+    @param Echiquier &e 
+    @param int x -> Position x de la case souhaitée
+    @param int y -> Position y de la case souhaitée
+    @return bool -> true si le déplacement est possible false dans le cas contraire
+*/
 bool
 Tour::mouvementValide( Echiquier &e, int x, int y )
 {
@@ -271,10 +285,20 @@ Tour::mouvementValide( Echiquier &e, int x, int y )
     return false;
 }
 
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 Fou::Fou( bool white, bool gauche ) : Piece( gauche ? 3 : 6, white ? 1 : 8, white ){}
 
 Fou::~Fou(){}
 
+/** @brief Vérifie si les coordonnées renseigner sont un déplacement valide pour le fou
+    @param Echiquier &e 
+    @param int x -> Position x de la case souhaitée
+    @param int y -> Position y de la case souhaitée
+    @return bool -> true si le déplacement est possible false dans le cas contraire
+*/
 bool
 Fou::mouvementValide( Echiquier &e, int x, int y )
 {
@@ -342,10 +366,20 @@ Fou::mouvementValide( Echiquier &e, int x, int y )
     return false;
 }
 
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 Cavalier::Cavalier( bool white, bool gauche ) : Piece( gauche ? 2 : 7, white ? 1 : 8, white ){}
 
 Cavalier::~Cavalier(){}
 
+/** @brief Vérifie si les coordonnées renseigner sont un déplacement valide pour le fou
+    @param Echiquier &e 
+    @param int x -> Position x de la case souhaitée
+    @param int y -> Position y de la case souhaitée
+    @return bool -> true si le déplacement est possible false dans le cas contraire
+*/
 bool
 Cavalier::mouvementValide( Echiquier &e, int x, int y )
 {
@@ -353,7 +387,6 @@ Cavalier::mouvementValide( Echiquier &e, int x, int y )
     {
         Piece *maPiece = e.getPiece(x,y);
 
-        //Si y'a pas de pièce
         if ( maPiece == nullptr ) { return true; }
         else if ( m_white != maPiece->isWhite() ) { return true; } 
     }                                                           
@@ -361,10 +394,20 @@ Cavalier::mouvementValide( Echiquier &e, int x, int y )
     return false;
 }
 
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 Pion::Pion( bool white, int x ) : Piece( x, white ? 2 : 7, white ){}
 
 Pion::~Pion(){}
 
+/** @brief Vérifie si les coordonnées renseigner sont un déplacement valide pour le pion
+    @param Echiquier &e 
+    @param int x -> Position x de la case souhaitée
+    @param int y -> Position y de la case souhaitée
+    @return bool -> true si le déplacement est possible false dans le cas contraire
+*/
 bool
 Pion::mouvementValide( Echiquier &e, int x, int y )
 {
@@ -427,37 +470,7 @@ Pion::mouvementValide( Echiquier &e, int x, int y )
     return false;
 }
 
-bool
-Piece::Echec(Echiquier &e, int x, int y)
-{
-    if ( this->mouvementValide( e , x , y ) ) 
-    {
-        return true;
-    }
-    return false;
-}
 
-bool
-Piece::EchecMat(Echiquier &e, int x, int y , Piece *p)
-{
-    Piece *maPiece = e.getPiece(x,y);
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    bool Mat = false;
 
-    for ( int i = -1 ; i < 2 ; i++ )
-    {  
-        for ( int j = - 1 ; j < 2 ; j++ )
-        {
-            if ( maPiece->mouvementValide( e , i , j ) )
-            {
-                Mat = false;
-                if ( p->mouvementValide( e , i , j ) )
-                {
-                    Mat = true;
-                }
-            }
-        }
-    }
-
-    return Mat;
-}

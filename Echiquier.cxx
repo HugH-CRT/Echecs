@@ -48,7 +48,6 @@ Echiquier::getPiece( int x, int y )
     return m_cases[( x - 1 ) + ( y - 1 ) * 8];
 }
 
-
 bool
 Echiquier::placer( Piece *p )
 {
@@ -104,4 +103,51 @@ Echiquier::affiche()
         cout << "" << endl;
     }
     cout << "" << endl;
+}
+
+
+bool
+Echiquier::VerifMoveRoiRoque(Roi *r,int x ,int y)
+{
+    //Si le Roi est à droite de la tour
+    if ( r->x() > x )
+    {
+        //Parcours les cases entre le roi et la tour
+        for ( int i = r->x() - 1  ; i >= x ; i-- )
+        {
+            //Parcours toutes les pieces de l'echiquier
+            for ( int j = 0; j < 64 ; j++ )
+            {
+                //Si la case n'est pas vide et de la couleur adverse
+                if ( m_cases[j]->isWhite()!= r->isWhite() && m_cases[j] != nullptr ) 
+                {
+                    if ( m_cases[j]->mouvementValide( *this , i , y ) )
+                    {
+                        return false;
+                    }
+                }
+            }
+        }
+    }
+    else
+    {
+        //Parcours les cases entre le roi et la tour
+        for ( int i = r->x() + 1  ; i <= x ; i++ )
+        {
+            //Parcours toutes les pieces de l'echiquier
+            for ( int j = 0; j < 64 ; j++ )
+            {
+                //Si la case n'est pas vide et de la couleur adverse
+                if ( m_cases[j]->isWhite()!= r->isWhite() && m_cases[j] != nullptr ) 
+                {
+                    if ( m_cases[j]->mouvementValide( *this , i , y ) )
+                    {
+                        return false;
+                    }
+                }
+            }
+        }
+    }
+
+    return true;
 }

@@ -7,27 +7,25 @@ class Joueur
 {
    protected:
     Piece *m_pieces[16];
+    bool iswhite;
 
    public:
     Joueur();
     virtual ~Joueur();
-    void         affiche();
-    virtual bool isWhite() = 0;
-    bool         placerPieces( Echiquier &e );
+    bool isWhite();
+    bool placerPieces( Echiquier &e );
 };
 
 class JoueurBlanc : public Joueur
 {
    public:
     JoueurBlanc();
-    bool isWhite();
 };
 
 class JoueurNoir : public Joueur
 {
    public:
     JoueurNoir();
-    bool isWhite();
 };
 
 #endif

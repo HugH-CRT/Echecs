@@ -1,3 +1,11 @@
+/**
+ * @authors Yoan Laurain ; Hugo Carricart ; Nathan Lesourd
+ * @brief Source Code de Echiquier
+ * @file Echiquier.cpp
+ * @date 26/10/2021
+ * @version 0.5
+ */
+
 #include <iostream>
 #include <assert.h>
 #include "Echiquier.h"
@@ -8,6 +16,37 @@ Echiquier::Echiquier()
 {
     for ( int i = 0; i < 64; i++ )
         m_cases[i] = nullptr;
+
+    for ( int i = 0; i < 8; i++ )
+        for( int j = 0; j < 8 ; j++ )
+            matriceVisuel[i][j] = '.';
+
+    for( int j = 0; j < 8 ; j++ )
+    {
+        matriceVisuel[1][j] = 'P';
+        matriceVisuel[6][j] = 'P';
+    }
+
+    matriceVisuel[0][0] = 'T';
+    matriceVisuel[0][7] = 'T';
+    matriceVisuel[7][0] = 'T';
+    matriceVisuel[7][7] = 'T';
+
+    matriceVisuel[0][1] = 'C';
+    matriceVisuel[0][6] = 'C';
+    matriceVisuel[7][1] = 'C';
+    matriceVisuel[7][6] = 'C';
+
+    matriceVisuel[0][2] = 'F';
+    matriceVisuel[0][5] = 'F';
+    matriceVisuel[7][2] = 'F';
+    matriceVisuel[7][5] = 'F';
+
+    matriceVisuel[0][3] = 'Q';
+    matriceVisuel[0][4] = 'K';
+    matriceVisuel[7][3] = 'Q';
+    matriceVisuel[7][4] = 'K';
+
 }
 
 Piece *
@@ -33,12 +72,22 @@ Echiquier::placer( Piece *p )
     return true;
 }
 
-bool
+void
 Echiquier::deplacer( Piece *p, int x, int y )
 {
-    this->enleverPiece( p->x() , p->y() );
+    char lettre = matriceVisuel[ p->y() - 1 ][ p->x() - 1 ];
+
+    matriceVisuel[ p->y() - 1 ][ p->x() - 1 ] = '.';
+    matriceVisuel[ y - 1 ][ x - 1 ] = '.';
+
+    enleverPiece( p->x() , p->y() );
+    enleverPiece( x , y );
+
     p->move(x,y);
-    this->placer(p);
+
+    matriceVisuel[ p->y() - 1 ][ p->x() - 1 ] = lettre;
+
+    placer(p);
 }
 
 
@@ -54,19 +103,13 @@ Echiquier::enleverPiece( int x, int y )
 void
 Echiquier::affiche()
 {
-    cout << endl << "  12345678" << endl;
-    for ( int y = 1; y <= 8; ++y ) {
-        cout << y << " ";
-        for ( int x = 1; x <= 8; ++x ) {
-            char   c;
-            Piece *p = getPiece( x, y );
-            if ( nullptr == p )
-                c = ( ( x + y ) % 2 ) == 0 ? '#' : '.';
-            else
-                c = p->vue();  // p->isWhite() ? 'B' : 'N';
-            cout << c;
+    for ( int i = 0 ; i < 8 ; i++)
+    {
+        for ( int j = 0 ; j < 8 ; j++)
+        {
+            cout << " " << matriceVisuel[i][j];
         }
-        cout << " " << y << endl;
+        cout << "" << endl;
     }
-    cout << "  12345678" << endl;
+    cout << "" << endl;
 }

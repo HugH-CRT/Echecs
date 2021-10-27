@@ -6,16 +6,37 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>1037</width>
+    <height>656</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Echec</string>
   </property>
-  <widget class="QWidget" name="centralwidget"/>
-  <widget class="QMenuBar" name="menubar"/>
-  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QTableWidget" name="echiquierView">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>30</y>
+      <width>641</width>
+      <height>591</height>
+     </rect>
+    </property>
+    <property name="verticalScrollBarPolicy">
+     <enum>Qt::ScrollBarAlwaysOff</enum>
+    </property>
+    <property name="horizontalScrollBarPolicy">
+     <enum>Qt::ScrollBarAlwaysOff</enum>
+    </property>
+    <property name="editTriggers">
+     <set>QAbstractItemView::NoEditTriggers</set>
+    </property>
+    <property name="selectionMode">
+     <enum>QAbstractItemView::SingleSelection</enum>
+    </property>
+   </widget>
+  </widget>
  </widget>
  <resources/>
  <connections/>

@@ -1,3 +1,11 @@
+/**
+ * @authors Yoan Laurain ; Hugo Carricart ; Nathan Lesourd
+ * @brief Header de Joueur
+ * @file Joueur.h
+ * @date 26/10/2021
+ * @version 0.5
+ */
+
 #if !defined Joueur_h
 #define Joueur_h
 
@@ -5,29 +13,27 @@
 #include "Echiquier.h"
 class Joueur
 {
-protected:
+   protected:
     Piece *m_pieces[16];
 
-public:
+   public:
     Joueur();
     virtual ~Joueur();
-    //Joueur( bool white );
     void         affiche();
     virtual bool isWhite() = 0;
     bool         placerPieces( Echiquier &e );
-    /* bool placerPieces( Echiquier * e ); */
 };
 
 class JoueurBlanc : public Joueur
 {
-public:
+   public:
     JoueurBlanc();
     bool isWhite();
 };
 
 class JoueurNoir : public Joueur
 {
-public:
+   public:
     JoueurNoir();
     bool isWhite();
 };

@@ -1,3 +1,14 @@
+/**
+ * @authors Yoan Laurain ; Hugo Carricart ; Nathan Lesourd
+ * @brief Source Code de Joueur
+ * @file Joueur.cpp
+ * @date 26/10/2021
+ * @version 0.5
+ */
+
+#include <assert.h>
+#include <iostream>
+#include "Joueur.h"
 #include <assert.h>
 #include <iostream>
 #include "Joueur.h"

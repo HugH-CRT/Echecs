@@ -1,3 +1,11 @@
+/**
+ * @authors Yoan Laurain ; Hugo Carricart ; Nathan Lesourd
+ * @brief Source Code de Piece
+ * @file Piece.cpp
+ * @date 26/10/2021
+ * @version 0.5
+ */
+
 #include <iostream>
 #include "Piece.h"
 #include "Echiquier.h"
@@ -77,12 +85,6 @@ Piece::affiche()
     cout << "Piece: x=" << m_x << " y=" << m_y << " " << ( m_white ? "blanche" : "noire" ) << endl;
 }
 
-char
-Piece::vue()
-{
-    return this->isWhite() ? 'B' : 'N';
-}
-
 Roi::Roi( bool white ) : Piece( 5, white ? 1 : 8, white ){}
 
 Roi::~Roi(){}
@@ -90,13 +92,17 @@ Roi::~Roi(){}
 bool
 Roi::mouvementValide( Echiquier &e, int x, int y )
 {
-    return true;
-}
 
-char
-Roi::vue()
-{
-    return m_white ? 'R' : 'r';
+    if ( ( x == m_x + 1 && ( y == m_y + 1 || y == m_y  || y == m_y - 1 ) ) ||  ( x == m_x - 1 && ( y == m_y + 1 || y == m_y  || y == m_y - 1 ) ) || x == m_x  && y == m_y + 1 || x == m_x  && y == m_y - 1 )
+    {
+        Piece *maPiece = e.getPiece(x,y);
+
+        //Si y'a pas de pièce
+        if ( maPiece == nullptr ) { return true; }
+        else if ( m_white != maPiece->isWhite() ) { return true; }
+    }
+
+    return false;
 }
 
 void
@@ -113,12 +119,6 @@ Reine::mouvementValide( Echiquier &e, int x, int y )
     return Fou::mouvementValide( e, x, y ) || Tour::mouvementValide( e, x, y );
 }
 
-char
-Reine::vue()
-{
-    return Fou::m_white ? 'Q' : 'q';
-}
-
 Tour::Tour( bool white, bool gauche ) : Piece( gauche ? 1 : 8, white ? 1 : 8, white ){}
 
 Tour::~Tour(){}
@@ -127,33 +127,66 @@ bool
 Tour::mouvementValide( Echiquier &e, int x, int y )
 {
     //Si on bouge en horizontale ou en vertical
-    if( this->m_x == x && this->m_y != y || this->m_x != x && this->m_y == y  )
+    if( m_x == x && m_y != y || m_x != x && m_y == y  )
     {
-        if ( this->m_x != x && this->m_y == y )
+        //Si on bouge en horizontale
+        if ( m_x != x && m_y == y )
         {
-            for ( int i = m_x  + 1; i > x + 1  ; i--)
+            //Si on va à droite
+            if ( x > m_x)
             {
-                //On récupère le pointeur de la position suivante
-                Piece *maPiece = e.getPiece(i,y);
-
-                if ( maPiece != nullptr )
+                for ( int i = m_x + 1; i < x - 1  ; i++)
                 {
-                    return false;
+                    //On récupère le pointeur de la position suivante
+                    Piece *maPiece = e.getPiece(i,y);
+
+                    if ( maPiece != nullptr )
+                    {
+                        return false;
+                    }
+                }
+            }
+            else
+            {
+                for ( int i = m_x - 1; i >= x + 1  ; i--)
+                {
+                    //On récupère le pointeur de la position suivante
+                    Piece *maPiece = e.getPiece(i,y);
+
+                    if ( maPiece != nullptr )
+                    {
+                        return false;
+                    }
                 }
             }
         }
         else if ( this->m_x == x && this->m_y != y )
         {
-
-            for ( int i = m_y -1  ; i > y + 1 ; i--)
+            //Si on va à en bas
+            if ( y > m_y)
             {
-                //On récupère le pointeur de la position suivante
-                Piece *maPiece = e.getPiece(x,i);
-
-                cout << "Piece en x : " << x << " et y : " << i << " Resultat : " << maPiece << endl;
-                if ( maPiece != nullptr )
+                for ( int i = m_y + 1; i < y - 1  ; i++)
                 {
-                    return false;
+                    //On récupère le pointeur de la position suivante
+                    Piece *maPiece = e.getPiece(i,y);
+
+                    if ( maPiece != nullptr )
+                    {
+                        return false;
+                    }
+                }
+            }
+            else
+            {
+                for ( int i = m_y - 1; i >= y + 1  ; i--)
+                {
+                    //On récupère le pointeur de la position suivante
+                    Piece *maPiece = e.getPiece(x,i);
+
+                    if ( maPiece != nullptr )
+                    {
+                        return false;
+                    }
                 }
             }
         }
@@ -163,15 +196,9 @@ Tour::mouvementValide( Echiquier &e, int x, int y )
 
         //Si y'a pas de pièce
         if ( maPiece == nullptr ) { return true; }
-        else if ( maPiece->isWhite() != m_white ? true : false );
+        else if ( m_white != maPiece->isWhite() ) { return true; }
     }
     return false;
-}
-
-char
-Tour::vue()
-{
-    return m_white ? 'T' : 't';
 }
 
 Fou::Fou( bool white, bool gauche ) : Piece( gauche ? 3 : 6, white ? 1 : 8, white ){}
@@ -181,13 +208,68 @@ Fou::~Fou(){}
 bool
 Fou::mouvementValide( Echiquier &e, int x, int y )
 {
-    return false;
-}
+    //Vérifie si on se déplace en diagonale
+    if ( m_y != y && m_x != x)
+    {
+        int temp = m_y;
 
-char
-Fou::vue()
-{
-    return m_white ? 'F' : 'f';
+        //Diagonale Haut Gauche vers bas droite
+        if ( x > m_x && y > m_y )
+        {
+            for ( int i = m_x + 1 ; i < y ; i ++ )
+            {
+                temp++;
+
+                Piece *maPiece = e.getPiece(i,temp);
+
+                if ( maPiece != nullptr ) { return false; }
+            }
+        }
+        //Diagonale bas gauche vers en haut à droite
+        else if ( x > m_x && y < m_y )
+        {
+            for ( int i = m_x + 1 ; i < x ; i ++ )
+            {
+                temp--;
+
+                Piece *maPiece = e.getPiece(i,temp);
+
+                if ( maPiece != nullptr ) { return false; }
+            }
+        }
+        //Diagonale bas droite vers haut gauche
+        else if ( x < m_x && y < m_y )
+        {
+            for ( int i = m_x - 1 ; i > y ; i ++ )
+            {
+                temp--;
+
+                Piece *maPiece = e.getPiece(i,temp);
+
+                if ( maPiece != nullptr ) { return false; }
+            }
+        }
+        //Diagonale haut droite vers bas gauche
+        else
+        {
+            for ( int i = m_x - 1 ; i < x ; i ++ )
+            {
+                temp++;
+
+                Piece *maPiece = e.getPiece(i,temp);
+
+                if ( maPiece != nullptr ) { return false; }
+            }
+        }
+
+        //On récupère le pointeur vers lequel on souhaite se déplacer
+        Piece *maPiece = e.getPiece(x,y);
+
+        //Si y'a pas de pièce
+        if ( maPiece == nullptr ) { return true; }
+        else if ( m_white != maPiece->isWhite() ) { return true; }
+    }
+    return false;
 }
 
 Cavalier::Cavalier( bool white, bool gauche ) : Piece( gauche ? 2 : 7, white ? 1 : 8, white ){}
@@ -197,13 +279,16 @@ Cavalier::~Cavalier(){}
 bool
 Cavalier::mouvementValide( Echiquier &e, int x, int y )
 {
-    return false;
-}
+    if ( ( ( x == m_x + 2 ) && ( y == m_y + 1 || y == m_y - 1 ) )  ||    ( ( x == m_x - 2 )  && ( y == m_y + 1 || y == m_y - 1 ) )   ||   ( ( y == m_y + 2 )  && ( x == m_x + 1 || x == m_x - 1 )  ||  ( ( y == m_y - 2 )  && ( x == m_x + 1 || x == m_x - 1 ) )  ) )
+    {
+        Piece *maPiece = e.getPiece(x,y);
 
-char
-Cavalier::vue()
-{
-    return m_white ? 'C' : 'c';
+        //Si y'a pas de pièce
+        if ( maPiece == nullptr ) { return true; }
+        else if ( m_white != maPiece->isWhite() ) { return true; }
+    }
+
+    return false;
 }
 
 Pion::Pion( bool white, int x ) : Piece( x, white ? 2 : 7, white ){}
@@ -272,8 +357,37 @@ Pion::mouvementValide( Echiquier &e, int x, int y )
     return false;
 }
 
-char
-Pion::vue()
+bool
+Piece::Echec(Echiquier &e, int x, int y)
 {
-    return m_white ? 'P' : 'p';
+    if ( this->mouvementValide( e , x , y ) )
+    {
+        return true;
+    }
+    return false;
+}
+
+bool
+Piece::EchecMat(Echiquier &e, int x, int y , Piece *p)
+{
+    Piece *maPiece = e.getPiece(x,y);
+
+    bool Mat = false;
+
+    for ( int i = -1 ; i < 2 ; i++ )
+    {
+        for ( int j = - 1 ; j < 2 ; j++ )
+        {
+            if ( maPiece->mouvementValide( e , i , j ) )
+            {
+                Mat = false;
+                if ( p->mouvementValide( e , i , j ) )
+                {
+                    Mat = true;
+                }
+            }
+        }
+    }
+
+    return Mat;
 }

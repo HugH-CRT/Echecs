@@ -1,27 +1,25 @@
 /**
- * Header de Piece.cxx
- *
+ * @authors Yoan Laurain ; Hugo Carricart ; Nathan Lesourd
+ * @brief Header de Piece
  * @file Piece.h
+ * @date 26/10/2021
+ * @version 0.5
  */
 
 #if !defined Piece_h
 #define Piece_h
 
-//#include "Echiquier.h"
-class Echiquier;  // pb de reference croisee
+class Echiquier;
 
-/**
- * Declaration d'une classe modelisant une piece de jeu d'echec.
- */
 class Piece
 {
-protected:
+   protected:
     int  m_x;
     int  m_y;
     bool m_white;
     bool firstMove;
 
-public:
+   public:
     virtual ~Piece();
     Piece();
     Piece( int x, int y, bool white );
@@ -34,64 +32,59 @@ public:
     bool         isWhite();
     bool         isBlack();
     void         affiche();
-    virtual char vue();
     virtual bool mouvementValide( Echiquier &e, int x, int y ) = 0;
+    bool Echec(Echiquier &e, int x, int y);
+    bool EchecMat(Echiquier &e, int x, int y , Piece *p);
 };
 
 class Roi : public Piece
 {
-public:
+   public:
     Roi( bool white );
     ~Roi();
-    char vue();
     bool mouvementValide( Echiquier &e, int x, int y );
     void roque();
 };
 
 class Tour : virtual public Piece
 {
-public:
+   public:
     Tour( bool white, bool gauche );
     ~Tour();
-    char vue();
     bool mouvementValide( Echiquier &e, int x, int y );
 };
 
 class Fou : virtual public Piece
 {
-public:
+   public:
     Fou( bool white, bool gauche );
     ~Fou();
-    char vue();
     bool mouvementValide( Echiquier &e, int x, int y );
 };
 
 class Cavalier : public Piece
 {
-public:
+   public:
     Cavalier( bool white, bool gauche );
     ~Cavalier();
-    char vue();
     bool mouvementValide( Echiquier &e, int x, int y );
 };
 
 class Reine : public Fou, public Tour
 {
-public:
+   public:
     Reine( bool white );
     ~Reine();
-    char vue();
     bool mouvementValide( Echiquier &e, int x, int y );
 };
 
 class Pion : public Piece
 {
-public:
+   public:
     Pion( bool white, int x );
     ~Pion();
-    char vue();
     bool mouvementValide( Echiquier &e, int x, int y );
 };
 
-#endif  // !defined Piece_h
+#endif
 

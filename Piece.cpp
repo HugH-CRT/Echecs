@@ -17,7 +17,7 @@ Piece::Piece( int x, int y, bool white )
     m_x     = x;
     m_y     = y;
     m_white = white;
-    firstMove = true;
+    p_firstMove = true;
 }
 
 Piece::~Piece(){}
@@ -27,7 +27,7 @@ Piece::move( int x, int y )
 {
     m_x = x;
     m_y = y;
-    firstMove = true;
+    p_firstMove = true;
 }
 
 int
@@ -37,7 +37,7 @@ int
 Piece::y() { return m_y; }
 
 bool
-Piece::firstMove() { return firstMove; }
+Piece::firstMove() { return p_firstMove; }
 
 bool
 Piece::isWhite() { return m_white; }
@@ -113,7 +113,7 @@ bool
 Roi::roquePossible( Echiquier &e, Tour *p )
 {
     //Si le roi et la tour n'ont pas bougés
-    if ( !firstMove && !p->firstMove())
+    if ( !p_firstMove && !p->firstMove())
     {
         if ( this->m_white )
         {
@@ -413,12 +413,12 @@ Pion::mouvementValide( Echiquier &e, int x, int y )
             Piece *maPiece = e.getPiece(x,y);
 
             //Check la validité du déplacement déplacement
-            if ( ( firstMove && y == this->m_y + 2 || y == this->m_y + 1 )  || ( !firstMove &&  y == this->m_y + 1 ) )
+            if ( ( p_firstMove && y == this->m_y + 2 || y == this->m_y + 1 )  || ( !p_firstMove &&  y == this->m_y + 1 ) )
             {
                 //Si y'a pas de pièce
                 if (maPiece == nullptr )
                 {
-                    firstMove = false;
+                    p_firstMove = false;
                     return true;
                 }
                 else
@@ -441,12 +441,12 @@ Pion::mouvementValide( Echiquier &e, int x, int y )
             Piece *maPiece = e.getPiece(x,y);
 
             //Check la validité du déplacement déplacement
-            if ( ( firstMove && y == this->m_y - 2 || y == this->m_y - 1 )  || ( !firstMove &&  y == this->m_y - 1 ) )
+            if ( ( p_firstMove && y == this->m_y - 2 || y == this->m_y - 1 )  || ( !p_firstMove &&  y == this->m_y - 1 ) )
             {
                 //Si y'a pas de pièce
                 if (maPiece == nullptr )
                 {
-                    firstMove = false;
+                   p_firstMove = false;
                     return true;
                 }
                 else

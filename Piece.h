@@ -17,7 +17,7 @@ class Piece
     int  m_x;
     int  m_y;
     bool m_white;
-    bool firstMove;
+    bool p_firstMove;
 
    public:
     virtual ~Piece();

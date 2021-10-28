@@ -56,7 +56,6 @@ Echiquier::getPiece( int x, int y )
     return m_cases[( x - 1 ) + ( y - 1 ) * 8];
 }
 
-
 bool
 Echiquier::placer( Piece *p )
 {
@@ -72,7 +71,7 @@ Echiquier::placer( Piece *p )
     return true;
 }
 
-void
+bool
 Echiquier::deplacer( Piece *p, int x, int y )
 {
     char lettre = matriceVisuel[ p->y() - 1 ][ p->x() - 1 ];
@@ -112,4 +111,95 @@ Echiquier::affiche()
         cout << "" << endl;
     }
     cout << "" << endl;
+}
+
+
+bool
+Echiquier::VerifMoveRoiRoque(Roi *r,int x ,int y)
+{
+    //Si le Roi est à droite de la tour
+    if ( r->x() > x )
+    {
+        //Parcours les cases entre le roi et la tour
+        for ( int i = r->x() - 1  ; i >= x ; i-- )
+        {
+            //Parcours toutes les pieces de l'echiquier
+            for ( int j = 0; j < 64 ; j++ )
+            {
+                //Si la case n'est pas vide et de la couleur adverse
+                if ( m_cases[j]->isWhite()!= r->isWhite() && m_cases[j] != nullptr )
+                {
+                    if ( m_cases[j]->mouvementValide( *this , i , y ) )
+                    {
+                        return false;
+                    }
+                }
+            }
+        }
+    }
+    else
+    {
+        //Parcours les cases entre le roi et la tour
+        for ( int i = r->x() + 1  ; i <= x ; i++ )
+        {
+            //Parcours toutes les pieces de l'echiquier
+            for ( int j = 0; j < 64 ; j++ )
+            {
+                //Si la case n'est pas vide et de la couleur adverse
+                if ( m_cases[j]->isWhite()!= r->isWhite() && m_cases[j] != nullptr )
+                {
+                    if ( m_cases[j]->mouvementValide( *this , i , y ) )
+                    {
+                        return false;
+                    }
+                }
+            }
+        }
+    }
+
+    return true;
+}
+
+bool
+Echiquier::deplacementRoque( Roi *r, Tour *t)
+{
+
+    matriceVisuel[ r->y() - 1 ][ r->x() - 1 ] = '.';
+    matriceVisuel[ t->y() - 1 ][ t->x() - 1 ] = '.';
+
+    enleverPiece( r->x() , r->y() );
+    enleverPiece( t->x() , t->y() );
+
+    if ( r->isWhite() )
+    {
+        if ( r->x() > t->x() )
+        {
+            r->move( 3 , 8 );
+            t->move( 4 , 8 );
+        }
+        else
+        {
+            r->move( 7 , 8 );
+            t->move( 6 , 8 );
+        }
+    }
+    else
+    {
+        if ( r->x() > t->x() )
+        {
+            r->move( 3 , 1 );
+            t->move( 4 , 1 );
+        }
+        else
+        {
+            r->move( 7 , 1 );
+            t->move( 6 , 1 );
+        }
+    }
+
+    matriceVisuel[ r->y() - 1 ][ r->x() - 1 ] = 'R';
+    matriceVisuel[ t->y() - 1 ][ t->x() - 1 ] = 'T';
+
+    placer(r);
+    placer(t);
 }

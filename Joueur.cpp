@@ -9,27 +9,15 @@
 #include <assert.h>
 #include <iostream>
 #include "Joueur.h"
-#include <assert.h>
-#include <iostream>
-#include "Joueur.h"
 
 using namespace std;
 
-Joueur::Joueur()
-{
-}
+Joueur::Joueur(){}
 
 Joueur::~Joueur()
 {
     for ( int i = 0; i < 16; i++ )
         delete m_pieces[i];
-}
-
-void
-Joueur::affiche()
-{
-    for ( int i = 0; i < 16; i++ )
-        m_pieces[i]->affiche();
 }
 
 bool
@@ -64,6 +52,7 @@ JoueurBlanc::JoueurBlanc()
         Pion *ptr     = new Pion( true, i );
         m_pieces[p++] = ptr;
     }
+    iswhite = true;
     assert( 16 == p );
 }
 
@@ -90,17 +79,9 @@ JoueurNoir::JoueurNoir()
         Pion *ptr     = new Pion( false, i );
         m_pieces[p++] = ptr;
     }
+    iswhite = false;
     assert( 16 == p );
 }
 
 bool
-JoueurBlanc::isWhite()
-{
-    return true;
-}
-
-bool
-JoueurNoir::isWhite()
-{
-    return false;
-}
+Joueur::isWhite() { return iswhite; }

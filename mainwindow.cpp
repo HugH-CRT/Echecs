@@ -32,7 +32,7 @@ MainWindow::MainWindow(QWidget *parent)
     assert( jb.placerPieces( e ) );
     assert( jn.placerPieces( e ) );
 
-    ui->echiquierView->setModel(/**Model**/);
+    //ui->echiquierView->setModel(/**Model**/);
 }
 
 MainWindow::~MainWindow()
@@ -44,3 +44,5 @@ void MainWindow::on_echiquierView_cellClicked(int row, int column)
 {
 
 }
+
+

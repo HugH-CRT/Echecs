@@ -22,9 +22,11 @@ class Echiquier
     Echiquier();
     Piece *getPiece( int x, int y );
     bool placer( Piece *p );
-    void deplacer( Piece *p, int x, int y );
+    bool deplacer( Piece *p, int x, int y );
     Piece *enleverPiece( int x, int y );
     void affiche();
+    bool VerifMoveRoiRoque(Roi *r, int x ,int y);
+    bool deplacementRoque( Roi *r, Tour *p);
 };
 
 #endif

@@ -25,6 +25,7 @@ set(PROJECT_SOURCES
         Joueur.h
         Echiquier.cpp
         Echiquier.h
+        Resource.qrc
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

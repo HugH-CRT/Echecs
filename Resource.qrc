@@ -1,0 +1,18 @@
+<RCC>
+    <qresource prefix="/img_blanc">
+        <file>assets/blanc/cavalier.png</file>
+        <file>assets/blanc/fou.png</file>
+        <file>assets/blanc/pion.png</file>
+        <file>assets/blanc/reine.png</file>
+        <file>assets/blanc/roi.png</file>
+        <file>assets/blanc/tour.png</file>
+    </qresource>
+    <qresource prefix="/img_noir">
+        <file>assets/noir/cavalier.png</file>
+        <file>assets/noir/fou.png</file>
+        <file>assets/noir/pion.png</file>
+        <file>assets/noir/reine.png</file>
+        <file>assets/noir/roi.png</file>
+        <file>assets/noir/tour.png</file>
+    </qresource>
+</RCC>

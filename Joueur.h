@@ -11,6 +11,7 @@
 
 #include "Piece.h"
 #include "Echiquier.h"
+
 class Joueur
 {
    protected:

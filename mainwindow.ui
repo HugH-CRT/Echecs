@@ -29,7 +29,7 @@
    <widget class="QTableView" name="tableViewEchiquier">
     <property name="geometry">
      <rect>
-      <x>140</x>
+      <x>160</x>
       <y>40</y>
       <width>682</width>
       <height>682</height>

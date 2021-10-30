@@ -12,12 +12,13 @@ using namespace std;
 
 Piece::Piece(){}
 
-Piece::Piece( int x, int y, bool white )
+Piece::Piece( int x, int y, bool white, string path)
 {
     m_x     = x;
     m_y     = y;
     m_white = white;
     p_firstMove = true;
+    p_path = path;
 }
 
 Piece::~Piece(){}
@@ -42,13 +43,15 @@ Piece::firstMove() { return p_firstMove; }
 bool
 Piece::isWhite() { return m_white; }
 
+string
+Piece::path() { return p_path; }
+
 /** @brief Méthode appelée après chaque coup, elle regarde si la pièce qui vient de bouger peut en faisant 1 action aller au Roi adverse.
     @param Echiquier &e
     @param int x -> Position x du roi adverse
     @param int y -> Position y du roi adverse
     @return bool -> true si il y'a echec ou false dans le cas contraire.
 */
-
 bool
 Piece::Echec(Echiquier &e, int x, int y)
 {
@@ -80,7 +83,7 @@ Piece::EchecMat(Echiquier &e, int x, int y)
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-Roi::Roi( bool white ) : Piece( 5, white ? 1 : 8, white ){}
+Roi::Roi( bool white, string path ) : Piece( 5, white ? 1 : 8, white, path){}
 
 Roi::~Roi(){}
 
@@ -177,7 +180,7 @@ Roi::AfficheMouvementValide()
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-Reine::Reine( bool white ) : Piece( 4, white ? 1 : 8, white ), Fou( white, true ), Tour( white, true ){}
+Reine::Reine( bool white, string path ) : Piece( 4, white ? 1 : 8, white , path), Fou( white, true ,path), Tour( white, true ,path){}
 
 Reine::~Reine(){}
 
@@ -199,7 +202,7 @@ Reine::AfficheMouvementValide()
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-Tour::Tour( bool white, bool gauche ) : Piece( gauche ? 1 : 8, white ? 1 : 8, white ){}
+Tour::Tour( bool white, bool gauche, string path ) : Piece( gauche ? 1 : 8, white ? 1 : 8, white, path){}
 
 Tour::~Tour(){}
 
@@ -295,7 +298,7 @@ Tour::AfficheMouvementValide()
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-Fou::Fou( bool white, bool gauche ) : Piece( gauche ? 3 : 6, white ? 1 : 8, white ){}
+Fou::Fou( bool white, bool gauche, string path ) : Piece( gauche ? 3 : 6, white ? 1 : 8, white, path){}
 
 Fou::~Fou(){}
 
@@ -414,7 +417,7 @@ Fou::AfficheMouvementValide()
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-Cavalier::Cavalier( bool white, bool gauche ) : Piece( gauche ? 2 : 7, white ? 1 : 8, white ){}
+Cavalier::Cavalier( bool white, bool gauche, string path) : Piece( gauche ? 2 : 7, white ? 1 : 8, white, path ){}
 
 Cavalier::~Cavalier(){}
 
@@ -447,7 +450,7 @@ Cavalier::AfficheMouvementValide()
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-Pion::Pion( bool white, int x ) : Piece( x, white ? 2 : 7, white ){}
+Pion::Pion( bool white, int x, string path ) : Piece( x, white ? 2 : 7, white, path ){}
 
 Pion::~Pion(){}
 

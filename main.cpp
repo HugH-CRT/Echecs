@@ -37,9 +37,6 @@ main( int argc, char **argv )
     //Affiche l'echiquier terminal
     e.affiche();
 
-    //Affiche l'echiquier UI
-
-
     return a.exec();
 
 }

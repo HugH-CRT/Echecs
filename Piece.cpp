@@ -303,7 +303,7 @@ Fou::mouvementValide( Echiquier &e, int x, int y )
         //Diagonale Haut Gauche vers bas droite
         if ( x > m_x && y > m_y )
         {
-            for ( int i = m_x + 1 ; i < y ; i ++ )
+            for ( int i = m_x + 1 ; i < x ; i ++ )
             {
                 temp++;
 
@@ -327,7 +327,7 @@ Fou::mouvementValide( Echiquier &e, int x, int y )
         //Diagonale bas droite vers haut gauche
         else if ( x < m_x && y < m_y )
         {
-            for ( int i = m_x - 1 ; i > y ; i ++ )
+            for ( int i = m_x - 1 ; i > x ; i -- )
             {
                 temp--;
 
@@ -339,7 +339,7 @@ Fou::mouvementValide( Echiquier &e, int x, int y )
         //Diagonale haut droite vers bas gauche
         else
         {
-            for ( int i = m_x - 1 ; i < x ; i ++ )
+            for ( int i = m_x - 1 ; i > x ; i -- )
             {
                 temp++;
 
@@ -349,13 +349,45 @@ Fou::mouvementValide( Echiquier &e, int x, int y )
             }
         }
 
+        bool SurLaDiag = false;
+        int LigneUp = m_y;
+        int Lignedown = m_y;
+        int colonneDown = m_x;
+        int colonneUp = m_x;
+        for ( int i = 0  ; i < 8 ; i++)
+        {
+            LigneUp++;
+            Lignedown--;
+            colonneDown--;
+            colonneUp++;
+            if ( x == colonneUp && y == LigneUp || x == colonneUp && y == Lignedown || x == colonneDown && y == LigneUp || x == colonneDown && y == Lignedown)
+            {
+                SurLaDiag = true;
+            }
+        }
+
         //On récupère le pointeur vers lequel on souhaite se déplacer
         Piece *maPiece = e.getPiece(x,y);
 
+        if ( maPiece == nullptr)
+        {
+             cout << "Pointeur null " << endl;
+        }
+        else
+        {
+             cout << "Couleur en de la piece : " << maPiece->isWhite() << endl;
+        }
+
+        cout << "Est sur la diag ? : " << SurLaDiag << endl;
+
+
         //Si y'a pas de pièce
-        if ( maPiece == nullptr ) { return true; }
-        else if ( m_white != maPiece->isWhite() ) { return true; }
+        if ( maPiece == nullptr && SurLaDiag ) { return true; }
+        else if ( maPiece != nullptr && m_white != maPiece->isWhite() && SurLaDiag) { return true; }
     }
+
+
+
     return false;
 }
 

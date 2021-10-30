@@ -505,3 +505,9 @@ Pion::mouvementValide( Echiquier &e, int x, int y )
     }
     return false;
 }
+
+void
+Pion::AfficheMouvementValide(Echiquier &e)
+{
+
+}

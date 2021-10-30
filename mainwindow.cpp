@@ -40,7 +40,7 @@ MainWindow::~MainWindow() { delete ui; }
 void
 MainWindow::RefreshMatrice(QWidget *parent)
 {
-    QStandardItemModel* model = new QStandardItemModel(8,8,parent) ;
+    model = new QStandardItemModel(8,8,parent) ;
 
     for ( int i = 0 ; i < 8 ; i++ )
     {
@@ -65,6 +65,8 @@ MainWindow::RefreshMatrice(QWidget *parent)
        }
     }
 
+    this->setData(1,1);
+
     ui->tableViewEchiquier->setModel(model);
 }
 
@@ -74,7 +76,6 @@ void MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
 
     if ( pieceEnCours != nullptr && pieceEnCours->isWhite() == WhitePlay && pieceEnCours->mouvementValide( e, index.column()+1  , index.row()+1  )  )
     {
-        cout << pieceEnCours->isWhite() << endl;
         e.deplacer( pieceEnCours , index.column()+1  , index.row()+1 );
         WhitePlay = !WhitePlay;
     }
@@ -84,6 +85,12 @@ void MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
     }
 
     this->RefreshMatrice(this);
+}
+
+void MainWindow::setData(int column,int row)
+{
+   QModelIndex index = model->index(row,column,QModelIndex());
+   model->setData(index, QBrush ( QColor( Qt::blue ) ), Qt::BackgroundRole  );
 }
 
 

@@ -27,6 +27,7 @@ class MainWindow : public QMainWindow
         MainWindow(QWidget *parent = nullptr);
         ~MainWindow();
         void RefreshMatrice(QWidget *parent);
+        void setData(int column,int row);
 
     private slots:
         void on_tableViewEchiquier_clicked(const QModelIndex &index);

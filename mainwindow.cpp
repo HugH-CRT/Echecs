@@ -47,8 +47,22 @@ MainWindow::RefreshMatrice(QWidget *parent)
         for ( int j = 0 ; j < 8 ; j++ )
         {
             QModelIndex index = model->index(i,j,QModelIndex());
-            model->setData(index,QVariant( QString( e.matriceVisuel[i][j] ) ));
-        }
+
+            if (e.getPiece(j+1, i+1) != nullptr){
+               string s = e.getPiece(j+1, i+1)->path();
+               int n = s.length();
+               char char_array[n + 1];
+               strcpy(char_array, s.c_str());
+               QPixmap monImage(char_array);
+               QIcon* m_icon = new QIcon();
+                m_icon->addPixmap(monImage);
+               QStandardItem *m_item = new QStandardItem();
+                m_item->setIcon(*m_icon);
+
+               model->setItem(i, j , m_item);
+            }
+          //  model->setData(index,QVariant( QString( e.matriceVisuel[i][j] ) ));
+       }
     }
 
     ui->tableViewEchiquier->setModel(model);

@@ -10,6 +10,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QStandardItemModel>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -19,14 +20,19 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
-public:
-    MainWindow(QWidget *parent = nullptr);
-    ~MainWindow();
+    public:
+        MainWindow(QWidget *parent = nullptr);
+        ~MainWindow();
+        void RefreshMatrice(QWidget *parent);
 
-private slots:
-    void on_echiquierView_cellClicked(int row, int column);
+    private slots:
+        void on_echiquierView_cellClicked(int row, int column);
+
+        void on_tableViewEchiquier_clicked(const QModelIndex &index);
 
 private:
-    Ui::MainWindow *ui;
+        Ui::MainWindow *ui;
+        QStandardItemModel *model;
 };
+
 #endif // MAINWINDOW_H

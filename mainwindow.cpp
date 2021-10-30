@@ -13,7 +13,16 @@
 #include "Joueur.h"
 #include <iostream>
 #include <assert.h>
+
+#include "mainwindow.h"
+
+#include <QAbstractItemModel>
+#include <QModelIndex>
+#include <QString>
 using namespace std;
+
+Echiquier e;
+Piece *pieceEnCours;
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -21,28 +30,52 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    //Crée l'echiquier avec les 64 pointeurs
-    Echiquier e;
 
-    //Crée les 2 joueurs
+
     JoueurBlanc jb;
     JoueurNoir  jn;
 
-    //Place les pieces des 2 joueurs
     assert( jb.placerPieces( e ) );
     assert( jn.placerPieces( e ) );
 
-    //ui->echiquierView->setModel(/**Model**/);
+    this->RefreshMatrice(this);
+
+
 }
 
-MainWindow::~MainWindow()
+MainWindow::~MainWindow() { delete ui; }
+
+void
+MainWindow::RefreshMatrice(QWidget *parent)
 {
-    delete ui;
+    QStandardItemModel* model = new QStandardItemModel(8,8,parent) ;
+
+    for ( int i = 0 ; i < 8 ; i++ )
+    {
+        for ( int j = 0 ; j < 8 ; j++ )
+        {
+            QModelIndex index = model->index(i,j,QModelIndex());
+            model->setData(index,QVariant( QString( e.matriceVisuel[i][j] ) ));
+        }
+    }
+
+    ui->tableViewEchiquier->setModel(model);
 }
 
-void MainWindow::on_echiquierView_cellClicked(int row, int column)
+
+
+void MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
 {
+    cout << index.row() << " " << index.column() << endl;
+    pieceEnCours = e.getPiece(index.row(),index.column());
 
+    cout << pieceEnCours << endl;
+
+    if ( pieceEnCours->mouvementValide(e,4,1) )
+    {
+        e.deplacer(pieceEnCours,4,1);
+    }
+
+//    this->RefreshMatrice(this);
 }
-
 

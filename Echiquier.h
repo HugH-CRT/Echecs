@@ -15,10 +15,11 @@ class Echiquier
    private:
 
     Piece *m_cases[64];
-    char matriceVisuel [8][8];
+
 
    public:
 
+    char matriceVisuel [8][8];
     Echiquier();
     Piece *getPiece( int x, int y );
     bool placer( Piece *p );

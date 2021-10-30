@@ -14,26 +14,14 @@
    <string>Echec</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QTableWidget" name="echiquierView">
+   <widget class="QTableView" name="tableViewEchiquier">
     <property name="geometry">
      <rect>
-      <x>200</x>
-      <y>30</y>
-      <width>641</width>
-      <height>591</height>
+      <x>90</x>
+      <y>50</y>
+      <width>801</width>
+      <height>371</height>
      </rect>
-    </property>
-    <property name="verticalScrollBarPolicy">
-     <enum>Qt::ScrollBarAlwaysOff</enum>
-    </property>
-    <property name="horizontalScrollBarPolicy">
-     <enum>Qt::ScrollBarAlwaysOff</enum>
-    </property>
-    <property name="editTriggers">
-     <set>QAbstractItemView::NoEditTriggers</set>
-    </property>
-    <property name="selectionMode">
-     <enum>QAbstractItemView::SingleSelection</enum>
     </property>
    </widget>
   </widget>

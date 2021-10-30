@@ -212,7 +212,7 @@ Tour::mouvementValide( Echiquier &e, int x, int y )
             //Si on va à droite
             if ( x > m_x)
             {
-                for ( int i = m_x + 1; i < x - 1  ; i++)
+                for ( int i = m_x + 1; i < x ; i++)
                 {
                     //On récupère le pointeur de la position suivante
                     Piece *maPiece = e.getPiece(i,y);
@@ -242,10 +242,10 @@ Tour::mouvementValide( Echiquier &e, int x, int y )
             //Si on va à en bas
             if ( y > m_y)
             {
-                for ( int i = m_y + 1; i < y - 1  ; i++)
+                for ( int i = m_y + 1; i < y  ; i++)
                 {
                     //On récupère le pointeur de la position suivante
-                    Piece *maPiece = e.getPiece(i,y);
+                    Piece *maPiece = e.getPiece(x,i);
 
                     if ( maPiece != nullptr )
                     {
@@ -501,4 +501,10 @@ Pion::mouvementValide( Echiquier &e, int x, int y )
         }
     }
     return false;
+}
+
+void
+Pion::AfficheMouvementValide(Echiquier &e)
+{
+
 }

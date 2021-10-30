@@ -82,6 +82,7 @@ class Pion : public Piece
     Pion( bool white, int x );
     ~Pion();
     bool mouvementValide( Echiquier &e, int x, int y );
+    void AfficheMouvementValide(Echiquier &e);
 };
 
 #endif

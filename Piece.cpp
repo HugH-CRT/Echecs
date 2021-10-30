@@ -439,13 +439,17 @@ Pion::mouvementValide( Echiquier &e, int x, int y )
     if ( m_white )
     {
         //Si on est sur la même ligne // Ou déplacement diag -> to Eat
-        if( this->m_x == x || this->m_x + 1 == x && this->m_y + 1 == y || this->m_x - 1 == x && this->m_y + 1 == y )
+        if( this->m_x == x || this->m_y + 1 == y && ( this->m_x + 1 == x || this->m_x - 1 == x ) )
         {
+            for ( int i = m_y + 1  ; i < y ; i++ )
+            {
+                if (e.getPiece(x,i) != nullptr){ return false; }
+            }
             //On récupère le pointeur vers lequel on souhaite se déplacer
             Piece *maPiece = e.getPiece(x,y);
 
             //Check la validité du déplacement déplacement
-            if ( ( p_firstMove && y == this->m_y + 2 || y == this->m_y + 1 )  || ( !p_firstMove &&  y == this->m_y + 1 ) )
+            if ( ( p_firstMove && ( y == this->m_y + 2 || y == this->m_y + 1 ) )  || ( !p_firstMove &&  y == this->m_y + 1 ) )
             {
                 //Si y'a pas de pièce
                 if (maPiece == nullptr && x == m_x)
@@ -456,7 +460,7 @@ Pion::mouvementValide( Echiquier &e, int x, int y )
                 else
                 {
                     //Si on va en diag
-                    if( this->m_y + 1 == y && (this->m_x + 1 == x ||  this->m_x - 1 == x )  && maPiece != nullptr)
+                    if( this->m_y + 1 == y && (this->m_x + 1 == x ||  this->m_x - 1 == x )  && maPiece != nullptr && maPiece->isWhite() != m_white)
                     {
                         return true;
                     }
@@ -467,13 +471,17 @@ Pion::mouvementValide( Echiquier &e, int x, int y )
     else
     {
         //Si on est sur la même ligne // Ou déplacement diag -> to Eat
-        if( this->m_x == x || this->m_x - 1 == x && this->m_y + 1 == y | this->m_x - 1 == x && this->m_y - 1 == y )
+        if( this->m_x == x || this->m_y - 1 == y && ( this->m_x + 1 == x || this->m_x - 1 == x ) )
         {
+            for ( int i = m_y - 1 ; i > y ; i-- )
+            {
+                if (e.getPiece(x,i) != nullptr){ return false; }
+            }
             //On récupère le pointeur vers lequel on souhaite se déplacer
             Piece *maPiece = e.getPiece(x,y);
 
             //Check la validité du déplacement déplacement
-            if ( ( p_firstMove && y == this->m_y - 2 || y == this->m_y - 1 )  || ( !p_firstMove &&  y == this->m_y - 1 ) )
+            if ( ( p_firstMove && ( y == this->m_y - 2 || y == this->m_y - 1 ) )  || ( !p_firstMove &&  y == this->m_y - 1 ) )
             {
                 //Si y'a pas de pièce
                 if (maPiece == nullptr && x == m_x)
@@ -484,7 +492,7 @@ Pion::mouvementValide( Echiquier &e, int x, int y )
                 else
                 {
                     //Si on va en diag
-                    if( this->m_y - 1 == y && ( this->m_x + 1 == x || this->m_x - 1 == x ) && maPiece != nullptr )
+                    if( this->m_y - 1 == y && ( this->m_x + 1 == x || this->m_x - 1 == x ) && maPiece != nullptr && maPiece->isWhite() != m_white)
                     {
                         return true;
                     }

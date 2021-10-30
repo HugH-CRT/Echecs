@@ -87,6 +87,7 @@ Echiquier::deplacer( Piece *p, int x, int y )
     matriceVisuel[ p->y() - 1 ][ p->x() - 1 ] = lettre;
 
     placer(p);
+    return true;
 }
 
 
@@ -202,4 +203,5 @@ Echiquier::deplacementRoque( Roi *r, Tour *t)
 
     placer(r);
     placer(t);
+    return true;
 }

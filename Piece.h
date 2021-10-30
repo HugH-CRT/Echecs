@@ -29,6 +29,7 @@ class Piece
     bool         isWhite();
     bool         firstMove();
     virtual bool mouvementValide( Echiquier &e, int x, int y ) = 0;
+    virtual void AfficheMouvementValide()=0;
     bool Echec(Echiquier &e, int x, int y);
     bool EchecMat(Echiquier &e, int x, int y );
 };
@@ -41,6 +42,7 @@ class Tour : virtual public Piece
     ~Tour();
     bool mouvementValide( Echiquier &e, int x, int y );
     bool MouvementRealise();
+    void AfficheMouvementValide();
 };
 
 class Roi : public Piece
@@ -50,6 +52,7 @@ class Roi : public Piece
     ~Roi();
     bool mouvementValide( Echiquier &e, int x, int y );
     bool roquePossible( Echiquier &e, Tour *p);
+    void AfficheMouvementValide();
 };
 
 class Fou : virtual public Piece
@@ -58,6 +61,7 @@ class Fou : virtual public Piece
     Fou( bool white, bool gauche );
     ~Fou();
     bool mouvementValide( Echiquier &e, int x, int y );
+    void AfficheMouvementValide();
 };
 
 class Cavalier : public Piece
@@ -66,6 +70,7 @@ class Cavalier : public Piece
     Cavalier( bool white, bool gauche );
     ~Cavalier();
     bool mouvementValide( Echiquier &e, int x, int y );
+    void AfficheMouvementValide();
 };
 
 class Reine : public Fou, public Tour
@@ -74,6 +79,7 @@ class Reine : public Fou, public Tour
     Reine( bool white );
     ~Reine();
     bool mouvementValide( Echiquier &e, int x, int y );
+    void AfficheMouvementValide();
 };
 
 class Pion : public Piece
@@ -82,7 +88,7 @@ class Pion : public Piece
     Pion( bool white, int x );
     ~Pion();
     bool mouvementValide( Echiquier &e, int x, int y );
-    void AfficheMouvementValide(Echiquier &e);
+    void AfficheMouvementValide();
 };
 
 #endif

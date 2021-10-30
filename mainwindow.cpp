@@ -51,8 +51,6 @@ MainWindow::RefreshMatrice(QWidget *parent)
         }
     }
 
-    this->setData(1,1);
-
     ui->tableViewEchiquier->setModel(model);
 }
 
@@ -68,15 +66,17 @@ void MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
     else
     {
         pieceEnCours = e.getPiece(  index.column()+1  , index.row()+1 );
+        pieceEnCours->AfficheMouvementValide();
     }
 
     this->RefreshMatrice(this);
 }
 
-void MainWindow::setData(int column,int row)
+void MainWindow::setColor(int column,int row)
 {
    QModelIndex index = model->index(row,column,QModelIndex());
    model->setData(index, QBrush ( QColor( Qt::blue ) ), Qt::BackgroundRole  );
+   ui->tableViewEchiquier->setModel(model);
 }
 
 

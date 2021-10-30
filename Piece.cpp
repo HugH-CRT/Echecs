@@ -416,7 +416,7 @@ Pion::mouvementValide( Echiquier &e, int x, int y )
             if ( ( p_firstMove && y == this->m_y + 2 || y == this->m_y + 1 )  || ( !p_firstMove &&  y == this->m_y + 1 ) )
             {
                 //Si y'a pas de pièce
-                if (maPiece == nullptr )
+                if (maPiece == nullptr && x == m_x)
                 {
                     p_firstMove = false;
                     return true;
@@ -424,7 +424,7 @@ Pion::mouvementValide( Echiquier &e, int x, int y )
                 else
                 {
                     //Si on va en diag
-                    if( this->m_x + 1 == x && this->m_y + 1 == y || this->m_x - 1 == x && this->m_y + 1 == y )
+                    if( this->m_y + 1 == y && (this->m_x + 1 == x ||  this->m_x - 1 == x )  && maPiece != nullptr)
                     {
                         return true;
                     }
@@ -444,15 +444,15 @@ Pion::mouvementValide( Echiquier &e, int x, int y )
             if ( ( p_firstMove && y == this->m_y - 2 || y == this->m_y - 1 )  || ( !p_firstMove &&  y == this->m_y - 1 ) )
             {
                 //Si y'a pas de pièce
-                if (maPiece == nullptr )
+                if (maPiece == nullptr && x == m_x)
                 {
                    p_firstMove = false;
-                    return true;
+                   return true;
                 }
                 else
                 {
                     //Si on va en diag
-                    if( this->m_x - 1 == x && this->m_y + 1 == y | this->m_x - 1 == x && this->m_y - 1 == y )
+                    if( this->m_y - 1 == y && ( this->m_x + 1 == x || this->m_x - 1 == x ) && maPiece != nullptr )
                     {
                         return true;
                     }

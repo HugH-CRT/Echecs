@@ -19,10 +19,8 @@
 #include <QAbstractItemModel>
 #include <QModelIndex>
 #include <QString>
-using namespace std;
 
-Echiquier e;
-Piece *pieceEnCours;
+using namespace std;
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -30,17 +28,11 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-
-
-    JoueurBlanc jb;
-    JoueurNoir  jn;
-
-    assert( jb.placerPieces( e ) );
     assert( jn.placerPieces( e ) );
+    assert( jb.placerPieces( e ) );
+
 
     this->RefreshMatrice(this);
-
-
 }
 
 MainWindow::~MainWindow() { delete ui; }
@@ -63,19 +55,21 @@ MainWindow::RefreshMatrice(QWidget *parent)
 }
 
 
-
 void MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
 {
-    cout << index.row() << " " << index.column() << endl;
-    pieceEnCours = e.getPiece(index.row(),index.column());
 
-    cout << pieceEnCours << endl;
-
-    if ( pieceEnCours->mouvementValide(e,4,1) )
+    if ( pieceEnCours != nullptr && pieceEnCours->isWhite() == WhitePlay && pieceEnCours->mouvementValide( e, index.column()+1  , index.row()+1  )  )
     {
-        e.deplacer(pieceEnCours,4,1);
+        cout << pieceEnCours->isWhite() << endl;
+        e.deplacer( pieceEnCours , index.column()+1  , index.row()+1 );
+        WhitePlay = !WhitePlay;
+    }
+    else
+    {
+        pieceEnCours = e.getPiece(  index.column()+1  , index.row()+1 );
     }
 
-//    this->RefreshMatrice(this);
+    this->RefreshMatrice(this);
 }
+
 

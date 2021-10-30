@@ -12,6 +12,9 @@
 #include <QMainWindow>
 #include <QStandardItemModel>
 
+#include "Echiquier.h"
+#include "Joueur.h"
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -26,13 +29,17 @@ class MainWindow : public QMainWindow
         void RefreshMatrice(QWidget *parent);
 
     private slots:
-        void on_echiquierView_cellClicked(int row, int column);
-
         void on_tableViewEchiquier_clicked(const QModelIndex &index);
 
 private:
         Ui::MainWindow *ui;
         QStandardItemModel *model;
+        Echiquier e;
+        JoueurBlanc jb;
+        JoueurNoir  jn;
+        Piece *pieceEnCours = nullptr;
+        bool end = false;
+        bool WhitePlay = true;
 };
 
 #endif // MAINWINDOW_H

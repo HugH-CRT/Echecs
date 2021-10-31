@@ -80,30 +80,21 @@ Echiquier::placer( Piece *p )
 bool
 Echiquier::deplacer( Piece *p, int x, int y )
 {
-    char lettre = matriceVisuel[ p->y() - 1 ][ p->x() - 1 ];
-
-    matriceVisuel[ p->y() - 1 ][ p->x() - 1 ] = '.';
-    matriceVisuel[ y - 1 ][ x - 1 ] = '.';
-
     enleverPiece( p->x() , p->y() );
     enleverPiece( x , y );
 
     p->move(x,y);
-
-    matriceVisuel[ p->y() - 1 ][ p->x() - 1 ] = lettre;
 
     placer(p);
     return true;
 }
 
 
-Piece *
+void
 Echiquier::enleverPiece( int x, int y )
 {
     assert( x >= 1 && x <= 8 && y >= 1 && y <= 8 );
-    Piece *ptr                         = m_cases[( x - 1 ) + ( y - 1 ) * 8];
     m_cases[( x - 1 ) + ( y - 1 ) * 8] = nullptr;
-    return ptr;
 }
 
 void

@@ -76,44 +76,53 @@ void MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
 
     if ( pieceEnCours != nullptr && pieceEnCours->isWhite() == WhitePlay && pieceEnCours->mouvementValide( e, index.column()+1  , index.row()+1  )  )
     {
+
         e.deplacer( pieceEnCours , index.column()+1  , index.row()+1 );
 
-        if ( WhitePlay )
+        if ( index.column()+1 == RoiBlanc->x() && index.row()+1 ==  RoiBlanc->y() )  RoiBlanc = nullptr;
+        if ( index.column()+1 == RoiNoir->x() && index.row()+1 ==  RoiNoir->y() )  RoiNoir = nullptr;
+
+        if (RoiNoir == nullptr || RoiBlanc == nullptr)
         {
-           if ( pieceEnCours->Echec( e , RoiNoir->x(), RoiNoir->y() ) )
-           {
-               if ( pieceEnCours->EchecMat( e , RoiNoir->x(), RoiNoir->y() ) )
-               {
-                   cout << "Roi noir est en échec et mat" << endl;
-                   //Fin de partie
-               }
-               else
-               {
-                   cout << "Roi noir est en échec" << endl;
-                   //Roi en rouge
-               }
-           }
+            cout << "fin de game" << endl;
         }
         else
         {
-            if ( pieceEnCours->Echec( e , RoiBlanc->x(), RoiBlanc->y() ) )
+            if ( WhitePlay )
             {
-                if ( pieceEnCours->EchecMat( e , RoiBlanc->x(), RoiBlanc->y() ) )
+               if ( pieceEnCours->Echec( e , RoiNoir->x(), RoiNoir->y() ) )
+               {
+                   if ( pieceEnCours->EchecMat( e , RoiNoir->x(), RoiNoir->y() ) )
+                   {
+                       cout << "Roi noir est en échec et mat" << endl;
+                       //Fin de partie
+                   }
+                   else
+                   {
+                       cout << "Roi noir est en échec" << endl;
+                       //Roi en rouge
+                   }
+               }
+            }
+            else
+            {
+                if ( pieceEnCours->Echec( e , RoiBlanc->x(), RoiBlanc->y() ) )
                 {
-                    cout << "Roi blanc est en échec et mat" << endl;
-                    //Fin de partie
-                }
-                else
-                {
-                    cout << "Roi blanc est en échec" << endl;
-                    //Roi en rouge
+                    if ( pieceEnCours->EchecMat( e , RoiBlanc->x(), RoiBlanc->y() ) )
+                    {
+                        cout << "Roi blanc est en échec et mat" << endl;
+                        //Fin de partie
+                    }
+                    else
+                    {
+                        cout << "Roi blanc est en échec" << endl;
+                        //Roi en rouge
+                    }
                 }
             }
         }
-
         WhitePlay = !WhitePlay;
         this->RefreshMatrice(this);
-
     }
     else
     {

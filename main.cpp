@@ -22,21 +22,6 @@ main( int argc, char **argv )
     QApplication a(argc, argv);
     MainWindow w;
     w.show();
-
-    //Crée l'echiquier avec les 64 pointeurs
-    Echiquier e;
-
-    //Crée les 2 joueurs
-    JoueurBlanc jb;
-    JoueurNoir  jn;
-
-    //Place les pieces des 2 joueurs
-    assert( jb.placerPieces( e ) );
-    assert( jn.placerPieces( e ) );
-
-    //Affiche l'echiquier terminal
-    e.affiche();
-
     return a.exec();
 
 }

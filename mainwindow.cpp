@@ -38,6 +38,10 @@ MainWindow::MainWindow(QWidget *parent)
     RoiBlanc = e.getPiece( 5 , 1 );
     RoiNoir  = e.getPiece( 5 , 8 );
 
+    QPixmap monImage(":/img_blanc/assets/blanc/pion.png");
+    ui->TourLabel->setAlignment(Qt::AlignCenter);
+    ui->TourLabel->setPixmap(monImage);
+
     this->RefreshMatrice(this);
 }
 
@@ -64,16 +68,42 @@ MainWindow::RefreshMatrice(QWidget *parent)
                 m_item->setIcon(*m_icon);
 
                model->setItem(i, j , m_item);
+
+            }
+
+            if(i == 0)
+            {
+                QColor color(0,1,0);
+                QModelIndex index;
+                model->setData(index, QBrush(color), Qt::BackgroundRole  );
+            }
+            else
+            {
+                QColor color(1,1,0);
+                QModelIndex index;
+                model->setData(index, QBrush(color), Qt::BackgroundRole  );
             }
        }
     }
+    if (WhitePlay == true)
+    {
+        QPixmap monImage(":/img_blanc/assets/blanc/pion.png");
+        ui->TourLabel->setAlignment(Qt::AlignCenter);
+        ui->TourLabel->setPixmap(monImage);
+    }
+    else
+    {
+        QPixmap monImage(":/img_noir/assets/noir/pion.png");
+        ui->TourLabel->setAlignment(Qt::AlignCenter);
+        ui->TourLabel->setPixmap(monImage);
+    }
     ui->tableViewEchiquier->setModel(model);
+    ui->tableViewEchiquier->setIconSize(QSize(85,85));
 }
 
 
 void MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
 {
-
     if ( pieceEnCours != nullptr && pieceEnCours->isWhite() == WhitePlay && pieceEnCours->mouvementValide( e, index.column()+1  , index.row()+1  )  )
     {
 

@@ -25,6 +25,10 @@
   <property name="windowTitle">
    <string>Jeu d' Echec</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="Resource.qrc">
+    <normaloff>:/img_noir/assets/noir/tour.png</normaloff>:/img_noir/assets/noir/tour.png</iconset>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QTableView" name="tableViewEchiquier">
     <property name="geometry">
@@ -96,7 +100,7 @@
      <bool>false</bool>
     </attribute>
    </widget>
-   <widget class="QLabel" name="label">
+   <widget class="QLabel" name="BLANC">
     <property name="geometry">
      <rect>
       <x>90</x>
@@ -122,8 +126,36 @@
      <string>NOIR</string>
     </property>
    </widget>
+   <widget class="QLabel" name="TourLabel">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>330</y>
+      <width>91</width>
+      <height>101</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="TourTexte">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>310</y>
+      <width>81</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Au tour des :</string>
+    </property>
+   </widget>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="Resource.qrc"/>
+ </resources>
  <connections/>
 </ui>

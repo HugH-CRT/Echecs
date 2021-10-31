@@ -19,6 +19,7 @@ Piece::Piece( int x, int y, bool white, string path)
     m_white = white;
     p_firstMove = true;
     p_path = path;
+    p_isEchec = false;
 }
 
 Piece::~Piece(){}
@@ -29,6 +30,15 @@ Piece::move( int x, int y )
     m_x = x;
     m_y = y;
     p_firstMove = false;
+}
+
+bool
+Piece::isEchec() { return p_isEchec; }
+
+void
+Piece::setIsEchec()
+{
+    p_isEchec = !p_isEchec;
 }
 
 int
@@ -598,7 +608,6 @@ Cavalier::AfficheMouvementValide(Echiquier &e, bool whitePlay)
 
     if ( m_white == whitePlay)
     {
-
         Bool = e.getPiece( m_x + 2 , m_y - 1  ) == nullptr ? "-false" : e.getPiece( m_x + 2 , m_y - 1 )->isWhite() != m_white ?  "-true" : "";
         values.push_back( std::to_string( m_x + 1 ) + "-" + std::to_string( m_y - 2 ) + Bool );
 

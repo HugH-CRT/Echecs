@@ -25,6 +25,7 @@ class Piece
     bool m_white;
     bool p_firstMove;
     string p_path;
+    bool p_isEchec;
 
    public:
     virtual ~Piece();
@@ -35,6 +36,8 @@ class Piece
     int          y();
     bool         isWhite();
     bool         firstMove();
+    bool         isEchec();
+    void setIsEchec();
     string       path();
     virtual bool mouvementValide( Echiquier &e, int x, int y ) = 0;
     virtual list<string> AfficheMouvementValide(Echiquier &e, bool whitePlay) = 0 ;
@@ -56,7 +59,7 @@ class Tour : virtual public Piece
 class Roi : public Piece
 {
    public:
-    Roi( bool white, string path );
+    Roi( bool white, string path);
     ~Roi();
     bool mouvementValide( Echiquier &e, int x, int y );
     bool roquePossible( Echiquier &e, Tour *p);

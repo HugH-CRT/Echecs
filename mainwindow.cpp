@@ -52,7 +52,7 @@ MainWindow::RefreshMatrice(QWidget *parent)
     {
         for ( int j = 0 ; j < 8 ; j++ )
         {
-            if (e.getPiece(j+1, i+1) != nullptr){
+            if ( e.getPiece(j+1, i+1) != nullptr){
                string s = e.getPiece(j+1, i+1)->path();
                int n = s.length();
                char char_array[n + 1];
@@ -64,6 +64,12 @@ MainWindow::RefreshMatrice(QWidget *parent)
                 m_item->setIcon(*m_icon);
 
                model->setItem(i, j , m_item);
+
+               if ( e.getPiece(j+1, i+1)->isEchec() )
+               {
+                   QModelIndex index = model->index( i , j ,QModelIndex());
+                   model->setData(index, QBrush ( QColor ("red")  ), Qt::BackgroundRole  );
+               }
             }
        }
     }
@@ -76,7 +82,7 @@ void MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
 
     if ( pieceEnCours != nullptr && pieceEnCours->isWhite() == WhitePlay && pieceEnCours->mouvementValide( e, index.column()+1  , index.row()+1  )  )
     {
-
+        list<string> values;
         e.deplacer( pieceEnCours , index.column()+1  , index.row()+1 );
 
         if ( index.column()+1 == RoiBlanc->x() && index.row()+1 ==  RoiBlanc->y() )  RoiBlanc = nullptr;
@@ -94,15 +100,11 @@ void MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
                {
                    if ( pieceEnCours->EchecMat( e , RoiNoir->x(), RoiNoir->y() ) )
                    {
-                       cout << "Roi noir est en échec et mat" << endl;
                        //Fin de partie
                    }
-                   else
-                   {
-                       cout << "Roi noir est en échec" << endl;
-                       //Roi en rouge
-                   }
+                   else if ( !RoiNoir->isEchec()) RoiNoir->setIsEchec();
                }
+               else if ( RoiNoir->isEchec() ) RoiNoir->setIsEchec();
             }
             else
             {
@@ -110,17 +112,14 @@ void MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
                 {
                     if ( pieceEnCours->EchecMat( e , RoiBlanc->x(), RoiBlanc->y() ) )
                     {
-                        cout << "Roi blanc est en échec et mat" << endl;
                         //Fin de partie
                     }
-                    else
-                    {
-                        cout << "Roi blanc est en échec" << endl;
-                        //Roi en rouge
-                    }
+                    else if ( !RoiBlanc->isEchec()) RoiBlanc->setIsEchec();
                 }
+                else if ( RoiBlanc->isEchec() ) RoiBlanc->setIsEchec();
             }
         }
+
         WhitePlay = !WhitePlay;
         this->RefreshMatrice(this);
     }
@@ -128,10 +127,7 @@ void MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
     {
         pieceEnCours = e.getPiece(  index.column()+1  , index.row()+1 );
         this->RefreshMatrice(this);
-        if ( pieceEnCours != nullptr )
-        {
-           this->setColor( pieceEnCours->AfficheMouvementValide(e,WhitePlay) );
-        }
+        if ( pieceEnCours != nullptr ) this->setColor( pieceEnCours->AfficheMouvementValide(e,WhitePlay) );
     }  
 }
 
@@ -153,7 +149,6 @@ void MainWindow::setColor(list<string>values)
            QModelIndex index = model->index( std::stoi( seglist.at(1) ) , std::stoi( seglist.at(0) ) ,QModelIndex());
            model->setData(index, QBrush ( color ), Qt::BackgroundRole  );
        }  catch (...) {}
-
    }
 
    ui->tableViewEchiquier->setModel(model);

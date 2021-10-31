@@ -33,7 +33,7 @@ JoueurBlanc::JoueurBlanc()
 {
     int  p        = 0;
     string i_r = ":/img_blanc/assets/blanc/roi.png";
-    Roi *r        = new Roi( true, i_r);
+    Roi *r        = new Roi( true, i_r );
     m_pieces[p++] = r;
 
     string i_q = ":/img_blanc/assets/blanc/reine.png";

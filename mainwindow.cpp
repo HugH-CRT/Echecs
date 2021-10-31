@@ -19,6 +19,10 @@
 #include <QAbstractItemModel>
 #include <QModelIndex>
 #include <QString>
+#include <vector>
+#include <string>
+#include <sstream>
+
 
 using namespace std;
 
@@ -46,8 +50,6 @@ MainWindow::RefreshMatrice(QWidget *parent)
     {
         for ( int j = 0 ; j < 8 ; j++ )
         {
-            QModelIndex index = model->index(i,j,QModelIndex());
-
             if (e.getPiece(j+1, i+1) != nullptr){
                string s = e.getPiece(j+1, i+1)->path();
                int n = s.length();
@@ -61,10 +63,8 @@ MainWindow::RefreshMatrice(QWidget *parent)
 
                model->setItem(i, j , m_item);
             }
-          //  model->setData(index,QVariant( QString( e.matriceVisuel[i][j] ) ));
        }
     }
-
     ui->tableViewEchiquier->setModel(model);
 }
 
@@ -76,20 +76,38 @@ void MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
     {
         e.deplacer( pieceEnCours , index.column()+1  , index.row()+1 );
         WhitePlay = !WhitePlay;
+        this->RefreshMatrice(this);
     }
     else
     {
         pieceEnCours = e.getPiece(  index.column()+1  , index.row()+1 );
-        pieceEnCours->AfficheMouvementValide();
-    }
-
-    this->RefreshMatrice(this);
+        this->RefreshMatrice(this);
+        if ( pieceEnCours != nullptr )
+        {
+           this->setColor( pieceEnCours->AfficheMouvementValide(e,WhitePlay) );
+        }
+    }  
 }
 
-void MainWindow::setColor(int column,int row)
+void MainWindow::setColor(list<string>values)
 {
-   QModelIndex index = model->index(row,column,QModelIndex());
-   model->setData(index, QBrush ( QColor( Qt::blue ) ), Qt::BackgroundRole  );
+   for (string coordonees : values)
+   {
+       std::stringstream test(coordonees);
+       std::string segment;
+       std::vector<std::string> seglist;
+
+       while(std::getline(test, segment, '-'))
+       {
+          seglist.push_back( segment );
+       }
+
+
+       QModelIndex index = model->index( std::stoi( seglist.at(1) ) , std::stoi( seglist.at(0) ) ,QModelIndex());
+       model->setData(index, QBrush ( QColor( Qt::blue ) ), Qt::BackgroundRole  );
+       cout << "loop" << endl;
+   }
+
    ui->tableViewEchiquier->setModel(model);
 }
 

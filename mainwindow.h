@@ -14,6 +14,7 @@
 
 #include "Echiquier.h"
 #include "Joueur.h"
+#include "Piece.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -27,7 +28,7 @@ class MainWindow : public QMainWindow
         MainWindow(QWidget *parent = nullptr);
         ~MainWindow();
         void RefreshMatrice(QWidget *parent);
-        void setColor(int column,int row);
+        void setColor( list<string>mlist );
 
     private slots:
         void on_tableViewEchiquier_clicked(const QModelIndex &index);

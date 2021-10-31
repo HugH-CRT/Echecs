@@ -71,12 +71,18 @@ Piece::Echec(Echiquier &e, int x, int y)
 bool
 Piece::EchecMat(Echiquier &e, int x, int y)
 {
-    Piece *maPiece = e.getPiece(x,y);
+    Piece *monRoi = e.getPiece(x,y);
 
     for ( int i = -1 ; i < 2 ; i++ )
         for ( int j = - 1 ; j < 2 ; j++ )
-            if ( maPiece->mouvementValide( e , i , j ) )
-                if ( !this->mouvementValide( e , i , j ) ) { return false; }
+            if ( ( monRoi->x() + j > 0 && monRoi->x() + j < 9 ) && ( monRoi->y() + i > 0 && monRoi->y() + i <  9)  )
+            {
+                Piece *maPiece = e.getPiece( monRoi->x() + j , monRoi->y() + i );
+
+                if ( maPiece == nullptr || maPiece->isWhite() != monRoi->isWhite())
+                    if ( !this->mouvementValide( e , monRoi->x() + j , monRoi->y() + i ) )
+                        return false;
+            }
     return true;
 }
 

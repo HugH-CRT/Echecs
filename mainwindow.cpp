@@ -35,6 +35,8 @@ MainWindow::MainWindow(QWidget *parent)
     assert( jn.placerPieces( e ) );
     assert( jb.placerPieces( e ) );
 
+    RoiBlanc = e.getPiece( 5 , 1 );
+    RoiNoir  = e.getPiece( 5 , 8 );
 
     this->RefreshMatrice(this);
 }
@@ -75,8 +77,43 @@ void MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
     if ( pieceEnCours != nullptr && pieceEnCours->isWhite() == WhitePlay && pieceEnCours->mouvementValide( e, index.column()+1  , index.row()+1  )  )
     {
         e.deplacer( pieceEnCours , index.column()+1  , index.row()+1 );
+
+        if ( WhitePlay )
+        {
+           if ( pieceEnCours->Echec( e , RoiNoir->x(), RoiNoir->y() ) )
+           {
+               if ( pieceEnCours->EchecMat( e , RoiNoir->x(), RoiNoir->y() ) )
+               {
+                   cout << "Roi noir est en échec et mat" << endl;
+                   //Fin de partie
+               }
+               else
+               {
+                   cout << "Roi noir est en échec" << endl;
+                   //Roi en rouge
+               }
+           }
+        }
+        else
+        {
+            if ( pieceEnCours->Echec( e , RoiBlanc->x(), RoiBlanc->y() ) )
+            {
+                if ( pieceEnCours->EchecMat( e , RoiBlanc->x(), RoiBlanc->y() ) )
+                {
+                    cout << "Roi blanc est en échec et mat" << endl;
+                    //Fin de partie
+                }
+                else
+                {
+                    cout << "Roi blanc est en échec" << endl;
+                    //Roi en rouge
+                }
+            }
+        }
+
         WhitePlay = !WhitePlay;
         this->RefreshMatrice(this);
+
     }
     else
     {

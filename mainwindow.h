@@ -40,6 +40,8 @@ private:
         JoueurBlanc jb;
         JoueurNoir  jn;
         Piece *pieceEnCours = nullptr;
+        Piece *RoiBlanc = nullptr;
+        Piece *RoiNoir = nullptr;
         bool end = false;
         bool WhitePlay = true;
 };

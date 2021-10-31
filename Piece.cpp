@@ -444,7 +444,53 @@ Cavalier::mouvementValide( Echiquier &e, int x, int y )
 list<string>
 Cavalier::AfficheMouvementValide(Echiquier &e, bool whitePlay)
 {
+    list<string> values;
 
+    if ( m_white == whitePlay)
+    {
+
+        if ( e.getPiece( m_x + 2 , m_y - 1  ) == nullptr  || e.getPiece( m_x + 2 , m_y - 1  )->isWhite() != m_white )
+        {
+            values.push_back( std::to_string( m_x + 1 ) + "-" + std::to_string( m_y - 2 ) );
+        }
+
+        if ( e.getPiece( m_x + 2 , m_y + 1  ) == nullptr  || e.getPiece( m_x + 2 , m_y + 1  )->isWhite() != m_white )
+        {
+            values.push_back( std::to_string( m_x + 1 ) + "-" + std::to_string( m_y ) );
+        }
+
+
+        if ( e.getPiece( m_x - 2 , m_y - 1  ) == nullptr  || e.getPiece( m_x - 2 , m_y - 1  )->isWhite() != m_white )
+        {
+            values.push_back( std::to_string( m_x - 3 ) + "-" + std::to_string( m_y - 2 ) );
+        }
+        if ( e.getPiece( m_x - 2 , m_y + 1  ) == nullptr  || e.getPiece( m_x - 2 , m_y + 1  )->isWhite() != m_white )
+        {
+            values.push_back( std::to_string( m_x - 3 ) + "-" + std::to_string( m_y ) );
+        }
+
+
+        if ( e.getPiece( m_x + 1 , m_y + 2  ) == nullptr  || e.getPiece( m_x + 1 , m_y + 2  )->isWhite() != m_white )
+        {
+            values.push_back( std::to_string( m_x ) + "-" + std::to_string( m_y + 1 ) );
+        }
+        if ( e.getPiece( m_x - 1 , m_y + 2  ) == nullptr  || e.getPiece( m_x - 1 , m_y + 2  )->isWhite() != m_white )
+        {
+            values.push_back( std::to_string( m_x - 2 ) + "-" + std::to_string( m_y + 1 ) );
+        }
+
+        if ( e.getPiece( m_x + 1 , m_y - 2  ) == nullptr  || e.getPiece( m_x + 1 , m_y - 2  )->isWhite() != m_white )
+        {
+            values.push_back( std::to_string( m_x ) + "-" + std::to_string( m_y - 3 ) );
+        }
+        if ( e.getPiece( m_x - 1 , m_y - 2  ) == nullptr  || e.getPiece( m_x - 1 , m_y - 2  )->isWhite() != m_white )
+        {
+            values.push_back( std::to_string( m_x - 2 ) + "-" + std::to_string( m_y - 3 ) );
+        }
+
+
+    }
+    return values;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

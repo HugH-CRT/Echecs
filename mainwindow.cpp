@@ -102,10 +102,11 @@ void MainWindow::setColor(list<string>values)
           seglist.push_back( segment );
        }
 
+       try {
+           QModelIndex index = model->index( std::stoi( seglist.at(1) ) , std::stoi( seglist.at(0) ) ,QModelIndex());
+           model->setData(index, QBrush ( QColor( Qt::blue ) ), Qt::BackgroundRole  );
+       }  catch (...) {}
 
-       QModelIndex index = model->index( std::stoi( seglist.at(1) ) , std::stoi( seglist.at(0) ) ,QModelIndex());
-       model->setData(index, QBrush ( QColor( Qt::blue ) ), Qt::BackgroundRole  );
-       cout << "loop" << endl;
    }
 
    ui->tableViewEchiquier->setModel(model);

@@ -52,8 +52,14 @@ Echiquier::Echiquier()
 Piece *
 Echiquier::getPiece( int x, int y )
 {
-    assert( x >= 1 && x <= 8 && y >= 1 && y <= 8 );
-    return m_cases[( x - 1 ) + ( y - 1 ) * 8];
+    if(  x >= 1 && x <= 8 && y >= 1 && y <= 8 ){
+            return m_cases[( x - 1 ) + ( y - 1 ) * 8];
+    }
+    else
+    {
+        return nullptr;
+    }
+
 }
 
 bool

@@ -192,10 +192,10 @@ Roi::AfficheMouvementValide(Echiquier &e, bool whitePlay)
                 Piece *maPiece = e.getPiece(i,j);
                 if ( maPiece == nullptr )
                 {
-                    values.push_back( std::to_string( i - 1 ) + "-" + std::to_string( j - 1 ) );
+                    values.push_back( std::to_string( i - 1 ) + "-" + std::to_string( j - 1 ) + "-false" );
                 }else if ( m_white != maPiece->isWhite() )
                 {
-                   values.push_back( std::to_string( i - 1 ) + "-" + std::to_string( j - 1 ) );
+                   values.push_back( std::to_string( i - 1 ) + "-" + std::to_string( j - 1 ) + "-true" );
                 }
             }
         }
@@ -333,7 +333,10 @@ Tour::AfficheMouvementValide(Echiquier &e, bool whitePlay)
 
             if ( maPiece == nullptr )
             {
-                values.push_back( std::to_string( i - 1 ) + "-" + std::to_string( m_y - 1 ) );
+                values.push_back( std::to_string( i - 1 ) + "-" + std::to_string( m_y - 1 )+ "-false" );
+            }else if ( m_white != maPiece->isWhite() ){
+                values.push_back( std::to_string( i - 1 ) + "-" + std::to_string( m_y - 1 )+ "-true" );
+                break;
             }else{break;}
         }
 
@@ -343,7 +346,10 @@ Tour::AfficheMouvementValide(Echiquier &e, bool whitePlay)
 
             if ( maPiece == nullptr )
             {
-                values.push_back( std::to_string( i - 1 ) + "-" + std::to_string( m_y - 1 ) );
+                values.push_back( std::to_string( i - 1 ) + "-" + std::to_string( m_y - 1 )+ "-false" );
+            }else if ( m_white != maPiece->isWhite() ){
+                values.push_back( std::to_string( i - 1 ) + "-" + std::to_string( m_y - 1 )+ "-true" );
+                break;
             }else{break;}
         }
 
@@ -353,7 +359,10 @@ Tour::AfficheMouvementValide(Echiquier &e, bool whitePlay)
 
             if ( maPiece == nullptr )
             {
-                values.push_back( std::to_string( m_x - 1 ) + "-" + std::to_string( i - 1 ) );
+                values.push_back( std::to_string( m_x - 1 ) + "-" + std::to_string( i - 1 ) + "-false" );
+            }else if ( m_white != maPiece->isWhite() ){
+                values.push_back( std::to_string( m_x - 1 ) + "-" + std::to_string( i - 1 ) + "-true" );
+                break;
             }else{break;}
         }
 
@@ -363,7 +372,10 @@ Tour::AfficheMouvementValide(Echiquier &e, bool whitePlay)
 
             if ( maPiece == nullptr )
             {
-                values.push_back( std::to_string( m_x - 1 ) + "-" + std::to_string( i - 1 ) );
+                values.push_back( std::to_string( m_x - 1 ) + "-" + std::to_string( i - 1 ) + "-false");
+            }else if ( m_white != maPiece->isWhite() ){
+                values.push_back( std::to_string( m_x - 1 ) + "-" + std::to_string( i - 1 ) + "-true");
+                break;
             }else{break;}
         }
     }
@@ -486,10 +498,10 @@ Fou::AfficheMouvementValide(Echiquier &e, bool whitePlay)
 
             if ( maPiece == nullptr )
             {
-                values.push_back( std::to_string( i - 1 ) + "-" + std::to_string( temp - 1 ) );
+                values.push_back( std::to_string( i - 1 ) + "-" + std::to_string( temp - 1 ) + "-false" );
             }else if ( maPiece->isWhite() != m_white  )
             {
-                values.push_back( std::to_string( i - 1 ) + "-" + std::to_string( temp - 1 ) );
+                values.push_back( std::to_string( i - 1 ) + "-" + std::to_string( temp - 1 ) + "-true" );
                 break;
             }else {  break; }
         }
@@ -503,9 +515,9 @@ Fou::AfficheMouvementValide(Echiquier &e, bool whitePlay)
 
             if ( maPiece == nullptr )
             {
-                values.push_back( std::to_string( i - 1 ) + "-" + std::to_string( temp - 1 ) );
+                values.push_back( std::to_string( i - 1 ) + "-" + std::to_string( temp - 1 ) + "-false");
             }else if ( maPiece->isWhite() != m_white ){
-                values.push_back( std::to_string( i - 1 ) + "-" + std::to_string( temp - 1 ) );
+                values.push_back( std::to_string( i - 1 ) + "-" + std::to_string( temp - 1 ) + "-true" );
                 break;
             }else {  break; }
         }
@@ -520,10 +532,10 @@ Fou::AfficheMouvementValide(Echiquier &e, bool whitePlay)
 
             if ( maPiece == nullptr )
             {
-                values.push_back( std::to_string( i - 1 ) + "-" + std::to_string( temp - 1 ) );
+                values.push_back( std::to_string( i - 1 ) + "-" + std::to_string( temp - 1 ) + "-false");
             }else if ( maPiece->isWhite() != m_white ){
 
-                values.push_back( std::to_string( i - 1 ) + "-" + std::to_string( temp - 1 ) );
+                values.push_back( std::to_string( i - 1 ) + "-" + std::to_string( temp - 1 ) + "-true" );
                 break;
             }
             else {  break; }
@@ -538,10 +550,10 @@ Fou::AfficheMouvementValide(Echiquier &e, bool whitePlay)
 
             if ( maPiece == nullptr )
             {
-                values.push_back( std::to_string( i - 1 ) + "-" + std::to_string( temp - 1 ) );
+                values.push_back( std::to_string( i - 1 ) + "-" + std::to_string( temp - 1 ) + "-false");
             }else if ( maPiece->isWhite() != m_white )
             {
-                values.push_back( std::to_string( i - 1 ) + "-" + std::to_string( temp - 1 ) );
+                values.push_back( std::to_string( i - 1 ) + "-" + std::to_string( temp - 1 ) + "-true");
                 break;
             }else {  break; }
         }
@@ -582,50 +594,40 @@ list<string>
 Cavalier::AfficheMouvementValide(Echiquier &e, bool whitePlay)
 {
     list<string> values;
+    string Bool;
 
     if ( m_white == whitePlay)
     {
 
-        if ( e.getPiece( m_x + 2 , m_y - 1  ) == nullptr  || e.getPiece( m_x + 2 , m_y - 1  )->isWhite() != m_white )
-        {
-            values.push_back( std::to_string( m_x + 1 ) + "-" + std::to_string( m_y - 2 ) );
-        }
-
-        if ( e.getPiece( m_x + 2 , m_y + 1  ) == nullptr  || e.getPiece( m_x + 2 , m_y + 1  )->isWhite() != m_white )
-        {
-            values.push_back( std::to_string( m_x + 1 ) + "-" + std::to_string( m_y ) );
-        }
+        Bool = e.getPiece( m_x + 2 , m_y - 1  ) == nullptr ? "-false" : e.getPiece( m_x + 2 , m_y - 1 )->isWhite() != m_white ?  "-true" : "";
+        values.push_back( std::to_string( m_x + 1 ) + "-" + std::to_string( m_y - 2 ) + Bool );
 
 
-        if ( e.getPiece( m_x - 2 , m_y - 1  ) == nullptr  || e.getPiece( m_x - 2 , m_y - 1  )->isWhite() != m_white )
-        {
-            values.push_back( std::to_string( m_x - 3 ) + "-" + std::to_string( m_y - 2 ) );
-        }
-        if ( e.getPiece( m_x - 2 , m_y + 1  ) == nullptr  || e.getPiece( m_x - 2 , m_y + 1  )->isWhite() != m_white )
-        {
-            values.push_back( std::to_string( m_x - 3 ) + "-" + std::to_string( m_y ) );
-        }
+        Bool = e.getPiece( m_x + 2 , m_y + 1  ) == nullptr ? "-false" : e.getPiece( m_x + 2 , m_y + 1 )->isWhite() != m_white ? "-true" : "";
+        values.push_back( std::to_string( m_x + 1 ) + "-" + std::to_string( m_y ) + Bool );
 
 
-        if ( e.getPiece( m_x + 1 , m_y + 2  ) == nullptr  || e.getPiece( m_x + 1 , m_y + 2  )->isWhite() != m_white )
-        {
-            values.push_back( std::to_string( m_x ) + "-" + std::to_string( m_y + 1 ) );
-        }
-        if ( e.getPiece( m_x - 1 , m_y + 2  ) == nullptr  || e.getPiece( m_x - 1 , m_y + 2  )->isWhite() != m_white )
-        {
-            values.push_back( std::to_string( m_x - 2 ) + "-" + std::to_string( m_y + 1 ) );
-        }
-
-        if ( e.getPiece( m_x + 1 , m_y - 2  ) == nullptr  || e.getPiece( m_x + 1 , m_y - 2  )->isWhite() != m_white )
-        {
-            values.push_back( std::to_string( m_x ) + "-" + std::to_string( m_y - 3 ) );
-        }
-        if ( e.getPiece( m_x - 1 , m_y - 2  ) == nullptr  || e.getPiece( m_x - 1 , m_y - 2  )->isWhite() != m_white )
-        {
-            values.push_back( std::to_string( m_x - 2 ) + "-" + std::to_string( m_y - 3 ) );
-        }
+        Bool = e.getPiece( m_x - 2 , m_y - 1  ) == nullptr ? "-false" : e.getPiece( m_x - 2 , m_y - 1 )->isWhite() != m_white ? "-true" : "";
+        values.push_back( std::to_string( m_x - 3 ) + "-" + std::to_string( m_y - 2 )  + Bool );
 
 
+        Bool = e.getPiece( m_x - 2 , m_y + 1  ) == nullptr ? "-false" : e.getPiece( m_x - 2 , m_y + 1 )->isWhite() != m_white ? "-true" : "";
+        values.push_back( std::to_string( m_x - 3 ) + "-" + std::to_string( m_y ) + Bool);
+
+
+        Bool = e.getPiece( m_x + 1 , m_y + 2  ) == nullptr ? "-false" : e.getPiece( m_x + 1 , m_y + 2 )->isWhite() != m_white ? "-true" : "";
+        values.push_back( std::to_string( m_x ) + "-" + std::to_string( m_y + 1 ) + Bool );
+
+
+        Bool = e.getPiece( m_x - 1 , m_y + 2  ) == nullptr ? "-false" : e.getPiece( m_x - 1 , m_y + 2 )->isWhite() != m_white ? "-true" : "" ;
+        values.push_back( std::to_string( m_x - 2 ) + "-" + std::to_string( m_y + 1 ) + Bool );
+
+
+        Bool = e.getPiece( m_x + 1 , m_y - 2  ) == nullptr ? "-false" : e.getPiece( m_x + 1 , m_y - 2 )->isWhite() != m_white ? "-true" : "";
+        values.push_back( std::to_string( m_x ) + "-" + std::to_string( m_y - 3 ) + Bool );
+
+        Bool = e.getPiece( m_x - 1 , m_y - 2  ) == nullptr ? "-false" : e.getPiece( m_x - 1 , m_y - 2 )->isWhite() != m_white ?  "-true" : "";
+        values.push_back( std::to_string( m_x - 2 ) + "-" + std::to_string( m_y - 3 ) + Bool );
     }
     return values;
 }
@@ -723,32 +725,32 @@ Pion::AfficheMouvementValide(Echiquier &e, bool whitePlay)
     {
         for ( int i = m_y + 1  ; i <= m_y + destination ; i++ )
         {
-            if ( e.getPiece( m_x , i  ) == nullptr ) { values.push_back( std::to_string( m_x - 1 ) + "-" + std::to_string( i - 1 ) ); }
+            if ( e.getPiece( m_x , i  ) == nullptr ) { values.push_back( std::to_string( m_x - 1 ) + "-" + std::to_string( i - 1 )  + "-false" ); }
         }
 
         if ( e.getPiece( m_x + 1 , m_y + 1 ) != nullptr && e.getPiece( m_x + 1 , m_y + 1 )->isWhite() != isWhite())
         {
-            values.push_back( std::to_string( m_x ) + "-" + std::to_string( m_y ) );
+            values.push_back( std::to_string( m_x ) + "-" + std::to_string( m_y ) + "-true");
         }
         if ( e.getPiece( m_x - 1 , m_y + 1 ) != nullptr && e.getPiece( m_x - 1 , m_y + 1 )->isWhite() != isWhite() )
         {
-             values.push_back( std::to_string( m_x - 2 ) + "-" + std::to_string( m_y ) );
+             values.push_back( std::to_string( m_x - 2 ) + "-" + std::to_string( m_y )  + "-true");
         }
     }
     else if ( !m_white && !whitePlay )
     {
         for ( int i = m_y - 1  ; i >= m_y - destination ; i-- )
         {
-            if ( e.getPiece( m_x , i  ) == nullptr ){ values.push_back(  std::to_string( m_x - 1 ) + "-" + std::to_string( i - 1 ) ); }
+            if ( e.getPiece( m_x , i  ) == nullptr ){ values.push_back(  std::to_string( m_x - 1 ) + "-" + std::to_string( i - 1 ) + "-false" ); }
         }
 
         if ( e.getPiece( m_x + 1 , m_y - 1 ) != nullptr && e.getPiece( m_x + 1 , m_y - 1 )->isWhite() != isWhite())
         {
-            values.push_back( std::to_string( m_x ) + "-" + std::to_string( m_y - 2 ) );
+            values.push_back( std::to_string( m_x ) + "-" + std::to_string( m_y - 2 ) + "-true");
         }
         if ( e.getPiece( m_x - 1 , m_y - 1 ) != nullptr && e.getPiece( m_x - 1 , m_y - 1 )->isWhite() != isWhite() )
         {
-            values.push_back( std::to_string( m_x - 2 ) + "-" + std::to_string( m_y - 2 ) );
+            values.push_back( std::to_string( m_x - 2 ) + "-" + std::to_string( m_y - 2 ) + "-true" );
         }
     }
 

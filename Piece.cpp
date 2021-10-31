@@ -196,7 +196,11 @@ Reine::mouvementValide( Echiquier &e, int x, int y ) { return Fou::mouvementVali
 list<string>
 Reine::AfficheMouvementValide(Echiquier &e, bool whitePlay)
 {
+    list<string> values = Fou::AfficheMouvementValide( e, whitePlay);
+    list<string> values2 = Tour::AfficheMouvementValide( e,whitePlay);
+    values.insert(values.end(), values2.begin(), values2.end());
 
+    return values;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -293,7 +297,52 @@ Tour::mouvementValide( Echiquier &e, int x, int y )
 list<string>
 Tour::AfficheMouvementValide(Echiquier &e, bool whitePlay)
 {
+    list<string> values;
 
+    if ( m_white == whitePlay)
+    {
+        for ( int i = m_x + 1; i <= 8 ; i++)
+        {
+            Piece *maPiece = e.getPiece( i , m_y );
+
+            if ( maPiece == nullptr )
+            {
+                values.push_back( std::to_string( i - 1 ) + "-" + std::to_string( m_y - 1 ) );
+            }else{break;}
+        }
+
+        for ( int i = m_x - 1; i >= 0 ; i--)
+        {
+            Piece *maPiece = e.getPiece( i , m_y );
+
+            if ( maPiece == nullptr )
+            {
+                values.push_back( std::to_string( i - 1 ) + "-" + std::to_string( m_y - 1 ) );
+            }else{break;}
+        }
+
+        for ( int i = m_y + 1; i <= 8 ; i++)
+        {
+            Piece *maPiece = e.getPiece( m_x , i );
+
+            if ( maPiece == nullptr )
+            {
+                values.push_back( std::to_string( m_x - 1 ) + "-" + std::to_string( i - 1 ) );
+            }else{break;}
+        }
+
+        for ( int i = m_y - 1; i >= 0 ; i--)
+        {
+            Piece *maPiece = e.getPiece( m_x , i );
+
+            if ( maPiece == nullptr )
+            {
+                values.push_back( std::to_string( m_x - 1 ) + "-" + std::to_string( i - 1 ) );
+            }else{break;}
+        }
+    }
+
+    return values;
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -385,18 +434,6 @@ Fou::mouvementValide( Echiquier &e, int x, int y )
         //On récupère le pointeur vers lequel on souhaite se déplacer
         Piece *maPiece = e.getPiece(x,y);
 
-        if ( maPiece == nullptr)
-        {
-             cout << "Pointeur null " << endl;
-        }
-        else
-        {
-             cout << "Couleur en de la piece : " << maPiece->isWhite() << endl;
-        }
-
-        cout << "Est sur la diag ? : " << SurLaDiag << endl;
-
-
         //Si y'a pas de pièce
         if ( maPiece == nullptr && SurLaDiag ) { return true; }
         else if ( maPiece != nullptr && m_white != maPiece->isWhite() && SurLaDiag) { return true; }
@@ -410,7 +447,81 @@ Fou::mouvementValide( Echiquier &e, int x, int y )
 list<string>
 Fou::AfficheMouvementValide(Echiquier &e, bool whitePlay)
 {
+    list<string> values;
 
+    if ( m_white == whitePlay )
+    {
+        int temp = m_y;
+        for ( int i = m_x + 1 ; i <= 8 ; i ++ )
+        {
+            temp++;
+
+            Piece *maPiece = e.getPiece(i,temp);
+
+            if ( maPiece == nullptr )
+            {
+                values.push_back( std::to_string( i - 1 ) + "-" + std::to_string( temp - 1 ) );
+            }else if ( maPiece->isWhite() != m_white  )
+            {
+                values.push_back( std::to_string( i - 1 ) + "-" + std::to_string( temp - 1 ) );
+                break;
+            }else {  break; }
+        }
+
+        temp = m_y;
+        for ( int i = m_x + 1 ; i <= 8 ; i ++ )
+        {
+            temp--;
+
+            Piece *maPiece = e.getPiece(i,temp);
+
+            if ( maPiece == nullptr )
+            {
+                values.push_back( std::to_string( i - 1 ) + "-" + std::to_string( temp - 1 ) );
+            }else if ( maPiece->isWhite() != m_white ){
+                values.push_back( std::to_string( i - 1 ) + "-" + std::to_string( temp - 1 ) );
+                break;
+            }else {  break; }
+        }
+
+
+        temp = m_y;
+        for ( int i = m_x - 1 ; i >= 0 ;i -- )
+        {
+            temp++;
+
+            Piece *maPiece = e.getPiece(i,temp);
+
+            if ( maPiece == nullptr )
+            {
+                values.push_back( std::to_string( i - 1 ) + "-" + std::to_string( temp - 1 ) );
+            }else if ( maPiece->isWhite() != m_white ){
+
+                values.push_back( std::to_string( i - 1 ) + "-" + std::to_string( temp - 1 ) );
+                break;
+            }
+            else {  break; }
+        }
+
+        temp = m_y;
+        for ( int i = m_x - 1 ; i >= 0 ;i -- )
+        {
+            temp--;
+
+            Piece *maPiece = e.getPiece(i,temp);
+
+            if ( maPiece == nullptr )
+            {
+                values.push_back( std::to_string( i - 1 ) + "-" + std::to_string( temp - 1 ) );
+            }else if ( maPiece->isWhite() != m_white )
+            {
+                values.push_back( std::to_string( i - 1 ) + "-" + std::to_string( temp - 1 ) );
+                break;
+            }else {  break; }
+        }
+    }
+
+    return values;
 }
 
 

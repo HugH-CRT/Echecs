@@ -87,7 +87,7 @@ class Reine : public Fou, public Tour
     Reine( bool white, string path );
     ~Reine();
     bool mouvementValide( Echiquier &e, int x, int y );
-    list<string>AfficheMouvementValide(Echiquier &e, bool whitePlay);
+    list<string> AfficheMouvementValide(Echiquier &e, bool whitePlay);
 };
 
 class Pion : public Piece

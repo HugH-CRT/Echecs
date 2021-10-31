@@ -175,7 +175,27 @@ Roi::roquePossible( Echiquier &e, Tour *p )
 list<string>
 Roi::AfficheMouvementValide(Echiquier &e, bool whitePlay)
 {
+    list<string> values ;
 
+    if ( m_white == whitePlay)
+    {
+        for ( int i = m_x - 1; i <= m_x + 1 ; i++ )
+        {
+            for ( int j = m_y - 1 ; j <= m_y + 1 ; j++ )
+            {
+                Piece *maPiece = e.getPiece(i,j);
+                if ( maPiece == nullptr )
+                {
+                    values.push_back( std::to_string( i - 1 ) + "-" + std::to_string( j - 1 ) );
+                }else if ( m_white != maPiece->isWhite() )
+                {
+                   values.push_back( std::to_string( i - 1 ) + "-" + std::to_string( j - 1 ) );
+                }
+            }
+        }
+    }
+
+    return values;
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

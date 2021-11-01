@@ -285,8 +285,9 @@ MainWindow::IsEchecMat( list<string> values)
 void
 MainWindow::displayEatPieces(list<string> PiecesEated, bool white)
 {
-    model = new QStandardItemModel(1, 16) ;
+    QStandardItemModel *monModel = new QStandardItemModel(1, 16) ;
     int i = 0;
+
     for (string path : PiecesEated)
     {
         int n    = path.length();
@@ -300,19 +301,20 @@ MainWindow::displayEatPieces(list<string> PiecesEated, bool white)
         QStandardItem *m_item = new QStandardItem();
         m_item->setIcon(*m_icon);
 
-        model->setItem( 0, i, m_item );
-
-        if (!white)
-        {
-            ui->view_PionNoir->setIconSize( QSize( 75 , 75 ) );
-            ui->view_PionNoir->setModel(model);
-        }
-        else
-        {
-            ui->view_PionBlanc->setIconSize( QSize( 75 , 75 ) );
-            ui->view_PionBlanc->setModel(model);
-        }
-
+        monModel->setItem( 0, i, m_item );
         i++;
+
     }
+
+    if (!white)
+    {
+        ui->view_PionNoir->setIconSize( QSize( 75 , 75 ) );
+        ui->view_PionNoir->setModel(monModel);
+    }
+    else
+    {
+        ui->view_PionBlanc->setIconSize( QSize( 75 , 75 ) );
+        ui->view_PionBlanc->setModel(monModel);
+    }
+
 }

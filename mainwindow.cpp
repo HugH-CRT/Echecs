@@ -32,7 +32,6 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
     assert( jn.placerPieces( e ) );
     assert( jb.placerPieces( e ) );
 
@@ -79,12 +78,7 @@ MainWindow::RefreshMatrice(QWidget *parent)
 
                model->setItem( i, j , m_item );
             }
-
-            if (  e.getPiece(j+1, i+1) != nullptr && e.getPiece( j + 1 , i + 1 )->isEchec() )
-            {
-                QModelIndex index = model->index( i , j , QModelIndex() );
-                model->setData( index, QBrush ( QColor ( "red" )  ), Qt::BackgroundRole  );
-            }
+            // Mise en couleurs damiers
             if ( i % 2 == j % 2 )
             {
                 QModelIndex index = model->index( i , j , QModelIndex() );
@@ -96,6 +90,12 @@ MainWindow::RefreshMatrice(QWidget *parent)
                 QModelIndex index = model->index( i , j , QModelIndex() );
                 QColor color(225, 206, 154, 150);// autre
                 model->setData( index, QBrush ( color ), Qt::BackgroundRole  );
+            }
+            // Mise en couleurs lorsque echec
+            if (  e.getPiece(j+1, i+1) != nullptr && e.getPiece( j + 1 , i + 1 )->isEchec() )
+            {
+                QModelIndex index = model->index( i , j , QModelIndex() );
+                model->setData( index, QBrush ( QColor ( "red" )  ), Qt::BackgroundRole  );
             }
     }
     if ( WhitePlay == true )
@@ -127,7 +127,53 @@ MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
     if ( pieceEnCours != nullptr && pieceEnCours->isWhite() == WhitePlay && colorOfSelectedCell.value() == 255 )
     {
 
+        model = new QStandardItemModel(1, 16) ;
+        int i = 0;
+        if ( WhitePlay == true)
+        {
+            if ( e.getPiece( index.column() + 1 , index.row() + 1 ) != nullptr )
+            {
+               string s = e.getPiece( index.column() + 1 , index.row() + 1 )->path();
+               int n    = s.length();
+               char char_array[ n + 1 ];
+               strcpy( char_array, s.c_str() );
+               QPixmap monImage( char_array );
+
+               QIcon* m_icon = new QIcon();
+               m_icon->addPixmap(monImage);
+
+               QStandardItem *m_item = new QStandardItem();
+               m_item->setIcon(*m_icon);
+
+               model->setItem( 0, i, m_item );
+            }
+            ui->view_PionBlanc->setModel(model);
+            ui->view_PionBlanc->setIconSize( QSize( 75 , 75 ) );
+        }
+        else
+        {
+            if ( e.getPiece( index.column() + 1 , index.row() + 1 ) != nullptr )
+            {
+               string s = e.getPiece( index.column() + 1 , index.row() + 1 )->path();
+               int n    = s.length();
+               char char_array[ n + 1 ];
+               strcpy( char_array, s.c_str() );
+               QPixmap monImage( char_array );
+
+               QIcon* m_icon = new QIcon();
+               m_icon->addPixmap(monImage);
+
+               QStandardItem *m_item = new QStandardItem();
+               m_item->setIcon(*m_icon);
+
+               model->setItem( 0, i, m_item );
+            }
+            ui->view_PionNoir->setModel(model);
+            ui->view_PionNoir->setIconSize( QSize( 75 , 75 ) );
+        }
+
         e.deplacer( pieceEnCours , index.column()+1  , index.row()+1 );
+
 
         if ( index.column()+1 == RoiBlanc->x() && index.row()+1 ==  RoiBlanc->y() )  RoiBlanc = nullptr;
         if ( index.column()+1 == RoiNoir->x() && index.row()+1 ==  RoiNoir->y() )  RoiNoir = nullptr;

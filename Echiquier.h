@@ -13,19 +13,15 @@
 class Echiquier
 {
    private:
-
     Piece *m_cases[64];
-
 
    public:
 
-    char matriceVisuel [8][8];
     Echiquier();
     Piece *getPiece( int x, int y );
     bool placer( Piece *p );
     bool deplacer( Piece *p, int x, int y );
     void enleverPiece( int x, int y );
-    void affiche();
     bool VerifMoveRoiRoque(Roi *r, int x ,int y);
     bool deplacementRoque( Roi *r, Tour *p);
 };

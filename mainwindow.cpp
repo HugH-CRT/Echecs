@@ -13,16 +13,13 @@
 #include "Joueur.h"
 #include <iostream>
 #include <assert.h>
-
 #include "mainwindow.h"
-
 #include <QAbstractItemModel>
 #include <QModelIndex>
 #include <QString>
 #include <vector>
 #include <string>
 #include <sstream>
-
 
 using namespace std;
 
@@ -53,65 +50,56 @@ MainWindow::RefreshMatrice(QWidget *parent)
     model = new QStandardItemModel(8,8,parent) ;
 
     for ( int i = 0 ; i < 8 ; i++ )
-    {
         for ( int j = 0 ; j < 8 ; j++ )
         {
-            if ( e.getPiece(j+1, i+1) != nullptr){
-               string s = e.getPiece(j+1, i+1)->path();
-               int n = s.length();
-               char char_array[n + 1];
-               strcpy(char_array, s.c_str());
-               QPixmap monImage(char_array);
+            if ( e.getPiece( j + 1 , i + 1 ) != nullptr )
+            {
+               string s = e.getPiece( j + 1 , i + 1 )->path();
+               int n    = s.length();
+               char char_array[ n + 1 ];
+               strcpy( char_array, s.c_str() );
+               QPixmap monImage( char_array );
+
                QIcon* m_icon = new QIcon();
-                m_icon->addPixmap(monImage);
+               m_icon->addPixmap(monImage);
+
                QStandardItem *m_item = new QStandardItem();
-                m_item->setIcon(*m_icon);
+               m_item->setIcon(*m_icon);
 
-               model->setItem(i, j , m_item);
-
+               model->setItem( i, j , m_item );
             }
 
-            if(i == 0)
+            if (  e.getPiece(j+1, i+1) != nullptr && e.getPiece( j + 1 , i + 1 )->isEchec() )
             {
-                QColor color(0,1,0);
-                QModelIndex index;
-                model->setData(index, QBrush(color), Qt::BackgroundRole  );
+                QModelIndex index = model->index( i , j , QModelIndex() );
+                model->setData( index, QBrush ( QColor ( "red" )  ), Qt::BackgroundRole  );
             }
-            else
-            {
-                QColor color(1,1,0);
-                QModelIndex index;
-                model->setData(index, QBrush(color), Qt::BackgroundRole  );
-               if ( e.getPiece(j+1, i+1)->isEchec() )
-               {
-                   QModelIndex index = model->index( i , j ,QModelIndex());
-                   model->setData(index, QBrush ( QColor ("red")  ), Qt::BackgroundRole  );
-               }
-            }
-       }
     }
-    if (WhitePlay == true)
+    if ( WhitePlay == true )
     {
-        QPixmap monImage(":/img_blanc/assets/blanc/pion.png");
-        ui->TourLabel->setAlignment(Qt::AlignCenter);
-        ui->TourLabel->setPixmap(monImage);
+        QPixmap monImage( ":/img_blanc/assets/blanc/pion.png" );
+        ui->TourLabel->setAlignment( Qt::AlignCenter );
+        ui->TourLabel->setPixmap( monImage );
     }
     else
     {
-        QPixmap monImage(":/img_noir/assets/noir/pion.png");
-        ui->TourLabel->setAlignment(Qt::AlignCenter);
-        ui->TourLabel->setPixmap(monImage);
+        QPixmap monImage( ":/img_noir/assets/noir/pion.png" );
+        ui->TourLabel->setAlignment( Qt::AlignCenter );
+        ui->TourLabel->setPixmap( monImage );
     }
-    ui->tableViewEchiquier->setModel(model);
-    ui->tableViewEchiquier->setIconSize(QSize(85,85));
+    ui->tableViewEchiquier->setModel( model );
+    ui->tableViewEchiquier->setIconSize( QSize( 85 , 85 ) );
 }
 
 
 void MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
 {
-    if ( pieceEnCours != nullptr && pieceEnCours->isWhite() == WhitePlay && pieceEnCours->mouvementValide( e, index.column()+1  , index.row()+1  )  )
+    QVariant selectedCell      = model->data( index, Qt::BackgroundRole );
+    QColor colorOfSelectedCell = selectedCell.value<QColor>();
+
+    if ( pieceEnCours != nullptr && pieceEnCours->isWhite() == WhitePlay && colorOfSelectedCell.value() == 255 )
     {
-        list<string> values;
+
         e.deplacer( pieceEnCours , index.column()+1  , index.row()+1 );
 
         if ( index.column()+1 == RoiBlanc->x() && index.row()+1 ==  RoiBlanc->y() )  RoiBlanc = nullptr;
@@ -125,32 +113,36 @@ void MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
         {
             if ( WhitePlay )
             {
-               if ( pieceEnCours->Echec( e , RoiNoir->x(), RoiNoir->y() ) )
+               this->setColor( pieceEnCours->AfficheMouvementValide( e , WhitePlay ) );
+
+               if ( this->Echec( RoiNoir->x() , RoiNoir->y() ) )
                {
-                   if ( pieceEnCours->EchecMat( e , RoiNoir->x(), RoiNoir->y() ) )
+                   if ( pieceEnCours->EchecMat( e , RoiNoir->x() , RoiNoir->y() ) )
                    {
                        //Fin de partie
                    }
-                   else if ( !RoiNoir->isEchec()) RoiNoir->setIsEchec();
+                   RoiNoir->setIsEchec();
                }
-               else if ( RoiNoir->isEchec() ) RoiNoir->setIsEchec();
             }
             else
             {
-                if ( pieceEnCours->Echec( e , RoiBlanc->x(), RoiBlanc->y() ) )
+                this->setColor( pieceEnCours->AfficheMouvementValide(e,WhitePlay));
+
+                if ( this->Echec( RoiBlanc->x() , RoiBlanc->y() ) )
                 {
                     if ( pieceEnCours->EchecMat( e , RoiBlanc->x(), RoiBlanc->y() ) )
                     {
                         //Fin de partie
                     }
-                    else if ( !RoiBlanc->isEchec()) RoiBlanc->setIsEchec();
+
+                    RoiBlanc->setIsEchec();
                 }
-                else if ( RoiBlanc->isEchec() ) RoiBlanc->setIsEchec();
             }
         }
 
         WhitePlay = !WhitePlay;
         this->RefreshMatrice(this);
+
     }
     else
     {
@@ -174,13 +166,22 @@ void MainWindow::setColor(list<string>values)
        }
 
        try {
+
            QColor color = ( seglist.at(2) == "true" ? "red" : "blue"  );
            QModelIndex index = model->index( std::stoi( seglist.at(1) ) , std::stoi( seglist.at(0) ) ,QModelIndex());
-           model->setData(index, QBrush ( color ), Qt::BackgroundRole  );
+           model->setData(index, QColor( color ), Qt::BackgroundRole  );
        }  catch (...) {}
    }
 
    ui->tableViewEchiquier->setModel(model);
 }
 
+bool
+MainWindow::Echec ( int x , int y)
+{
+    QModelIndex index = model->index( y - 1,x - 1 , QModelIndex() );
+    QVariant selectedCell      = model->data( index, Qt::BackgroundRole );
+    QColor colorOfSelectedCell = selectedCell.value<QColor>();
 
+    return ( colorOfSelectedCell.value() == 255 ? true : false );
+}

@@ -29,6 +29,7 @@ class MainWindow : public QMainWindow
         ~MainWindow();
         void RefreshMatrice(QWidget *parent);
         void setColor( list<string>mlist );
+        bool Echec ( int x , int y);
 
     private slots:
         void on_tableViewEchiquier_clicked(const QModelIndex &index);
@@ -42,8 +43,7 @@ private:
         Piece *pieceEnCours = nullptr;
         Piece *RoiBlanc;
         Piece *RoiNoir;
-        bool end = false;
         bool WhitePlay = true;
 };
 
-#endif // MAINWINDOW_H
+#endif

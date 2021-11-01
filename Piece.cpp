@@ -381,6 +381,16 @@ Pion::Pion( bool white, int x, string path ) : Piece( x, white ? 2 : 7, white, p
 
 Pion::~Pion(){}
 
+bool
+Pion::DoitEvoluer(Echiquier &e,bool whitePlay )
+{
+
+    if ((this->m_y == 8 && this->isWhite() == true) || (this->m_y == 1 && this->isWhite() == false))
+    {
+        cout << "le pion peut etre évolué" << endl;
+    }
+
+}
 list<string>
 Pion::AfficheMouvementValide(Echiquier &e, bool whitePlay)
 {

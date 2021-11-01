@@ -89,6 +89,7 @@ class Pion : public Piece
    public:
     Pion( bool white, int x, string path );
     ~Pion();
+    bool DoitEvoluer(Echiquier &e,bool whitePlay );
     list<string> AfficheMouvementValide(Echiquier &e, bool whitePlay);
 };
 

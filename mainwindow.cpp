@@ -36,9 +36,6 @@ MainWindow::MainWindow(QWidget *parent)
     assert( jn.placerPieces( e ) );
     assert( jb.placerPieces( e ) );
 
-    RoiBlanc = e.getPiece( 5 , 1 );
-    RoiNoir  = e.getPiece( 5 , 8 );
-
     QPixmap monImage(":/img_blanc/assets/blanc/pion.png");
     ui->TourLabel->setAlignment(Qt::AlignCenter);
     ui->TourLabel->setPixmap(monImage);
@@ -80,11 +77,6 @@ MainWindow::RefreshMatrice(QWidget *parent)
                model->setItem( i, j , m_item );
             }
 
-            if (  e.getPiece(j+1, i+1) != nullptr && e.getPiece( j + 1 , i + 1 )->isEchec() )
-            {
-                QModelIndex index = model->index( i , j , QModelIndex() );
-                model->setData( index, QBrush ( QColor ( "red" )  ), Qt::BackgroundRole  );
-            }
             if ( i % 2 == j % 2 )
             {
                 QModelIndex index = model->index( i , j , QModelIndex() );
@@ -96,6 +88,12 @@ MainWindow::RefreshMatrice(QWidget *parent)
                 QModelIndex index = model->index( i , j , QModelIndex() );
                 QColor color(225, 206, 154, 150);// autre
                 model->setData( index, QBrush ( color ), Qt::BackgroundRole  );
+            }
+
+            if (  e.getPiece(j+1, i+1) != nullptr && e.getPiece( j + 1 , i + 1 )->isEchec() )
+            {
+                QModelIndex index = model->index( i , j , QModelIndex() );
+                model->setData( index, QBrush ( QColor ( "red" )  ), Qt::BackgroundRole  );
             }
     }
     if ( WhitePlay == true )
@@ -127,12 +125,23 @@ MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
     if ( pieceEnCours != nullptr && pieceEnCours->isWhite() == WhitePlay && colorOfSelectedCell.value() == 255 )
     {
 
+        if ( xRoiNoir == index.column()+1 && yRoiNoir == index.row()+1 ) xRoiNoir = 0;
+        if ( xRoiBlanc == index.column()+1 && yRoiBlanc == index.row()+1 ) xRoiBlanc = 0;
+
+        if ( pieceEnCours->x() == xRoiNoir && pieceEnCours->y() == yRoiNoir )
+        {
+            xRoiNoir = index.column()+1;
+            yRoiNoir = index.row()+1;
+        }
+        else if (  pieceEnCours->x() == xRoiBlanc && pieceEnCours->y() == yRoiBlanc )
+        {
+            xRoiBlanc = index.column()+1;
+            yRoiBlanc = index.row()+1;
+        }
+
         e.deplacer( pieceEnCours , index.column()+1  , index.row()+1 );
 
-        if ( index.column()+1 == RoiBlanc->x() && index.row()+1 ==  RoiBlanc->y() )  RoiBlanc = nullptr;
-        if ( index.column()+1 == RoiNoir->x() && index.row()+1 ==  RoiNoir->y() )  RoiNoir = nullptr;
-
-        if (RoiNoir == nullptr || RoiBlanc == nullptr)
+        if (xRoiNoir == 0 || xRoiBlanc == 0)
         {
             cout << "fin de game" << endl;
         }
@@ -140,27 +149,29 @@ MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
         {
             if ( WhitePlay )
             {
+               if ( e.getPiece( xRoiBlanc , yRoiBlanc )->isEchec() )  e.getPiece( xRoiBlanc , yRoiBlanc )->setIsEchec();
                this->setColor( pieceEnCours->AfficheMouvementValide( e , WhitePlay ) );
 
-               if ( this->Echec( RoiNoir->x() , RoiNoir->y() ) )
+               if ( this->Echec( xRoiNoir , yRoiNoir ) )
                {
-                   bool isEchecMat = this->IsEchecMat( pieceEnCours->MouvementPossibleRoi( e , RoiNoir->x() , RoiNoir->y() ) );
+                   bool isEchecMat = this->IsEchecMat( pieceEnCours->MouvementPossibleRoi( e , xRoiNoir , yRoiNoir ) );
 
                    if ( isEchecMat )
                    {
                        cout << "Echec et mat" << endl;
                        //Fin de partie
                    }
-                   RoiNoir->setIsEchec();
+                   e.getPiece( xRoiNoir , yRoiNoir )->setIsEchec();
                }
             }
             else
             {
+                if ( e.getPiece( xRoiNoir , yRoiNoir )->isEchec() )  e.getPiece( xRoiNoir , yRoiNoir )->setIsEchec();
                 this->setColor( pieceEnCours->AfficheMouvementValide(e,WhitePlay));
 
-                if ( this->Echec( RoiBlanc->x() , RoiBlanc->y() ) )
+                if ( this->Echec( xRoiBlanc , yRoiBlanc ) )
                 {
-                    bool isEchecMat = this->IsEchecMat( pieceEnCours->MouvementPossibleRoi( e , RoiBlanc->x() , RoiBlanc->y() ) );
+                    bool isEchecMat = this->IsEchecMat( pieceEnCours->MouvementPossibleRoi( e , xRoiBlanc , yRoiBlanc ) );
 
                     if ( isEchecMat )
                     {
@@ -168,7 +179,7 @@ MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
                         //Fin de partie
                     }
 
-                    RoiBlanc->setIsEchec();
+                    e.getPiece( xRoiBlanc , yRoiBlanc )->setIsEchec();
                 }
             }
         }

@@ -42,8 +42,10 @@ private:
         JoueurBlanc jb;
         JoueurNoir  jn;
         Piece *pieceEnCours = nullptr;
-        Piece *RoiBlanc;
-        Piece *RoiNoir;
+        int xRoiNoir = 5;
+        int yRoiNoir = 8;
+        int xRoiBlanc = 5;
+        int yRoiBlanc = 1;
         bool WhitePlay = true;
 };
 

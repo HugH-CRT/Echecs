@@ -23,6 +23,10 @@
 
 using namespace std;
 
+/**
+ * @brief MainWindow::MainWindow
+ * @param parent
+ */
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -42,8 +46,15 @@ MainWindow::MainWindow(QWidget *parent)
     this->RefreshMatrice(this);
 }
 
+/**
+ * @brief MainWindow::~MainWindow
+ */
 MainWindow::~MainWindow() { delete ui; }
 
+/**
+ * @brief MainWindow::RefreshMatrice
+ * @param parent
+ */
 void
 MainWindow::RefreshMatrice(QWidget *parent)
 {
@@ -88,11 +99,15 @@ MainWindow::RefreshMatrice(QWidget *parent)
         ui->TourLabel->setPixmap( monImage );
     }
     ui->tableViewEchiquier->setModel( model );
-    ui->tableViewEchiquier->setIconSize( QSize( 85 , 85 ) );
+    ui->tableViewEchiquier->setIconSize( QSize( 90 , 90 ) );
 }
 
-
-void MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
+/**
+ * @brief MainWindow::on_tableViewEchiquier_clicked
+ * @param index
+ */
+void
+MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
 {
     QVariant selectedCell      = model->data( index, Qt::BackgroundRole );
     QColor colorOfSelectedCell = selectedCell.value<QColor>();
@@ -152,7 +167,12 @@ void MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
     }  
 }
 
-void MainWindow::setColor(list<string>values)
+/**
+ * @brief MainWindow::setColor
+ * @param values
+ */
+void
+MainWindow::setColor(list<string>values)
 {
    for (string coordonees : values)
    {
@@ -176,6 +196,12 @@ void MainWindow::setColor(list<string>values)
    ui->tableViewEchiquier->setModel(model);
 }
 
+/**
+ * @brief MainWindow::Echec
+ * @param x
+ * @param y
+ * @return
+ */
 bool
 MainWindow::Echec ( int x , int y)
 {

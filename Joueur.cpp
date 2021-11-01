@@ -12,14 +12,25 @@
 
 using namespace std;
 
+/**
+ * @brief Joueur::Joueur
+ */
 Joueur::Joueur(){}
 
+/**
+ * @brief Joueur::~Joueur
+ */
 Joueur::~Joueur()
 {
     for ( int i = 0; i < 16; i++ )
         delete m_pieces[i];
 }
 
+/**
+ * @brief Joueur::placerPieces
+ * @param e
+ * @return
+ */
 bool
 Joueur::placerPieces( Echiquier &e )
 {
@@ -29,6 +40,9 @@ Joueur::placerPieces( Echiquier &e )
     return true;
 }
 
+/**
+ * @brief JoueurBlanc::JoueurBlanc
+ */
 JoueurBlanc::JoueurBlanc()
 {
     int  p        = 0;
@@ -69,6 +83,9 @@ JoueurBlanc::JoueurBlanc()
     assert( 16 == p );
 }
 
+/**
+ * @brief JoueurNoir::JoueurNoir
+ */
 JoueurNoir::JoueurNoir()
 {
     int  p        = 0;
@@ -108,5 +125,9 @@ JoueurNoir::JoueurNoir()
     assert( 16 == p );
 }
 
+/**
+ * @brief Joueur::isWhite
+ * @return
+ */
 bool
 Joueur::isWhite() { return iswhite; }

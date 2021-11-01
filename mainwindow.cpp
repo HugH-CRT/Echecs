@@ -125,22 +125,7 @@ MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
 
     if ( pieceEnCours != nullptr && pieceEnCours->isWhite() == WhitePlay && colorOfSelectedCell.value() == 255 )
     {
-        if ( WhitePlay == true)
-        {
-            if ( e.getPiece( index.column() + 1 , index.row() + 1 ) != nullptr )
-            {
-               imagesPiecesMangeesBlanc.push_back( e.getPiece( index.column() + 1 , index.row() + 1 )->path() );
-               displayEatPieces(imagesPiecesMangeesBlanc,true);
-            }
-        }
-        else
-            if ( e.getPiece( index.column() + 1 , index.row() + 1 ) != nullptr )
-            {
-                imagesPiecesMangeesNoir.push_back( e.getPiece( index.column() + 1 , index.row() + 1 )->path() );
-                displayEatPieces(imagesPiecesMangeesNoir,false);
-            }
 
-        e.deplacer( pieceEnCours , index.column()+1  , index.row()+1 );
 
         if ( xRoiNoir == index.column()+1 && yRoiNoir == index.row()+1 ) xRoiNoir = 0;
         if ( xRoiBlanc == index.column()+1 && yRoiBlanc == index.row()+1 ) xRoiBlanc = 0;
@@ -156,48 +141,65 @@ MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
             yRoiBlanc = index.row()+1;
         }
 
-        e.deplacer( pieceEnCours , index.column()+1  , index.row()+1 );
-
         if (xRoiNoir == 0 || xRoiBlanc == 0)
         {
+            this->RefreshMatrice(this);
             cout << "fin de game" << endl;
+        }
+
+        if ( WhitePlay == true)
+        {
+            if ( e.getPiece( index.column() + 1 , index.row() + 1 ) != nullptr )
+            {
+               imagesPiecesMangeesBlanc.push_back( e.getPiece( index.column() + 1 , index.row() + 1 )->path() );
+               displayEatPieces(imagesPiecesMangeesBlanc,true);
+            }
+        }
+        else
+            if ( e.getPiece( index.column() + 1 , index.row() + 1 ) != nullptr )
+            {
+                imagesPiecesMangeesNoir.push_back( e.getPiece( index.column() + 1 , index.row() + 1 )->path() );
+                displayEatPieces(imagesPiecesMangeesNoir,false);
+            }
+
+
+
+        e.deplacer( pieceEnCours , index.column()+1  , index.row()+1 );
+
+
+        if ( WhitePlay )
+        {
+           if ( e.getPiece( xRoiBlanc , yRoiBlanc )->isEchec() )  e.getPiece( xRoiBlanc , yRoiBlanc )->setIsEchec();
+           this->setColor( pieceEnCours->AfficheMouvementValide( e , WhitePlay ) );
+
+           if ( this->Echec( xRoiNoir , yRoiNoir ) )
+           {
+               bool isEchecMat = this->IsEchecMat( pieceEnCours->MouvementPossibleRoi( e , xRoiNoir , yRoiNoir ) );
+
+               if ( isEchecMat )
+               {
+                   cout << "Echec et mat" << endl;
+                   //Fin de partie
+               }
+               e.getPiece( xRoiNoir , yRoiNoir )->setIsEchec();
+           }
         }
         else
         {
-            if ( WhitePlay )
+            if ( e.getPiece( xRoiNoir , yRoiNoir )->isEchec() )  e.getPiece( xRoiNoir , yRoiNoir )->setIsEchec();
+            this->setColor( pieceEnCours->AfficheMouvementValide(e,WhitePlay));
+
+            if ( this->Echec( xRoiBlanc , yRoiBlanc ) )
             {
-               if ( e.getPiece( xRoiBlanc , yRoiBlanc )->isEchec() )  e.getPiece( xRoiBlanc , yRoiBlanc )->setIsEchec();
-               this->setColor( pieceEnCours->AfficheMouvementValide( e , WhitePlay ) );
+                bool isEchecMat = this->IsEchecMat( pieceEnCours->MouvementPossibleRoi( e , xRoiBlanc , yRoiBlanc ) );
 
-               if ( this->Echec( xRoiNoir , yRoiNoir ) )
-               {
-                   bool isEchecMat = this->IsEchecMat( pieceEnCours->MouvementPossibleRoi( e , xRoiNoir , yRoiNoir ) );
-
-                   if ( isEchecMat )
-                   {
-                       cout << "Echec et mat" << endl;
-                       //Fin de partie
-                   }
-                   e.getPiece( xRoiNoir , yRoiNoir )->setIsEchec();
-               }
-            }
-            else
-            {
-                if ( e.getPiece( xRoiNoir , yRoiNoir )->isEchec() )  e.getPiece( xRoiNoir , yRoiNoir )->setIsEchec();
-                this->setColor( pieceEnCours->AfficheMouvementValide(e,WhitePlay));
-
-                if ( this->Echec( xRoiBlanc , yRoiBlanc ) )
+                if ( isEchecMat )
                 {
-                    bool isEchecMat = this->IsEchecMat( pieceEnCours->MouvementPossibleRoi( e , xRoiBlanc , yRoiBlanc ) );
-
-                    if ( isEchecMat )
-                    {
-                        cout << "Echec et mat" << endl;
-                        //Fin de partie
-                    }
-
-                    e.getPiece( xRoiBlanc , yRoiBlanc )->setIsEchec();
+                    cout << "Echec et mat" << endl;
+                    //Fin de partie
                 }
+
+                e.getPiece( xRoiBlanc , yRoiBlanc )->setIsEchec();
             }
         }
 

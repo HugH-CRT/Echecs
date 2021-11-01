@@ -85,6 +85,18 @@ MainWindow::RefreshMatrice(QWidget *parent)
                 QModelIndex index = model->index( i , j , QModelIndex() );
                 model->setData( index, QBrush ( QColor ( "red" )  ), Qt::BackgroundRole  );
             }
+            if ( i % 2 == j % 2 )
+            {
+                QModelIndex index = model->index( i , j , QModelIndex() );
+                QColor color(103,159,90, 150); // vert mousse
+                model->setData( index, QBrush ( color ), Qt::BackgroundRole  );
+            }
+            else
+            {
+                QModelIndex index = model->index( i , j , QModelIndex() );
+                QColor color(225, 206, 154, 150);// autre
+                model->setData( index, QBrush ( color ), Qt::BackgroundRole  );
+            }
     }
     if ( WhitePlay == true )
     {

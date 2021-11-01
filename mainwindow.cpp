@@ -305,6 +305,16 @@ MainWindow::displayEatPieces(list<string> PiecesEated, bool white)
         i++;
 
     }
+        if (!white)
+        {
+            ui->view_PionNoir->setIconSize( QSize( 42 , 42 ) );
+            ui->view_PionNoir->setModel(model);
+        }
+        else
+        {
+            ui->view_PionBlanc->setIconSize( QSize( 42 , 42 ) );
+            ui->view_PionBlanc->setModel(model);
+        }
 
     if (!white)
     {

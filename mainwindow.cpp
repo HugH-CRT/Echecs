@@ -125,57 +125,23 @@ MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
 
     if ( pieceEnCours != nullptr && pieceEnCours->isWhite() == WhitePlay && colorOfSelectedCell.value() == 255 )
     {
-
-        model = new QStandardItemModel(1, 16) ;
-        int i = 0;
         if ( WhitePlay == true)
         {
             if ( e.getPiece( index.column() + 1 , index.row() + 1 ) != nullptr )
             {
-               string s = e.getPiece( index.column() + 1 , index.row() + 1 )->path();
-               int n    = s.length();
-               char char_array[ n + 1 ];
-               strcpy( char_array, s.c_str() );
-               QPixmap monImage( char_array );
-
-               QIcon* m_icon = new QIcon();
-               m_icon->addPixmap(monImage);
-
-               QStandardItem *m_item = new QStandardItem();
-               m_item->setIcon(*m_icon);
-
-               model->setItem( 0, i, m_item );
+               imagesPiecesMangeesBlanc.push_back( e.getPiece( index.column() + 1 , index.row() + 1 )->path() );
+               displayEatPieces(imagesPiecesMangeesBlanc,true);
             }
-            ui->view_PionBlanc->setModel(model);
-            ui->view_PionBlanc->setIconSize( QSize( 75 , 75 ) );
         }
         else
-        {
             if ( e.getPiece( index.column() + 1 , index.row() + 1 ) != nullptr )
             {
-               string s = e.getPiece( index.column() + 1 , index.row() + 1 )->path();
-               int n    = s.length();
-               char char_array[ n + 1 ];
-               strcpy( char_array, s.c_str() );
-               QPixmap monImage( char_array );
-
-               QIcon* m_icon = new QIcon();
-               m_icon->addPixmap(monImage);
-
-               QStandardItem *m_item = new QStandardItem();
-               m_item->setIcon(*m_icon);
-
-               model->setItem( 0, i, m_item );
+                imagesPiecesMangeesNoir.push_back( e.getPiece( index.column() + 1 , index.row() + 1 )->path() );
+                displayEatPieces(imagesPiecesMangeesNoir,false);
             }
-            ui->view_PionNoir->setModel(model);
-            ui->view_PionNoir->setIconSize( QSize( 75 , 75 ) );
-        }
 
         e.deplacer( pieceEnCours , index.column()+1  , index.row()+1 );
 
-
-        if ( index.column()+1 == RoiBlanc->x() && index.row()+1 ==  RoiBlanc->y() )  RoiBlanc = nullptr;
-        if ( index.column()+1 == RoiNoir->x() && index.row()+1 ==  RoiNoir->y() )  RoiNoir = nullptr;
         if ( xRoiNoir == index.column()+1 && yRoiNoir == index.row()+1 ) xRoiNoir = 0;
         if ( xRoiBlanc == index.column()+1 && yRoiBlanc == index.row()+1 ) xRoiBlanc = 0;
 
@@ -311,4 +277,39 @@ MainWindow::IsEchecMat( list<string> values)
         if ( !isEchecMat )  break;
     }
     return isEchecMat;
+}
+
+void
+MainWindow::displayEatPieces(list<string> PiecesEated, bool white)
+{
+    model = new QStandardItemModel(1, 16) ;
+    int i = 0;
+    for (string path : PiecesEated)
+    {
+        int n    = path.length();
+        char char_array[ n + 1 ];
+        strcpy( char_array, path.c_str() );
+        QPixmap monImage( char_array );
+
+        QIcon* m_icon = new QIcon();
+        m_icon->addPixmap(monImage);
+
+        QStandardItem *m_item = new QStandardItem();
+        m_item->setIcon(*m_icon);
+
+        model->setItem( 0, i, m_item );
+
+        if (!white)
+        {
+            ui->view_PionNoir->setIconSize( QSize( 75 , 75 ) );
+            ui->view_PionNoir->setModel(model);
+        }
+        else
+        {
+            ui->view_PionBlanc->setIconSize( QSize( 75 , 75 ) );
+            ui->view_PionBlanc->setModel(model);
+        }
+
+        i++;
+    }
 }

@@ -31,6 +31,7 @@ class MainWindow : public QMainWindow
         void setColor( list<string>mlist );
         bool Echec ( int x , int y);
         bool IsEchecMat( list<string> );
+        void displayEatPieces(list<string>,bool);
 
     private slots:
         void on_tableViewEchiquier_clicked(const QModelIndex &index);
@@ -47,6 +48,8 @@ private:
         int xRoiBlanc = 5;
         int yRoiBlanc = 1;
         bool WhitePlay = true;
+        list<string> imagesPiecesMangeesBlanc;
+        list<string> imagesPiecesMangeesNoir;
 };
 
 #endif

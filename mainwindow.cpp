@@ -32,6 +32,8 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+
     assert( jn.placerPieces( e ) );
     assert( jb.placerPieces( e ) );
 
@@ -94,7 +96,7 @@ MainWindow::RefreshMatrice(QWidget *parent)
             if (  e.getPiece(j+1, i+1) != nullptr && e.getPiece( j + 1 , i + 1 )->isEchec() )
             {
                 QModelIndex index = model->index( i , j , QModelIndex() );
-                model->setData( index, QBrush ( QColor ( "red" )  ), Qt::BackgroundRole  );
+                model->setData( index, QBrush ( QColor ( "darkRed" )  ), Qt::BackgroundRole  );
             }
     }
     if ( WhitePlay == true )

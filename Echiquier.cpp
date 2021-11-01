@@ -12,12 +12,21 @@
 
 using namespace std;
 
+/**
+ * @brief Echiquier::Echiquier
+ */
 Echiquier::Echiquier()
 {
     for ( int i = 0; i < 64; i++ )
         m_cases[i] = nullptr;
 }
 
+/**
+ * @brief Echiquier::getPiece
+ * @param x
+ * @param y
+ * @return
+ */
 Piece *
 Echiquier::getPiece( int x, int y )
 {
@@ -26,6 +35,11 @@ Echiquier::getPiece( int x, int y )
     else return nullptr;
 }
 
+/**
+ * @brief Echiquier::placer
+ * @param p
+ * @return
+ */
 bool
 Echiquier::placer( Piece *p )
 {
@@ -41,6 +55,13 @@ Echiquier::placer( Piece *p )
     return true;
 }
 
+/**
+ * @brief Echiquier::deplacer
+ * @param p
+ * @param x
+ * @param y
+ * @return
+ */
 bool
 Echiquier::deplacer( Piece *p, int x, int y )
 {
@@ -51,6 +72,11 @@ Echiquier::deplacer( Piece *p, int x, int y )
     return true;
 }
 
+/**
+ * @brief Echiquier::enleverPiece
+ * @param x
+ * @param y
+ */
 void
 Echiquier::enleverPiece( int x, int y )
 {
@@ -58,6 +84,13 @@ Echiquier::enleverPiece( int x, int y )
     m_cases[( x - 1 ) + ( y - 1 ) * 8] = nullptr;
 }
 
+/**
+ * @brief Echiquier::VerifMoveRoiRoque
+ * @param r
+ * @param x
+ * @param y
+ * @return
+ */
 bool
 Echiquier::VerifMoveRoiRoque(Roi *r,int x ,int y)
 {
@@ -86,6 +119,12 @@ Echiquier::VerifMoveRoiRoque(Roi *r,int x ,int y)
     return true;
 }
 
+/**
+ * @brief Echiquier::deplacementRoque
+ * @param r
+ * @param t
+ * @return
+ */
 bool
 Echiquier::deplacementRoque( Roi *r, Tour *t)
 {

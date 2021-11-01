@@ -23,6 +23,10 @@
 
 using namespace std;
 
+/**
+ * @brief MainWindow::MainWindow
+ * @param parent
+ */
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -42,8 +46,15 @@ MainWindow::MainWindow(QWidget *parent)
     this->RefreshMatrice(this);
 }
 
+/**
+ * @brief MainWindow::~MainWindow
+ */
 MainWindow::~MainWindow() { delete ui; }
 
+/**
+ * @brief MainWindow::RefreshMatrice
+ * @param parent
+ */
 void
 MainWindow::RefreshMatrice(QWidget *parent)
 {
@@ -74,6 +85,18 @@ MainWindow::RefreshMatrice(QWidget *parent)
                 QModelIndex index = model->index( i , j , QModelIndex() );
                 model->setData( index, QBrush ( QColor ( "red" )  ), Qt::BackgroundRole  );
             }
+            if ( i % 2 == j % 2 )
+            {
+                QModelIndex index = model->index( i , j , QModelIndex() );
+                QColor color(103,159,90, 150); // vert mousse
+                model->setData( index, QBrush ( color ), Qt::BackgroundRole  );
+            }
+            else
+            {
+                QModelIndex index = model->index( i , j , QModelIndex() );
+                QColor color(225, 206, 154, 150);// autre
+                model->setData( index, QBrush ( color ), Qt::BackgroundRole  );
+            }
     }
     if ( WhitePlay == true )
     {
@@ -88,11 +111,15 @@ MainWindow::RefreshMatrice(QWidget *parent)
         ui->TourLabel->setPixmap( monImage );
     }
     ui->tableViewEchiquier->setModel( model );
-    ui->tableViewEchiquier->setIconSize( QSize( 85 , 85 ) );
+    ui->tableViewEchiquier->setIconSize( QSize( 90 , 90 ) );
 }
 
-
-void MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
+/**
+ * @brief MainWindow::on_tableViewEchiquier_clicked
+ * @param index
+ */
+void
+MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
 {
     QVariant selectedCell      = model->data( index, Qt::BackgroundRole );
     QColor colorOfSelectedCell = selectedCell.value<QColor>();
@@ -117,8 +144,11 @@ void MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
 
                if ( this->Echec( RoiNoir->x() , RoiNoir->y() ) )
                {
-                   if ( pieceEnCours->EchecMat( e , RoiNoir->x() , RoiNoir->y() ) )
+                   bool isEchecMat = this->IsEchecMat( pieceEnCours->MouvementPossibleRoi( e , RoiNoir->x() , RoiNoir->y() ) );
+
+                   if ( isEchecMat )
                    {
+                       cout << "Echec et mat" << endl;
                        //Fin de partie
                    }
                    RoiNoir->setIsEchec();
@@ -130,8 +160,11 @@ void MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
 
                 if ( this->Echec( RoiBlanc->x() , RoiBlanc->y() ) )
                 {
-                    if ( pieceEnCours->EchecMat( e , RoiBlanc->x(), RoiBlanc->y() ) )
+                    bool isEchecMat = this->IsEchecMat( pieceEnCours->MouvementPossibleRoi( e , RoiBlanc->x() , RoiBlanc->y() ) );
+
+                    if ( isEchecMat )
                     {
+                        cout << "Echec et mat" << endl;
                         //Fin de partie
                     }
 
@@ -152,7 +185,12 @@ void MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
     }  
 }
 
-void MainWindow::setColor(list<string>values)
+/**
+ * @brief MainWindow::setColor
+ * @param values
+ */
+void
+MainWindow::setColor(list<string>values)
 {
    for (string coordonees : values)
    {
@@ -176,6 +214,12 @@ void MainWindow::setColor(list<string>values)
    ui->tableViewEchiquier->setModel(model);
 }
 
+/**
+ * @brief MainWindow::Echec
+ * @param x
+ * @param y
+ * @return
+ */
 bool
 MainWindow::Echec ( int x , int y)
 {
@@ -184,4 +228,25 @@ MainWindow::Echec ( int x , int y)
     QColor colorOfSelectedCell = selectedCell.value<QColor>();
 
     return ( colorOfSelectedCell.value() == 255 ? true : false );
+}
+
+bool
+MainWindow::IsEchecMat( list<string> values)
+{
+    bool isEchecMat = true;
+    for (string coordonees : values)
+    {
+        std::stringstream test(coordonees);
+        std::string segment;
+        std::vector<std::string> seglist;
+
+        while(std::getline(test, segment, '-'))
+        {
+           seglist.push_back( segment );
+        }
+
+        isEchecMat = this->Echec( std::stoi( seglist.at( 0 ) ) , std::stoi( seglist.at(1) ) ) ;
+        if ( !isEchecMat )  break;
+    }
+    return isEchecMat;
 }

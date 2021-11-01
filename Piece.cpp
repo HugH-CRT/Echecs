@@ -10,6 +10,13 @@
 #include "Echiquier.h"
 using namespace std;
 
+/**
+ * @brief Piece::Piece
+ * @param x
+ * @param y
+ * @param white
+ * @param path
+ */
 Piece::Piece( int x, int y, bool white, string path)
 {
     m_x         = x;
@@ -20,8 +27,16 @@ Piece::Piece( int x, int y, bool white, string path)
     p_isEchec   = false;
 }
 
+/**
+ * @brief Piece::~Piece
+ */
 Piece::~Piece(){}
 
+/**
+ * @brief Piece::move
+ * @param x
+ * @param y
+ */
 void
 Piece::move( int x, int y )
 {
@@ -30,36 +45,65 @@ Piece::move( int x, int y )
     p_firstMove = false;
 }
 
+/**
+ * @brief Piece::isEchec
+ * @return
+ */
 bool
 Piece::isEchec() { return p_isEchec; }
 
+/**
+ * @brief Piece::setIsEchec
+ */
 void
 Piece::setIsEchec() { p_isEchec = !p_isEchec; }
 
+/**
+ * @brief Piece::x
+ * @return
+ */
 int
 Piece::x() { return m_x; }
 
+/**
+ * @brief Piece::y
+ * @return
+ */
 int
 Piece::y() { return m_y; }
 
+/**
+ * @brief Piece::firstMove
+ * @return
+ */
 bool
 Piece::firstMove() { return p_firstMove; }
 
+/**
+ * @brief Piece::isWhite
+ * @return
+ */
 bool
 Piece::isWhite() { return m_white; }
 
+/**
+ * @brief Piece::path
+ * @return
+ */
 string
 Piece::path() { return p_path; }
 
-/** @brief Méthode appelée apres la méthode echec() , vérifie si le roi à un déplacement valide
-    @param Echiquier &e
-    @param int x -> Position x du roi
-    @param int y -> Position y du roi
-    @return bool -> true si le roi possède un déplacement valable et que la piece qui l'as mis en echec ne le laisse pas en echec suite à ce déplacement , ou false dans le cas contraire
+/**
+ *  @brief Méthode appelée apres la méthode echec() , vérifie si le roi à un déplacement valide
+ *  @param Echiquier &e
+ *  @param int x -> Position x du roi
+ *  @param int y -> Position y du roi
+ *  @return bool -> true si le roi possède un déplacement valable et que la piece qui l'as mis en echec ne le laisse pas en echec suite à ce déplacement , ou false dans le cas contraire
 */
-bool
-Piece::EchecMat(Echiquier &e, int x, int y)
+list<string>
+Piece::MouvementPossibleRoi(Echiquier &e, int x, int y)
 {
+    list<string> values;
     Piece *monRoi = e.getPiece(x,y);
 
     for ( int i = -1 ; i < 2 ; i++ )
@@ -68,26 +112,32 @@ Piece::EchecMat(Echiquier &e, int x, int y)
             {
                 Piece *maPiece = e.getPiece( monRoi->x() + j , monRoi->y() + i );
 
-//                if ( maPiece == nullptr || maPiece->isWhite() != monRoi->isWhite())
-//                    if ( !this->mouvementValide( e , monRoi->x() + j , monRoi->y() + i ) )
-//                        return false;
+                if ( maPiece == nullptr || maPiece->isWhite() != monRoi->isWhite())
+                    values.push_back( std::to_string( monRoi->x() + j - 1) + "-" + std::to_string( monRoi->y() + i - 1 ) + "-false" );
             }
-    return false;
-    //retrun true;
+   return values;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
+/**
+ * @brief Roi::Roi
+ * @param white
+ * @param path
+ */
 Roi::Roi( bool white, string path ) : Piece( 5, white ? 1 : 8, white, path){}
 
+/**
+ * @brief Roi::~Roi
+ */
 Roi::~Roi(){}
 
 
-/** @brief Vérifie si un "roque" est possible entre le roi et la tour en paramètre.
-    @param Echiquier &e
-    @param *Tour x -> Pointeur vers la tour
-    @return bool -> true si le déplacement est possible false dans le cas contraire
+/**
+ *  @brief Vérifie si un "roque" est possible entre le roi et la tour en paramètre.
+ *  @param Echiquier &e
+ *  @param *Tour x -> Pointeur vers la tour
+ *  @return bool -> true si le déplacement est possible false dans le cas contraire
 */
 bool
 Roi::roquePossible( Echiquier &e, Tour *p )
@@ -145,6 +195,12 @@ Roi::roquePossible( Echiquier &e, Tour *p )
     return false;
 }
 
+/**
+ * @brief Roi::AfficheMouvementValide
+ * @param e
+ * @param whitePlay
+ * @return
+ */
 list<string>
 Roi::AfficheMouvementValide(Echiquier &e, bool whitePlay)
 {
@@ -165,10 +221,24 @@ Roi::AfficheMouvementValide(Echiquier &e, bool whitePlay)
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+/**
+ * @brief Reine::Reine
+ * @param white
+ * @param path
+ */
 Reine::Reine( bool white, string path ) : Piece( 4, white ? 1 : 8, white , path ), Fou( white, true ,path ), Tour( white, true ,path ){}
 
+/**
+ * @brief Reine::~Reine
+ */
 Reine::~Reine(){}
 
+/**
+ * @brief Reine::AfficheMouvementValide
+ * @param e
+ * @param whitePlay
+ * @return
+ */
 list<string>
 Reine::AfficheMouvementValide(Echiquier &e, bool whitePlay)
 {
@@ -180,11 +250,25 @@ Reine::AfficheMouvementValide(Echiquier &e, bool whitePlay)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+/**
+ * @brief Tour::Tour
+ * @param white
+ * @param gauche
+ * @param path
+ */
 Tour::Tour( bool white, bool gauche, string path ) : Piece( gauche ? 1 : 8, white ? 1 : 8, white, path ){}
 
+/**
+ * @brief Tour::~Tour
+ */
 Tour::~Tour(){}
 
+/**
+ * @brief Tour::AfficheMouvementValide
+ * @param e
+ * @param whitePlay
+ * @return
+ */
 list<string>
 Tour::AfficheMouvementValide(Echiquier &e, bool whitePlay)
 {
@@ -253,10 +337,25 @@ Tour::AfficheMouvementValide(Echiquier &e, bool whitePlay)
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+/**
+ * @brief Fou::Fou
+ * @param white
+ * @param gauche
+ * @param path
+ */
 Fou::Fou( bool white, bool gauche, string path ) : Piece( gauche ? 3 : 6, white ? 1 : 8, white, path ){}
 
+/**
+ * @brief Fou::~Fou
+ */
 Fou::~Fou(){}
 
+/**
+ * @brief Fou::AfficheMouvementValide
+ * @param e
+ * @param whitePlay
+ * @return
+ */
 list<string>
 Fou::AfficheMouvementValide(Echiquier &e, bool whitePlay)
 {
@@ -336,10 +435,25 @@ Fou::AfficheMouvementValide(Echiquier &e, bool whitePlay)
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+/**
+ * @brief Cavalier::Cavalier
+ * @param white
+ * @param gauche
+ * @param path
+ */
 Cavalier::Cavalier( bool white, bool gauche, string path ) : Piece( gauche ? 2 : 7, white ? 1 : 8, white, path ){}
 
+/**
+ * @brief Cavalier::~Cavalier
+ */
 Cavalier::~Cavalier(){}
 
+/**
+ * @brief Cavalier::AfficheMouvementValide
+ * @param e
+ * @param whitePlay
+ * @return
+ */
 list<string>
 Cavalier::AfficheMouvementValide(Echiquier &e, bool whitePlay )
 {
@@ -377,8 +491,17 @@ Cavalier::AfficheMouvementValide(Echiquier &e, bool whitePlay )
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+/**
+ * @brief Pion::Pion
+ * @param white
+ * @param x
+ * @param path
+ */
 Pion::Pion( bool white, int x, string path ) : Piece( x, white ? 2 : 7, white, path ){}
 
+/**
+ * @brief Pion::~Pion
+ */
 Pion::~Pion(){}
 
 bool
@@ -391,6 +514,12 @@ Pion::DoitEvoluer(Echiquier &e,bool whitePlay )
     }
 
 }
+/**
+ * @brief Pion::AfficheMouvementValide
+ * @param e
+ * @param whitePlay
+ * @return
+ */
 list<string>
 Pion::AfficheMouvementValide(Echiquier &e, bool whitePlay)
 {

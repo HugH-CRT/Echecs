@@ -30,6 +30,7 @@ class MainWindow : public QMainWindow
         void RefreshMatrice(QWidget *parent);
         void setColor( list<string>mlist );
         bool Echec ( int x , int y);
+        bool IsEchecMat( list<string> );
 
     private slots:
         void on_tableViewEchiquier_clicked(const QModelIndex &index);

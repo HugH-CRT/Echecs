@@ -39,7 +39,7 @@ class Piece
     void setIsEchec();
     string       path();
     virtual list<string> AfficheMouvementValide(Echiquier &e, bool whitePlay) = 0 ;
-    bool EchecMat(Echiquier &e, int x, int y );
+    list<string> MouvementPossibleRoi(Echiquier &e, int x, int y );
 };
 
 

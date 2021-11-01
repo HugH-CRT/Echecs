@@ -117,8 +117,11 @@ void MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
 
                if ( this->Echec( RoiNoir->x() , RoiNoir->y() ) )
                {
-                   if ( pieceEnCours->EchecMat( e , RoiNoir->x() , RoiNoir->y() ) )
+                   bool isEchecMat = this->IsEchecMat( pieceEnCours->MouvementPossibleRoi( e , RoiNoir->x() , RoiNoir->y() ) );
+
+                   if ( isEchecMat )
                    {
+                       cout << "Echec et mat" << endl;
                        //Fin de partie
                    }
                    RoiNoir->setIsEchec();
@@ -130,8 +133,11 @@ void MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
 
                 if ( this->Echec( RoiBlanc->x() , RoiBlanc->y() ) )
                 {
-                    if ( pieceEnCours->EchecMat( e , RoiBlanc->x(), RoiBlanc->y() ) )
+                    bool isEchecMat = this->IsEchecMat( pieceEnCours->MouvementPossibleRoi( e , RoiBlanc->x() , RoiBlanc->y() ) );
+
+                    if ( isEchecMat )
                     {
+                        cout << "Echec et mat" << endl;
                         //Fin de partie
                     }
 
@@ -184,4 +190,25 @@ MainWindow::Echec ( int x , int y)
     QColor colorOfSelectedCell = selectedCell.value<QColor>();
 
     return ( colorOfSelectedCell.value() == 255 ? true : false );
+}
+
+bool
+MainWindow::IsEchecMat( list<string> values)
+{
+    bool isEchecMat = true;
+    for (string coordonees : values)
+    {
+        std::stringstream test(coordonees);
+        std::string segment;
+        std::vector<std::string> seglist;
+
+        while(std::getline(test, segment, '-'))
+        {
+           seglist.push_back( segment );
+        }
+
+        isEchecMat = this->Echec( std::stoi( seglist.at( 0 ) ) , std::stoi( seglist.at(1) ) ) ;
+        if ( !isEchecMat )  break;
+    }
+    return isEchecMat;
 }

@@ -57,9 +57,10 @@ Piece::path() { return p_path; }
     @param int y -> Position y du roi
     @return bool -> true si le roi possède un déplacement valable et que la piece qui l'as mis en echec ne le laisse pas en echec suite à ce déplacement , ou false dans le cas contraire
 */
-bool
-Piece::EchecMat(Echiquier &e, int x, int y)
+list<string>
+Piece::MouvementPossibleRoi(Echiquier &e, int x, int y)
 {
+    list<string> values;
     Piece *monRoi = e.getPiece(x,y);
 
     for ( int i = -1 ; i < 2 ; i++ )
@@ -68,12 +69,10 @@ Piece::EchecMat(Echiquier &e, int x, int y)
             {
                 Piece *maPiece = e.getPiece( monRoi->x() + j , monRoi->y() + i );
 
-//                if ( maPiece == nullptr || maPiece->isWhite() != monRoi->isWhite())
-//                    if ( !this->mouvementValide( e , monRoi->x() + j , monRoi->y() + i ) )
-//                        return false;
+                if ( maPiece == nullptr || maPiece->isWhite() != monRoi->isWhite())
+                    values.push_back( std::to_string( monRoi->x() + j - 1) + "-" + std::to_string( monRoi->y() + i - 1 ) + "-false" );
             }
-    return false;
-    //retrun true;
+   return values;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

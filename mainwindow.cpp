@@ -234,8 +234,9 @@ MainWindow::setColor(list<string>values)
        }
 
        try {
-
-           QColor color = ( seglist.at(2) == "true" ? "red" : "blue"  );
+           QColor possible(116,208,255, 255);
+           QColor manger(255,0,255, 255);
+           QColor color = ( seglist.at(2) == "true" ? manger : possible  );
            QModelIndex index = model->index( std::stoi( seglist.at(1) ) , std::stoi( seglist.at(0) ) ,QModelIndex());
            model->setData(index, QColor( color ), Qt::BackgroundRole  );
        }  catch (...) {}

@@ -27,5 +27,6 @@ void
 stop::on_buttonBox_accepted()
 {
     // Fermer application
+    this->close();
 }
 

@@ -35,8 +35,13 @@ class MainWindow : public QMainWindow
         void displayEatPieces(list<string>,bool);
         void AddToHistory(Piece*,int,int);
 
+
     private slots:
         void on_tableViewEchiquier_clicked(const QModelIndex &index);
+        void actRegle();
+        void actDarkMode();
+        void actLightMode();
+        void actDocumentation();
 
 private:
         Ui::MainWindow *ui;

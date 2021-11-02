@@ -14,16 +14,23 @@
 #include <iostream>
 #include <assert.h>
 #include "mainwindow.h"
-#include "stop.h"
+#include "timer.h"
 #include <QAbstractItemModel>
+#include <QDialog>
 #include <QModelIndex>
 #include <QString>
 #include <vector>
 #include <string>
 #include <sstream>
 #include <QStringListModel>
+#include <QTimer>
+#include <QDialogButtonBox>
+#include <QPushButton>
+
 
 using namespace std;
+
+
 
 /**
  * @brief MainWindow::MainWindow
@@ -104,6 +111,7 @@ MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
     QVariant selectedCell      = model->data( index, Qt::BackgroundRole );
     QColor colorOfSelectedCell = selectedCell.value<QColor>();
 
+
     if ( pieceEnCours != nullptr && pieceEnCours->isWhite() == WhitePlay && colorOfSelectedCell.value() == 255 )
     {
         if ( ( ( WhitePlay ) && ( xRoiBlanc != index.column()+1 || yRoiBlanc != index.row()+1 ) ) || ( !WhitePlay ) && ( xRoiNoir != index.column() + 1 || yRoiNoir != index.row() + 1 ) )
@@ -125,9 +133,8 @@ MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
             if (xRoiNoir == 0 || xRoiBlanc == 0)
             {
                 this->RefreshMatrice(this);
-                windowEnd = new stop(this);
                 cout << "Fin de game" << endl;
-                windowEnd->show();
+                EndGameDisplay();
             }
 
             if ( WhitePlay == true)
@@ -220,7 +227,7 @@ MainWindow::setColor(list<string>values)
  * @return
  */
 bool
-MainWindow::Echec ( int x , int y)
+MainWindow::Echec ( int x , int y )
 {
     QModelIndex index = model->index( y - 1,x - 1 , QModelIndex() );
     QVariant selectedCell      = model->data( index, Qt::BackgroundRole );
@@ -235,7 +242,7 @@ MainWindow::Echec ( int x , int y)
  * @return
  */
 bool
-MainWindow::IsEchecMat( list<string> values)
+MainWindow::IsEchecMat( list<string> values )
 {
     bool isEchecMat = true;
     for (string coordonees : values)
@@ -254,7 +261,7 @@ MainWindow::IsEchecMat( list<string> values)
  * @param white
  */
 void
-MainWindow::displayEatPieces(list<string> PiecesEated, bool white)
+MainWindow::displayEatPieces( list<string> PiecesEated, bool white )
 {
     QStandardItemModel *monModel = new QStandardItemModel(1, 16) ;
     int i = 0;
@@ -272,7 +279,7 @@ MainWindow::displayEatPieces(list<string> PiecesEated, bool white)
 }
 
 void
-MainWindow::AddToHistory(Piece* laPiece,int x, int y )
+MainWindow::AddToHistory( Piece* laPiece,int x, int y )
 {
    History.push_back(  std::to_string( laPiece->x() ) + ":" + std::to_string( laPiece->y() )  + " -> ");
    HistoryPictures.push_back( laPiece->path() );
@@ -292,7 +299,7 @@ MainWindow::AddToHistory(Piece* laPiece,int x, int y )
    QStandardItemModel* HistoEat = new QStandardItemModel(this);
    int i = 0;
 
-   for (string text : History)
+   for ( string text : History )
    {
         QPixmap monImage( ConvertToChar( HistoryPictures.at( i ) ) );
         SetImage( monImage , i , 0 , Histo);
@@ -304,12 +311,9 @@ MainWindow::AddToHistory(Piece* laPiece,int x, int y )
    }
 
    i = 0;
-   for (string text : HistoryEat)
+   for ( string text : HistoryEat )
    {
           QPixmap monImage2( ConvertToChar( HistoryPicturesEat.at( i ) ) );
-
-          cout << ConvertToChar( HistoryPicturesEat.at( i ) ) << endl;
-          cout << ConvertToChar(":/img_blanc/assets/blanc/roi.png") << endl;
 
           if ( *ConvertToChar(":/img_blanc/assets/blanc/roi.png") == *ConvertToChar( HistoryPicturesEat.at( i ) ) )
           {
@@ -330,21 +334,21 @@ MainWindow::AddToHistory(Piece* laPiece,int x, int y )
 }
 
 const char *
-MainWindow::ConvertToChar(string monText)
+MainWindow::ConvertToChar( string monText )
 {
     char const *char_array = monText.c_str();
     return char_array;
 }
 
 void
-MainWindow::setColorBackGround(QColor color ,int i, int j ,QStandardItemModel* model)
+MainWindow::setColorBackGround( QColor color ,int i, int j ,QStandardItemModel* model )
 {
     QModelIndex index = model->index( i , j , QModelIndex() );
     model->setData( index, QBrush ( color ), Qt::BackgroundRole  );
 }
 
 void
-MainWindow::SetImage ( QPixmap monImage, int i , int j, QStandardItemModel* model)
+MainWindow::SetImage ( QPixmap monImage, int i , int j, QStandardItemModel* model )
 {
     QIcon* m_icon = new QIcon();
     m_icon->addPixmap(monImage);
@@ -356,7 +360,7 @@ MainWindow::SetImage ( QPixmap monImage, int i , int j, QStandardItemModel* mode
 }
 
 std::vector<std::string>
-MainWindow::SplitString( string word, char split)
+MainWindow::SplitString( string word, char split )
 {
     std::stringstream wordStream(word);
     std::string segment;
@@ -406,3 +410,32 @@ MainWindow::actLightMode()
  */
 void
 MainWindow::actDocumentation() { }
+
+/**
+ * @brief MainWindow::EndGameDisplay
+ */
+void
+MainWindow::EndGameDisplay()
+{
+    ok = new QPushButton(tr("&Ok"));
+    fermer= new QPushButton(tr("&Fermer"));
+    endDisplay->addButton(ok, QDialogButtonBox::AcceptRole);
+    endDisplay->addButton(fermer, QDialogButtonBox::RejectRole);
+
+    endDisplay->setCenterButtons(true);
+    endDisplay->showNormal();
+
+    connect(endDisplay, SIGNAL(accepted()), this, SLOT(close()));
+    connect(endDisplay, SIGNAL(rejected()), this, SLOT(close()));
+
+}
+
+/**
+ * @brief MainWindow::close
+ */
+void
+MainWindow::close()
+{
+    this->close();
+    endDisplay->close();
+}

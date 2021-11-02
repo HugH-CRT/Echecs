@@ -11,11 +11,11 @@
 
 #include <QMainWindow>
 #include <QStandardItemModel>
+#include <QDialogButtonBox>
 
 #include "Echiquier.h"
 #include "Joueur.h"
 #include "Piece.h"
-#include "stop.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -65,10 +65,11 @@ private:
         std::vector<string> HistoryPictures;
         list<string> HistoryEat;
         std::vector<string> HistoryPicturesEat;
-
-
-        stop *windowEnd;
-
+        void EndGameDisplay();
+        QDialogButtonBox *endDisplay;
+        QAbstractButton *ok;
+        QAbstractButton *fermer;
+        void close();
 };
 
 #endif

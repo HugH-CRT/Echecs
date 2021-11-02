@@ -504,6 +504,12 @@ Pion::Pion( bool white, int x, string path ) : Piece( x, white ? 2 : 7, white, p
  */
 Pion::~Pion(){}
 
+/**
+ * @brief Pion::DoitEvoluer
+ * @param e
+ * @param whitePlay
+ * @return
+ */
 bool
 Pion::DoitEvoluer(Echiquier &e,bool whitePlay )
 {
@@ -512,8 +518,9 @@ Pion::DoitEvoluer(Echiquier &e,bool whitePlay )
     {
         cout << "le pion peut etre évolué" << endl;
     }
-
+    return true;
 }
+
 /**
  * @brief Pion::AfficheMouvementValide
  * @param e

@@ -301,39 +301,29 @@ MainWindow::AddToHistory(Piece* laPiece,int x, int y )
 
    QStandardItemModel* Histo = new QStandardItemModel(this);
    QStandardItemModel* HistoEat = new QStandardItemModel(this);
-   int i = 0;
 
-   for (string text : History)
+   int indexLign = 0;
+
+   for (int i = History.size() - 1 ; i > - 1 ; i--)
    {
         QPixmap monImage( ConvertToChar( HistoryPictures.at( i ) ) );
-        SetImage( monImage , i , 0 , Histo);
+        SetImage( monImage , indexLign , 0 , Histo);
 
-        QModelIndex index = Histo->index( i,0 , QModelIndex() );
-        Histo->setData(index, ConvertToChar( text ) );
+        QModelIndex index = Histo->index( indexLign,0 , QModelIndex() );
+        Histo->setData(index, ConvertToChar( History.at( i ) ) );
+        indexLign++;
 
-        i++;
    }
+   indexLign = 0;
 
-   i = 0;
-   for (string text : HistoryEat)
+   for (int i = HistoryEat.size() - 1 ; i > - 1 ; i--)
    {
           QPixmap monImage2( ConvertToChar( HistoryPicturesEat.at( i ) ) );
+          SetImage( monImage2 , indexLign , 0 , HistoEat);
 
-          cout << ConvertToChar( HistoryPicturesEat.at( i ) ) << endl;
-          cout << ConvertToChar(":/img_blanc/assets/blanc/roi.png") << endl;
-
-          if ( *ConvertToChar(":/img_blanc/assets/blanc/roi.png") == *ConvertToChar( HistoryPicturesEat.at( i ) ) )
-          {
-             SetImage( monImage2 , i , 0 , HistoEat);
-          }
-          else
-          {
-             SetImage( monImage2 , i , 0 , HistoEat);
-          }
-
-          QModelIndex index2 = HistoEat->index( i,0 , QModelIndex() );
-          HistoEat->setData(index2, ConvertToChar( text ) );
-          i++;
+          QModelIndex index2 = HistoEat->index( indexLign,0 , QModelIndex() );
+          HistoEat->setData(index2, ConvertToChar( HistoryEat.at(i) ) );
+          indexLign++;
    }
 
    ui->view_Histo->setModel(Histo);
@@ -406,13 +396,13 @@ MainWindow::SplitString( string word, char split)
 }
 
 /**
- * @brief MainWindow::actRegle
+ * @brief Ouvre la documentation des règles du jeu
  */
 void
 MainWindow::actRegle() { system("start /max https://ecole.apprendre-les-echecs.com/regles-echecs/"); }
 
 /**
- * @brief MainWindow::actDarkMode
+ * @brief Passe l'application en mode sombre
  */
 void
 MainWindow::actDarkMode()
@@ -425,7 +415,7 @@ MainWindow::actDarkMode()
 }
 
 /**
- * @brief MainWindow::actLightMode
+ * @brief Passe l'application en mode clair
  */
 void
 MainWindow::actLightMode()
@@ -438,7 +428,7 @@ MainWindow::actLightMode()
 }
 
 /**
- * @brief MainWindow::actDocumentation
+ * @brief Ouvre la documentation de l'application
  */
 void
 MainWindow::actDocumentation() { }

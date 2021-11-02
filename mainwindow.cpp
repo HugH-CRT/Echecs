@@ -21,7 +21,7 @@
 #include <vector>
 #include <string>
 #include <sstream>
-
+#include <QStringListModel>
 
 using namespace std;
 
@@ -166,6 +166,7 @@ MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
                     displayEatPieces(imagesPiecesMangeesNoir,false);
                 }
 
+            AddToHistory(pieceEnCours, index.column()+1 , index.row()+1);
             e.deplacer( pieceEnCours , index.column()+1  , index.row()+1 );
 
             if ( WhitePlay )
@@ -314,4 +315,35 @@ MainWindow::displayEatPieces(list<string> PiecesEated, bool white)
         ui->view_PionBlanc->setIconSize( QSize( 43 , 43 ) );
         ui->view_PionBlanc->setModel(monModel);
     }
+}
+
+void
+MainWindow::AddToHistory(Piece* laPiece,int x, int y )
+{
+   History.push_back(  std::to_string( laPiece->x() ) + ":" + std::to_string( laPiece->y() )  + " -> " +  std::to_string( x )  + ":" +  std::to_string( y ) );
+
+   QStandardItemModel* Histo = new QStandardItemModel(this);
+   int i = 0;
+
+   for (string text : History)
+   {
+        int n    = laPiece->path().length();
+        char char_array[ n + 1 ];
+        strcpy( char_array, laPiece->path().c_str() );
+        QPixmap monImage( char_array );
+
+        QIcon* m_icon = new QIcon();
+        m_icon->addPixmap(monImage);
+
+        QStandardItem *m_item = new QStandardItem();
+        m_item->setIcon(*m_icon);
+
+        Histo->setItem(i,m_item);
+        QModelIndex index = Histo->index( i,0 , QModelIndex() );
+        Histo->setData(index, "test" );
+        i++;
+   }
+   ui->view_Histo->setIconSize(QSize(20,20));
+   ui->view_Histo->setModel(Histo);
+
 }

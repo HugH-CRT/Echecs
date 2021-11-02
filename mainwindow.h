@@ -34,8 +34,13 @@ class MainWindow : public QMainWindow
         bool IsEchecMat( list<string> );
         void displayEatPieces(list<string>,bool);
 
+
     private slots:
         void on_tableViewEchiquier_clicked(const QModelIndex &index);
+        void actRegle();
+        void actDarkMode();
+        void actLightMode();
+        void actDocumentation();
 
 private:
         Ui::MainWindow *ui;

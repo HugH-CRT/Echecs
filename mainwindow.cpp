@@ -38,11 +38,18 @@ MainWindow::MainWindow(QWidget *parent)
     assert( jn.placerPieces( e ) );
     assert( jb.placerPieces( e ) );
 
+    // Initialisation image pour le premier coup
     QPixmap monImage(":/img_blanc/assets/blanc/pion.png");
     ui->TourLabel->setAlignment(Qt::AlignCenter);
     ui->TourLabel->setPixmap(monImage);
 
+    // Initialisation du premier visuel de la matrice
     this->RefreshMatrice(this);
+
+    connect(ui->actionRegles, SIGNAL(triggered()), this, SLOT(actRegle()));
+    connect(ui->actionDark, SIGNAL(triggered()), this, SLOT(actDarkMode()));
+    connect(ui->actionLight, SIGNAL(triggered()), this, SLOT(actLightMode()));
+    connect(ui->actionDocumentation_Code_Source, SIGNAL(triggered()), this , SLOT(actDocumentation()));
 }
 
 /**
@@ -148,7 +155,7 @@ MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
             {
                 this->RefreshMatrice(this);
                 windowEnd = new stop(this);
-                cout << "fin de game" << endl;
+                cout << "Fin de game" << endl;
                 windowEnd->show();
             }
 
@@ -260,6 +267,11 @@ MainWindow::Echec ( int x , int y)
     return ( colorOfSelectedCell.value() == 255 ? true : false );
 }
 
+/**
+ * @brief MainWindow::IsEchecMat
+ * @param values
+ * @return
+ */
 bool
 MainWindow::IsEchecMat( list<string> values)
 {
@@ -281,6 +293,11 @@ MainWindow::IsEchecMat( list<string> values)
     return isEchecMat;
 }
 
+/**
+ * @brief MainWindow::displayEatPieces
+ * @param PiecesEated
+ * @param white
+ */
 void
 MainWindow::displayEatPieces(list<string> PiecesEated, bool white)
 {
@@ -314,4 +331,48 @@ MainWindow::displayEatPieces(list<string> PiecesEated, bool white)
         ui->view_PionBlanc->setIconSize( QSize( 43 , 43 ) );
         ui->view_PionBlanc->setModel(monModel);
     }
+}
+
+/**
+ * @brief MainWindow::actRegle
+ */
+void
+MainWindow::actRegle()
+{
+    system("start opera https://ecole.apprendre-les-echecs.com/regles-echecs/");
+}
+
+/**
+ * @brief MainWindow::actDarkMode
+ */
+void
+MainWindow::actDarkMode()
+{
+    this->setStyleSheet("background-color: rgb(88, 88, 88);");
+    ui->tableViewEchiquier->setStyleSheet("background-color: rgb(212, 212, 212);");
+    ui->groupBox->setStyleSheet("background-color: rgb(212, 212, 212);");
+    ui->view_PionBlanc->setStyleSheet("background-color: rgb(212, 212, 212);");
+    ui->view_PionNoir->setStyleSheet("background-color: rgb(212, 212, 212);");
+}
+
+/**
+ * @brief MainWindow::actLightMode
+ */
+void
+MainWindow::actLightMode()
+{
+    this->setStyleSheet("background-color: rgb(255, 255, 255);");
+    ui->tableViewEchiquier->setStyleSheet("");
+    ui->groupBox->setStyleSheet("");
+    ui->view_PionBlanc->setStyleSheet("");
+    ui->view_PionNoir->setStyleSheet("");
+}
+
+/**
+ * @brief MainWindow::actDocumentation
+ */
+void
+MainWindow::actDocumentation()
+{
+
 }

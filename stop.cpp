@@ -2,7 +2,7 @@
 #include "ui_stop.h"
 
 /**
- * @brief stop::stop
+ * @brief Constructeur de la page de fin
  * @param parent
  */
 stop::stop(QWidget *parent) :
@@ -13,20 +13,13 @@ stop::stop(QWidget *parent) :
 }
 
 /**
- * @brief stop::~stop
+ * @brief Destructeur de l'UI
  */
-stop::~stop()
-{
-    delete ui;
-}
+stop::~stop() { delete ui; }
 
 /**
- * @brief stop::on_buttonBox_accepted
+ * @brief Méthode appellée sur le clic du bouton fermer, ferme la fenêtre
  */
 void
-stop::on_buttonBox_accepted()
-{
-    // Fermer application
-    this->close();
-}
+stop::on_buttonBox_accepted() { this->close(); }
 

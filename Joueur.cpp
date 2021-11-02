@@ -13,12 +13,12 @@
 using namespace std;
 
 /**
- * @brief Joueur::Joueur
+ * @brief Constructeur par défaut
  */
 Joueur::Joueur(){}
 
 /**
- * @brief Joueur::~Joueur
+ * @brief Destructeur
  */
 Joueur::~Joueur()
 {
@@ -27,9 +27,9 @@ Joueur::~Joueur()
 }
 
 /**
- * @brief Joueur::placerPieces
- * @param e
- * @return
+ * @brief Place toutes les pieces du joueur sur l'echiquier
+ * @param Echiquier e
+ * @return bool -> Determine si le placement des pieces s'est correctement effectuer
  */
 bool
 Joueur::placerPieces( Echiquier &e )
@@ -41,7 +41,7 @@ Joueur::placerPieces( Echiquier &e )
 }
 
 /**
- * @brief JoueurBlanc::JoueurBlanc
+ * @brief Constructeur du joueur Blanc, crée ces pieces et les ajoute dans sa liste de pieces
  */
 JoueurBlanc::JoueurBlanc()
 {
@@ -84,7 +84,7 @@ JoueurBlanc::JoueurBlanc()
 }
 
 /**
- * @brief JoueurNoir::JoueurNoir
+ * @brief Constructeur du joueur Noir, crée ces pieces et les ajoute dans sa liste de pieces
  */
 JoueurNoir::JoueurNoir()
 {
@@ -126,8 +126,7 @@ JoueurNoir::JoueurNoir()
 }
 
 /**
- * @brief Joueur::isWhite
- * @return
+ * @return Renvoie l'attribut iswhite
  */
 bool
 Joueur::isWhite() { return iswhite; }

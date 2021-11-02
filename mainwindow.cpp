@@ -134,7 +134,7 @@ MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
             {
                 this->RefreshMatrice(this);
                 cout << "Fin de game" << endl;
-                EndGameDisplay();
+                EndGameDisplay(this);
             }
 
             if ( WhitePlay == true)
@@ -309,9 +309,7 @@ MainWindow::AddToHistory( Piece* laPiece,int x, int y )
    QStandardItemModel* Histo = new QStandardItemModel(this);
    QStandardItemModel* HistoEat = new QStandardItemModel(this);
 
-   for ( string text : History )
    int indexLign = 0;
-
    for (int i = History.size() - 1 ; i > - 1 ; i--)
    {
         QPixmap monImage( ConvertToChar( HistoryPictures.at( i ) ) );
@@ -324,25 +322,11 @@ MainWindow::AddToHistory( Piece* laPiece,int x, int y )
    }
    indexLign = 0;
 
-   i = 0;
-   for ( string text : HistoryEat )
    for (int i = HistoryEat.size() - 1 ; i > - 1 ; i--)
    {
           QPixmap monImage2( ConvertToChar( HistoryPicturesEat.at( i ) ) );
           SetImage( monImage2 , indexLign , 0 , HistoEat);
 
-          if ( *ConvertToChar(":/img_blanc/assets/blanc/roi.png") == *ConvertToChar( HistoryPicturesEat.at( i ) ) )
-          {
-             SetImage( monImage2 , i , 0 , HistoEat);
-          }
-          else
-          {
-             SetImage( monImage2 , i , 0 , HistoEat);
-          }
-
-          QModelIndex index2 = HistoEat->index( i,0 , QModelIndex() );
-          HistoEat->setData(index2, ConvertToChar( text ) );
-          i++;
           QModelIndex index2 = HistoEat->index( indexLign,0 , QModelIndex() );
           HistoEat->setData(index2, ConvertToChar( HistoryEat.at(i) ) );
           indexLign++;
@@ -459,16 +443,15 @@ MainWindow::actDocumentation() { }
  * @brief MainWindow::EndGameDisplay
  */
 void
-MainWindow::EndGameDisplay()
+MainWindow::EndGameDisplay(QWidget *parent)
 {
-    ok = new QPushButton(tr("&Ok"));
-    fermer= new QPushButton(tr("&Fermer"));
-    endDisplay->addButton(ok, QDialogButtonBox::AcceptRole);
-    endDisplay->addButton(fermer, QDialogButtonBox::RejectRole);
+    endDisplay = new QDialogButtonBox(QDialogButtonBox::Ok
+                                      | QDialogButtonBox::Cancel);
 
+    endDisplay->setParent(parent);
     endDisplay->setCenterButtons(true);
-    endDisplay->showNormal();
-
+    endDisplay->show();
+    endDisplay->raise();
     connect(endDisplay, SIGNAL(accepted()), this, SLOT(close()));
     connect(endDisplay, SIGNAL(rejected()), this, SLOT(close()));
 
@@ -481,5 +464,4 @@ void
 MainWindow::close()
 {
     this->close();
-    endDisplay->close();
 }

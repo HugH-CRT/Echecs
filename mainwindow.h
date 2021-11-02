@@ -38,7 +38,7 @@ class MainWindow : public QMainWindow
         void setColorBackGround(QColor, int , int ,QStandardItemModel*);
         void SetImage ( QPixmap , int, int, QStandardItemModel*);
         std::vector<std::string> SplitString( string, char);
-
+        void EndGameDisplay(QWidget *parent);
 
     private slots:
         void on_tableViewEchiquier_clicked(const QModelIndex &index);
@@ -65,10 +65,7 @@ private:
         std::vector<string> HistoryPictures;
         std::vector<string> HistoryEat;
         std::vector<string> HistoryPicturesEat;
-        void EndGameDisplay();
         QDialogButtonBox *endDisplay;
-        QAbstractButton *ok;
-        QAbstractButton *fermer;
         void close();
 };
 

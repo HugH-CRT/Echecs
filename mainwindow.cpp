@@ -339,7 +339,7 @@ MainWindow::displayEatPieces(list<string> PiecesEated, bool white)
 void
 MainWindow::actRegle()
 {
-    system("start opera https://ecole.apprendre-les-echecs.com/regles-echecs/");
+        system("start /max https://ecole.apprendre-les-echecs.com/regles-echecs/");
 }
 
 /**

@@ -63,7 +63,10 @@ private:
         list<string> imagesPiecesMangeesNoir;
         list<string> History;
         std::vector<string> HistoryPictures;
+        list<string> HistoryEat;
         std::vector<string> HistoryPicturesEat;
+
+
         stop *windowEnd;
 
 };

@@ -46,6 +46,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->view_PionNoir->setIconSize( QSize( 43 , 43 ) );
     ui->view_PionBlanc->setIconSize( QSize( 43 , 43 ) );
     ui->view_Histo->setIconSize(QSize(20,20));
+    ui->view_Histo_2->setIconSize(QSize(20,20));
 
     // Initialisation du premier visuel de la matrice
     this->RefreshMatrice(this);
@@ -74,7 +75,7 @@ MainWindow::RefreshMatrice(QWidget *parent)
         for ( int j = 0 ; j < 8 ; j++ )
         {
             if ( e.getPiece( j + 1 , i + 1 ) != nullptr )
-                SetImage( QPixmap ( ConvertToChar( e.getPiece( j + 1 , i + 1 )->path() ) ), i , j , model );
+                SetImage( QPixmap ( ConvertToChar( e.getPiece( j + 1 , i + 1 )->path() ) ), i , j , model);
 
             QColor myColor = ( i % 2 == j % 2 ?  QColor (103,159,90, 150) : QColor (225, 206, 154, 150) ) ;
 
@@ -260,7 +261,7 @@ MainWindow::displayEatPieces(list<string> PiecesEated, bool white)
 
     for (string path : PiecesEated)
     {     
-        SetImage( QPixmap ( ConvertToChar( path ) ) , 0 , i , monModel );
+        SetImage( QPixmap ( ConvertToChar( path ) ) , 0 , i , monModel);
         i++;
     }
 
@@ -273,10 +274,22 @@ MainWindow::displayEatPieces(list<string> PiecesEated, bool white)
 void
 MainWindow::AddToHistory(Piece* laPiece,int x, int y )
 {
-   History.push_back(  std::to_string( laPiece->x() ) + ":" + std::to_string( laPiece->y() )  + " -> " +  std::to_string( x )  + ":" +  std::to_string( y ) );
+   History.push_back(  std::to_string( laPiece->x() ) + ":" + std::to_string( laPiece->y() )  + " -> ");
    HistoryPictures.push_back( laPiece->path() );
 
+   HistoryEat.push_back( std::to_string( x )  + ":" +  std::to_string( y ) );
+
+   if ( e.getPiece( x , y ) != nullptr )
+   {
+       HistoryPicturesEat.push_back( e.getPiece( x , y )->path() );
+   }
+   else
+   {
+       HistoryPicturesEat.push_back( ":/img/assets/invisible.png" );
+   }
+
    QStandardItemModel* Histo = new QStandardItemModel(this);
+   QStandardItemModel* HistoEat = new QStandardItemModel(this);
    int i = 0;
 
    for (string text : History)
@@ -288,8 +301,32 @@ MainWindow::AddToHistory(Piece* laPiece,int x, int y )
         Histo->setData(index, ConvertToChar( text ) );
 
         i++;
-   } 
+   }
+
+   i = 0;
+   for (string text : HistoryEat)
+   {
+          QPixmap monImage2( ConvertToChar( HistoryPicturesEat.at( i ) ) );
+
+          cout << ConvertToChar( HistoryPicturesEat.at( i ) ) << endl;
+          cout << ConvertToChar(":/img_blanc/assets/blanc/roi.png") << endl;
+
+          if ( *ConvertToChar(":/img_blanc/assets/blanc/roi.png") == *ConvertToChar( HistoryPicturesEat.at( i ) ) )
+          {
+             SetImage( monImage2 , i , 0 , HistoEat);
+          }
+          else
+          {
+             SetImage( monImage2 , i , 0 , HistoEat);
+          }
+
+          QModelIndex index2 = HistoEat->index( i,0 , QModelIndex() );
+          HistoEat->setData(index2, ConvertToChar( text ) );
+          i++;
+   }
+
    ui->view_Histo->setModel(Histo);
+   ui->view_Histo_2->setModel(HistoEat);
 }
 
 const char *

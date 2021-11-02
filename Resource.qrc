@@ -15,4 +15,7 @@
         <file>assets/noir/roi.png</file>
         <file>assets/noir/tour.png</file>
     </qresource>
+    <qresource prefix="/img">
+        <file>assets/invisible.png</file>
+    </qresource>
 </RCC>

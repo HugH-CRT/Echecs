@@ -19,6 +19,9 @@ set(PROJECT_SOURCES
         mainwindow.cpp
         mainwindow.h
         mainwindow.ui
+        stop.cpp
+        stop.h
+        stop.ui
         Piece.cpp
         Piece.h
         Joueur.cpp

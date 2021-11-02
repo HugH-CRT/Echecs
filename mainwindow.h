@@ -15,6 +15,7 @@
 #include "Echiquier.h"
 #include "Joueur.h"
 #include "Piece.h"
+#include "stop.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -50,6 +51,8 @@ private:
         bool WhitePlay = true;
         list<string> imagesPiecesMangeesBlanc;
         list<string> imagesPiecesMangeesNoir;
+        stop *windowEnd;
+
 };
 
 #endif

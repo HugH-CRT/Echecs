@@ -14,12 +14,14 @@
 #include <iostream>
 #include <assert.h>
 #include "mainwindow.h"
+#include "stop.h"
 #include <QAbstractItemModel>
 #include <QModelIndex>
 #include <QString>
 #include <vector>
 #include <string>
 #include <sstream>
+
 
 using namespace std;
 
@@ -32,7 +34,6 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
 
     assert( jn.placerPieces( e ) );
     assert( jb.placerPieces( e ) );
@@ -146,7 +147,9 @@ MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
             if (xRoiNoir == 0 || xRoiBlanc == 0)
             {
                 this->RefreshMatrice(this);
+                windowEnd = new stop(this);
                 cout << "fin de game" << endl;
+                windowEnd->show();
             }
 
             if ( WhitePlay == true)

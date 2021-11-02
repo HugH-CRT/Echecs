@@ -13,7 +13,7 @@
 using namespace std;
 
 /**
- * @brief Echiquier::Echiquier
+ * @brief Initialise l'echiquier avec 64 pointeurs null
  */
 Echiquier::Echiquier()
 {
@@ -22,10 +22,9 @@ Echiquier::Echiquier()
 }
 
 /**
- * @brief Echiquier::getPiece
- * @param x
- * @param y
- * @return
+ * @param x -> coordonnée de la colonne
+ * @param y -> coordonnée de la ligne
+ * @return Renvoie le pointeur aux coordonnées en paramètre
  */
 Piece *
 Echiquier::getPiece( int x, int y )
@@ -36,9 +35,9 @@ Echiquier::getPiece( int x, int y )
 }
 
 /**
- * @brief Echiquier::placer
- * @param p
- * @return
+ * @brief Place la piece en paramètre sur l'echiquier à ses coordonnées
+ * @param Piece * -> Piece que l'on souhaite placer
+ * @return bool -> Determine si le placement s'est bien effectué
  */
 bool
 Echiquier::placer( Piece *p )
@@ -56,26 +55,24 @@ Echiquier::placer( Piece *p )
 }
 
 /**
- * @brief Echiquier::deplacer
- * @param p
- * @param x
- * @param y
- * @return
+ * @brief Vide la case de départ et d'arriver puis place la Piece dans la case d'arrivée
+ * @param Piece *p -> Piece que l'on deplace
+ * @param x -> coordonnée de la colonne ciblée
+ * @param y -> coordonnée de la ligne ciblée
  */
-bool
+void
 Echiquier::deplacer( Piece *p, int x, int y )
 {
     enleverPiece( p->x() , p->y() );
     enleverPiece( x , y );
     p->move(x,y);
     placer(p);
-    return true;
 }
 
 /**
- * @brief Echiquier::enleverPiece
- * @param x
- * @param y
+ * @brief Retire la piece au coordonnées en paramètre
+ * @param x -> coordonnée de la colonne
+ * @param y -> coordonnée de la ligne
  */
 void
 Echiquier::enleverPiece( int x, int y )
@@ -86,10 +83,10 @@ Echiquier::enleverPiece( int x, int y )
 
 /**
  * @brief Echiquier::VerifMoveRoiRoque
- * @param r
- * @param x
- * @param y
- * @return
+ * @param Roi *r -> Roi qui effectue le roque
+ * @param x ->
+ * @param y ->
+ * @return bool -> Determine si le roque est possible
  */
 bool
 Echiquier::VerifMoveRoiRoque(Roi *r,int x ,int y)
@@ -120,12 +117,11 @@ Echiquier::VerifMoveRoiRoque(Roi *r,int x ,int y)
 }
 
 /**
- * @brief Echiquier::deplacementRoque
- * @param r
- * @param t
- * @return
+ * @brief Effectue le roque du roi et de la tour en paramètre
+ * @param Roi *r -> Roi qui effectue le roque
+ * @param Tour *t -> Tour qui effectue le roque
  */
-bool
+void
 Echiquier::deplacementRoque( Roi *r, Tour *t)
 {
     enleverPiece( r->x() , r->y() );
@@ -160,5 +156,4 @@ Echiquier::deplacementRoque( Roi *r, Tour *t)
 
     placer(r);
     placer(t);
-    return true;
 }

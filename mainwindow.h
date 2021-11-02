@@ -61,9 +61,9 @@ private:
         bool WhitePlay = true;
         list<string> imagesPiecesMangeesBlanc;
         list<string> imagesPiecesMangeesNoir;
-        list<string> History;
+        std::vector<string> History;
         std::vector<string> HistoryPictures;
-        list<string> HistoryEat;
+        std::vector<string> HistoryEat;
         std::vector<string> HistoryPicturesEat;
         void EndGameDisplay();
         QDialogButtonBox *endDisplay;

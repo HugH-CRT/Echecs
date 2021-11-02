@@ -33,7 +33,7 @@ using namespace std;
 
 
 /**
- * @brief MainWindow::MainWindow
+ * @brief Constructeur de la page de jeu, intialise le jeu
  * @param parent
  */
 MainWindow::MainWindow(QWidget *parent)
@@ -65,12 +65,12 @@ MainWindow::MainWindow(QWidget *parent)
 }
 
 /**
- * @brief MainWindow::~MainWindow
+ * @brief Destructeur de la page de jeu
  */
 MainWindow::~MainWindow() { delete ui; }
 
 /**
- * @brief MainWindow::RefreshMatrice
+ * @brief Rafraichit le plateur de jeu après chaque coup
  * @param parent
  */
 void
@@ -102,8 +102,8 @@ MainWindow::RefreshMatrice(QWidget *parent)
 }
 
 /**
- * @brief MainWindow::on_tableViewEchiquier_clicked
- * @param index
+ * @brief Méthode appellée sur le click d'une cellule
+ * @param &index -> Index de la cellule selectionner
  */
 void
 MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
@@ -201,8 +201,10 @@ MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
 }
 
 /**
- * @brief MainWindow::setColor
- * @param values
+ * @brief Attribue les couleurs bleu clair ou rose pour les cellules valides récupérer par la liste en paramètre
+ * @param list<string> values -> Liste de toutes les coordonnées des cellules valides pour les déplacements de la piece selectionnée.
+ *        Les coordonnées renseignées sont au format : 'x-y-bool' ou x correspond à la colonne de la cellule, y correspond à la ligne
+ *        de la cellule et bool correspond à l'attribution de la couleur true -> bleu , false -> rose
  */
 void
 MainWindow::setColor(list<string>values)
@@ -221,10 +223,10 @@ MainWindow::setColor(list<string>values)
 }
 
 /**
- * @brief MainWindow::Echec
- * @param x
- * @param y
- * @return
+ * @brief Vérifie si la case du roi est en rouge donc en echec
+ * @param x -> coordonnée de la colonne du roi
+ * @param y -> coordonnée de la ligne du roi
+ * @return bool -> Détermine si la case est rouge
  */
 bool
 MainWindow::Echec ( int x , int y )
@@ -237,9 +239,12 @@ MainWindow::Echec ( int x , int y )
 }
 
 /**
- * @brief MainWindow::IsEchecMat
- * @param values
- * @return
+ * @brief Vérifie si dans la liste des cases valides pour les déplacements du Roi, une des cellules n'est pas coloré.
+ *        Précision : A ce moment de l'éxecution les déplacements possibles de la piece qui à mis en echec le roi sont colorés.
+ * @param list<string> values -> Liste de toutes les coordonnées des cellules valides pour les déplacements du Roi en echec.
+ *        Les coordonnées renseignées sont au format : 'x-y-bool' ou x correspond à la colonne de la cellule, y correspond à la ligne
+ *        de la cellule et bool correspond à l'attribution de la couleur true -> bleu , false -> rose
+ * @return bool -> Détermine si le roi est en echec et mat.
  */
 bool
 MainWindow::IsEchecMat( list<string> values )
@@ -256,9 +261,9 @@ MainWindow::IsEchecMat( list<string> values )
 }
 
 /**
- * @brief MainWindow::displayEatPieces
- * @param PiecesEated
- * @param white
+ * @brief Affiche les pieces mangées
+ * @param list<string> PiecesEated -> liste des chemins d'images des pieces mangées.
+ * @param bool white -> Determine si on affiche cette liste pour le joueur blanc ou le joueur noir.
  */
 void
 MainWindow::displayEatPieces( list<string> PiecesEated, bool white )
@@ -278,6 +283,12 @@ MainWindow::displayEatPieces( list<string> PiecesEated, bool white )
        ui->view_PionNoir->setModel(monModel);
 }
 
+/**
+ * @brief Ajoute le mouvements effectué à l'historique des déplacements et met à jour le visuel associé.
+ * @param Piece* laPiece -> La piece qui vient d'effectuer un mouvement
+ * @param int x -> coordonnée de la colonne de la cellule ciblé par le mouvement
+ * @param int y -> coordonnée de la ligne de la cellule ciblé par le mouvement
+ */
 void
 MainWindow::AddToHistory( Piece* laPiece,int x, int y )
 {
@@ -297,23 +308,28 @@ MainWindow::AddToHistory( Piece* laPiece,int x, int y )
 
    QStandardItemModel* Histo = new QStandardItemModel(this);
    QStandardItemModel* HistoEat = new QStandardItemModel(this);
-   int i = 0;
 
    for ( string text : History )
+   int indexLign = 0;
+
+   for (int i = History.size() - 1 ; i > - 1 ; i--)
    {
         QPixmap monImage( ConvertToChar( HistoryPictures.at( i ) ) );
-        SetImage( monImage , i , 0 , Histo);
+        SetImage( monImage , indexLign , 0 , Histo);
 
-        QModelIndex index = Histo->index( i,0 , QModelIndex() );
-        Histo->setData(index, ConvertToChar( text ) );
+        QModelIndex index = Histo->index( indexLign,0 , QModelIndex() );
+        Histo->setData(index, ConvertToChar( History.at( i ) ) );
+        indexLign++;
 
-        i++;
    }
+   indexLign = 0;
 
    i = 0;
    for ( string text : HistoryEat )
+   for (int i = HistoryEat.size() - 1 ; i > - 1 ; i--)
    {
           QPixmap monImage2( ConvertToChar( HistoryPicturesEat.at( i ) ) );
+          SetImage( monImage2 , indexLign , 0 , HistoEat);
 
           if ( *ConvertToChar(":/img_blanc/assets/blanc/roi.png") == *ConvertToChar( HistoryPicturesEat.at( i ) ) )
           {
@@ -327,12 +343,20 @@ MainWindow::AddToHistory( Piece* laPiece,int x, int y )
           QModelIndex index2 = HistoEat->index( i,0 , QModelIndex() );
           HistoEat->setData(index2, ConvertToChar( text ) );
           i++;
+          QModelIndex index2 = HistoEat->index( indexLign,0 , QModelIndex() );
+          HistoEat->setData(index2, ConvertToChar( HistoryEat.at(i) ) );
+          indexLign++;
    }
 
    ui->view_Histo->setModel(Histo);
    ui->view_Histo_2->setModel(HistoEat);
 }
 
+/**
+ * @brief Convertie le texte passé en paramètre au type char
+ * @param string monText -> Texte à convertir
+ * @return const char * -> Pointeur vers le texte converti
+ */
 const char *
 MainWindow::ConvertToChar( string monText )
 {
@@ -340,6 +364,13 @@ MainWindow::ConvertToChar( string monText )
     return char_array;
 }
 
+/**
+ * @brief Attribue la couleur, à la case d'indice, du le model fourni en paramètre
+ * @param QColor color -> couleur à attribuer
+ * @param int i -> coordonnée de la colonne de la cellule ciblé par le mouvement
+ * @param int j -> coordonnée de la ligne de la cellule ciblé par le mouvement
+ * @param QStandardItemModel* model * -> Model sur lequel appliqué les modifications
+ */
 void
 MainWindow::setColorBackGround( QColor color ,int i, int j ,QStandardItemModel* model )
 {
@@ -347,6 +378,13 @@ MainWindow::setColorBackGround( QColor color ,int i, int j ,QStandardItemModel* 
     model->setData( index, QBrush ( color ), Qt::BackgroundRole  );
 }
 
+/**
+ * @brief Attribue l'image, à la case d'indice, du le model fourni en paramètre
+ * @param QColor color -> couleur à attribuer
+ * @param int i -> coordonnée de la colonne de la cellule ciblé par le mouvement
+ * @param int j -> coordonnée de la ligne de la cellule ciblé par le mouvement
+ * @param QStandardItemModel* model * -> Model sur lequel appliqué les modifications
+ */
 void
 MainWindow::SetImage ( QPixmap monImage, int i , int j, QStandardItemModel* model )
 {
@@ -359,6 +397,12 @@ MainWindow::SetImage ( QPixmap monImage, int i , int j, QStandardItemModel* mode
     model->setItem( i, j , m_item );
 }
 
+/**
+ * @brief Split un mot selon la charactère spécifié
+ * @param string word -> mot à split
+ * @param char split -> character de séparation
+ * @return std::vector<std::string> seglist -> liste split
+ */
 std::vector<std::string>
 MainWindow::SplitString( string word, char split )
 {
@@ -374,13 +418,13 @@ MainWindow::SplitString( string word, char split )
 }
 
 /**
- * @brief MainWindow::actRegle
+ * @brief Ouvre la documentation des règles du jeu
  */
 void
 MainWindow::actRegle() { system("start /max https://ecole.apprendre-les-echecs.com/regles-echecs/"); }
 
 /**
- * @brief MainWindow::actDarkMode
+ * @brief Passe l'application en mode sombre
  */
 void
 MainWindow::actDarkMode()
@@ -393,7 +437,7 @@ MainWindow::actDarkMode()
 }
 
 /**
- * @brief MainWindow::actLightMode
+ * @brief Passe l'application en mode clair
  */
 void
 MainWindow::actLightMode()
@@ -406,7 +450,7 @@ MainWindow::actLightMode()
 }
 
 /**
- * @brief MainWindow::actDocumentation
+ * @brief Ouvre la documentation de l'application
  */
 void
 MainWindow::actDocumentation() { }

@@ -20,10 +20,10 @@ class Echiquier
     Echiquier();
     Piece *getPiece( int x, int y );
     bool placer( Piece *p );
-    bool deplacer( Piece *p, int x, int y );
+    void deplacer( Piece *p, int x, int y );
     void enleverPiece( int x, int y );
     bool VerifMoveRoiRoque(Roi *r, int x ,int y);
-    bool deplacementRoque( Roi *r, Tour *p);
+    void deplacementRoque( Roi *r, Tour *p);
 };
 
 #endif

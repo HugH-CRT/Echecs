@@ -34,6 +34,10 @@ class MainWindow : public QMainWindow
         bool IsEchecMat( list<string> );
         void displayEatPieces(list<string>,bool);
         void AddToHistory(Piece*,int,int);
+        const char* ConvertToChar(string);
+        void setColorBackGround(QColor, int , int ,QStandardItemModel*);
+        void SetImage ( QPixmap , int, int, QStandardItemModel*);
+        std::vector<std::string> SplitString( string, char);
 
 
     private slots:

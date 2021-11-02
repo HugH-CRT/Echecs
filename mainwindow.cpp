@@ -43,6 +43,10 @@ MainWindow::MainWindow(QWidget *parent)
     ui->TourLabel->setAlignment(Qt::AlignCenter);
     ui->TourLabel->setPixmap(monImage);
 
+    ui->view_PionNoir->setIconSize( QSize( 43 , 43 ) );
+    ui->view_PionBlanc->setIconSize( QSize( 43 , 43 ) );
+    ui->view_Histo->setIconSize(QSize(20,20));
+
     // Initialisation du premier visuel de la matrice
     this->RefreshMatrice(this);
 
@@ -70,55 +74,21 @@ MainWindow::RefreshMatrice(QWidget *parent)
         for ( int j = 0 ; j < 8 ; j++ )
         {
             if ( e.getPiece( j + 1 , i + 1 ) != nullptr )
-            {
-               string s = e.getPiece( j + 1 , i + 1 )->path();
-               int n    = s.length();
-               char char_array[ n + 1 ];
-               strcpy( char_array, s.c_str() );
-               QPixmap monImage( char_array );
+                SetImage( QPixmap ( ConvertToChar( e.getPiece( j + 1 , i + 1 )->path() ) ), i , j , model );
 
-               QIcon* m_icon = new QIcon();
-               m_icon->addPixmap(monImage);
+            QColor myColor = ( i % 2 == j % 2 ?  QColor (103,159,90, 150) : QColor (225, 206, 154, 150) ) ;
 
-               QStandardItem *m_item = new QStandardItem();
-               m_item->setIcon(*m_icon);
-
-               model->setItem( i, j , m_item );
-            }
-            // Mise en couleurs damiers
-
-            if ( i % 2 == j % 2 )
-            {
-                QModelIndex index = model->index( i , j , QModelIndex() );
-                QColor color(103,159,90, 150); // vert mousse
-                model->setData( index, QBrush ( color ), Qt::BackgroundRole  );
-            }
-            else
-            {
-                QModelIndex index = model->index( i , j , QModelIndex() );
-                QColor color(225, 206, 154, 150);// autre
-                model->setData( index, QBrush ( color ), Qt::BackgroundRole  );
-            }
-            // Mise en couleurs lorsque echec
+            setColorBackGround( myColor, i , j , model);
 
             if (  e.getPiece(j+1, i+1) != nullptr && e.getPiece( j + 1 , i + 1 )->isEchec() )
-            {
-                QModelIndex index = model->index( i , j , QModelIndex() );
-                model->setData( index, QBrush ( QColor ( "darkRed" )  ), Qt::BackgroundRole  );
-            }
-    }
-    if ( WhitePlay == true )
-    {
-        QPixmap monImage( ":/img_blanc/assets/blanc/pion.png" );
-        ui->TourLabel->setAlignment( Qt::AlignCenter );
-        ui->TourLabel->setPixmap( monImage );
-    }
-    else
-    {
-        QPixmap monImage( ":/img_noir/assets/noir/pion.png" );
-        ui->TourLabel->setAlignment( Qt::AlignCenter );
-        ui->TourLabel->setPixmap( monImage );
-    }
+                setColorBackGround( QColor ( "darkRed" ), i , j , model);
+        }
+
+    QPixmap monImage = ( WhitePlay ? QPixmap ( ":/img_blanc/assets/blanc/pion.png" ) : QPixmap ( ":/img_noir/assets/noir/pion.png" ) );
+
+    ui->TourLabel->setAlignment( Qt::AlignCenter );
+    ui->TourLabel->setPixmap( monImage );
+
     ui->tableViewEchiquier->setModel( model );
     ui->tableViewEchiquier->setIconSize( QSize( 90 , 90 ) );
 }
@@ -231,24 +201,14 @@ MainWindow::setColor(list<string>values)
 {
    for (string coordonees : values)
    {
-       std::stringstream test(coordonees);
-       std::string segment;
-       std::vector<std::string> seglist;
-
-       while(std::getline(test, segment, '-'))
-       {
-          seglist.push_back( segment );
-       }
+       std::vector<std::string> seglist = SplitString( coordonees, '-');
 
        try {
-           QColor possible(116,208,255, 255);
-           QColor manger(255,0,255, 255);
-           QColor color = ( seglist.at(2) == "true" ? manger : possible  );
+           QColor color = ( seglist.at(2) == "true" ? QColor (255,0,255, 255) : QColor (116,208,255, 255) );
            QModelIndex index = model->index( std::stoi( seglist.at(1) ) , std::stoi( seglist.at(0) ) ,QModelIndex());
            model->setData(index, QColor( color ), Qt::BackgroundRole  );
        }  catch (...) {}
    }
-
    ui->tableViewEchiquier->setModel(model);
 }
 
@@ -279,14 +239,7 @@ MainWindow::IsEchecMat( list<string> values)
     bool isEchecMat = true;
     for (string coordonees : values)
     {
-        std::stringstream test(coordonees);
-        std::string segment;
-        std::vector<std::string> seglist;
-
-        while(std::getline(test, segment, '-'))
-        {
-           seglist.push_back( segment );
-        }
+        std::vector<std::string> seglist = SplitString( coordonees, '-');
 
         isEchecMat = this->Echec( std::stoi( seglist.at( 0 ) ) , std::stoi( seglist.at(1) ) ) ;
         if ( !isEchecMat )  break;
@@ -306,32 +259,15 @@ MainWindow::displayEatPieces(list<string> PiecesEated, bool white)
     int i = 0;
 
     for (string path : PiecesEated)
-    {
-        int n    = path.length();
-        char char_array[ n + 1 ];
-        strcpy( char_array, path.c_str() );
-        QPixmap monImage( char_array );
-
-        QIcon* m_icon = new QIcon();
-        m_icon->addPixmap(monImage);
-
-        QStandardItem *m_item = new QStandardItem();
-        m_item->setIcon(*m_icon);
-
-        monModel->setItem( 0, i, m_item );
+    {     
+        SetImage( QPixmap ( ConvertToChar( path ) ) , 0 , i , monModel );
         i++;
     }
 
-    if (!white)
-    {
-        ui->view_PionNoir->setIconSize( QSize( 43 , 43 ) );
-        ui->view_PionNoir->setModel(monModel);
-    }
-    else
-    {
-        ui->view_PionBlanc->setIconSize( QSize( 43 , 43 ) );
+    if ( white )
         ui->view_PionBlanc->setModel(monModel);
-    }
+    else
+       ui->view_PionNoir->setModel(monModel);
 }
 
 void
@@ -340,48 +276,67 @@ MainWindow::AddToHistory(Piece* laPiece,int x, int y )
    History.push_back(  std::to_string( laPiece->x() ) + ":" + std::to_string( laPiece->y() )  + " -> " +  std::to_string( x )  + ":" +  std::to_string( y ) );
    HistoryPictures.push_back( laPiece->path() );
 
-//   try {
-//       HistoryPicturesEat.push_back( e.getPiece(x,y)->path() );
-//   }  catch (...) {
-//       HistoryPicturesEat.push_back( "" );
-//   }
    QStandardItemModel* Histo = new QStandardItemModel(this);
    int i = 0;
 
    for (string text : History)
    {
-        int n    = HistoryPictures.at(i).length();
-        char char_array[ n + 1 ];
-        strcpy( char_array, HistoryPictures.at(i).c_str() );
-        QPixmap monImage( char_array );
+        QPixmap monImage( ConvertToChar( HistoryPictures.at( i ) ) );
+        SetImage( monImage , i , 0 , Histo);
 
-        QIcon* m_icon = new QIcon();
-        m_icon->addPixmap(monImage);
-
-        QStandardItem *m_item = new QStandardItem();
-        m_item->setIcon(*m_icon);
-
-        Histo->setItem(i,m_item);
         QModelIndex index = Histo->index( i,0 , QModelIndex() );
+        Histo->setData(index, ConvertToChar( text ) );
 
-        char cstr[text.size() + 1];
-
-        std::copy(text.begin(), text.end(), cstr);
-        cstr[text.size()] = '\0';
-        Histo->setData(index, cstr );
         i++;
-   }
-   ui->view_Histo->setIconSize(QSize(20,20));
+   } 
    ui->view_Histo->setModel(Histo);
 }
+
+const char *
+MainWindow::ConvertToChar(string monText)
+{
+    char const *char_array = monText.c_str();
+    return char_array;
+}
+
+void
+MainWindow::setColorBackGround(QColor color ,int i, int j ,QStandardItemModel* model)
+{
+    QModelIndex index = model->index( i , j , QModelIndex() );
+    model->setData( index, QBrush ( color ), Qt::BackgroundRole  );
+}
+
+void
+MainWindow::SetImage ( QPixmap monImage, int i , int j, QStandardItemModel* model)
+{
+    QIcon* m_icon = new QIcon();
+    m_icon->addPixmap(monImage);
+
+    QStandardItem *m_item = new QStandardItem();
+    m_item->setIcon(*m_icon);
+
+    model->setItem( i, j , m_item );
+}
+
+std::vector<std::string>
+MainWindow::SplitString( string word, char split)
+{
+    std::stringstream wordStream(word);
+    std::string segment;
+    std::vector<std::string> seglist;
+
+    while(std::getline(wordStream, segment, split))
+    {
+       seglist.push_back( segment );
+    }
+    return seglist;
+}
+
 /**
  * @brief MainWindow::actRegle
  */
 void
-MainWindow::actRegle()
-{
-        system("start /max https://ecole.apprendre-les-echecs.com/regles-echecs/");
-}
+MainWindow::actRegle() { system("start /max https://ecole.apprendre-les-echecs.com/regles-echecs/"); }
 
 /**
  * @brief MainWindow::actDarkMode
@@ -413,7 +368,4 @@ MainWindow::actLightMode()
  * @brief MainWindow::actDocumentation
  */
 void
-MainWindow::actDocumentation()
-{
-
-}
+MainWindow::actDocumentation() { }

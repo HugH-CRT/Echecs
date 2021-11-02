@@ -58,6 +58,8 @@ private:
         list<string> imagesPiecesMangeesBlanc;
         list<string> imagesPiecesMangeesNoir;
         list<string> History;
+        std::vector<string> HistoryPictures;
+        std::vector<string> HistoryPicturesEat;
         stop *windowEnd;
 
 };

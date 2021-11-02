@@ -338,15 +338,21 @@ void
 MainWindow::AddToHistory(Piece* laPiece,int x, int y )
 {
    History.push_back(  std::to_string( laPiece->x() ) + ":" + std::to_string( laPiece->y() )  + " -> " +  std::to_string( x )  + ":" +  std::to_string( y ) );
+   HistoryPictures.push_back( laPiece->path() );
 
+//   try {
+//       HistoryPicturesEat.push_back( e.getPiece(x,y)->path() );
+//   }  catch (...) {
+//       HistoryPicturesEat.push_back( "" );
+//   }
    QStandardItemModel* Histo = new QStandardItemModel(this);
    int i = 0;
 
    for (string text : History)
    {
-        int n    = laPiece->path().length();
+        int n    = HistoryPictures.at(i).length();
         char char_array[ n + 1 ];
-        strcpy( char_array, laPiece->path().c_str() );
+        strcpy( char_array, HistoryPictures.at(i).c_str() );
         QPixmap monImage( char_array );
 
         QIcon* m_icon = new QIcon();
@@ -357,11 +363,17 @@ MainWindow::AddToHistory(Piece* laPiece,int x, int y )
 
         Histo->setItem(i,m_item);
         QModelIndex index = Histo->index( i,0 , QModelIndex() );
-        Histo->setData(index, "test" );
+
+        char cstr[text.size() + 1];
+
+        std::copy(text.begin(), text.end(), cstr);
+        cstr[text.size()] = '\0';
+        Histo->setData(index, cstr );
         i++;
    }
    ui->view_Histo->setIconSize(QSize(20,20));
    ui->view_Histo->setModel(Histo);
+}
 /**
  * @brief MainWindow::actRegle
  */

@@ -14,7 +14,6 @@
 #include <iostream>
 #include <assert.h>
 #include "mainwindow.h"
-#include "timer.h"
 #include <QAbstractItemModel>
 #include <QDialog>
 #include <QModelIndex>
@@ -445,8 +444,8 @@ void
 MainWindow::showTime()
 {
     QTime time = QTime(Heures,minutes,secondes) ;
-    QString time_text = time.toString("hh : mm : ss");
-    ui->Digital_clock->setText( (time_text) );
+    QString time_text = time.toString("hh:mm:ss");
+    ui->lcdTimer->display( (time_text) );
 }
 
 void

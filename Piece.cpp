@@ -7,7 +7,7 @@
  */
 #include <iostream>
 #include "Piece.h"
-#include "Echiquier.h"
+#include "ChessBoard.h"
 using namespace std;
 
 /**

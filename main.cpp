@@ -10,8 +10,8 @@
 #include <iostream>
 #include <assert.h>
 #include "Piece.h"
-#include "Joueur.h"
-#include "Echiquier.h"
+#include "Player.h"
+#include "ChessBoard.h"
 
 using namespace std;
 

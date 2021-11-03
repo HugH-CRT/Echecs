@@ -39,6 +39,7 @@ class MainWindow : public QMainWindow
         void SetImage ( QPixmap , int, int, QStandardItemModel*);
         std::vector<std::string> SplitString( string, char);
         void EndGameDisplay(QWidget *parent);
+        void close();
 
     private slots:
         void on_tableViewEchiquier_clicked(const QModelIndex &index);
@@ -72,9 +73,9 @@ private:
         int secondes = 0;
         QTimer *timer ;
 
-        stop *windowEnd;
+        //stop *windowEnd;
         QDialogButtonBox *endDisplay;
-        void close();
+
 };
 
 #endif

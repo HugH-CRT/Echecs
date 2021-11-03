@@ -28,10 +28,7 @@
 #include <QDialogButtonBox>
 #include <QPushButton>
 
-
 using namespace std;
-
-
 
 /**
  * @brief Constructeur de la page de jeu, intialise le jeu
@@ -469,6 +466,7 @@ MainWindow::setTimer()
        minutes = 0;
    }
    showTime();
+}
 /**
  * @brief MainWindow::EndGameDisplay
  */

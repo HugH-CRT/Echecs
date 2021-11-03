@@ -13,12 +13,12 @@
 using namespace std;
 
 /**
- * @brief Constructeur par défaut
+ * @brief Default constructor
  */
 Player::Player(){}
 
 /**
- * @brief Destructeur
+ * @brief Destructor of Player
  */
 Player::~Player()
 {
@@ -27,9 +27,9 @@ Player::~Player()
 }
 
 /**
- * @brief Place toutes les pieces du joueur sur l'ChessBoard
+ * @brief Place all of the player's pieces on the ChessBoard
  * @param ChessBoard e
- * @return bool -> Determine si le placement des pieces s'est correctement effectuer
+ * @return bool -> Determines if the placement of the pieces was done correctly
  */
 bool
 Player::PlacePieces( ChessBoard &e )
@@ -41,7 +41,7 @@ Player::PlacePieces( ChessBoard &e )
 }
 
 /**
- * @brief Constructeur du joueur Blanc, crée ces pieces et les ajoute dans sa liste de pieces
+ * @brief White player's constructor, create these pieces and add them to his list of pieces
  */
 PlayerWhite::PlayerWhite()
 {
@@ -84,7 +84,7 @@ PlayerWhite::PlayerWhite()
 }
 
 /**
- * @brief Constructeur du joueur Noir, crée ces pieces et les ajoute dans sa liste de pieces
+ * @brief Black player's builder, create these pieces and add them to his list of pieces
  */
 PlayerBlack::PlayerBlack()
 {
@@ -126,7 +126,7 @@ PlayerBlack::PlayerBlack()
 }
 
 /**
- * @return Renvoie l'attribut iswhite
+ * @return Returns the iswhite attribute
  */
 bool
 Player::IsWhite() { return p_isWhite; }

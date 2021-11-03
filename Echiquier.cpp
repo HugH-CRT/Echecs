@@ -13,7 +13,7 @@
 using namespace std;
 
 /**
- * @brief Initialise l'ChessBoard avec 64 pointeurs null
+ * @brief Initializes the ChessBoard with 64 null pointers
  */
 ChessBoard::ChessBoard()
 {
@@ -22,9 +22,9 @@ ChessBoard::ChessBoard()
 }
 
 /**
- * @param x -> coordonnée de la colonne
- * @param y -> coordonnée de la ligne
- * @return Renvoie le pointeur aux coordonnées en paramètre
+ * @param x -> column coordinate
+ * @param y -> line coordinate
+ * @return Returns the pointer to the coordinates as a parameter
  */
 Piece *
 ChessBoard::GetPiece( int x, int y )
@@ -35,9 +35,9 @@ ChessBoard::GetPiece( int x, int y )
 }
 
 /**
- * @brief Place la piece en paramètre sur l'ChessBoard à ses coordonnées
- * @param Piece * -> Piece que l'on souhaite placer
- * @return bool -> Determine si le placement s'est bien effectué
+ * @brief Place the part as a parameter on the ChessBoard at its coordinates
+ * @param Piece * -> Piece that we want to place
+ * @return bool -> Determine if the placement went well
  */
 bool
 ChessBoard::PlacePiece( Piece *p )
@@ -55,10 +55,10 @@ ChessBoard::PlacePiece( Piece *p )
 }
 
 /**
- * @brief Vide la case de départ et d'arriver puis place la Piece dans la case d'arrivée
- * @param Piece *p -> Piece que l'on deplace
- * @param x -> coordonnée de la colonne ciblée
- * @param y -> coordonnée de la ligne ciblée
+ * @brief Clear the starting square and arriving then place the Piece in the finishing square
+ * @param Piece *p -> Piece that we move
+ * @param x -> coordinate of the targeted column
+ * @param y -> coordinate of the targeted line
  */
 void
 ChessBoard::MovePiece( Piece *p, int x, int y )
@@ -70,9 +70,9 @@ ChessBoard::MovePiece( Piece *p, int x, int y )
 }
 
 /**
- * @brief Retire la piece au coordonnées en paramètre
- * @param x -> coordonnée de la colonne
- * @param y -> coordonnée de la ligne
+ * @brief Remove the part at the coordinates in parameter
+ * @param x -> column coordinate
+ * @param y -> line coordinate
  */
 void
 ChessBoard::RemovePiece( int x, int y )
@@ -84,9 +84,9 @@ ChessBoard::RemovePiece( int x, int y )
 /**
  * @brief ChessBoard::CheckRoqueValidity
  * @param King *r -> King qui effectue le roque
- * @param x ->
- * @param y ->
- * @return bool -> Determine si le roque est possible
+ * @param x -> column coordinate
+ * @param y -> line coordinate
+ * @return bool -> Determine if castling is possiblee
  */
 bool
 ChessBoard::CheckRoqueValidity(King *r,int x ,int y)
@@ -117,9 +117,9 @@ ChessBoard::CheckRoqueValidity(King *r,int x ,int y)
 }
 
 /**
- * @brief Effectue le roque du King et de la tour en paramètre
- * @param King *r -> King qui effectue le roque
- * @param Tour *t -> Tour qui effectue le roque
+ * @brief Cast King and Tower as a parameter
+ * @param King *r -> King castling
+ * @param Rook *t -> Castling Rook
  */
 void
 ChessBoard::DoRoque( King *r, Rook *t)

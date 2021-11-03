@@ -31,7 +31,7 @@
 using namespace std;
 
 /**
- * @brief Constructeur de la page de jeu, intialise le jeu
+ * @brief Builder of the game page, initialize the game
  * @param parent
  */
 MainWindow::MainWindow(QWidget *parent)
@@ -67,12 +67,12 @@ MainWindow::MainWindow(QWidget *parent)
 }
 
 /**
- * @brief Destructeur de la page de jeu
+ * @brief Game Page Destroyer
  */
 MainWindow::~MainWindow() { delete ui; }
 
 /**
- * @brief Rafraichit le plateur de jeu après chaque coup
+ * @brief Refreshes the game board after each move
  * @param parent
  */
 void
@@ -104,8 +104,8 @@ MainWindow::RefreshMatrix(QWidget *parent)
 }
 
 /**
- * @brief Méthode appellée sur le click d'une cellule
- * @param &index -> Index de la cellule selectionner
+ * @brief Method called on the click of a cell
+ * @param &index -> Index of the selected cell
  */
 void
 MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
@@ -137,7 +137,6 @@ MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
             if (xBlackKing == 0 || xWhiteKing == 0)
             {
                 this->RefreshMatrix(this);
-                cout << "Fin de game" << endl;
                 timer->stop();
                 EndGameDisplay();
             }
@@ -206,10 +205,10 @@ MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
 }
 
 /**
- * @brief Attribue les couleurs bleu clair ou rose pour les cellules valides récupérer par la liste en paramètre
- * @param list<string> values -> Liste de toutes les coordonnées des cellules valides pour les déplacements de la piece selectionnée.
- *        Les coordonnées renseignées sont au format : 'x-y-bool' ou x correspond à la colonne de la cellule, y correspond à la ligne
- *        de la cellule et bool correspond à l'attribution de la couleur true -> bleu , false -> rose
+ * @brief Assigns the colors light blue or pink for the valid cells retrieved by the list as a parameter
+ * @param list <string> values ​​-> List of all the coordinates of the cells valid for the movements of the selected part.
+ *        The coordinates entered are in the format: 'x-y-bool' where x corresponds to the column of the cell, y corresponds to the row
+ *        of the cell and bool corresponds to the attribution of the color true -> blue, false -> pink
  */
 void
 MainWindow::SetColor(list<string>values)
@@ -228,10 +227,10 @@ MainWindow::SetColor(list<string>values)
 }
 
 /**
- * @brief Vérifie si la case du roi est en rouge donc en echec
- * @param x -> coordonnée de la colonne du roi
- * @param y -> coordonnée de la ligne du roi
- * @return bool -> Détermine si la case est rouge
+ * @brief Check if the king's square is red so in check
+ * @param x -> coordinate of the king's column
+ * @param y -> coordinate of the king's line
+ * @return bool -> Determines if the box is red
  */
 bool
 MainWindow::Echec( int x , int y )
@@ -244,12 +243,12 @@ MainWindow::Echec( int x , int y )
 }
 
 /**
- * @brief Vérifie si dans la liste des cases valides pour les déplacements du Roi, une des cellules n'est pas coloré.
- *        Précision : A ce moment de l'éxecution les déplacements possibles de la piece qui à mis en echec le roi sont colorés.
- * @param list<string> values -> Liste de toutes les coordonnées des cellules valides pour les déplacements du Roi en echec.
- *        Les coordonnées renseignées sont au format : 'x-y-bool' ou x correspond à la colonne de la cellule, y correspond à la ligne
- *        de la cellule et bool correspond à l'attribution de la couleur true -> bleu , false -> rose
- * @return bool -> Détermine si le roi est en echec et mat.
+ * @brief Checks if in the list of valid boxes for the King's movements, one of the cells is not colored.
+ *        Clarification: At this time of execution the possible movements of the piece which defeated the king are colored.
+ * @param list <string> values ​​-> List of all the coordinates of the cells valid for the displacements of the king in failure.
+ *        The coordinates entered are in the format: 'x-y-bool' where x corresponds to the column of the cell, y corresponds to the row
+ *        of the cell and bool corresponds to the attribution of the color true -> blue, false -> pink
+ * @return bool -> Determine if the king is checkmate.
  */
 bool
 MainWindow::IsEchecMat( list<string> values )
@@ -266,9 +265,9 @@ MainWindow::IsEchecMat( list<string> values )
 }
 
 /**
- * @brief Affiche les pieces mangées
- * @param list<string> PiecesEated -> liste des chemins d'images des pieces mangées.
- * @param bool white -> Determine si on affiche cette liste pour le joueur blanc ou le joueur noir.
+ * @brief Displays the pieces eaten
+ * @param list <string> PiecesEated -> list of the image paths of the pieces eaten.
+ * @param bool white -> Determine if this list is displayed for the white player or the black player.
  */
 void
 MainWindow::DisplayEatPieces( list<string> PiecesEated, bool white )
@@ -289,10 +288,10 @@ MainWindow::DisplayEatPieces( list<string> PiecesEated, bool white )
 }
 
 /**
- * @brief Ajoute le mouvements effectué à l'historique des déplacements et met à jour le visuel associé.
- * @param Piece* laPiece -> La piece qui vient d'effectuer un mouvement
- * @param int x -> coordonnée de la colonne de la cellule ciblé par le mouvement
- * @param int y -> coordonnée de la ligne de la cellule ciblé par le mouvement
+ * @brief Adds the movements performed to the movement history and updates the associated visual.
+ * @param Piece* laPiece -> The piece that has just performed a movement
+ * @param int x -> coordinate of the column of the cell targeted by the movement
+ * @param int y -> coordinate of the cell line targeted by the movement
  */
 void
 MainWindow::AddToHistory( Piece* laPiece,int x, int y )
@@ -342,9 +341,9 @@ MainWindow::AddToHistory( Piece* laPiece,int x, int y )
 }
 
 /**
- * @brief Convertie le texte passé en paramètre au type char
- * @param string monText -> Texte à convertir
- * @return const char * -> Pointeur vers le texte converti
+ * @brief Convert the text passed as a parameter to type char
+ * @param string monText -> Text to convert
+ * @return const char * -> Pointer to converted text
  */
 const char *
 MainWindow::ConvertToChar( string monText )
@@ -354,11 +353,11 @@ MainWindow::ConvertToChar( string monText )
 }
 
 /**
- * @brief Attribue la couleur, à la case d'indice, du le model fourni en paramètre
- * @param QColor color -> couleur à attribuer
- * @param int i -> coordonnée de la colonne de la cellule ciblé par le mouvement
- * @param int j -> coordonnée de la ligne de la cellule ciblé par le mouvement
- * @param QStandardItemModel* model * -> Model sur lequel appliqué les modifications
+ * @brief Assigns the color, to the index cell, of the model provided as a parameter
+ * @param QColor color -> color to assign
+ * @param int i -> coordinate of the column of the cell targeted by the movement
+ * @param int j -> coordinate of the cell line targeted by the movement
+ * @param QStandardItemModel* model * -> Model on which applied the modifications
  */
 void
 MainWindow::SetColorBackGround( QColor color ,int i, int j ,QStandardItemModel* model )
@@ -368,11 +367,11 @@ MainWindow::SetColorBackGround( QColor color ,int i, int j ,QStandardItemModel* 
 }
 
 /**
- * @brief Attribue l'image, à la case d'indice, du le model fourni en paramètre
- * @param QColor color -> couleur à attribuer
- * @param int i -> coordonnée de la colonne de la cellule ciblé par le mouvement
- * @param int j -> coordonnée de la ligne de la cellule ciblé par le mouvement
- * @param QStandardItemModel* model * -> Model sur lequel appliqué les modifications
+ * @brief Assigns the image, to the index cell, of the model provided as a parameter
+ * @param QColor color -> color to assign
+ * @param int i -> coordinate of the column of the cell targeted by the movement
+ * @param int j -> coordinate of the cell line targeted by the movement
+ * @param QStandardItemModel* model * -> Model on which applied the modifications
  */
 void
 MainWindow::SetPicture ( QPixmap monImage, int i , int j, QStandardItemModel* model )
@@ -387,10 +386,10 @@ MainWindow::SetPicture ( QPixmap monImage, int i , int j, QStandardItemModel* mo
 }
 
 /**
- * @brief Split un mot selon la charactère spécifié
- * @param string word -> mot à split
- * @param char split -> character de séparation
- * @return std::vector<std::string> seglist -> liste split
+ * @brief Split a word according to the specified character
+ * @param string word -> word to split
+ * @param char split -> separation character
+ * @return std::vector<std::string> seglist -> split list
  */
 std::vector<std::string>
 MainWindow::SplitString( string word, char split )
@@ -407,13 +406,13 @@ MainWindow::SplitString( string word, char split )
 }
 
 /**
- * @brief Ouvre la documentation des règles du jeu
+ * @brief Open the game rules documentation
  */
 void
 MainWindow::ActRegle() { system("start /max https://ecole.apprendre-les-echecs.com/regles-echecs/"); }
 
 /**
- * @brief Passe l'application en mode sombre
+ * @brief Switch the app to dark mode
  */
 void
 MainWindow::ActDarkMode()
@@ -426,7 +425,7 @@ MainWindow::ActDarkMode()
 }
 
 /**
- * @brief Passe l'application en mode clair
+ * @brief Switch the application to clear mode
  */
 void
 MainWindow::ActLightMode()
@@ -439,7 +438,7 @@ MainWindow::ActLightMode()
 }
 
 /**
- * @brief Ouvre la documentation de l'application
+ * @brief Open the application documentation
  */
 void
 MainWindow::ActDocumentation() { }

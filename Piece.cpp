@@ -11,11 +11,11 @@
 using namespace std;
 
 /**
- * @brief Constructeur d'une Piece
- * @param x -> coordonnée de la colonne
- * @param y -> coordonnée de la ligne
- * @param white -> couleur de la piece
- * @param path -> chemin de l'image de la piece
+ * @brief Piece Builder
+ * @param x -> column coordinate
+ * @param y -> line coordinate
+ * @param white -> Piece color
+ * @param path -> Piece image path
  */
 Piece::Piece( int x, int y, bool white, string path)
 {
@@ -28,12 +28,12 @@ Piece::Piece( int x, int y, bool white, string path)
 }
 
 /**
- * @brief Destructeur de la Piece
+ * @brief Destroyer of the Piece
  */
 Piece::~Piece(){}
 
 /**
- * @brief Met à jour les coordonnées de la piece ainsi que son attribut first move
+ * @brief Updates the coordinates of the piece as well as its first move attribute
  * @param x
  * @param y
  */
@@ -46,53 +46,53 @@ Piece::Move( int x, int y )
 }
 
 /**
- * @brief Renvoie l'attribut p_isEchec
+ * @brief Returns the attribute p_isEchec
  */
 bool
 Piece::GetIsEchec() { return p_isEchec; }
 
 /**
- * @brief Inverse l'attribut booléen p_isEchec
+ * @brief Invert bool attribute p_isEchec
  */
 void
 Piece::SetIsEchec() { p_isEchec = !p_isEchec; }
 
 /**
- * @brief Renvoie l'attribut p_x
+ * @brief Returns the attribute p_x
  */
 int
 Piece::GetX() { return p_x; }
 
 /**
- * @brief PRenvoie l'attribut p_y
+ * @brief Returns the attribute p_y
  */
 int
 Piece::GetY() { return p_y; }
 
 /**
- * @brief Renvoie l'attribut p_firstMove
+ * @brief Returns the attribute p_firstMove
  */
 bool
 Piece::GetFirstMove() { return p_firstMove; }
 
 /**
- * @brief Renvoie l'attribut p_white
+ * @brief Returns the attribute p_white
  */
 bool
 Piece::GetIsWhite() { return p_white; }
 
 /**
- * @brief Renvoie l'attribut p_path
+ * @brief Returns the attribute p_path
  */
 string
 Piece::GetPath() { return p_path; }
 
 /**
- *  @brief Méthode appelée après la méthode echec() , vérifie si le King à un déplacement valide
+ *  @brief Method called after the  echec() method, checks if the King has a valid move
  *  @param ChessBoard &e
- *  @param int x -> Position x du King
- *  @param int y -> Position y du King
- *  @return bool -> true si le King possède un déplacement valable et que la piece qui l'as mis en echec ne le laisse pas en echec suite à ce déplacement , ou false dans le cas contraire
+ *  @param int x -> King's x position
+ *  @param int y -> King's y position
+ *  @return bool -> true if the King has a valid move and the piece that failed him does not leave him unsuccessful following this move, or false otherwise
 */
 list<string>
 Piece::CheckAvailableMovementKing(ChessBoard &e, int x, int y)
@@ -115,22 +115,22 @@ Piece::CheckAvailableMovementKing(ChessBoard &e, int x, int y)
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * @brief Constructeur du King
- * @param white -> Couleur du King
- * @param path -> Chemin d'image de l'image du King
+ * @brief King builder
+ * @param white -> King color
+ * @param path -> King Image Path
  */
 King::King( bool white, string path ) : Piece( 5, white ? 1 : 8, white, path){}
 
 /**
- * @brief Destructeur du King
+ * @brief King's Destroyer
  */
 King::~King(){}
 
 /**
- *  @brief Vérifie si un "roque" est possible entre le King et la Rook en paramètre.
+ *  @brief Checks if a "castling" is possible between the King and the Rook as a parameter.
  *  @param ChessBoard &e
- *  @param *Rook x -> Pointeur vers la Rook
- *  @return bool -> true si le déplacement est possible false dans le cas contraire
+ *  @param *Rook x -> Pointer to the Rook
+ *  @return bool -> true if the displacement is possible false otherwise
 */
 bool
 King::CastlingAvailable( ChessBoard &e, Rook *p )
@@ -189,12 +189,12 @@ King::CastlingAvailable( ChessBoard &e, Rook *p )
 }
 
 /**
- * @brief Récupère les coordonnées des cellules dont le mouvement est valide pour le King.
+ * @brief Retrieves the coordinates of the cells whose movement is valid for the King.
  * @param ChessBoard e
- * @param bool whitePlay -> Vrai si c'est le Rook du joueur blanc, Faux sinon.
- * @return list<string> values -> Liste de toutes les coordonnées des cellules valides pour les déplacements du King.
- *        Les coordonnées renseignées sont au format : 'x-y-bool' ou x correspond à la colonne de la cellule, y correspond à la ligne
- *        de la cellule et bool correspond à l'attribution de la couleur true -> bleu , false -> rose
+ * @param bool whitePlay -> True if it is the Rook of the white player, False otherwise.
+ * @return list<string> values -> List of all the coordinates of the cells valid for the movements of the King.
+ *        The coordinates entered are in the format: 'x-y-bool' where x corresponds to the column of the cell, y corresponds to the row
+ *        of the cell and bool corresponds to the attribution of the color true -> blue, false -> pink
  */
 list<string>
 King::DisplayAvailableMovement(ChessBoard &e, bool whitePlay)
@@ -217,24 +217,24 @@ King::DisplayAvailableMovement(ChessBoard &e, bool whitePlay)
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * @brief Constructeur de la Queen
- * @param white -> Couleur de la Queen
- * @param path -> Chemin d'image de l'image de la Queen.
+ * @brief Queen builder
+ * @param white -> Queen color
+ * @param path -> Image path of the Queen image.
  */
 Queen::Queen( bool white, string path ) : Piece( 4, white ? 1 : 8, white , path ), Bishop( white, true ,path ), Rook( white, true ,path ){}
 
 /**
- * @brief Destructeur de la Queen
+ * @brief Queen's Destroyer
  */
 Queen::~Queen(){}
 
 /**
- * @brief Récupère les coordonnées des cellules dont le mouvement est valide pour la Queen.
+ * @brief Retrieves the coordinates of the cells whose movement is valid for the Queen.
  * @param ChessBoard e
- * @param bool whitePlay -> Vrai si c'est le Rook du joueur blanc, Faux sinon.
- * @return list<string> values -> Liste de toutes les coordonnées des cellules valides pour les déplacements de la Queen.
- *        Les coordonnées renseignées sont au format : 'x-y-bool' ou x correspond à la colonne de la cellule, y correspond à la ligne
- *        de la cellule et bool correspond à l'attribution de la couleur true -> bleu , false -> rose
+ * @param bool whitePlay -> True if it is the Rook of the white player, False otherwise.
+ * @return list<string> values -> List of all the coordinates of the cells valid for the movements of the Queen.
+ *        The coordinates entered are in the format: 'x-y-bool' where x corresponds to the column of the cell, y corresponds to the row
+ *        of the cell and bool corresponds to the attribution of the color true -> blue, false -> pink
  */
 list<string>
 Queen::DisplayAvailableMovement(ChessBoard &e, bool whitePlay)
@@ -249,24 +249,24 @@ Queen::DisplayAvailableMovement(ChessBoard &e, bool whitePlay)
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * @brief Constructeur de la Rook.
- * @param white -> Couleur de la Rook.
- * @param path -> Chemin d'image de l'image de la Rook.
+ * @brief Builder of the Rook.
+ * @param white -> Color of the Rook.
+ * @param path -> Image path of the Rook image.
  */
 Rook::Rook( bool white, bool gauche, string path ) : Piece( gauche ? 1 : 8, white ? 1 : 8, white, path ){}
 
 /**
- * @brief Destructeur de la Rook.
+ * @brief Destroyer of the Rook.
  */
 Rook::~Rook(){}
 
 /**
- * @brief Récupère les coordonnées des cellules dont le mouvement est valide pour la Rook.
+ * @brief Retrieves the coordinates of the cells whose movement is valid for the Rook.
  * @param ChessBoard e
- * @param bool whitePlay -> Vrai si c'est le Rook du joueur blanc, Faux sinon.
- * @return list<string> values -> Liste de toutes les coordonnées des cellules valides pour les déplacements de la Rook.
- *        Les coordonnées renseignées sont au format : 'x-y-bool' ou x correspond à la colonne de la cellule, y correspond à la ligne
- *        de la cellule et bool correspond à l'attribution de la couleur true -> bleu , false -> rose
+ * @param bool whitePlay -> True if it is the Rook of the white player, False otherwise
+ * @return list<string> values -> List of all the coordinates of the cells valid for the movements of the Rook.
+ *        The coordinates entered are in the format: 'x-y-bool' where x corresponds to the column of the cell, y corresponds to the row
+ *        of the cell and bool corresponds to the attribution of the color true -> blue, false -> pink
  */
 list<string>
 Rook::DisplayAvailableMovement(ChessBoard &e, bool whitePlay)
@@ -337,24 +337,24 @@ Rook::DisplayAvailableMovement(ChessBoard &e, bool whitePlay)
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * @brief Constructeur du Bishop.
- * @param white -> Couleur du Bishop.
- * @param path -> Chemin d'image de l'image du Bishop.
+ * @brief Builder of the Bishop.
+ * @param white -> Bishop color.
+ * @param path -> Image path of the Bishop image.
  */
 Bishop::Bishop( bool white, bool gauche, string path ) : Piece( gauche ? 3 : 6, white ? 1 : 8, white, path ){}
 
 /**
- * @brief Destructeur du Bishop.
+ * @brief Bishop's Destroyer.
  */
 Bishop::~Bishop(){}
 
 /**
- * @brief Récupère les coordonnées des cellules dont le mouvement est valide pour le Bishop.
+ * @brief Retrieves the coordinates of the cells whose movement is valid for the Bishop.
  * @param ChessBoard e
- * @param bool whitePlay -> Vrai si c'est le Rook du joueur blanc, Faux sinon.
- * @return list<string> values -> Liste de toutes les coordonnées des cellules valides pour les déplacements du Bishop.
- *        Les coordonnées renseignées sont au format : 'x-y-bool' ou x correspond à la colonne de la cellule, y correspond à la ligne
- *        de la cellule et bool correspond à l'attribution de la couleur true -> bleu , false -> rose
+ * @param bool whitePlay -> True if it is the Rook of the white player, False otherwise.
+ * @return list<string> values -> List of all the coordinates of the cells valid for the movements of the Bishop.
+ *        The coordinates entered are in the format: 'x-y-bool' where x corresponds to the column of the cell, y corresponds to the row
+ *        of the cell and bool corresponds to the attribution of the color true -> blue, false -> pink
  */
 list<string>
 Bishop::DisplayAvailableMovement(ChessBoard &e, bool whitePlay)
@@ -436,24 +436,24 @@ Bishop::DisplayAvailableMovement(ChessBoard &e, bool whitePlay)
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * @brief Constructeur du Knight.
- * @param white -> Couleur du Knight.
- * @param path -> Chemin d'image de l'image du Knight.
+ * @brief Knight's builder.
+ * @param white -> Knight's color.
+ * @param path -> Image path of the Knight image.
  */
 Knight::Knight( bool white, bool gauche, string path ) : Piece( gauche ? 2 : 7, white ? 1 : 8, white, path ){}
 
 /**
- * @brief Destructeur du Knight.
+ * @brief Destroyer of the Knight.
  */
 Knight::~Knight(){}
 
 /**
- * @brief Récupère les coordonnées des cellules dont le mouvement est valide pour le Knight.
+ * @brief Retrieves the coordinates of cells whose movement is valid for the Knight.
  * @param ChessBoard e
- * @param bool whitePlay -> Vrai si c'est le Rook du joueur blanc, Faux sinon.
- * @return list<string> values -> Liste de toutes les coordonnées des cellules valides pour les déplacements du Knight.
- *        Les coordonnées renseignées sont au format : 'x-y-bool' ou x correspond à la colonne de la cellule, y correspond à la ligne
- *        de la cellule et bool correspond à l'attribution de la couleur true -> bleu , false -> rose
+ * @param bool whitePlay -> True if it is the Rook of the white player, False otherwise.
+ * @return list<string> values -> List of all the coordinates of the cells valid for the movements of the Knight.
+ *        The coordinates entered are in the format: 'x-y-bool' where x corresponds to the column of the cell, y corresponds to the row
+ *        of the cell and bool corresponds to the attribution of the color true -> blue, false -> pink
  */
 list<string>
 Knight::DisplayAvailableMovement(ChessBoard &e, bool whitePlay )
@@ -493,14 +493,14 @@ Knight::DisplayAvailableMovement(ChessBoard &e, bool whitePlay )
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * @brief Constructeur du Pawn.
- * @param white -> Couleur du Pawn.
- * @param path -> Chemin d'image de l'image du Pawn.
+ * @brief Pawn builder.
+ * @param white -> Color of the Pawn.
+ * @param path -> Image path of the Pawn.
  */
 Pawn::Pawn( bool white, int x, string path ) : Piece( x, white ? 2 : 7, white, path ){}
 
 /**
- * @brief Destructeur du Pawn.
+ * @brief Pawn Destroyer.
  */
 Pawn::~Pawn(){}
 
@@ -522,12 +522,12 @@ Pawn::DoitEvoluer(ChessBoard &e,bool whitePlay )
 }
 
 /**
- * @brief Récupère les coordonnées des cellules dont le mouvement est valide pour le Pawn.
+ * @brief Retrieves the coordinates of the cells whose movement is valid for the Pawn.
  * @param ChessBoard e
- * @param bool whitePlay -> Vrai si c'est le Rook du joueur blanc, Faux sinon.
- * @return list<string> values -> Liste de toutes les coordonnées des cellules valides pour les déplacements du Pawn.
- *        Les coordonnées renseignées sont au format : 'x-y-bool' ou x correspond à la colonne de la cellule, y correspond à la ligne
- *        de la cellule et bool correspond à l'attribution de la couleur true -> bleu , false -> rose
+ * @param bool whitePlay -> True if it is the Rook of the white player, False otherwise.
+ * @return list<string> values -> List of all the coordinates of the cells valid for the movements of the Pawn.
+ *        The coordinates entered are in the format: 'x-y-bool' where x corresponds to the column of the cell, y corresponds to the row
+ *        of the cell and bool corresponds to the attribution of the color true -> blue, false -> pink
  */
 list<string>
 Pawn::DisplayAvailableMovement(ChessBoard &e, bool whitePlay)

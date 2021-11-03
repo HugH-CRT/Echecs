@@ -11,11 +11,11 @@
 
 #include <QMainWindow>
 #include <QStandardItemModel>
+#include <QDialogButtonBox>
 
 #include "Echiquier.h"
 #include "Joueur.h"
 #include "Piece.h"
-#include "stop.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -38,7 +38,7 @@ class MainWindow : public QMainWindow
         void setColorBackGround(QColor, int , int ,QStandardItemModel*);
         void SetImage ( QPixmap , int, int, QStandardItemModel*);
         std::vector<std::string> SplitString( string, char);
-
+        void EndGameDisplay(QWidget *parent);
 
     private slots:
         void on_tableViewEchiquier_clicked(const QModelIndex &index);
@@ -73,6 +73,8 @@ private:
         QTimer *timer ;
 
         stop *windowEnd;
+        QDialogButtonBox *endDisplay;
+        void close();
 };
 
 #endif

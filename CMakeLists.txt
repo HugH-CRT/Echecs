@@ -19,15 +19,14 @@ set(PROJECT_SOURCES
         mainwindow.cpp
         mainwindow.h
         mainwindow.ui
-        stop.cpp
-        stop.h
-        stop.ui
         Piece.cpp
         Piece.h
         Joueur.cpp
         Joueur.h
         Echiquier.cpp
         Echiquier.h
+        timer.cpp
+        timer.h
         Resource.qrc
 )
 

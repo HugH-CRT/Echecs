@@ -14,8 +14,9 @@
 #include <iostream>
 #include <assert.h>
 #include "mainwindow.h"
-#include "stop.h"
+#include "timer.h"
 #include <QAbstractItemModel>
+#include <QDialog>
 #include <QModelIndex>
 #include <QString>
 #include <vector>
@@ -24,8 +25,13 @@
 #include <QStringListModel>
 #include <QTimer>
 #include <QDateTime>
+#include <QDialogButtonBox>
+#include <QPushButton>
+
 
 using namespace std;
+
+
 
 /**
  * @brief Constructeur de la page de jeu, intialise le jeu
@@ -110,6 +116,7 @@ MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
     QVariant selectedCell      = model->data( index, Qt::BackgroundRole );
     QColor colorOfSelectedCell = selectedCell.value<QColor>();
 
+
     if ( pieceEnCours != nullptr && pieceEnCours->isWhite() == WhitePlay && colorOfSelectedCell.value() == 255 )
     {
         if ( ( ( WhitePlay ) && ( xRoiBlanc != index.column()+1 || yRoiBlanc != index.row()+1 ) ) || ( !WhitePlay ) && ( xRoiNoir != index.column() + 1 || yRoiNoir != index.row() + 1 ) )
@@ -131,9 +138,8 @@ MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
             if (xRoiNoir == 0 || xRoiBlanc == 0)
             {
                 this->RefreshMatrice(this);
-                windowEnd = new stop(this);
                 cout << "Fin de game" << endl;
-                windowEnd->show();
+                EndGameDisplay(this);
             }
 
             if ( WhitePlay == true)
@@ -228,7 +234,7 @@ MainWindow::setColor(list<string>values)
  * @return bool -> Détermine si la case est rouge
  */
 bool
-MainWindow::Echec ( int x , int y)
+MainWindow::Echec ( int x , int y )
 {
     QModelIndex index = model->index( y - 1,x - 1 , QModelIndex() );
     QVariant selectedCell      = model->data( index, Qt::BackgroundRole );
@@ -246,7 +252,7 @@ MainWindow::Echec ( int x , int y)
  * @return bool -> Détermine si le roi est en echec et mat.
  */
 bool
-MainWindow::IsEchecMat( list<string> values)
+MainWindow::IsEchecMat( list<string> values )
 {
     bool isEchecMat = true;
     for (string coordonees : values)
@@ -265,7 +271,7 @@ MainWindow::IsEchecMat( list<string> values)
  * @param bool white -> Determine si on affiche cette liste pour le joueur blanc ou le joueur noir.
  */
 void
-MainWindow::displayEatPieces(list<string> PiecesEated, bool white)
+MainWindow::displayEatPieces( list<string> PiecesEated, bool white )
 {
     QStandardItemModel *monModel = new QStandardItemModel(1, 16) ;
     int i = 0;
@@ -289,7 +295,7 @@ MainWindow::displayEatPieces(list<string> PiecesEated, bool white)
  * @param int y -> coordonnée de la ligne de la cellule ciblé par le mouvement
  */
 void
-MainWindow::AddToHistory(Piece* laPiece,int x, int y )
+MainWindow::AddToHistory( Piece* laPiece,int x, int y )
 {
    History.push_back(  std::to_string( laPiece->x() ) + ":" + std::to_string( laPiece->y() )  + " -> ");
    HistoryPictures.push_back( laPiece->path() );
@@ -309,7 +315,6 @@ MainWindow::AddToHistory(Piece* laPiece,int x, int y )
    QStandardItemModel* HistoEat = new QStandardItemModel(this);
 
    int indexLign = 0;
-
    for (int i = History.size() - 1 ; i > - 1 ; i--)
    {
         QPixmap monImage( ConvertToChar( HistoryPictures.at( i ) ) );
@@ -342,7 +347,7 @@ MainWindow::AddToHistory(Piece* laPiece,int x, int y )
  * @return const char * -> Pointeur vers le texte converti
  */
 const char *
-MainWindow::ConvertToChar(string monText)
+MainWindow::ConvertToChar( string monText )
 {
     char const *char_array = monText.c_str();
     return char_array;
@@ -356,7 +361,7 @@ MainWindow::ConvertToChar(string monText)
  * @param QStandardItemModel* model * -> Model sur lequel appliqué les modifications
  */
 void
-MainWindow::setColorBackGround(QColor color ,int i, int j ,QStandardItemModel* model)
+MainWindow::setColorBackGround( QColor color ,int i, int j ,QStandardItemModel* model )
 {
     QModelIndex index = model->index( i , j , QModelIndex() );
     model->setData( index, QBrush ( color ), Qt::BackgroundRole  );
@@ -370,7 +375,7 @@ MainWindow::setColorBackGround(QColor color ,int i, int j ,QStandardItemModel* m
  * @param QStandardItemModel* model * -> Model sur lequel appliqué les modifications
  */
 void
-MainWindow::SetImage ( QPixmap monImage, int i , int j, QStandardItemModel* model)
+MainWindow::SetImage ( QPixmap monImage, int i , int j, QStandardItemModel* model )
 {
     QIcon* m_icon = new QIcon();
     m_icon->addPixmap(monImage);
@@ -388,7 +393,7 @@ MainWindow::SetImage ( QPixmap monImage, int i , int j, QStandardItemModel* mode
  * @return std::vector<std::string> seglist -> liste split
  */
 std::vector<std::string>
-MainWindow::SplitString( string word, char split)
+MainWindow::SplitString( string word, char split )
 {
     std::stringstream wordStream(word);
     std::string segment;
@@ -464,4 +469,29 @@ MainWindow::setTimer()
        minutes = 0;
    }
    showTime();
+/**
+ * @brief MainWindow::EndGameDisplay
+ */
+void
+MainWindow::EndGameDisplay(QWidget *parent)
+{
+    endDisplay = new QDialogButtonBox(QDialogButtonBox::Ok
+                                      | QDialogButtonBox::Cancel);
+
+    endDisplay->setParent(parent);
+    endDisplay->setCenterButtons(true);
+    endDisplay->show();
+    endDisplay->raise();
+    connect(endDisplay, SIGNAL(accepted()), this, SLOT(close()));
+    connect(endDisplay, SIGNAL(rejected()), this, SLOT(close()));
+
+}
+
+/**
+ * @brief MainWindow::close
+ */
+void
+MainWindow::close()
+{
+    this->close();
 }

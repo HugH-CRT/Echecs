@@ -12,6 +12,7 @@
 #include <QMainWindow>
 #include <QStandardItemModel>
 #include <QDialogButtonBox>
+#include <QCloseEvent>
 
 #include "Echiquier.h"
 #include "Joueur.h"
@@ -38,8 +39,7 @@ class MainWindow : public QMainWindow
         void setColorBackGround(QColor, int , int ,QStandardItemModel*);
         void SetImage ( QPixmap , int, int, QStandardItemModel*);
         std::vector<std::string> SplitString( string, char);
-        void EndGameDisplay(QWidget *parent);
-        void close();
+        void EndGameDisplay();
 
     private slots:
         void on_tableViewEchiquier_clicked(const QModelIndex &index);
@@ -49,6 +49,7 @@ class MainWindow : public QMainWindow
         void actDocumentation();
         void showTime();
         void setTimer();
+        void closeEvent(QCloseEvent *event);
 
 private:
         Ui::MainWindow *ui;
@@ -72,9 +73,6 @@ private:
         int minutes = 0;
         int secondes = 0;
         QTimer *timer ;
-
-        //stop *windowEnd;
-        QDialogButtonBox *endDisplay;
 
 };
 

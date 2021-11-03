@@ -26,6 +26,7 @@
 #include <QDateTime>
 #include <QDialogButtonBox>
 #include <QPushButton>
+#include <QMessageBox>
 
 using namespace std;
 
@@ -40,6 +41,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     timer = new QTimer(this);
     connect ( timer , SIGNAL( timeout() ), this, SLOT( setTimer() ) );
+
 
     assert( jn.placerPieces( e ) );
     assert( jb.placerPieces( e ) );
@@ -61,6 +63,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionDark, SIGNAL(triggered()), this, SLOT(actDarkMode()));
     connect(ui->actionLight, SIGNAL(triggered()), this, SLOT(actLightMode()));
     connect(ui->actionDocumentation_Code_Source, SIGNAL(triggered()), this , SLOT(actDocumentation()));
+
+    timer->start();
 }
 
 /**
@@ -107,7 +111,7 @@ MainWindow::RefreshMatrice(QWidget *parent)
 void
 MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
 {
-    timer->start();
+
 
     QVariant selectedCell      = model->data( index, Qt::BackgroundRole );
     QColor colorOfSelectedCell = selectedCell.value<QColor>();
@@ -135,7 +139,8 @@ MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
             {
                 this->RefreshMatrice(this);
                 cout << "Fin de game" << endl;
-                EndGameDisplay(this);
+                timer->stop();
+                EndGameDisplay();
             }
 
             if ( WhitePlay == true)
@@ -456,7 +461,7 @@ MainWindow::setTimer()
 
    if ( secondes == 60 )
    {
-       secondes = 0;
+       secondes = 1;
        minutes++;
    }
    if ( minutes == 60 )
@@ -470,25 +475,35 @@ MainWindow::setTimer()
  * @brief MainWindow::EndGameDisplay
  */
 void
-MainWindow::EndGameDisplay(QWidget *parent)
+MainWindow::EndGameDisplay()
 {
-    endDisplay = new QDialogButtonBox(QDialogButtonBox::Ok
-                                      | QDialogButtonBox::Cancel);
-
-    endDisplay->setParent(parent);
-    endDisplay->setCenterButtons(true);
-    endDisplay->show();
-    endDisplay->raise();
-    connect(endDisplay, SIGNAL(accepted()), this, SLOT(close()));
-    connect(endDisplay, SIGNAL(rejected()), this, SLOT(close()));
-
+    QMessageBox::StandardButton endDisplay = QMessageBox::information( this, "Jeu d'Echec",
+                                                                       tr("Fin de la partie \n"),
+                                                                       QMessageBox::Ok,
+                                                                       QMessageBox::Ok);
+    if (endDisplay != QMessageBox::Ok) {
+        // ok boomer
+    } else {
+        this->close();
+        ui->tableViewEchiquier->setEnabled(false);
+    }
 }
 
 /**
- * @brief MainWindow::close
+ * @brief MainWindow::closeEvent
+ * @param event
  */
 void
-MainWindow::close()
+MainWindow::closeEvent (QCloseEvent *event)
 {
-    this->close();
+    QMessageBox::StandardButton resBtn = QMessageBox::question( this, "Jeu d'Echec",
+                                                                tr("En êtes vous sûr ? \n"),
+                                                                QMessageBox::Cancel | QMessageBox::No | QMessageBox::Yes,
+                                                                QMessageBox::Yes);
+    if (resBtn != QMessageBox::Yes) {
+        event->ignore();
+
+    } else {
+        event->accept();
+    }
 }

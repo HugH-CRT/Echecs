@@ -46,6 +46,8 @@ class MainWindow : public QMainWindow
         void actDarkMode();
         void actLightMode();
         void actDocumentation();
+        void showTime();
+        void setTimer();
 
 private:
         Ui::MainWindow *ui;
@@ -65,10 +67,12 @@ private:
         std::vector<string> HistoryPictures;
         std::vector<string> HistoryEat;
         std::vector<string> HistoryPicturesEat;
-
+        int Heures = 0;
+        int minutes = 0;
+        int secondes = 0;
+        QTimer *timer ;
 
         stop *windowEnd;
-
 };
 
 #endif

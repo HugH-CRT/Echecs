@@ -22,6 +22,8 @@
 #include <string>
 #include <sstream>
 #include <QStringListModel>
+#include <QTimer>
+#include <QDateTime>
 
 using namespace std;
 
@@ -34,6 +36,8 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    timer = new QTimer(this);
+    connect ( timer , SIGNAL( timeout() ), this, SLOT( setTimer() ) );
 
     assert( jn.placerPieces( e ) );
     assert( jb.placerPieces( e ) );
@@ -101,6 +105,8 @@ MainWindow::RefreshMatrice(QWidget *parent)
 void
 MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
 {
+    timer->start();
+
     QVariant selectedCell      = model->data( index, Qt::BackgroundRole );
     QColor colorOfSelectedCell = selectedCell.value<QColor>();
 
@@ -432,3 +438,30 @@ MainWindow::actLightMode()
  */
 void
 MainWindow::actDocumentation() { }
+
+void
+MainWindow::showTime()
+{
+    QTime time = QTime(Heures,minutes,secondes) ;
+    QString time_text = time.toString("hh : mm : ss");
+    ui->Digital_clock->setText( (time_text) );
+}
+
+void
+MainWindow::setTimer()
+{
+   timer->setInterval(1000);
+   secondes++;
+
+   if ( secondes == 60 )
+   {
+       secondes = 0;
+       minutes++;
+   }
+   if ( minutes == 60 )
+   {
+       Heures++;
+       minutes = 0;
+   }
+   showTime();
+}

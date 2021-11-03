@@ -8,7 +8,7 @@
 
 #include <iostream>
 #include <assert.h>
-#include "Echiquier.h"
+#include "ChessBoard.h"
 
 using namespace std;
 

@@ -11,8 +11,8 @@
 
 #include <QMainWindow>
 #include <QStandardItemModel>
-#include <QDialogButtonBox>
 #include <QCloseEvent>
+#include <QTimer>
 
 #include "Echiquier.h"
 #include "Joueur.h"

@@ -21,10 +21,10 @@ set(PROJECT_SOURCES
         mainwindow.ui
         Piece.cpp
         Piece.h
-        Joueur.cpp
-        Joueur.h
-        Echiquier.cpp
-        Echiquier.h
+        Player.cpp
+        Player.h
+        ChessBoard.cpp
+        ChessBoard.h
         Resource.qrc
 )
 

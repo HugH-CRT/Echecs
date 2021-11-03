@@ -8,14 +8,14 @@
 
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
-#include "Echiquier.h"
+#include "ChessBoard.h"
 #include "Piece.h"
-#include "Joueur.h"
+#include "Player.h"
 #include <iostream>
 #include <assert.h>
 #include "mainwindow.h"
+
 #include <QAbstractItemModel>
-#include <QDialog>
 #include <QModelIndex>
 #include <QString>
 #include <vector>
@@ -24,8 +24,6 @@
 #include <QStringListModel>
 #include <QTimer>
 #include <QDateTime>
-#include <QDialogButtonBox>
-#include <QPushButton>
 #include <QMessageBox>
 
 using namespace std;
@@ -40,13 +38,13 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     timer = new QTimer(this);
-    connect ( timer , SIGNAL( timeout() ), this, SLOT( setTimer() ) );
+    connect ( timer , SIGNAL( timeout() ), this, SLOT( SetTimer() ) );
 
     assert( playerWhite.PlacePieces( e ) );
     assert( playerBlack.PlacePieces( e ) );
 
     // Initialisation image pour le premier coup
-    QPixmap monImage(":/img_blanc/assets/blanc/pion.png");
+    QPixmap monImage(":/img/white/assets/white/pawn.png");
     ui->TourLabel->setAlignment(Qt::AlignCenter);
     ui->TourLabel->setPixmap(monImage);
 
@@ -58,10 +56,10 @@ MainWindow::MainWindow(QWidget *parent)
     // Initialisation du premier visuel de la matrice
     this->RefreshMatrix(this);
 
-    connect(ui->actionRegles, SIGNAL(triggered()), this, SLOT(actRegle()));
-    connect(ui->actionDark, SIGNAL(triggered()), this, SLOT(actDarkMode()));
-    connect(ui->actionLight, SIGNAL(triggered()), this, SLOT(actLightMode()));
-    connect(ui->actionDocumentation_Code_Source, SIGNAL(triggered()), this , SLOT(actDocumentation()));
+    connect(ui->actionRegles, SIGNAL(triggered()), this, SLOT(ActRegle()));
+    connect(ui->actionDark, SIGNAL(triggered()), this, SLOT(ActDarkMode()));
+    connect(ui->actionLight, SIGNAL(triggered()), this, SLOT(ActLightMode()));
+    connect(ui->actionDocumentation_Code_Source, SIGNAL(triggered()), this , SLOT(ActDocumentation()));
 
     timer->start();
 }
@@ -94,7 +92,7 @@ MainWindow::RefreshMatrix(QWidget *parent)
                 SetColorBackGround( QColor ( "darkRed" ), i , j , model);
         }
 
-    QPixmap monImage = ( whitePlay ? QPixmap ( ":/img_blanc/assets/blanc/pion.png" ) : QPixmap ( ":/img_noir/assets/noir/pion.png" ) );
+    QPixmap monImage = ( whitePlay ? QPixmap ( ":/img/white/assets/white/pawn.png" ) : QPixmap ( ":/img/black/assets/black/pawn.png" ) );
 
     ui->TourLabel->setAlignment( Qt::AlignCenter );
     ui->TourLabel->setPixmap( monImage );
@@ -476,8 +474,8 @@ MainWindow::SetTimer()
 void
 MainWindow::EndGameDisplay()
 {
-    QMessageBox::StandardButton endDisplay = QMessageBox::information( this, "Jeu d'Echec",
-                                                                       tr("Fin de la partie \n"),
+    QMessageBox::StandardButton endDisplay = QMessageBox::information( this, "Chess",
+                                                                       tr("END GAME \n"),
                                                                        QMessageBox::Ok,
                                                                        QMessageBox::Ok);
     if (endDisplay != QMessageBox::Ok) {
@@ -495,8 +493,8 @@ MainWindow::EndGameDisplay()
 void
 MainWindow::closeEvent (QCloseEvent *event)
 {
-    QMessageBox::StandardButton resBtn = QMessageBox::question( this, "Jeu d'Echec",
-                                                                tr("En êtes vous sûr ? \n"),
+    QMessageBox::StandardButton resBtn = QMessageBox::question( this, "Chess",
+                                                                tr("Are you sure ? \n"),
                                                                 QMessageBox::Cancel | QMessageBox::No | QMessageBox::Yes,
                                                                 QMessageBox::Yes);
     if (resBtn != QMessageBox::Yes) {

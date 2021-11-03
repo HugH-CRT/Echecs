@@ -11,109 +11,103 @@
 using namespace std;
 
 /**
- * @brief Piece::Piece
- * @param x
- * @param y
- * @param white
- * @param path
+ * @brief Constructeur d'une Piece
+ * @param x -> coordonnée de la colonne
+ * @param y -> coordonnée de la ligne
+ * @param white -> couleur de la piece
+ * @param path -> chemin de l'image de la piece
  */
 Piece::Piece( int x, int y, bool white, string path)
 {
-    m_x         = x;
-    m_y         = y;
-    m_white     = white;
+    p_x         = x;
+    p_y         = y;
+    p_white     = white;
     p_firstMove = true;
     p_path      = path;
     p_isEchec   = false;
 }
 
 /**
- * @brief Piece::~Piece
+ * @brief Destructeur de la Piece
  */
 Piece::~Piece(){}
 
 /**
- * @brief Piece::move
+ * @brief Met à jour les coordonnées de la piece ainsi que son attribut first move
  * @param x
  * @param y
  */
 void
-Piece::move( int x, int y )
+Piece::Move( int x, int y )
 {
-    m_x = x;
-    m_y = y;
+    p_x = x;
+    p_y = y;
     p_firstMove = false;
 }
 
 /**
- * @brief Piece::isEchec
- * @return
+ * @brief Renvoie l'attribut p_isEchec
  */
 bool
-Piece::isEchec() { return p_isEchec; }
+Piece::GetIsEchec() { return p_isEchec; }
 
 /**
- * @brief Piece::setIsEchec
+ * @brief Inverse l'attribut booléen p_isEchec
  */
 void
-Piece::setIsEchec() { p_isEchec = !p_isEchec; }
+Piece::SetIsEchec() { p_isEchec = !p_isEchec; }
 
 /**
- * @brief Piece::x
- * @return
+ * @brief Renvoie l'attribut p_x
  */
 int
-Piece::x() { return m_x; }
+Piece::GetX() { return p_x; }
 
 /**
- * @brief Piece::y
- * @return
+ * @brief PRenvoie l'attribut p_y
  */
 int
-Piece::y() { return m_y; }
+Piece::GetY() { return p_y; }
 
 /**
- * @brief Piece::firstMove
- * @return
+ * @brief Renvoie l'attribut p_firstMove
  */
 bool
-Piece::firstMove() { return p_firstMove; }
+Piece::GetFirstMove() { return p_firstMove; }
 
 /**
- * @brief Piece::isWhite
- * @return
+ * @brief Renvoie l'attribut p_white
  */
 bool
-Piece::isWhite() { return m_white; }
+Piece::GetIsWhite() { return p_white; }
 
 /**
- * @brief Piece::path
- * @return
+ * @brief Renvoie l'attribut p_path
  */
 string
-Piece::path() { return p_path; }
+Piece::GetPath() { return p_path; }
 
 /**
- *  @brief Méthode appelée apres la méthode echec() , vérifie si le roi à un déplacement valide
- *  @param Echiquier &e
- *  @param int x -> Position x du roi
- *  @param int y -> Position y du roi
- *  @return bool -> true si le roi possède un déplacement valable et que la piece qui l'as mis en echec ne le laisse pas en echec suite à ce déplacement , ou false dans le cas contraire
+ *  @brief Méthode appelée après la méthode echec() , vérifie si le King à un déplacement valide
+ *  @param ChessBoard &e
+ *  @param int x -> Position x du King
+ *  @param int y -> Position y du King
+ *  @return bool -> true si le King possède un déplacement valable et que la piece qui l'as mis en echec ne le laisse pas en echec suite à ce déplacement , ou false dans le cas contraire
 */
 list<string>
-Piece::MouvementPossibleRoi(Echiquier &e, int x, int y)
+Piece::CheckAvailableMovementKing(ChessBoard &e, int x, int y)
 {
     list<string> values;
-    Piece *monRoi = e.getPiece(x,y);
+    Piece *monKing = e.GetPiece(x,y);
 
     for ( int i = -1 ; i < 2 ; i++ )
         for ( int j = - 1 ; j < 2 ; j++ )
-            if ( ( monRoi->x() + j > 0 && monRoi->x() + j < 9 ) && ( monRoi->y() + i > 0 && monRoi->y() + i <  9)  )
+            if ( ( monKing->GetX() + j > 0 && monKing->GetX() + j < 9 ) && ( monKing->GetY() + i > 0 && monKing->GetY() + i <  9)  )
             {
-                Piece *maPiece = e.getPiece( monRoi->x() + j , monRoi->y() + i );
+                Piece *maPiece = e.GetPiece( monKing->GetX() + j , monKing->GetY() + i );
 
-                if ( maPiece == nullptr || maPiece->isWhite() != monRoi->isWhite())
-                    values.push_back( std::to_string( monRoi->x() + j - 1) + "-" + std::to_string( monRoi->y() + i - 1 ) + "-false" );
+                if ( maPiece == nullptr || maPiece->GetIsWhite() != monKing->GetIsWhite())
+                    values.push_back( std::to_string( monKing->GetX() + j - 1) + "-" + std::to_string( monKing->GetY() + i - 1 ) + "-false" );
             }
    return values;
 }
@@ -121,74 +115,73 @@ Piece::MouvementPossibleRoi(Echiquier &e, int x, int y)
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * @brief Roi::Roi
- * @param white
- * @param path
+ * @brief Constructeur du King
+ * @param white -> Couleur du King
+ * @param path -> Chemin d'image de l'image du King
  */
-Roi::Roi( bool white, string path ) : Piece( 5, white ? 1 : 8, white, path){}
+King::King( bool white, string path ) : Piece( 5, white ? 1 : 8, white, path){}
 
 /**
- * @brief Roi::~Roi
+ * @brief Destructeur du King
  */
-Roi::~Roi(){}
-
+King::~King(){}
 
 /**
- *  @brief Vérifie si un "roque" est possible entre le roi et la tour en paramètre.
- *  @param Echiquier &e
- *  @param *Tour x -> Pointeur vers la tour
+ *  @brief Vérifie si un "roque" est possible entre le King et la Rook en paramètre.
+ *  @param ChessBoard &e
+ *  @param *Rook x -> Pointeur vers la Rook
  *  @return bool -> true si le déplacement est possible false dans le cas contraire
 */
 bool
-Roi::roquePossible( Echiquier &e, Tour *p )
+King::CastlingAvailable( ChessBoard &e, Rook *p )
 {
-    if ( !p_firstMove && !firstMove() )
+    if ( !p_firstMove && !GetFirstMove() )
     {
-        if ( this->m_white )
+        if ( this->p_white )
         {
-            if ( p->x() > m_x )
+            if ( p->GetX() > p_x )
             {
-                for ( int i = m_x + 1; i < p->x(); i++ )
+                for ( int i = p_x + 1; i < p->GetX(); i++ )
                 {
-                    Piece *maPiece = e.getPiece( i , 8 );
+                    Piece *maPiece = e.GetPiece( i , 8 );
                     if ( maPiece != nullptr ) { return false; }
                 }
 
-                return e.VerifMoveRoiRoque( this , 7 , 8);
+                return e.CheckRoqueValidity( this , 7 , 8);
             }
-            else if ( p->x() > m_x && p->x() == 1 && p->y() == 8 )
+            else if ( p->GetX() > p_x && p->GetX() == 1 && p->GetY() == 8 )
             {
-                for ( int i = m_x - 1; i > p->x() ; i-- )
+                for ( int i = p_x - 1; i > p->GetX() ; i-- )
                 {
-                    Piece *maPiece = e.getPiece( i , 8 );
+                    Piece *maPiece = e.GetPiece( i , 8 );
                     if ( maPiece != nullptr ) { return false; }
                 }
 
-                return e.VerifMoveRoiRoque( this , 3 , 8 );
+                return e.CheckRoqueValidity( this , 3 , 8 );
             }
         }
         else
         {
-            if ( p->x() < m_x  )
+            if ( p->GetX() < p_x  )
             {
-                for ( int i = m_x - 1; i > p->x() ; i-- )
+                for ( int i = p_x - 1; i > p->GetX() ; i-- )
                 {
-                    Piece *maPiece = e.getPiece( i , 1 );
+                    Piece *maPiece = e.GetPiece( i , 1 );
                     if ( maPiece != nullptr ) { return false; }
                 }
 
-                return e.VerifMoveRoiRoque( this , 1 , 2 );
+                return e.CheckRoqueValidity( this , 1 , 2 );
             }
-            else if ( p->x() > m_x )
+            else if ( p->GetX() > p_x )
             {
 
-                for ( int i = m_x + 1; i < p->x() ; i++ )
+                for ( int i = p_x + 1; i < p->GetX() ; i++ )
                 {
-                    Piece *maPiece = e.getPiece( i , 1 );
+                    Piece *maPiece = e.GetPiece( i , 1 );
                     if ( maPiece != nullptr ) { return false; }
                 }
 
-                return e.VerifMoveRoiRoque( this , 1 , 7 );
+                return e.CheckRoqueValidity( this , 1 , 7 );
             }
         }
     }
@@ -196,24 +189,26 @@ Roi::roquePossible( Echiquier &e, Tour *p )
 }
 
 /**
- * @brief Roi::AfficheMouvementValide
- * @param e
- * @param whitePlay
- * @return
+ * @brief Récupère les coordonnées des cellules dont le mouvement est valide pour le King.
+ * @param ChessBoard e
+ * @param bool whitePlay -> Vrai si c'est le Rook du joueur blanc, Faux sinon.
+ * @return list<string> values -> Liste de toutes les coordonnées des cellules valides pour les déplacements du King.
+ *        Les coordonnées renseignées sont au format : 'x-y-bool' ou x correspond à la colonne de la cellule, y correspond à la ligne
+ *        de la cellule et bool correspond à l'attribution de la couleur true -> bleu , false -> rose
  */
 list<string>
-Roi::AfficheMouvementValide(Echiquier &e, bool whitePlay)
+King::DisplayAvailableMovement(ChessBoard &e, bool whitePlay)
 {
     list<string> values;
 
-    if ( m_white == whitePlay )
-        for ( int i = m_x - 1; i <= m_x + 1 ; i++ )
-            for ( int j = m_y - 1 ; j <= m_y + 1 ; j++ )
+    if ( p_white == whitePlay )
+        for ( int i = p_x - 1; i <= p_x + 1 ; i++ )
+            for ( int j = p_y - 1 ; j <= p_y + 1 ; j++ )
             {
-                Piece *maPiece = e.getPiece( i , j );
+                Piece *maPiece = e.GetPiece( i , j );
                 if ( maPiece == nullptr )
                     values.push_back( std::to_string( i - 1 ) + "-" + std::to_string( j - 1 ) + "-false" );
-                else if ( m_white != maPiece->isWhite() )
+                else if ( p_white != maPiece->GetIsWhite() )
                    values.push_back( std::to_string( i - 1 ) + "-" + std::to_string( j - 1 ) + "-true" );
             }
     return values;
@@ -222,340 +217,347 @@ Roi::AfficheMouvementValide(Echiquier &e, bool whitePlay)
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * @brief Reine::Reine
- * @param white
- * @param path
+ * @brief Constructeur de la Queen
+ * @param white -> Couleur de la Queen
+ * @param path -> Chemin d'image de l'image de la Queen.
  */
-Reine::Reine( bool white, string path ) : Piece( 4, white ? 1 : 8, white , path ), Fou( white, true ,path ), Tour( white, true ,path ){}
+Queen::Queen( bool white, string path ) : Piece( 4, white ? 1 : 8, white , path ), Bishop( white, true ,path ), Rook( white, true ,path ){}
 
 /**
- * @brief Reine::~Reine
+ * @brief Destructeur de la Queen
  */
-Reine::~Reine(){}
+Queen::~Queen(){}
 
 /**
- * @brief Reine::AfficheMouvementValide
- * @param e
- * @param whitePlay
- * @return
+ * @brief Récupère les coordonnées des cellules dont le mouvement est valide pour la Queen.
+ * @param ChessBoard e
+ * @param bool whitePlay -> Vrai si c'est le Rook du joueur blanc, Faux sinon.
+ * @return list<string> values -> Liste de toutes les coordonnées des cellules valides pour les déplacements de la Queen.
+ *        Les coordonnées renseignées sont au format : 'x-y-bool' ou x correspond à la colonne de la cellule, y correspond à la ligne
+ *        de la cellule et bool correspond à l'attribution de la couleur true -> bleu , false -> rose
  */
 list<string>
-Reine::AfficheMouvementValide(Echiquier &e, bool whitePlay)
+Queen::DisplayAvailableMovement(ChessBoard &e, bool whitePlay)
 {
-    list<string> casesValideFou  = Fou::AfficheMouvementValide( e, whitePlay);
-    list<string> casesValideTour = Tour::AfficheMouvementValide( e,whitePlay);
-    casesValideFou.insert( casesValideFou.end(), casesValideTour.begin(), casesValideTour.end() );
+    list<string> casesValideBishop  = Bishop::DisplayAvailableMovement( e, whitePlay);
+    list<string> casesValideRook = Rook::DisplayAvailableMovement( e,whitePlay);
+    casesValideBishop.insert( casesValideBishop.end(), casesValideRook.begin(), casesValideRook.end() );
 
-    return casesValideFou;
+    return casesValideBishop;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/**
- * @brief Tour::Tour
- * @param white
- * @param gauche
- * @param path
- */
-Tour::Tour( bool white, bool gauche, string path ) : Piece( gauche ? 1 : 8, white ? 1 : 8, white, path ){}
 
 /**
- * @brief Tour::~Tour
+ * @brief Constructeur de la Rook.
+ * @param white -> Couleur de la Rook.
+ * @param path -> Chemin d'image de l'image de la Rook.
  */
-Tour::~Tour(){}
+Rook::Rook( bool white, bool gauche, string path ) : Piece( gauche ? 1 : 8, white ? 1 : 8, white, path ){}
 
 /**
- * @brief Tour::AfficheMouvementValide
- * @param e
- * @param whitePlay
- * @return
+ * @brief Destructeur de la Rook.
+ */
+Rook::~Rook(){}
+
+/**
+ * @brief Récupère les coordonnées des cellules dont le mouvement est valide pour la Rook.
+ * @param ChessBoard e
+ * @param bool whitePlay -> Vrai si c'est le Rook du joueur blanc, Faux sinon.
+ * @return list<string> values -> Liste de toutes les coordonnées des cellules valides pour les déplacements de la Rook.
+ *        Les coordonnées renseignées sont au format : 'x-y-bool' ou x correspond à la colonne de la cellule, y correspond à la ligne
+ *        de la cellule et bool correspond à l'attribution de la couleur true -> bleu , false -> rose
  */
 list<string>
-Tour::AfficheMouvementValide(Echiquier &e, bool whitePlay)
+Rook::DisplayAvailableMovement(ChessBoard &e, bool whitePlay)
 {
-    list<string> casesValideTour;
+    list<string> casesValideRook;
 
-    if ( m_white == whitePlay)
+    if ( p_white == whitePlay)
     {
-        for ( int i = m_x + 1; i <= 8 ; i++ )
+        for ( int i = p_x + 1; i <= 8 ; i++ )
         {
-            Piece *maPiece = e.getPiece( i , m_y );
+            Piece *maPiece = e.GetPiece( i , p_y );
 
             if ( maPiece == nullptr )
-                casesValideTour.push_back( std::to_string( i - 1 ) + "-" + std::to_string( m_y - 1 )+ "-false" );
-            else if ( m_white != maPiece->isWhite() )
+                casesValideRook.push_back( std::to_string( i - 1 ) + "-" + std::to_string( p_y - 1 )+ "-false" );
+            else if ( p_white != maPiece->GetIsWhite() )
             {
-                casesValideTour.push_back( std::to_string( i - 1 ) + "-" + std::to_string( m_y - 1 )+ "-true" );
+                casesValideRook.push_back( std::to_string( i - 1 ) + "-" + std::to_string( p_y - 1 )+ "-true" );
                 break;
             }
             else break;
         }
 
-        for ( int i = m_x - 1; i >= 0 ; i-- )
+        for ( int i = p_x - 1; i >= 0 ; i-- )
         {
-            Piece *maPiece = e.getPiece( i , m_y );
+            Piece *maPiece = e.GetPiece( i , p_y );
 
             if ( maPiece == nullptr )
-                casesValideTour.push_back( std::to_string( i - 1 ) + "-" + std::to_string( m_y - 1 )+ "-false" );
-            else if ( m_white != maPiece->isWhite() )
+                casesValideRook.push_back( std::to_string( i - 1 ) + "-" + std::to_string( p_y - 1 )+ "-false" );
+            else if ( p_white != maPiece->GetIsWhite() )
             {
-                casesValideTour.push_back( std::to_string( i - 1 ) + "-" + std::to_string( m_y - 1 )+ "-true" );
+                casesValideRook.push_back( std::to_string( i - 1 ) + "-" + std::to_string( p_y - 1 )+ "-true" );
                 break;
             }
             else break;
         }
 
-        for ( int i = m_y + 1; i <= 8 ; i++ )
+        for ( int i = p_y + 1; i <= 8 ; i++ )
         {
-            Piece *maPiece = e.getPiece( m_x , i );
+            Piece *maPiece = e.GetPiece( p_x , i );
 
             if ( maPiece == nullptr )
-                casesValideTour.push_back( std::to_string( m_x - 1 ) + "-" + std::to_string( i - 1 ) + "-false" );
-            else if ( m_white != maPiece->isWhite() )
+                casesValideRook.push_back( std::to_string( p_x - 1 ) + "-" + std::to_string( i - 1 ) + "-false" );
+            else if ( p_white != maPiece->GetIsWhite() )
             {
-                casesValideTour.push_back( std::to_string( m_x - 1 ) + "-" + std::to_string( i - 1 ) + "-true" );
+                casesValideRook.push_back( std::to_string( p_x - 1 ) + "-" + std::to_string( i - 1 ) + "-true" );
                 break;
             }
             else break;
         }
 
-        for ( int i = m_y - 1; i >= 0 ; i-- )
+        for ( int i = p_y - 1; i >= 0 ; i-- )
         {
-            Piece *maPiece = e.getPiece( m_x , i );
+            Piece *maPiece = e.GetPiece( p_x , i );
 
             if ( maPiece == nullptr )
-                casesValideTour.push_back( std::to_string( m_x - 1 ) + "-" + std::to_string( i - 1 ) + "-false");
-            else if ( m_white != maPiece->isWhite() )
+                casesValideRook.push_back( std::to_string( p_x - 1 ) + "-" + std::to_string( i - 1 ) + "-false");
+            else if ( p_white != maPiece->GetIsWhite() )
             {
-                casesValideTour.push_back( std::to_string( m_x - 1 ) + "-" + std::to_string( i - 1 ) + "-true");
+                casesValideRook.push_back( std::to_string( p_x - 1 ) + "-" + std::to_string( i - 1 ) + "-true");
                 break;
             }
             else break;
         }
     }
-    return casesValideTour;
+    return casesValideRook;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * @brief Fou::Fou
- * @param white
- * @param gauche
- * @param path
+ * @brief Constructeur du Bishop.
+ * @param white -> Couleur du Bishop.
+ * @param path -> Chemin d'image de l'image du Bishop.
  */
-Fou::Fou( bool white, bool gauche, string path ) : Piece( gauche ? 3 : 6, white ? 1 : 8, white, path ){}
+Bishop::Bishop( bool white, bool gauche, string path ) : Piece( gauche ? 3 : 6, white ? 1 : 8, white, path ){}
 
 /**
- * @brief Fou::~Fou
+ * @brief Destructeur du Bishop.
  */
-Fou::~Fou(){}
+Bishop::~Bishop(){}
 
 /**
- * @brief Fou::AfficheMouvementValide
- * @param e
- * @param whitePlay
- * @return
+ * @brief Récupère les coordonnées des cellules dont le mouvement est valide pour le Bishop.
+ * @param ChessBoard e
+ * @param bool whitePlay -> Vrai si c'est le Rook du joueur blanc, Faux sinon.
+ * @return list<string> values -> Liste de toutes les coordonnées des cellules valides pour les déplacements du Bishop.
+ *        Les coordonnées renseignées sont au format : 'x-y-bool' ou x correspond à la colonne de la cellule, y correspond à la ligne
+ *        de la cellule et bool correspond à l'attribution de la couleur true -> bleu , false -> rose
  */
 list<string>
-Fou::AfficheMouvementValide(Echiquier &e, bool whitePlay)
+Bishop::DisplayAvailableMovement(ChessBoard &e, bool whitePlay)
 {
-    list<string> casesValideFou;
+    list<string> casesValideBishop;
 
-    if ( m_white == whitePlay )
+    if ( p_white == whitePlay )
     {
-        int saveLinePosition = m_y;
-        for ( int i = m_x + 1 ; i <= 8 ; i ++ )
+        int saveLinePosition = p_y;
+        for ( int i = p_x + 1 ; i <= 8 ; i ++ )
         {
             saveLinePosition++;
 
-            Piece *maPiece = e.getPiece(i,saveLinePosition);
+            Piece *maPiece = e.GetPiece(i,saveLinePosition);
 
             if ( maPiece == nullptr )
-                casesValideFou.push_back( std::to_string( i - 1 ) + "-" + std::to_string( saveLinePosition - 1 ) + "-false" );
-            else if ( maPiece->isWhite() != m_white  )
+                casesValideBishop.push_back( std::to_string( i - 1 ) + "-" + std::to_string( saveLinePosition - 1 ) + "-false" );
+            else if ( maPiece->GetIsWhite() != p_white  )
             {
-                casesValideFou.push_back( std::to_string( i - 1 ) + "-" + std::to_string( saveLinePosition - 1 ) + "-true" );
+                casesValideBishop.push_back( std::to_string( i - 1 ) + "-" + std::to_string( saveLinePosition - 1 ) + "-true" );
                 break;
             }
             else break;
         }
 
-        saveLinePosition = m_y;
-        for ( int i = m_x + 1 ; i <= 8 ; i ++ )
+        saveLinePosition = p_y;
+        for ( int i = p_x + 1 ; i <= 8 ; i ++ )
         {
             saveLinePosition--;
 
-            Piece *maPiece = e.getPiece(i,saveLinePosition);
+            Piece *maPiece = e.GetPiece(i,saveLinePosition);
 
             if ( maPiece == nullptr )
-                casesValideFou.push_back( std::to_string( i - 1 ) + "-" + std::to_string( saveLinePosition - 1 ) + "-false");
-            else if ( maPiece->isWhite() != m_white ){
-                casesValideFou.push_back( std::to_string( i - 1 ) + "-" + std::to_string( saveLinePosition - 1 ) + "-true" );
+                casesValideBishop.push_back( std::to_string( i - 1 ) + "-" + std::to_string( saveLinePosition - 1 ) + "-false");
+            else if ( maPiece->GetIsWhite() != p_white ){
+                casesValideBishop.push_back( std::to_string( i - 1 ) + "-" + std::to_string( saveLinePosition - 1 ) + "-true" );
                 break;
             }
             else break;
         }
 
-        saveLinePosition = m_y;
-        for ( int i = m_x - 1 ; i >= 0 ;i -- )
+        saveLinePosition = p_y;
+        for ( int i = p_x - 1 ; i >= 0 ;i -- )
         {
             saveLinePosition++;
 
-            Piece *maPiece = e.getPiece(i,saveLinePosition);
+            Piece *maPiece = e.GetPiece(i,saveLinePosition);
 
             if ( maPiece == nullptr )
-                casesValideFou.push_back( std::to_string( i - 1 ) + "-" + std::to_string( saveLinePosition - 1 ) + "-false");
-            else if ( maPiece->isWhite() != m_white )
+                casesValideBishop.push_back( std::to_string( i - 1 ) + "-" + std::to_string( saveLinePosition - 1 ) + "-false");
+            else if ( maPiece->GetIsWhite() != p_white )
             {
-                casesValideFou.push_back( std::to_string( i - 1 ) + "-" + std::to_string( saveLinePosition - 1 ) + "-true" );
+                casesValideBishop.push_back( std::to_string( i - 1 ) + "-" + std::to_string( saveLinePosition - 1 ) + "-true" );
                 break;
             }
             else break;
         }
 
-        saveLinePosition = m_y;
-        for ( int i = m_x - 1 ; i >= 0 ;i -- )
+        saveLinePosition = p_y;
+        for ( int i = p_x - 1 ; i >= 0 ;i -- )
         {
             saveLinePosition--;
 
-            Piece *maPiece = e.getPiece(i,saveLinePosition);
+            Piece *maPiece = e.GetPiece(i,saveLinePosition);
 
             if ( maPiece == nullptr )
-                casesValideFou.push_back( std::to_string( i - 1 ) + "-" + std::to_string( saveLinePosition - 1 ) + "-false");
-            else if ( maPiece->isWhite() != m_white )
+                casesValideBishop.push_back( std::to_string( i - 1 ) + "-" + std::to_string( saveLinePosition - 1 ) + "-false");
+            else if ( maPiece->GetIsWhite() != p_white )
             {
-                casesValideFou.push_back( std::to_string( i - 1 ) + "-" + std::to_string( saveLinePosition - 1 ) + "-true");
+                casesValideBishop.push_back( std::to_string( i - 1 ) + "-" + std::to_string( saveLinePosition - 1 ) + "-true");
                 break;
             }
             else break;
         }
     }
-    return casesValideFou;
+    return casesValideBishop;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * @brief Cavalier::Cavalier
- * @param white
- * @param gauche
- * @param path
+ * @brief Constructeur du Knight.
+ * @param white -> Couleur du Knight.
+ * @param path -> Chemin d'image de l'image du Knight.
  */
-Cavalier::Cavalier( bool white, bool gauche, string path ) : Piece( gauche ? 2 : 7, white ? 1 : 8, white, path ){}
+Knight::Knight( bool white, bool gauche, string path ) : Piece( gauche ? 2 : 7, white ? 1 : 8, white, path ){}
 
 /**
- * @brief Cavalier::~Cavalier
+ * @brief Destructeur du Knight.
  */
-Cavalier::~Cavalier(){}
+Knight::~Knight(){}
 
 /**
- * @brief Cavalier::AfficheMouvementValide
- * @param e
- * @param whitePlay
- * @return
+ * @brief Récupère les coordonnées des cellules dont le mouvement est valide pour le Knight.
+ * @param ChessBoard e
+ * @param bool whitePlay -> Vrai si c'est le Rook du joueur blanc, Faux sinon.
+ * @return list<string> values -> Liste de toutes les coordonnées des cellules valides pour les déplacements du Knight.
+ *        Les coordonnées renseignées sont au format : 'x-y-bool' ou x correspond à la colonne de la cellule, y correspond à la ligne
+ *        de la cellule et bool correspond à l'attribution de la couleur true -> bleu , false -> rose
  */
 list<string>
-Cavalier::AfficheMouvementValide(Echiquier &e, bool whitePlay )
+Knight::DisplayAvailableMovement(ChessBoard &e, bool whitePlay )
 {
-    list<string> casesValideCavalier;
+    list<string> casesValideKnight;
     string Bool;
 
-    if ( m_white == whitePlay )
+    if ( p_white == whitePlay )
     {
-        Bool = e.getPiece( m_x + 2 , m_y - 1  ) == nullptr ? "false" : e.getPiece( m_x + 2 , m_y - 1 )->isWhite() != m_white ?  "true" : "";
-        casesValideCavalier.push_back( std::to_string( m_x + 1 ) + "-" + std::to_string( m_y - 2 ) + "-" + Bool );
+        Bool = e.GetPiece( p_x + 2 , p_y - 1  ) == nullptr ? "false" : e.GetPiece( p_x + 2 , p_y - 1 )->GetIsWhite() != p_white ?  "true" : "";
+        casesValideKnight.push_back( std::to_string( p_x + 1 ) + "-" + std::to_string( p_y - 2 ) + "-" + Bool );
 
-        Bool = e.getPiece( m_x + 2 , m_y + 1  ) == nullptr ? "false" : e.getPiece( m_x + 2 , m_y + 1 )->isWhite() != m_white ? "true" : "";
-        casesValideCavalier.push_back( std::to_string( m_x + 1 ) + "-" + std::to_string( m_y ) + "-" +  Bool );
+        Bool = e.GetPiece( p_x + 2 , p_y + 1  ) == nullptr ? "false" : e.GetPiece( p_x + 2 , p_y + 1 )->GetIsWhite() != p_white ? "true" : "";
+        casesValideKnight.push_back( std::to_string( p_x + 1 ) + "-" + std::to_string( p_y ) + "-" +  Bool );
 
-        Bool = e.getPiece( m_x - 2 , m_y - 1  ) == nullptr ? "false" : e.getPiece( m_x - 2 , m_y - 1 )->isWhite() != m_white ? "true" : "";
-        casesValideCavalier.push_back( std::to_string( m_x - 3 ) + "-" + std::to_string( m_y - 2 ) +  "-" +Bool );
+        Bool = e.GetPiece( p_x - 2 , p_y - 1  ) == nullptr ? "false" : e.GetPiece( p_x - 2 , p_y - 1 )->GetIsWhite() != p_white ? "true" : "";
+        casesValideKnight.push_back( std::to_string( p_x - 3 ) + "-" + std::to_string( p_y - 2 ) +  "-" +Bool );
 
-        Bool = e.getPiece( m_x - 2 , m_y + 1  ) == nullptr ? "false" : e.getPiece( m_x - 2 , m_y + 1 )->isWhite() != m_white ? "true" : "";
-        casesValideCavalier.push_back( std::to_string( m_x - 3 ) + "-" + std::to_string( m_y ) + "-" +Bool);
+        Bool = e.GetPiece( p_x - 2 , p_y + 1  ) == nullptr ? "false" : e.GetPiece( p_x - 2 , p_y + 1 )->GetIsWhite() != p_white ? "true" : "";
+        casesValideKnight.push_back( std::to_string( p_x - 3 ) + "-" + std::to_string( p_y ) + "-" +Bool);
 
-        Bool = e.getPiece( m_x + 1 , m_y + 2  ) == nullptr ? "false" : e.getPiece( m_x + 1 , m_y + 2 )->isWhite() != m_white ? "true" : "";
-        casesValideCavalier.push_back( std::to_string( m_x ) + "-" + std::to_string( m_y + 1 ) + "-" + Bool );
+        Bool = e.GetPiece( p_x + 1 , p_y + 2  ) == nullptr ? "false" : e.GetPiece( p_x + 1 , p_y + 2 )->GetIsWhite() != p_white ? "true" : "";
+        casesValideKnight.push_back( std::to_string( p_x ) + "-" + std::to_string( p_y + 1 ) + "-" + Bool );
 
-        Bool = e.getPiece( m_x - 1 , m_y + 2  ) == nullptr ? "false" : e.getPiece( m_x - 1 , m_y + 2 )->isWhite() != m_white ? "true" : "" ;
-        casesValideCavalier.push_back( std::to_string( m_x - 2 ) + "-" + std::to_string( m_y + 1 ) + "-" + Bool );
+        Bool = e.GetPiece( p_x - 1 , p_y + 2  ) == nullptr ? "false" : e.GetPiece( p_x - 1 , p_y + 2 )->GetIsWhite() != p_white ? "true" : "" ;
+        casesValideKnight.push_back( std::to_string( p_x - 2 ) + "-" + std::to_string( p_y + 1 ) + "-" + Bool );
 
-        Bool = e.getPiece( m_x + 1 , m_y - 2  ) == nullptr ? "false" : e.getPiece( m_x + 1 , m_y - 2 )->isWhite() != m_white ? "true" : "";
-        casesValideCavalier.push_back( std::to_string( m_x ) + "-" + std::to_string( m_y - 3 ) + "-" + Bool );
+        Bool = e.GetPiece( p_x + 1 , p_y - 2  ) == nullptr ? "false" : e.GetPiece( p_x + 1 , p_y - 2 )->GetIsWhite() != p_white ? "true" : "";
+        casesValideKnight.push_back( std::to_string( p_x ) + "-" + std::to_string( p_y - 3 ) + "-" + Bool );
 
-        Bool = e.getPiece( m_x - 1 , m_y - 2  ) == nullptr ? "false" : e.getPiece( m_x - 1 , m_y - 2 )->isWhite() != m_white ?  "true" : "";
-        casesValideCavalier.push_back( std::to_string( m_x - 2 ) + "-" + std::to_string( m_y - 3 ) + "-" + Bool );
+        Bool = e.GetPiece( p_x - 1 , p_y - 2  ) == nullptr ? "false" : e.GetPiece( p_x - 1 , p_y - 2 )->GetIsWhite() != p_white ?  "true" : "";
+        casesValideKnight.push_back( std::to_string( p_x - 2 ) + "-" + std::to_string( p_y - 3 ) + "-" + Bool );
     }
-    return casesValideCavalier;
+    return casesValideKnight;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * @brief Pion::Pion
- * @param white
- * @param x
- * @param path
+ * @brief Constructeur du Pawn.
+ * @param white -> Couleur du Pawn.
+ * @param path -> Chemin d'image de l'image du Pawn.
  */
-Pion::Pion( bool white, int x, string path ) : Piece( x, white ? 2 : 7, white, path ){}
+Pawn::Pawn( bool white, int x, string path ) : Piece( x, white ? 2 : 7, white, path ){}
 
 /**
- * @brief Pion::~Pion
+ * @brief Destructeur du Pawn.
  */
-Pion::~Pion(){}
+Pawn::~Pawn(){}
 
 /**
- * @brief Pion::DoitEvoluer
+ * @brief Pawn::DoitEvoluer
  * @param e
  * @param whitePlay
  * @return
  */
 bool
-Pion::DoitEvoluer(Echiquier &e,bool whitePlay )
+Pawn::DoitEvoluer(ChessBoard &e,bool whitePlay )
 {
 
-    if ((this->m_y == 8 && this->isWhite() == true) || (this->m_y == 1 && this->isWhite() == false))
+    if ((this->p_y == 8 && this->GetIsWhite() == true) || (this->p_y == 1 && this->GetIsWhite() == false))
     {
-        cout << "le pion peut etre évolué" << endl;
+        cout << "le Pawn peut etre évolué" << endl;
     }
     return true;
 }
 
 /**
- * @brief Pion::AfficheMouvementValide
- * @param e
- * @param whitePlay
- * @return
+ * @brief Récupère les coordonnées des cellules dont le mouvement est valide pour le Pawn.
+ * @param ChessBoard e
+ * @param bool whitePlay -> Vrai si c'est le Rook du joueur blanc, Faux sinon.
+ * @return list<string> values -> Liste de toutes les coordonnées des cellules valides pour les déplacements du Pawn.
+ *        Les coordonnées renseignées sont au format : 'x-y-bool' ou x correspond à la colonne de la cellule, y correspond à la ligne
+ *        de la cellule et bool correspond à l'attribution de la couleur true -> bleu , false -> rose
  */
 list<string>
-Pion::AfficheMouvementValide(Echiquier &e, bool whitePlay)
+Pawn::DisplayAvailableMovement(ChessBoard &e, bool whitePlay)
 {
-    list<string> casesValidePion;
-    int destination = (firstMove() ? 2 : 1 );
+    list<string> casesValidePawn;
+    int destination = ( GetFirstMove() ? 2 : 1 );
 
-    if ( m_white && whitePlay)
+    if ( p_white && whitePlay)
     {
-        for ( int i = m_y + 1  ; i <= m_y + destination ; i++ )
-            if ( e.getPiece( m_x , i  ) == nullptr )
-                casesValidePion.push_back( std::to_string( m_x - 1 ) + "-" + std::to_string( i - 1 )  + "-false" );
+        for ( int i = p_y + 1  ; i <= p_y + destination ; i++ )
+            if ( e.GetPiece( p_x , i  ) == nullptr )
+                casesValidePawn.push_back( std::to_string( p_x - 1 ) + "-" + std::to_string( i - 1 )  + "-false" );
 
-        if ( e.getPiece( m_x + 1 , m_y + 1 ) != nullptr && e.getPiece( m_x + 1 , m_y + 1 )->isWhite() != isWhite() )
-            casesValidePion.push_back( std::to_string( m_x ) + "-" + std::to_string( m_y ) + "-true");
+        if ( e.GetPiece( p_x + 1 , p_y + 1 ) != nullptr && e.GetPiece( p_x + 1 , p_y + 1 )->GetIsWhite() != GetIsWhite() )
+            casesValidePawn.push_back( std::to_string( p_x ) + "-" + std::to_string( p_y ) + "-true");
 
-        if ( e.getPiece( m_x - 1 , m_y + 1 ) != nullptr && e.getPiece( m_x - 1 , m_y + 1 )->isWhite() != isWhite() )
-             casesValidePion.push_back( std::to_string( m_x - 2 ) + "-" + std::to_string( m_y )  + "-true");
+        if ( e.GetPiece( p_x - 1 , p_y + 1 ) != nullptr && e.GetPiece( p_x - 1 , p_y + 1 )->GetIsWhite() != GetIsWhite() )
+             casesValidePawn.push_back( std::to_string( p_x - 2 ) + "-" + std::to_string( p_y )  + "-true");
     }
-    else if ( !m_white && !whitePlay )
+    else if ( !p_white && !whitePlay )
     {
-        for ( int i = m_y - 1  ; i >= m_y - destination ; i-- )
-            if ( e.getPiece( m_x , i  ) == nullptr )
-              casesValidePion.push_back(  std::to_string( m_x - 1 ) + "-" + std::to_string( i - 1 ) + "-false" );
+        for ( int i = p_y - 1  ; i >= p_y - destination ; i-- )
+            if ( e.GetPiece( p_x , i  ) == nullptr )
+              casesValidePawn.push_back(  std::to_string( p_x - 1 ) + "-" + std::to_string( i - 1 ) + "-false" );
 
-        if ( e.getPiece( m_x + 1 , m_y - 1 ) != nullptr && e.getPiece( m_x + 1 , m_y - 1 )->isWhite() != isWhite())
-            casesValidePion.push_back( std::to_string( m_x ) + "-" + std::to_string( m_y - 2 ) + "-true");
+        if ( e.GetPiece( p_x + 1 , p_y - 1 ) != nullptr && e.GetPiece( p_x + 1 , p_y - 1 )->GetIsWhite() != GetIsWhite())
+            casesValidePawn.push_back( std::to_string( p_x ) + "-" + std::to_string( p_y - 2 ) + "-true");
 
-        if ( e.getPiece( m_x - 1 , m_y - 1 ) != nullptr && e.getPiece( m_x - 1 , m_y - 1 )->isWhite() != isWhite() )
-            casesValidePion.push_back( std::to_string( m_x - 2 ) + "-" + std::to_string( m_y - 2 ) + "-true" );
+        if ( e.GetPiece( p_x - 1 , p_y - 1 ) != nullptr && e.GetPiece( p_x - 1 , p_y - 1 )->GetIsWhite() != GetIsWhite() )
+            casesValidePawn.push_back( std::to_string( p_x - 2 ) + "-" + std::to_string( p_y - 2 ) + "-true" );
     }
-    return casesValidePion;
+    return casesValidePawn;
 }

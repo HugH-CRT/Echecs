@@ -12,29 +12,29 @@
 #include "Piece.h"
 #include "Echiquier.h"
 
-class Joueur
+class Player
 {
    protected:
     Piece *m_pieces[16];
-    bool iswhite;
+    bool p_isWhite;
 
    public:
-    Joueur();
-    virtual ~Joueur();
-    bool isWhite();
-    bool placerPieces( Echiquier &e );
+    Player();
+    virtual ~Player();
+    bool IsWhite();
+    bool PlacePieces( ChessBoard &e );
 };
 
-class JoueurBlanc : public Joueur
+class PlayerWhite : public Player
 {
    public:
-    JoueurBlanc();
+    PlayerWhite();
 };
 
-class JoueurNoir : public Joueur
+class PlayerBlack : public Player
 {
    public:
-    JoueurNoir();
+    PlayerBlack();
 };
 
 #endif

@@ -14,7 +14,6 @@
 #include <iostream>
 #include <assert.h>
 #include "mainwindow.h"
-#include "timer.h"
 #include <QAbstractItemModel>
 #include <QDialog>
 #include <QModelIndex>
@@ -42,8 +41,8 @@ MainWindow::MainWindow(QWidget *parent)
     timer = new QTimer(this);
     connect ( timer , SIGNAL( timeout() ), this, SLOT( setTimer() ) );
 
-    assert( jn.placerPieces( e ) );
-    assert( jb.placerPieces( e ) );
+    assert( playerWhite.PlacePieces( e ) );
+    assert( playerBlack.PlacePieces( e ) );
 
     // Initialisation image pour le premier coup
     QPixmap monImage(":/img_blanc/assets/blanc/pion.png");
@@ -56,7 +55,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->view_Histo_2->setIconSize(QSize(20,20));
 
     // Initialisation du premier visuel de la matrice
-    this->RefreshMatrice(this);
+    this->RefreshMatrix(this);
 
     connect(ui->actionRegles, SIGNAL(triggered()), this, SLOT(actRegle()));
     connect(ui->actionDark, SIGNAL(triggered()), this, SLOT(actDarkMode()));
@@ -74,25 +73,25 @@ MainWindow::~MainWindow() { delete ui; }
  * @param parent
  */
 void
-MainWindow::RefreshMatrice(QWidget *parent)
+MainWindow::RefreshMatrix(QWidget *parent)
 {
     model = new QStandardItemModel(8,8,parent) ;
 
     for ( int i = 0 ; i < 8 ; i++ )
         for ( int j = 0 ; j < 8 ; j++ )
         {
-            if ( e.getPiece( j + 1 , i + 1 ) != nullptr )
-                SetImage( QPixmap ( ConvertToChar( e.getPiece( j + 1 , i + 1 )->path() ) ), i , j , model);
+            if ( e.GetPiece( j + 1 , i + 1 ) != nullptr )
+                SetPicture( QPixmap ( ConvertToChar( e.GetPiece( j + 1 , i + 1 )->GetPath() ) ), i , j , model);
 
             QColor myColor = ( i % 2 == j % 2 ?  QColor (103,159,90, 150) : QColor (225, 206, 154, 150) ) ;
 
-            setColorBackGround( myColor, i , j , model);
+            SetColorBackGround( myColor, i , j , model);
 
-            if (  e.getPiece(j+1, i+1) != nullptr && e.getPiece( j + 1 , i + 1 )->isEchec() )
-                setColorBackGround( QColor ( "darkRed" ), i , j , model);
+            if (  e.GetPiece(j+1, i+1) != nullptr && e.GetPiece( j + 1 , i + 1 )->GetIsEchec() )
+                SetColorBackGround( QColor ( "darkRed" ), i , j , model);
         }
 
-    QPixmap monImage = ( WhitePlay ? QPixmap ( ":/img_blanc/assets/blanc/pion.png" ) : QPixmap ( ":/img_noir/assets/noir/pion.png" ) );
+    QPixmap monImage = ( whitePlay ? QPixmap ( ":/img_blanc/assets/blanc/pion.png" ) : QPixmap ( ":/img_noir/assets/noir/pion.png" ) );
 
     ui->TourLabel->setAlignment( Qt::AlignCenter );
     ui->TourLabel->setPixmap( monImage );
@@ -114,91 +113,91 @@ MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
     QColor colorOfSelectedCell = selectedCell.value<QColor>();
 
 
-    if ( pieceEnCours != nullptr && pieceEnCours->isWhite() == WhitePlay && colorOfSelectedCell.value() == 255 )
+    if ( currentPiece != nullptr && currentPiece->GetIsWhite() == whitePlay && colorOfSelectedCell.value() == 255 )
     {
-        if ( ( ( WhitePlay ) && ( xRoiBlanc != index.column()+1 || yRoiBlanc != index.row()+1 ) ) || ( !WhitePlay ) && ( xRoiNoir != index.column() + 1 || yRoiNoir != index.row() + 1 ) )
+        if ( ( ( whitePlay ) && ( xWhiteKing != index.column()+1 || yWhiteKing != index.row()+1 ) ) || ( !whitePlay ) && ( xBlackKing != index.column() + 1 || yBlackKing != index.row() + 1 ) )
         {
-            if ( xRoiNoir == index.column()+1 && yRoiNoir == index.row()+1 ) xRoiNoir = 0;
-            if ( xRoiBlanc == index.column()+1 && yRoiBlanc == index.row()+1 ) xRoiBlanc = 0;
+            if ( xBlackKing == index.column()+1 && yBlackKing == index.row()+1 ) xBlackKing = 0;
+            if ( xWhiteKing == index.column()+1 && yWhiteKing == index.row()+1 ) xWhiteKing = 0;
 
-            if ( pieceEnCours->x() == xRoiNoir && pieceEnCours->y() == yRoiNoir )
+            if ( currentPiece->GetX() == xBlackKing && currentPiece->GetY() == yBlackKing )
             {
-                xRoiNoir = index.column()+1;
-                yRoiNoir = index.row()+1;
+                xBlackKing = index.column()+1;
+                yBlackKing = index.row()+1;
             }
-            else if (  pieceEnCours->x() == xRoiBlanc && pieceEnCours->y() == yRoiBlanc )
+            else if (  currentPiece->GetX() == xWhiteKing && currentPiece->GetY() == yWhiteKing )
             {
-                xRoiBlanc = index.column()+1;
-                yRoiBlanc = index.row()+1;
+                xWhiteKing = index.column()+1;
+                yWhiteKing = index.row()+1;
             }
 
-            if (xRoiNoir == 0 || xRoiBlanc == 0)
+            if (xBlackKing == 0 || xWhiteKing == 0)
             {
-                this->RefreshMatrice(this);
+                this->RefreshMatrix(this);
                 cout << "Fin de game" << endl;
                 EndGameDisplay(this);
             }
 
-            if ( WhitePlay == true)
+            if ( whitePlay == true)
             {
-                if ( e.getPiece( index.column() + 1 , index.row() + 1 ) != nullptr )
+                if ( e.GetPiece( index.column() + 1 , index.row() + 1 ) != nullptr )
                 {
-                   imagesPiecesMangeesBlanc.push_back( e.getPiece( index.column() + 1 , index.row() + 1 )->path() );
-                   displayEatPieces(imagesPiecesMangeesBlanc,true);
+                   picturesEatedWhitePieces.push_back( e.GetPiece( index.column() + 1 , index.row() + 1 )->GetPath() );
+                   DisplayEatPieces(picturesEatedWhitePieces,true);
                 }
             }
-            else if ( e.getPiece( index.column() + 1 , index.row() + 1 ) != nullptr )
+            else if ( e.GetPiece( index.column() + 1 , index.row() + 1 ) != nullptr )
                 {
-                    imagesPiecesMangeesNoir.push_back( e.getPiece( index.column() + 1 , index.row() + 1 )->path() );
-                    displayEatPieces(imagesPiecesMangeesNoir,false);
+                    picturesEatedBlackPieces.push_back( e.GetPiece( index.column() + 1 , index.row() + 1 )->GetPath() );
+                    DisplayEatPieces(picturesEatedBlackPieces,false);
                 }
 
-            AddToHistory(pieceEnCours, index.column()+1 , index.row()+1);
-            e.deplacer( pieceEnCours , index.column()+1  , index.row()+1 );
+            AddToHistory(currentPiece, index.column()+1 , index.row()+1);
+            e.MovePiece( currentPiece , index.column()+1  , index.row()+1 );
 
-            if ( WhitePlay )
+            if ( whitePlay )
             {
-               if ( e.getPiece( xRoiBlanc , yRoiBlanc )->isEchec() )  e.getPiece( xRoiBlanc , yRoiBlanc )->setIsEchec();
-               this->setColor( pieceEnCours->AfficheMouvementValide( e , WhitePlay ) );
+               if ( e.GetPiece( xWhiteKing , yWhiteKing )->GetIsEchec() )  e.GetPiece( xWhiteKing , yWhiteKing )->SetIsEchec();
+               this->SetColor( currentPiece->DisplayAvailableMovement( e , whitePlay ) );
 
-               if ( this->Echec( xRoiNoir , yRoiNoir ) )
+               if ( this->Echec( xBlackKing , yBlackKing ) )
                {
-                   bool isEchecMat = this->IsEchecMat( pieceEnCours->MouvementPossibleRoi( e , xRoiNoir , yRoiNoir ) );
+                   bool isEchecMat = this->IsEchecMat( currentPiece->CheckAvailableMovementKing( e , xBlackKing , yBlackKing ) );
 
                    if ( isEchecMat )
                    {
                        cout << "Echec et mat" << endl;
                        //Fin de partie
                    }
-                   e.getPiece( xRoiNoir , yRoiNoir )->setIsEchec();
+                   e.GetPiece( xBlackKing , yBlackKing )->SetIsEchec();
                }
             }
             else
             {
-                if ( e.getPiece( xRoiNoir , yRoiNoir )->isEchec() )  e.getPiece( xRoiNoir , yRoiNoir )->setIsEchec();
-                this->setColor( pieceEnCours->AfficheMouvementValide(e,WhitePlay));
+                if ( e.GetPiece( xBlackKing , yBlackKing )->GetIsEchec() )  e.GetPiece( xBlackKing , yBlackKing )->SetIsEchec();
+                this->SetColor( currentPiece->DisplayAvailableMovement(e,whitePlay));
 
-                if ( this->Echec( xRoiBlanc , yRoiBlanc ) )
+                if ( this->Echec( xWhiteKing , yWhiteKing ) )
                 {
-                    bool isEchecMat = this->IsEchecMat( pieceEnCours->MouvementPossibleRoi( e , xRoiBlanc , yRoiBlanc ) );
+                    bool isEchecMat = this->IsEchecMat( currentPiece->CheckAvailableMovementKing( e , xWhiteKing , yWhiteKing ) );
 
                     if ( isEchecMat )
                     {
                         cout << "Echec et mat" << endl;
                     }
-                    e.getPiece( xRoiBlanc , yRoiBlanc )->setIsEchec();
+                    e.GetPiece( xWhiteKing , yWhiteKing )->SetIsEchec();
                 }
             }
 
-            WhitePlay = !WhitePlay;
-            this->RefreshMatrice(this);
+            whitePlay = !whitePlay;
+            this->RefreshMatrix(this);
         }
     }
     else
     {
-        pieceEnCours = e.getPiece(  index.column()+1  , index.row()+1 );
-        this->RefreshMatrice(this);
-        if ( pieceEnCours != nullptr ) this->setColor( pieceEnCours->AfficheMouvementValide(e,WhitePlay) );
+        currentPiece = e.GetPiece(  index.column()+1  , index.row()+1 );
+        this->RefreshMatrix(this);
+        if ( currentPiece != nullptr ) this->SetColor( currentPiece->DisplayAvailableMovement(e,whitePlay) );
     }
 }
 
@@ -209,7 +208,7 @@ MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
  *        de la cellule et bool correspond à l'attribution de la couleur true -> bleu , false -> rose
  */
 void
-MainWindow::setColor(list<string>values)
+MainWindow::SetColor(list<string>values)
 {
    for (string coordonees : values)
    {
@@ -268,14 +267,14 @@ MainWindow::IsEchecMat( list<string> values )
  * @param bool white -> Determine si on affiche cette liste pour le joueur blanc ou le joueur noir.
  */
 void
-MainWindow::displayEatPieces( list<string> PiecesEated, bool white )
+MainWindow::DisplayEatPieces( list<string> PiecesEated, bool white )
 {
     QStandardItemModel *monModel = new QStandardItemModel(1, 16) ;
     int i = 0;
 
     for (string path : PiecesEated)
     {     
-        SetImage( QPixmap ( ConvertToChar( path ) ) , 0 , i , monModel);
+        SetPicture( QPixmap ( ConvertToChar( path ) ) , 0 , i , monModel);
         i++;
     }
 
@@ -294,14 +293,14 @@ MainWindow::displayEatPieces( list<string> PiecesEated, bool white )
 void
 MainWindow::AddToHistory( Piece* laPiece,int x, int y )
 {
-   History.push_back(  std::to_string( laPiece->x() ) + ":" + std::to_string( laPiece->y() )  + " -> ");
-   HistoryPictures.push_back( laPiece->path() );
+   History.push_back(  std::to_string( laPiece->GetX() ) + ":" + std::to_string( laPiece->GetY() )  + " -> ");
+   HistoryPictures.push_back( laPiece->GetPath() );
 
    HistoryEat.push_back( std::to_string( x )  + ":" +  std::to_string( y ) );
 
-   if ( e.getPiece( x , y ) != nullptr )
+   if ( e.GetPiece( x , y ) != nullptr )
    {
-       HistoryPicturesEat.push_back( e.getPiece( x , y )->path() );
+       HistoryPicturesEat.push_back( e.GetPiece( x , y )->GetPath() );
    }
    else
    {
@@ -315,7 +314,7 @@ MainWindow::AddToHistory( Piece* laPiece,int x, int y )
    for (int i = History.size() - 1 ; i > - 1 ; i--)
    {
         QPixmap monImage( ConvertToChar( HistoryPictures.at( i ) ) );
-        SetImage( monImage , indexLign , 0 , Histo);
+        SetPicture( monImage , indexLign , 0 , Histo);
 
         QModelIndex index = Histo->index( indexLign,0 , QModelIndex() );
         Histo->setData(index, ConvertToChar( History.at( i ) ) );
@@ -327,7 +326,7 @@ MainWindow::AddToHistory( Piece* laPiece,int x, int y )
    for (int i = HistoryEat.size() - 1 ; i > - 1 ; i--)
    {
           QPixmap monImage2( ConvertToChar( HistoryPicturesEat.at( i ) ) );
-          SetImage( monImage2 , indexLign , 0 , HistoEat);
+          SetPicture( monImage2 , indexLign , 0 , HistoEat);
 
           QModelIndex index2 = HistoEat->index( indexLign,0 , QModelIndex() );
           HistoEat->setData(index2, ConvertToChar( HistoryEat.at(i) ) );
@@ -358,7 +357,7 @@ MainWindow::ConvertToChar( string monText )
  * @param QStandardItemModel* model * -> Model sur lequel appliqué les modifications
  */
 void
-MainWindow::setColorBackGround( QColor color ,int i, int j ,QStandardItemModel* model )
+MainWindow::SetColorBackGround( QColor color ,int i, int j ,QStandardItemModel* model )
 {
     QModelIndex index = model->index( i , j , QModelIndex() );
     model->setData( index, QBrush ( color ), Qt::BackgroundRole  );
@@ -372,7 +371,7 @@ MainWindow::setColorBackGround( QColor color ,int i, int j ,QStandardItemModel* 
  * @param QStandardItemModel* model * -> Model sur lequel appliqué les modifications
  */
 void
-MainWindow::SetImage ( QPixmap monImage, int i , int j, QStandardItemModel* model )
+MainWindow::SetPicture ( QPixmap monImage, int i , int j, QStandardItemModel* model )
 {
     QIcon* m_icon = new QIcon();
     m_icon->addPixmap(monImage);
@@ -407,13 +406,13 @@ MainWindow::SplitString( string word, char split )
  * @brief Ouvre la documentation des règles du jeu
  */
 void
-MainWindow::actRegle() { system("start /max https://ecole.apprendre-les-echecs.com/regles-echecs/"); }
+MainWindow::ActRegle() { system("start /max https://ecole.apprendre-les-echecs.com/regles-echecs/"); }
 
 /**
  * @brief Passe l'application en mode sombre
  */
 void
-MainWindow::actDarkMode()
+MainWindow::ActDarkMode()
 {
     this->setStyleSheet("background-color: rgb(88, 88, 88);");
     ui->tableViewEchiquier->setStyleSheet("background-color: rgb(212, 212, 212);");
@@ -426,7 +425,7 @@ MainWindow::actDarkMode()
  * @brief Passe l'application en mode clair
  */
 void
-MainWindow::actLightMode()
+MainWindow::ActLightMode()
 {
     this->setStyleSheet("background-color: rgb(255, 255, 255);");
     ui->tableViewEchiquier->setStyleSheet("");
@@ -439,33 +438,33 @@ MainWindow::actLightMode()
  * @brief Ouvre la documentation de l'application
  */
 void
-MainWindow::actDocumentation() { }
+MainWindow::ActDocumentation() { }
 
 void
-MainWindow::showTime()
+MainWindow::ShowTime()
 {
-    QTime time = QTime(Heures,minutes,secondes) ;
+    QTime time = QTime(Hours,minutes,seconds) ;
     QString time_text = time.toString("hh : mm : ss");
     ui->Digital_clock->setText( (time_text) );
 }
 
 void
-MainWindow::setTimer()
+MainWindow::SetTimer()
 {
    timer->setInterval(1000);
-   secondes++;
+   seconds++;
 
-   if ( secondes == 60 )
+   if ( seconds == 60 )
    {
-       secondes = 0;
+       seconds = 0;
        minutes++;
    }
    if ( minutes == 60 )
    {
-       Heures++;
+       Hours++;
        minutes = 0;
    }
-   showTime();
+   ShowTime();
 }
 /**
  * @brief MainWindow::EndGameDisplay

@@ -15,82 +15,81 @@
 
 using namespace std;
 
-class Echiquier;
+class ChessBoard;
 
 class Piece
 {
    protected:
-    int  m_x;
-    int  m_y;
-    bool m_white;
+    int  p_x;
+    int  p_y;
+    bool p_white;
     bool p_firstMove;
-    string p_path;
     bool p_isEchec;
+    string p_path;
 
    public:
     virtual ~Piece();
-    Piece( int x, int y, bool white, string path);
-    void         move( int x, int y );
-    int          x();
-    int          y();
-    bool         isWhite();
-    bool         firstMove();
-    bool         isEchec();
-    void setIsEchec();
-    string       path();
-    virtual list<string> AfficheMouvementValide(Echiquier &e, bool whitePlay) = 0 ;
-    list<string> MouvementPossibleRoi(Echiquier &e, int x, int y );
+    Piece( int x, int y, bool white, string path );
+    void         Move( int x, int y );
+    int          GetX();
+    int          GetY();
+    bool         GetIsWhite();
+    bool         GetFirstMove();
+    bool         GetIsEchec();
+    void         SetIsEchec();
+    string       GetPath();
+    virtual list<string> DisplayAvailableMovement( ChessBoard &e, bool whitePlay ) = 0 ;
+    list<string> CheckAvailableMovementKing( ChessBoard &e, int x, int y );
 };
 
-
-class Tour : virtual public Piece
+class Rook : virtual public Piece
 {
    public:
-    Tour( bool white, bool gauche, string path );
-    ~Tour();
-    list<string> AfficheMouvementValide(Echiquier &e, bool whitePlay);
+    Rook( bool white, bool left, string path );
+    ~Rook();
+    list<string> DisplayAvailableMovement( ChessBoard &e, bool whitePlay );
 };
 
-class Roi : public Piece
+class King : public Piece
 {
    public:
-    Roi( bool white, string path);
-    ~Roi();
-    bool roquePossible( Echiquier &e, Tour *p);
-    list<string> AfficheMouvementValide(Echiquier &e, bool whitePlay);
+    King( bool white, string path);
+    ~King();
+    bool CastlingAvailable( ChessBoard &e, Rook *r );
+    list<string> DisplayAvailableMovement( ChessBoard &e, bool whitePlay );
 };
 
-class Fou : virtual public Piece
+class Bishop : virtual public Piece
 {
    public:
-    Fou( bool white, bool gauche, string path );
-    ~Fou();
-    list<string> AfficheMouvementValide(Echiquier &e, bool whitePlay);
+    Bishop( bool white, bool left, string path );
+    ~Bishop();
+    list<string> DisplayAvailableMovement( ChessBoard &e, bool whitePlay );
 };
 
-class Cavalier : public Piece
+class Knight : public Piece
 {
    public:
-    Cavalier( bool white, bool gauche, string path );
-    ~Cavalier();
-    list<string> AfficheMouvementValide(Echiquier &e, bool whitePlay);
+    Knight( bool white, bool gauche, string path );
+    ~Knight();
+    list<string> DisplayAvailableMovement( ChessBoard &e, bool whitePlay );
 };
 
-class Reine : public Fou, public Tour
+class Queen : public Bishop, public Rook
 {
    public:
-    Reine( bool white, string path );
-    ~Reine();
-    list<string> AfficheMouvementValide(Echiquier &e, bool whitePlay);
+    Queen( bool white, string path );
+    ~Queen();
+    list<string> DisplayAvailableMovement( ChessBoard &e, bool whitePlay );
 };
 
-class Pion : public Piece
+class Pawn : public Piece
 {
    public:
-    Pion( bool white, int x, string path );
-    ~Pion();
-    bool DoitEvoluer(Echiquier &e,bool whitePlay );
-    list<string> AfficheMouvementValide(Echiquier &e, bool whitePlay);
+    Pawn( bool white, int x, string path );
+    ~Pawn();
+    bool DoitEvoluer( ChessBoard &e,bool whitePlay );
+    list<string> DisplayAvailableMovement( ChessBoard &e, bool whitePlay );
 };
 
 #endif

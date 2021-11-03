@@ -26,51 +26,52 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
     public:
-        MainWindow(QWidget *parent = nullptr);
+        MainWindow( QWidget *parent = nullptr );
         ~MainWindow();
-        void RefreshMatrice(QWidget *parent);
-        void setColor( list<string>mlist );
-        bool Echec ( int x , int y);
+
+        void RefreshMatrix( QWidget* );
+        void SetColor( list<string> );
+        bool Echec ( int, int );
         bool IsEchecMat( list<string> );
-        void displayEatPieces(list<string>,bool);
-        void AddToHistory(Piece*,int,int);
-        const char* ConvertToChar(string);
-        void setColorBackGround(QColor, int , int ,QStandardItemModel*);
-        void SetImage ( QPixmap , int, int, QStandardItemModel*);
-        std::vector<std::string> SplitString( string, char);
-        void EndGameDisplay(QWidget *parent);
+        void DisplayEatPieces( list<string>, bool );
+        void AddToHistory( Piece*, int, int );
+        const char* ConvertToChar(  string );
+        void SetColorBackGround( QColor, int , int , QStandardItemModel* );
+        void SetPicture ( QPixmap , int, int, QStandardItemModel* );
+        std::vector<std::string> SplitString( string, char );
+        void EndGameDisplay( QWidget* );
         void close();
 
     private slots:
-        void on_tableViewEchiquier_clicked(const QModelIndex &index);
-        void actRegle();
-        void actDarkMode();
-        void actLightMode();
-        void actDocumentation();
-        void showTime();
-        void setTimer();
+        void on_tableViewEchiquier_clicked( const QModelIndex &index );
+        void ActRegle();
+        void ActDarkMode();
+        void ActLightMode();
+        void ActDocumentation();
+        void ShowTime();
+        void SetTimer();
 
 private:
         Ui::MainWindow *ui;
         QStandardItemModel *model;
-        Echiquier e;
-        JoueurBlanc jb;
-        JoueurNoir  jn;
-        Piece *pieceEnCours = nullptr;
-        int xRoiNoir = 5;
-        int yRoiNoir = 8;
-        int xRoiBlanc = 5;
-        int yRoiBlanc = 1;
-        bool WhitePlay = true;
-        list<string> imagesPiecesMangeesBlanc;
-        list<string> imagesPiecesMangeesNoir;
+        ChessBoard e;
+        PlayerWhite playerWhite;
+        PlayerBlack  playerBlack;
+        Piece *currentPiece = nullptr;
+        int xBlackKing = 5;
+        int yBlackKing = 8;
+        int xWhiteKing = 5;
+        int yWhiteKing = 1;
+        bool whitePlay = true;
+        list<string> picturesEatedWhitePieces;
+        list<string> picturesEatedBlackPieces;
         std::vector<string> History;
         std::vector<string> HistoryPictures;
         std::vector<string> HistoryEat;
         std::vector<string> HistoryPicturesEat;
-        int Heures = 0;
+        int Hours = 0;
         int minutes = 0;
-        int secondes = 0;
+        int seconds = 0;
         QTimer *timer ;
 
         //stop *windowEnd;

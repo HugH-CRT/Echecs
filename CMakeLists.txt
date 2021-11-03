@@ -25,8 +25,6 @@ set(PROJECT_SOURCES
         Joueur.h
         Echiquier.cpp
         Echiquier.h
-        timer.cpp
-        timer.h
         Resource.qrc
 )
 

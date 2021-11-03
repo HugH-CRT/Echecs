@@ -1,29 +1,29 @@
 /**
  * @authors Yoan Laurain ; Hugo Carricart ; Nathan Lesourd
- * @brief Header de Echiquier
- * @file Echiquier.h
+ * @brief Header de ChessBoard
+ * @file ChessBoard.h
  * @date 26/10/2021
  * @version 0.5
  */
 
-#if !defined Echiquier_h
-#define Echiquier_h
+#if !defined ChessBoard_h
+#define ChessBoard_h
 #include "Piece.h"
 
-class Echiquier
+class ChessBoard
 {
    private:
     Piece *m_cases[64];
 
    public:
 
-    Echiquier();
-    Piece *getPiece( int x, int y );
-    bool placer( Piece *p );
-    void deplacer( Piece *p, int x, int y );
-    void enleverPiece( int x, int y );
-    bool VerifMoveRoiRoque(Roi *r, int x ,int y);
-    void deplacementRoque( Roi *r, Tour *p);
+    ChessBoard();
+    Piece *GetPiece( int x, int y );
+    bool PlacePiece( Piece *p );
+    void MovePiece( Piece *p, int x, int y );
+    void RemovePiece( int x, int y );
+    bool CheckRoqueValidity( King *r, int x ,int y);
+    void DoRoque( King *r, Rook *p);
 };
 
 #endif

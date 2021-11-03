@@ -234,7 +234,7 @@ MainWindow::SetColor(list<string>values)
  * @return bool -> Détermine si la case est rouge
  */
 bool
-MainWindow::Echec ( int x , int y )
+MainWindow::Echec( int x , int y )
 {
     QModelIndex index = model->index( y - 1,x - 1 , QModelIndex() );
     QVariant selectedCell      = model->data( index, Qt::BackgroundRole );

@@ -40,8 +40,7 @@ class MainWindow : public QMainWindow
         void SetColorBackGround( QColor, int , int , QStandardItemModel* );
         void SetPicture ( QPixmap , int, int, QStandardItemModel* );
         std::vector<std::string> SplitString( string, char );
-        void EndGameDisplay(  );
-        void close();
+        void EndGameDisplay();
         void closeEvent(QCloseEvent *event);
 
     private slots:

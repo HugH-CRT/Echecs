@@ -29,7 +29,7 @@
    <string>Jeu d' Echec</string>
   </property>
   <property name="windowIcon">
-   <iconset>
+   <iconset resource="Resource.qrc">
     <normaloff>:/img_noir/assets/noir/tour.png</normaloff>:/img_noir/assets/noir/tour.png</iconset>
   </property>
   <property name="styleSheet">
@@ -378,11 +378,23 @@ color: rgb(0, 0, 0);</string>
     <widget class="QLCDNumber" name="lcdTimer">
      <property name="geometry">
       <rect>
-       <x>100</x>
+       <x>60</x>
        <y>90</y>
-       <width>91</width>
-       <height>51</height>
+       <width>170</width>
+       <height>50</height>
       </rect>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::Box</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <property name="smallDecimalPoint">
+      <bool>false</bool>
+     </property>
+     <property name="digitCount">
+      <number>8</number>
      </property>
     </widget>
     <widget class="QLabel" name="TimerLabel">
@@ -390,8 +402,8 @@ color: rgb(0, 0, 0);</string>
       <rect>
        <x>100</x>
        <y>60</y>
-       <width>91</width>
-       <height>31</height>
+       <width>90</width>
+       <height>30</height>
       </rect>
      </property>
      <property name="styleSheet">
@@ -439,29 +451,6 @@ color: rgb(0, 0, 0);</string>
       <enum>QAbstractItemView::NoSelection</enum>
      </property>
     </widget>
-   </widget>
-   <widget class="QLabel" name="Digital_clock">
-    <property name="geometry">
-     <rect>
-      <x>340</x>
-      <y>20</y>
-      <width>241</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>16</pointsize>
-      <weight>75</weight>
-      <bold>true</bold>
-     </font>
-    </property>
-    <property name="autoFillBackground">
-     <bool>false</bool>
-    </property>
-    <property name="text">
-     <string>Clock</string>
-    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
@@ -547,6 +536,8 @@ color: rgb(0, 0, 0);</string>
    </property>
   </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="Resource.qrc"/>
+ </resources>
  <connections/>
 </ui>

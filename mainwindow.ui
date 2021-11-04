@@ -29,8 +29,8 @@
    <string>Chess Game</string>
   </property>
   <property name="windowIcon">
-   <iconset>
-    <normaloff>:/img_noir/assets/noir/tour.png</normaloff>:/img_noir/assets/noir/tour.png</iconset>
+   <iconset resource="Resource.qrc">
+    <normaloff>:/img/black/assets/black/rook.png</normaloff>:/img/black/assets/black/rook.png</iconset>
   </property>
   <property name="styleSheet">
    <string notr="true">background-color: rgb(88, 88, 88);</string>
@@ -509,6 +509,8 @@ color: rgb(0, 0, 0);</string>
    </property>
   </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="Resource.qrc"/>
+ </resources>
  <connections/>
 </ui>

@@ -257,20 +257,25 @@ MainWindow::WithdrawUnAcceptedMoveOfKing(list<string> values)
                    {
                        if ( e.GetPiece( i , j )->GetIsWhite() != whitePlay)
                        {
+                           cout << e.GetPiece( i , j )->GetIsWhite() << endl;
+                           cout << "-------------" << endl;
                            list<string> valuesPiece = e.GetPiece( i , j )->DisplayAvailableMovement( e, whitePlay);
                            cout << valuesPiece.size() << endl;
                            for (string coordonees2 : valuesPiece)
                            {
                                std::vector<std::string> seglistPiece = SplitString( coordonees2, '-');
                                try {
-                                   cout << "X : " << seglist.at(0) << " Y: " << seglist.at(1) << endl;
-                                   if ( std::stoi( seglist.at(0)  ) > 0 && std::stoi( seglist.at(1) ) > 0 )
+                                   cout << "X : " << seglistPiece.at(0) << " Y: " << seglistPiece.at(1) << endl;
+                                   if ( std::stoi( seglistPiece.at(0)  ) > 0 && std::stoi( seglistPiece.at(1) ) > 0 )
                                    {
                                        int xCoordoneesPiece = std::stoi( seglist.at(0) ) + 1;
                                        int yCoordoneesPiece = std::stoi( seglist.at(1) ) + 1;
                                        if ( xCoordonees == xCoordoneesPiece && yCoordonees == yCoordoneesPiece )
                                        {
                                             values.remove(coordonees);
+                                            j=9;
+                                            i=9;
+                                            break;
                                        }
                                    }
                                }  catch (...) {}

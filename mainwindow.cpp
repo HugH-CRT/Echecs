@@ -257,6 +257,8 @@ MainWindow::WithdrawUnAcceptedMoveOfKing(list<string> values)
                    {
                        if ( e.GetPiece( i , j )->GetIsWhite() != whitePlay)
                        {
+                           cout << e.GetPiece( i , j )->GetIsWhite() << endl;
+                           cout << "-------------" << endl;
                            list<string> valuesPiece = e.GetPiece( i , j )->DisplayAvailableMovement( e, whitePlay);
                            cout << valuesPiece.size() << endl;
                            for (string coordonees2 : valuesPiece)

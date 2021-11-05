@@ -3,7 +3,7 @@
  * @brief Source Code de Piece
  * @file Piece.cpp
  * @date 26/10/2021
- * @version 0.5
+ * @version 0.8
  */
 #include <iostream>
 #include "Piece.h"

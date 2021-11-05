@@ -1,9 +1,9 @@
 /**
  * @authors Yoan Laurain ; Hugo Carricart ; Nathan Lesourd
- * @brief Header de Joueur
- * @file Joueur.h
+ * @brief Header de Player
+ * @file Player.h
  * @date 26/10/2021
- * @version 0.5
+ * @version 0.8
  */
 
 #if !defined Joueur_h

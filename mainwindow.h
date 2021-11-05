@@ -3,7 +3,7 @@
  * @brief Header de MainWindow
  * @file mainwindow.h
  * @date 26/10/2021
- * @version 1.0
+ * @version 0.8.5
  */
 
 #ifndef MAINWINDOW_H

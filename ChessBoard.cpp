@@ -3,7 +3,7 @@
  * @brief Source Code de ChessBoard
  * @file ChessBoard.cpp
  * @date 26/10/2021
- * @version 0.5
+ * @version 0.8
  */
 
 #include <iostream>

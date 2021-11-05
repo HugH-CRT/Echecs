@@ -3,7 +3,7 @@
  * @brief Header de ChessBoard
  * @file ChessBoard.h
  * @date 26/10/2021
- * @version 0.5
+ * @version 0.8
  */
 
 #if !defined ChessBoard_h

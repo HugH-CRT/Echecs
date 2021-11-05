@@ -2,7 +2,7 @@
  * @authors Yoan Laurain ; Hugo Carricart ; Nathan Lesourd
  * @file main.cpp
  * @date 26/10/2021
- * @version 0.5
+ * @version 1.0
  */
 
 #include "mainwindow.h"

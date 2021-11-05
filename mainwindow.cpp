@@ -3,7 +3,7 @@
  * @brief Source Code de MainWindow
  * @file mainwindow.cpp
  * @date 26/10/2021
- * @version 0.5
+ * @version 0.8.5
  */
 
 #include "mainwindow.h"
@@ -538,6 +538,7 @@ MainWindow::SetTimer()
 void
 MainWindow::EndGameDisplay()
 {
+    this->RefreshMatrix(this);
     QMessageBox::StandardButton endDisplay = QMessageBox::information( this, "Chess",
                                                                        tr("END GAME \n"),
                                                                        QMessageBox::Ok,

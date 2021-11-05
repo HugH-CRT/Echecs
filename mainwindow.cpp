@@ -165,7 +165,7 @@ MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
 
                    if ( isEchecMat )
                    {
-                       cout << "Echec et mat" << endl;
+                      //  cout << "Echec et mat" << endl;
                        //Fin de partie
                    }
                    e.GetPiece( xBlackKing , yBlackKing )->SetIsEchec();
@@ -184,7 +184,7 @@ MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
 
                     if ( isEchecMat )
                     {
-                        cout << "Echec et mat" << endl;
+                       //  cout << "Echec et mat" << endl;
                     }
                     e.GetPiece( xWhiteKing , yWhiteKing )->SetIsEchec();
                 }

@@ -14,8 +14,8 @@
 #include <QCloseEvent>
 #include <QTimer>
 
-#include "Echiquier.h"
-#include "Joueur.h"
+#include "ChessBoard.h"
+#include "Player.h"
 #include "Piece.h"
 
 QT_BEGIN_NAMESPACE

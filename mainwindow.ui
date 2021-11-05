@@ -29,8 +29,8 @@
    <string>Chess Game</string>
   </property>
   <property name="windowIcon">
-   <iconset>
-    <normaloff>:/img_noir/assets/noir/tour.png</normaloff>:/img_noir/assets/noir/tour.png</iconset>
+   <iconset resource="Resource.qrc">
+    <normaloff>:/img/black/assets/black/rook.png</normaloff>:/img/black/assets/black/rook.png</iconset>
   </property>
   <property name="styleSheet">
    <string notr="true">background-color: rgb(88, 88, 88);</string>
@@ -302,7 +302,7 @@
 color: rgb(0, 0, 0);</string>
      </property>
      <property name="text">
-      <string>TOUR</string>
+      <string>TURN</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
@@ -368,11 +368,11 @@ color: rgb(0, 0, 0);</string>
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">font: 10pt &quot;MS Shell Dlg 2&quot;;
+      <string notr="true">font: 12pt &quot;MS Shell Dlg 2&quot;;
 color: rgb(0, 0, 0);</string>
      </property>
      <property name="text">
-      <string>HISTORIQUE DES MOUVEMENTS :</string>
+      <string>MOVEMENT HISTORY</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
@@ -500,7 +500,7 @@ color: rgb(0, 0, 0);</string>
   </action>
   <action name="actionDocumentation_Code_Source">
    <property name="text">
-    <string>Documentation Code Source</string>
+    <string>Source Code Documentation</string>
    </property>
   </action>
   <action name="actionRegles">
@@ -509,6 +509,8 @@ color: rgb(0, 0, 0);</string>
    </property>
   </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="Resource.qrc"/>
+ </resources>
  <connections/>
 </ui>

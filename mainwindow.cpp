@@ -204,9 +204,10 @@ MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
 //        }
 //        else
 //        {
-           //if ( currentPiece != nullptr )
+           if ( currentPiece != nullptr )
+           {
                this->SetColor( currentPiece->DisplayAvailableMovement(e,whitePlay) );
-       // }
+           }
     }
 }
 

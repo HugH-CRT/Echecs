@@ -1,0 +1,295 @@
+\hypertarget{class_main_window}{}\doxysection{Main\+Window Class Reference}
+\label{class_main_window}\index{MainWindow@{MainWindow}}
+
+
+{\ttfamily \#include $<$mainwindow.\+h$>$}
+
+
+
+Inherits QMain\+Window.
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_main_window_a996c5a2b6f77944776856f08ec30858d}{Main\+Window}} (QWidget $\ast$parent=nullptr)
+\begin{DoxyCompactList}\small\item\em Builder of the game page, initialize the game. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_main_window_ae98d00a93bc118200eeef9f9bba1dba7}{$\sim$\+Main\+Window}} ()
+\begin{DoxyCompactList}\small\item\em Game Page Destroyer. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_main_window_a464f393ff59fb1bb9ddf70bcc530506e}{Refresh\+Matrix}} (QWidget $\ast$)
+\begin{DoxyCompactList}\small\item\em Refreshes the game board after each move. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_main_window_ae4a4917156f9d7e67dd8349fef3459fd}{Set\+Color}} (list$<$ string $>$)
+\begin{DoxyCompactList}\small\item\em Assigns the colors light blue or pink for the valid cells retrieved by the list as a parameter. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_main_window_afd47c0d004ad307df54953dc387b4efd}{Echec}} (int, int)
+\item 
+bool \mbox{\hyperlink{class_main_window_ab21ee3954d0d2352618fbaf4f555d327}{Is\+Echec\+Mat}} (list$<$ string $>$)
+\begin{DoxyCompactList}\small\item\em Checks if in the list of valid boxes for the \mbox{\hyperlink{class_king}{King}}\textquotesingle{}s movements, one of the cells is not colored. Clarification\+: At this time of execution the possible movements of the piece which defeated the king are colored. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_main_window_aa50ffc4409bb8802b19bf9b334258894}{Display\+Eat\+Pieces}} (list$<$ string $>$, bool)
+\begin{DoxyCompactList}\small\item\em Displays the pieces eaten. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_main_window_a61b22292a52db76840fc8d892aa0615d}{Add\+To\+History}} (\mbox{\hyperlink{class_piece}{Piece}} $\ast$, int, int)
+\begin{DoxyCompactList}\small\item\em Adds the movements performed to the movement history and updates the associated visual. \end{DoxyCompactList}\item 
+const char $\ast$ \mbox{\hyperlink{class_main_window_ac9fe88b21e164a4d184bd0dfcd22a31c}{Convert\+To\+Char}} (string)
+\begin{DoxyCompactList}\small\item\em Convert the text passed as a parameter to type char. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_main_window_ac79c748074161f3d0a9aa4775cd43037}{Set\+Color\+Back\+Ground}} (QColor, int, int, QStandard\+Item\+Model $\ast$)
+\begin{DoxyCompactList}\small\item\em Assigns the color, to the index cell, of the model provided as a parameter. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_main_window_a71a40c5b0252ce0e9b0a0dcd9b8d4adc}{Set\+Picture}} (QPixmap, int, int, QStandard\+Item\+Model $\ast$)
+\begin{DoxyCompactList}\small\item\em Assigns the image, to the index cell, of the model provided as a parameter. \end{DoxyCompactList}\item 
+std\+::vector$<$ std\+::string $>$ \mbox{\hyperlink{class_main_window_a881b92fab1e1f505f5ca412096187a6a}{Split\+String}} (string, char)
+\begin{DoxyCompactList}\small\item\em Split a word according to the specified character. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_main_window_a0abb7326b5805a3a303d32028da2d084}{End\+Game\+Display}} ()
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{class_main_window_a0abb7326b5805a3a303d32028da2d084}{Main\+Window\+::\+End\+Game\+Display}}. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_main_window_a4e20a4a065fbb0e4d3532a45a0a91425}{close\+Event}} (QClose\+Event $\ast$event)
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{class_main_window_a4e20a4a065fbb0e4d3532a45a0a91425}{Main\+Window\+::close\+Event}}. \end{DoxyCompactList}\item 
+list$<$ string $>$ \mbox{\hyperlink{class_main_window_a33e93950a1d0ad03e8023cd2bc36da0f}{Withdraw\+Un\+Accepted\+Move\+Of\+King}} (list$<$ string $>$)
+\begin{DoxyCompactList}\small\item\em Check if the king\textquotesingle{}s square is red so in check. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_main_window_a996c5a2b6f77944776856f08ec30858d}\label{class_main_window_a996c5a2b6f77944776856f08ec30858d}} 
+\index{MainWindow@{MainWindow}!MainWindow@{MainWindow}}
+\index{MainWindow@{MainWindow}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{MainWindow()}{MainWindow()}}
+{\footnotesize\ttfamily Main\+Window\+::\+Main\+Window (\begin{DoxyParamCaption}\item[{QWidget $\ast$}]{parent = {\ttfamily nullptr} }\end{DoxyParamCaption})}
+
+
+
+Builder of the game page, initialize the game. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em parent} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_main_window_ae98d00a93bc118200eeef9f9bba1dba7}\label{class_main_window_ae98d00a93bc118200eeef9f9bba1dba7}} 
+\index{MainWindow@{MainWindow}!````~MainWindow@{$\sim$MainWindow}}
+\index{````~MainWindow@{$\sim$MainWindow}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{$\sim$MainWindow()}{~MainWindow()}}
+{\footnotesize\ttfamily Main\+Window\+::$\sim$\+Main\+Window (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Game Page Destroyer. 
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_main_window_a61b22292a52db76840fc8d892aa0615d}\label{class_main_window_a61b22292a52db76840fc8d892aa0615d}} 
+\index{MainWindow@{MainWindow}!AddToHistory@{AddToHistory}}
+\index{AddToHistory@{AddToHistory}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{AddToHistory()}{AddToHistory()}}
+{\footnotesize\ttfamily void Main\+Window\+::\+Add\+To\+History (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_piece}{Piece}} $\ast$}]{la\+Piece,  }\item[{int}]{x,  }\item[{int}]{y }\end{DoxyParamCaption})}
+
+
+
+Adds the movements performed to the movement history and updates the associated visual. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Piece$\ast$} & la\+Piece -\/\texorpdfstring{$>$}{>} The piece that has just performed a movement \\
+\hline
+{\em int} & x -\/\texorpdfstring{$>$}{>} coordinate of the column of the cell targeted by the movement \\
+\hline
+{\em int} & y -\/\texorpdfstring{$>$}{>} coordinate of the cell line targeted by the movement \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_main_window_a4e20a4a065fbb0e4d3532a45a0a91425}\label{class_main_window_a4e20a4a065fbb0e4d3532a45a0a91425}} 
+\index{MainWindow@{MainWindow}!closeEvent@{closeEvent}}
+\index{closeEvent@{closeEvent}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{closeEvent()}{closeEvent()}}
+{\footnotesize\ttfamily void Main\+Window\+::close\+Event (\begin{DoxyParamCaption}\item[{QClose\+Event $\ast$}]{event }\end{DoxyParamCaption})}
+
+
+
+\mbox{\hyperlink{class_main_window_a4e20a4a065fbb0e4d3532a45a0a91425}{Main\+Window\+::close\+Event}}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em event} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_main_window_ac9fe88b21e164a4d184bd0dfcd22a31c}\label{class_main_window_ac9fe88b21e164a4d184bd0dfcd22a31c}} 
+\index{MainWindow@{MainWindow}!ConvertToChar@{ConvertToChar}}
+\index{ConvertToChar@{ConvertToChar}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{ConvertToChar()}{ConvertToChar()}}
+{\footnotesize\ttfamily const char $\ast$ Main\+Window\+::\+Convert\+To\+Char (\begin{DoxyParamCaption}\item[{string}]{mon\+Text }\end{DoxyParamCaption})}
+
+
+
+Convert the text passed as a parameter to type char. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em string} & mon\+Text -\/\texorpdfstring{$>$}{>} Text to convert \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+const char $\ast$ -\/\texorpdfstring{$>$}{>} Pointer to converted text 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_main_window_aa50ffc4409bb8802b19bf9b334258894}\label{class_main_window_aa50ffc4409bb8802b19bf9b334258894}} 
+\index{MainWindow@{MainWindow}!DisplayEatPieces@{DisplayEatPieces}}
+\index{DisplayEatPieces@{DisplayEatPieces}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{DisplayEatPieces()}{DisplayEatPieces()}}
+{\footnotesize\ttfamily void Main\+Window\+::\+Display\+Eat\+Pieces (\begin{DoxyParamCaption}\item[{list$<$ string $>$}]{Pieces\+Eated,  }\item[{bool}]{white }\end{DoxyParamCaption})}
+
+
+
+Displays the pieces eaten. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em list} & $<$string$>$ Pieces\+Eated -\/\texorpdfstring{$>$}{>} list of the image paths of the pieces eaten. \\
+\hline
+{\em bool} & white -\/\texorpdfstring{$>$}{>} Determine if this list is displayed for the white player or the black player. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_main_window_afd47c0d004ad307df54953dc387b4efd}\label{class_main_window_afd47c0d004ad307df54953dc387b4efd}} 
+\index{MainWindow@{MainWindow}!Echec@{Echec}}
+\index{Echec@{Echec}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{Echec()}{Echec()}}
+{\footnotesize\ttfamily bool Main\+Window\+::\+Echec (\begin{DoxyParamCaption}\item[{int}]{x,  }\item[{int}]{y }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_main_window_a0abb7326b5805a3a303d32028da2d084}\label{class_main_window_a0abb7326b5805a3a303d32028da2d084}} 
+\index{MainWindow@{MainWindow}!EndGameDisplay@{EndGameDisplay}}
+\index{EndGameDisplay@{EndGameDisplay}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{EndGameDisplay()}{EndGameDisplay()}}
+{\footnotesize\ttfamily void Main\+Window\+::\+End\+Game\+Display (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\mbox{\hyperlink{class_main_window_a0abb7326b5805a3a303d32028da2d084}{Main\+Window\+::\+End\+Game\+Display}}. 
+
+\mbox{\Hypertarget{class_main_window_ab21ee3954d0d2352618fbaf4f555d327}\label{class_main_window_ab21ee3954d0d2352618fbaf4f555d327}} 
+\index{MainWindow@{MainWindow}!IsEchecMat@{IsEchecMat}}
+\index{IsEchecMat@{IsEchecMat}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{IsEchecMat()}{IsEchecMat()}}
+{\footnotesize\ttfamily bool Main\+Window\+::\+Is\+Echec\+Mat (\begin{DoxyParamCaption}\item[{list$<$ string $>$}]{values }\end{DoxyParamCaption})}
+
+
+
+Checks if in the list of valid boxes for the \mbox{\hyperlink{class_king}{King}}\textquotesingle{}s movements, one of the cells is not colored. Clarification\+: At this time of execution the possible movements of the piece which defeated the king are colored. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em list} & $<$string$>$ values ​​-\/\texorpdfstring{$>$}{>} List of all the coordinates of the cells valid for the displacements of the king in failure. The coordinates entered are in the format\+: \textquotesingle{}x-\/y-\/bool\textquotesingle{} where x corresponds to the column of the cell, y corresponds to the row of the cell and bool corresponds to the attribution of the color true -\/\texorpdfstring{$>$}{>} blue, false -\/\texorpdfstring{$>$}{>} pink \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool -\/\texorpdfstring{$>$}{>} Determine if the king is checkmate. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_main_window_a464f393ff59fb1bb9ddf70bcc530506e}\label{class_main_window_a464f393ff59fb1bb9ddf70bcc530506e}} 
+\index{MainWindow@{MainWindow}!RefreshMatrix@{RefreshMatrix}}
+\index{RefreshMatrix@{RefreshMatrix}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{RefreshMatrix()}{RefreshMatrix()}}
+{\footnotesize\ttfamily void Main\+Window\+::\+Refresh\+Matrix (\begin{DoxyParamCaption}\item[{QWidget $\ast$}]{parent }\end{DoxyParamCaption})}
+
+
+
+Refreshes the game board after each move. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em parent} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_main_window_ae4a4917156f9d7e67dd8349fef3459fd}\label{class_main_window_ae4a4917156f9d7e67dd8349fef3459fd}} 
+\index{MainWindow@{MainWindow}!SetColor@{SetColor}}
+\index{SetColor@{SetColor}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{SetColor()}{SetColor()}}
+{\footnotesize\ttfamily void Main\+Window\+::\+Set\+Color (\begin{DoxyParamCaption}\item[{list$<$ string $>$}]{values }\end{DoxyParamCaption})}
+
+
+
+Assigns the colors light blue or pink for the valid cells retrieved by the list as a parameter. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em list} & $<$string$>$ values ​​-\/\texorpdfstring{$>$}{>} List of all the coordinates of the cells valid for the movements of the selected part. The coordinates entered are in the format\+: \textquotesingle{}x-\/y-\/bool\textquotesingle{} where x corresponds to the column of the cell, y corresponds to the row of the cell and bool corresponds to the attribution of the color true -\/\texorpdfstring{$>$}{>} blue, false -\/\texorpdfstring{$>$}{>} pink \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_main_window_ac79c748074161f3d0a9aa4775cd43037}\label{class_main_window_ac79c748074161f3d0a9aa4775cd43037}} 
+\index{MainWindow@{MainWindow}!SetColorBackGround@{SetColorBackGround}}
+\index{SetColorBackGround@{SetColorBackGround}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{SetColorBackGround()}{SetColorBackGround()}}
+{\footnotesize\ttfamily void Main\+Window\+::\+Set\+Color\+Back\+Ground (\begin{DoxyParamCaption}\item[{QColor}]{color,  }\item[{int}]{i,  }\item[{int}]{j,  }\item[{QStandard\+Item\+Model $\ast$}]{model }\end{DoxyParamCaption})}
+
+
+
+Assigns the color, to the index cell, of the model provided as a parameter. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em QColor} & color -\/\texorpdfstring{$>$}{>} color to assign \\
+\hline
+{\em int} & i -\/\texorpdfstring{$>$}{>} coordinate of the column of the cell targeted by the movement \\
+\hline
+{\em int} & j -\/\texorpdfstring{$>$}{>} coordinate of the cell line targeted by the movement \\
+\hline
+{\em QStandard\+Item\+Model$\ast$} & model $\ast$ -\/\texorpdfstring{$>$}{>} Model on which applied the modifications \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_main_window_a71a40c5b0252ce0e9b0a0dcd9b8d4adc}\label{class_main_window_a71a40c5b0252ce0e9b0a0dcd9b8d4adc}} 
+\index{MainWindow@{MainWindow}!SetPicture@{SetPicture}}
+\index{SetPicture@{SetPicture}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{SetPicture()}{SetPicture()}}
+{\footnotesize\ttfamily void Main\+Window\+::\+Set\+Picture (\begin{DoxyParamCaption}\item[{QPixmap}]{mon\+Image,  }\item[{int}]{i,  }\item[{int}]{j,  }\item[{QStandard\+Item\+Model $\ast$}]{model }\end{DoxyParamCaption})}
+
+
+
+Assigns the image, to the index cell, of the model provided as a parameter. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em QColor} & color -\/\texorpdfstring{$>$}{>} color to assign \\
+\hline
+{\em int} & i -\/\texorpdfstring{$>$}{>} coordinate of the column of the cell targeted by the movement \\
+\hline
+{\em int} & j -\/\texorpdfstring{$>$}{>} coordinate of the cell line targeted by the movement \\
+\hline
+{\em QStandard\+Item\+Model$\ast$} & model $\ast$ -\/\texorpdfstring{$>$}{>} Model on which applied the modifications \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_main_window_a881b92fab1e1f505f5ca412096187a6a}\label{class_main_window_a881b92fab1e1f505f5ca412096187a6a}} 
+\index{MainWindow@{MainWindow}!SplitString@{SplitString}}
+\index{SplitString@{SplitString}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{SplitString()}{SplitString()}}
+{\footnotesize\ttfamily std\+::vector$<$ std\+::string $>$ Main\+Window\+::\+Split\+String (\begin{DoxyParamCaption}\item[{string}]{word,  }\item[{char}]{split }\end{DoxyParamCaption})}
+
+
+
+Split a word according to the specified character. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em string} & word -\/\texorpdfstring{$>$}{>} word to split \\
+\hline
+{\em char} & split -\/\texorpdfstring{$>$}{>} separation character \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+std\+::vector$<$std\+::string$>$ seglist -\/\texorpdfstring{$>$}{>} split list 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_main_window_a33e93950a1d0ad03e8023cd2bc36da0f}\label{class_main_window_a33e93950a1d0ad03e8023cd2bc36da0f}} 
+\index{MainWindow@{MainWindow}!WithdrawUnAcceptedMoveOfKing@{WithdrawUnAcceptedMoveOfKing}}
+\index{WithdrawUnAcceptedMoveOfKing@{WithdrawUnAcceptedMoveOfKing}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{WithdrawUnAcceptedMoveOfKing()}{WithdrawUnAcceptedMoveOfKing()}}
+{\footnotesize\ttfamily list$<$ string $>$ Main\+Window\+::\+Withdraw\+Un\+Accepted\+Move\+Of\+King (\begin{DoxyParamCaption}\item[{list$<$ string $>$}]{values }\end{DoxyParamCaption})}
+
+
+
+Check if the king\textquotesingle{}s square is red so in check. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & -\/\texorpdfstring{$>$}{>} coordinate of the king\textquotesingle{}s column \\
+\hline
+{\em y} & -\/\texorpdfstring{$>$}{>} coordinate of the king\textquotesingle{}s line \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool -\/\texorpdfstring{$>$}{>} Determines if the box is red 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/camar/prog/\+Echecs/\mbox{\hyperlink{mainwindow_8h}{mainwindow.\+h}}\item 
+C\+:/\+Users/camar/prog/\+Echecs/\mbox{\hyperlink{mainwindow_8cpp}{mainwindow.\+cpp}}\end{DoxyCompactItemize}

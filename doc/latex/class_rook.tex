@@ -1,0 +1,91 @@
+\hypertarget{class_rook}{}\doxysection{Rook Class Reference}
+\label{class_rook}\index{Rook@{Rook}}
+
+
+{\ttfamily \#include $<$Piece.\+h$>$}
+
+
+
+Inherits \mbox{\hyperlink{class_piece}{Piece}}.
+
+
+
+Inherited by \mbox{\hyperlink{class_queen}{Queen}}.
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_rook_ad598a93f8b680be4d3bc6967efeaf0fd}{Rook}} (bool white, bool left, string path)
+\begin{DoxyCompactList}\small\item\em Builder of the \mbox{\hyperlink{class_rook}{Rook}}. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_rook_a70d445b94848b22ded850b6f58bc2972}{$\sim$\+Rook}} ()
+\begin{DoxyCompactList}\small\item\em Destroyer of the \mbox{\hyperlink{class_rook}{Rook}}. \end{DoxyCompactList}\item 
+list$<$ string $>$ \mbox{\hyperlink{class_rook_a7fd0b02434c7f546301c133e4bf0a462}{Display\+Available\+Movement}} (\mbox{\hyperlink{class_chess_board}{Chess\+Board}} \&e, bool white\+Play)
+\begin{DoxyCompactList}\small\item\em Retrieves the coordinates of the cells whose movement is valid for the \mbox{\hyperlink{class_rook}{Rook}}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_rook_ad598a93f8b680be4d3bc6967efeaf0fd}\label{class_rook_ad598a93f8b680be4d3bc6967efeaf0fd}} 
+\index{Rook@{Rook}!Rook@{Rook}}
+\index{Rook@{Rook}!Rook@{Rook}}
+\doxysubsubsection{\texorpdfstring{Rook()}{Rook()}}
+{\footnotesize\ttfamily Rook\+::\+Rook (\begin{DoxyParamCaption}\item[{bool}]{white,  }\item[{bool}]{gauche,  }\item[{string}]{path }\end{DoxyParamCaption})}
+
+
+
+Builder of the \mbox{\hyperlink{class_rook}{Rook}}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em white} & -\/\texorpdfstring{$>$}{>} Color of the \mbox{\hyperlink{class_rook}{Rook}}. \\
+\hline
+{\em path} & -\/\texorpdfstring{$>$}{>} Image path of the \mbox{\hyperlink{class_rook}{Rook}} image. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_rook_a70d445b94848b22ded850b6f58bc2972}\label{class_rook_a70d445b94848b22ded850b6f58bc2972}} 
+\index{Rook@{Rook}!````~Rook@{$\sim$Rook}}
+\index{````~Rook@{$\sim$Rook}!Rook@{Rook}}
+\doxysubsubsection{\texorpdfstring{$\sim$Rook()}{~Rook()}}
+{\footnotesize\ttfamily Rook\+::$\sim$\+Rook (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Destroyer of the \mbox{\hyperlink{class_rook}{Rook}}. 
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_rook_a7fd0b02434c7f546301c133e4bf0a462}\label{class_rook_a7fd0b02434c7f546301c133e4bf0a462}} 
+\index{Rook@{Rook}!DisplayAvailableMovement@{DisplayAvailableMovement}}
+\index{DisplayAvailableMovement@{DisplayAvailableMovement}!Rook@{Rook}}
+\doxysubsubsection{\texorpdfstring{DisplayAvailableMovement()}{DisplayAvailableMovement()}}
+{\footnotesize\ttfamily list$<$ string $>$ Rook\+::\+Display\+Available\+Movement (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_chess_board}{Chess\+Board}} \&}]{e,  }\item[{bool}]{white\+Play }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Retrieves the coordinates of the cells whose movement is valid for the \mbox{\hyperlink{class_rook}{Rook}}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \mbox{\hyperlink{class_chess_board}{Chess\+Board}}} & e \\
+\hline
+{\em bool} & white\+Play -\/\texorpdfstring{$>$}{>} True if it is the \mbox{\hyperlink{class_rook}{Rook}} of the white player, False otherwise \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+list$<$string$>$ values -\/\texorpdfstring{$>$}{>} List of all the coordinates of the cells valid for the movements of the \mbox{\hyperlink{class_rook}{Rook}}. The coordinates entered are in the format\+: \textquotesingle{}x-\/y-\/bool\textquotesingle{} where x corresponds to the column of the cell, y corresponds to the row of the cell and bool corresponds to the attribution of the color true -\/\texorpdfstring{$>$}{>} blue, false -\/\texorpdfstring{$>$}{>} pink 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{class_piece_aaa56a8eb9cab9660fa5351fef4719573}{Piece}}.
+
+
+
+Reimplemented in \mbox{\hyperlink{class_queen_a9563b374497679ea6c86976212510df8}{Queen}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/camar/prog/\+Echecs/\mbox{\hyperlink{_piece_8h}{Piece.\+h}}\item 
+C\+:/\+Users/camar/prog/\+Echecs/\mbox{\hyperlink{_piece_8cpp}{Piece.\+cpp}}\end{DoxyCompactItemize}

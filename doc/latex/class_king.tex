@@ -1,0 +1,105 @@
+\hypertarget{class_king}{}\doxysection{King Class Reference}
+\label{class_king}\index{King@{King}}
+
+
+{\ttfamily \#include $<$Piece.\+h$>$}
+
+
+
+Inherits \mbox{\hyperlink{class_piece}{Piece}}.
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_king_ae129882054b8ed1747e069f3a0983b46}{King}} (bool white, string path)
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{class_king}{King}} builder. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_king_aac368ce96e2b12f62e3608d27262e941}{$\sim$\+King}} ()
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{class_king}{King}}\textquotesingle{}s Destroyer. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_king_a9b3f7003c86becb7c8b8dcd866d788e0}{Castling\+Available}} (\mbox{\hyperlink{class_chess_board}{Chess\+Board}} \&e, \mbox{\hyperlink{class_rook}{Rook}} $\ast$r)
+\begin{DoxyCompactList}\small\item\em Checks if a \char`\"{}castling\char`\"{} is possible between the \mbox{\hyperlink{class_king}{King}} and the \mbox{\hyperlink{class_rook}{Rook}} as a parameter. \end{DoxyCompactList}\item 
+list$<$ string $>$ \mbox{\hyperlink{class_king_a003b2f49e710eb3df33b00ea0de62018}{Display\+Available\+Movement}} (\mbox{\hyperlink{class_chess_board}{Chess\+Board}} \&e, bool white\+Play)
+\begin{DoxyCompactList}\small\item\em Retrieves the coordinates of the cells whose movement is valid for the \mbox{\hyperlink{class_king}{King}}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_king_ae129882054b8ed1747e069f3a0983b46}\label{class_king_ae129882054b8ed1747e069f3a0983b46}} 
+\index{King@{King}!King@{King}}
+\index{King@{King}!King@{King}}
+\doxysubsubsection{\texorpdfstring{King()}{King()}}
+{\footnotesize\ttfamily King\+::\+King (\begin{DoxyParamCaption}\item[{bool}]{white,  }\item[{string}]{path }\end{DoxyParamCaption})}
+
+
+
+\mbox{\hyperlink{class_king}{King}} builder. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em white} & -\/\texorpdfstring{$>$}{>} \mbox{\hyperlink{class_king}{King}} color \\
+\hline
+{\em path} & -\/\texorpdfstring{$>$}{>} \mbox{\hyperlink{class_king}{King}} Image Path \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_king_aac368ce96e2b12f62e3608d27262e941}\label{class_king_aac368ce96e2b12f62e3608d27262e941}} 
+\index{King@{King}!````~King@{$\sim$King}}
+\index{````~King@{$\sim$King}!King@{King}}
+\doxysubsubsection{\texorpdfstring{$\sim$King()}{~King()}}
+{\footnotesize\ttfamily King\+::$\sim$\+King (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\mbox{\hyperlink{class_king}{King}}\textquotesingle{}s Destroyer. 
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_king_a9b3f7003c86becb7c8b8dcd866d788e0}\label{class_king_a9b3f7003c86becb7c8b8dcd866d788e0}} 
+\index{King@{King}!CastlingAvailable@{CastlingAvailable}}
+\index{CastlingAvailable@{CastlingAvailable}!King@{King}}
+\doxysubsubsection{\texorpdfstring{CastlingAvailable()}{CastlingAvailable()}}
+{\footnotesize\ttfamily bool King\+::\+Castling\+Available (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_chess_board}{Chess\+Board}} \&}]{e,  }\item[{\mbox{\hyperlink{class_rook}{Rook}} $\ast$}]{p }\end{DoxyParamCaption})}
+
+
+
+Checks if a \char`\"{}castling\char`\"{} is possible between the \mbox{\hyperlink{class_king}{King}} and the \mbox{\hyperlink{class_rook}{Rook}} as a parameter. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \mbox{\hyperlink{class_chess_board}{Chess\+Board}}} & \&e \\
+\hline
+{\em $\ast$\+Rook} & x -\/\texorpdfstring{$>$}{>} Pointer to the \mbox{\hyperlink{class_rook}{Rook}} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool -\/\texorpdfstring{$>$}{>} true if the displacement is possible false otherwise 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_king_a003b2f49e710eb3df33b00ea0de62018}\label{class_king_a003b2f49e710eb3df33b00ea0de62018}} 
+\index{King@{King}!DisplayAvailableMovement@{DisplayAvailableMovement}}
+\index{DisplayAvailableMovement@{DisplayAvailableMovement}!King@{King}}
+\doxysubsubsection{\texorpdfstring{DisplayAvailableMovement()}{DisplayAvailableMovement()}}
+{\footnotesize\ttfamily list$<$ string $>$ King\+::\+Display\+Available\+Movement (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_chess_board}{Chess\+Board}} \&}]{e,  }\item[{bool}]{white\+Play }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Retrieves the coordinates of the cells whose movement is valid for the \mbox{\hyperlink{class_king}{King}}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \mbox{\hyperlink{class_chess_board}{Chess\+Board}}} & e \\
+\hline
+{\em bool} & white\+Play -\/\texorpdfstring{$>$}{>} True if it is the \mbox{\hyperlink{class_rook}{Rook}} of the white player, False otherwise. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+list$<$string$>$ values -\/\texorpdfstring{$>$}{>} List of all the coordinates of the cells valid for the movements of the \mbox{\hyperlink{class_king}{King}}. The coordinates entered are in the format\+: \textquotesingle{}x-\/y-\/bool\textquotesingle{} where x corresponds to the column of the cell, y corresponds to the row of the cell and bool corresponds to the attribution of the color true -\/\texorpdfstring{$>$}{>} blue, false -\/\texorpdfstring{$>$}{>} pink 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{class_piece_aaa56a8eb9cab9660fa5351fef4719573}{Piece}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/camar/prog/\+Echecs/\mbox{\hyperlink{_piece_8h}{Piece.\+h}}\item 
+C\+:/\+Users/camar/prog/\+Echecs/\mbox{\hyperlink{_piece_8cpp}{Piece.\+cpp}}\end{DoxyCompactItemize}

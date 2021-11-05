@@ -1,0 +1,28 @@
+\hypertarget{_chess_board_8h_source}{}\doxysection{Chess\+Board.\+h}
+\label{_chess_board_8h_source}\index{C:/Users/camar/prog/Echecs/ChessBoard.h@{C:/Users/camar/prog/Echecs/ChessBoard.h}}
+\mbox{\hyperlink{_chess_board_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#if !defined ChessBoard\_h}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#define ChessBoard\_h}}
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{_piece_8h}{Piece.h}}"{}}}
+\DoxyCodeLine{12 }
+\DoxyCodeLine{13 \textcolor{keyword}{class }\mbox{\hyperlink{class_chess_board}{ChessBoard}}}
+\DoxyCodeLine{14 \{}
+\DoxyCodeLine{15    \textcolor{keyword}{private}:}
+\DoxyCodeLine{16     \mbox{\hyperlink{class_piece}{Piece}} *m\_cases[64];}
+\DoxyCodeLine{17 }
+\DoxyCodeLine{18    \textcolor{keyword}{public}:}
+\DoxyCodeLine{19 }
+\DoxyCodeLine{20     \mbox{\hyperlink{class_chess_board_a6585395bb4f064b4f4566df1c7fa4276}{ChessBoard}}();}
+\DoxyCodeLine{21     \mbox{\hyperlink{class_piece}{Piece}} *\mbox{\hyperlink{class_chess_board_ada527a3daa532e9eb5d2fb204c6adecc}{GetPiece}}( \textcolor{keywordtype}{int} x, \textcolor{keywordtype}{int} y );}
+\DoxyCodeLine{22     \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_chess_board_a959eee7b43e34d71c3f76e21802af35a}{PlacePiece}}( \mbox{\hyperlink{class_piece}{Piece}} *p );}
+\DoxyCodeLine{23     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_chess_board_a439dc6b4dca8ce92e539a748c2a177da}{MovePiece}}( \mbox{\hyperlink{class_piece}{Piece}} *p, \textcolor{keywordtype}{int} x, \textcolor{keywordtype}{int} y );}
+\DoxyCodeLine{24     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_chess_board_a010f5a68acac9e26c6669d6069be97e1}{RemovePiece}}( \textcolor{keywordtype}{int} x, \textcolor{keywordtype}{int} y );}
+\DoxyCodeLine{25     \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_chess_board_ae60d96354cd1907fa43f592b44c5f2a8}{CheckRoqueValidity}}( \mbox{\hyperlink{class_king}{King}} *r, \textcolor{keywordtype}{int} x ,\textcolor{keywordtype}{int} y);}
+\DoxyCodeLine{26     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_chess_board_a5fecdb271f8015e2b5d3a0f1ce122e92}{DoRoque}}( \mbox{\hyperlink{class_king}{King}} *r, \mbox{\hyperlink{class_rook}{Rook}} *p);}
+\DoxyCodeLine{27 \};}
+\DoxyCodeLine{28 }
+\DoxyCodeLine{29 \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

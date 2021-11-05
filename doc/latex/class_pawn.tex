@@ -1,0 +1,105 @@
+\hypertarget{class_pawn}{}\doxysection{Pawn Class Reference}
+\label{class_pawn}\index{Pawn@{Pawn}}
+
+
+{\ttfamily \#include $<$Piece.\+h$>$}
+
+
+
+Inherits \mbox{\hyperlink{class_piece}{Piece}}.
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_pawn_a7ebfe2d05cbccc45788117327fa0428d}{Pawn}} (bool white, int x, string path)
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{class_pawn}{Pawn}} builder. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_pawn_a3095938fb8326469c3bd05da0b8f50af}{$\sim$\+Pawn}} ()
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{class_pawn}{Pawn}} Destroyer. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_pawn_af1cf5dc902c57c26cf5587ee03277dfd}{Doit\+Evoluer}} (\mbox{\hyperlink{class_chess_board}{Chess\+Board}} \&e, bool white\+Play)
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{class_pawn_af1cf5dc902c57c26cf5587ee03277dfd}{Pawn\+::\+Doit\+Evoluer}}. \end{DoxyCompactList}\item 
+list$<$ string $>$ \mbox{\hyperlink{class_pawn_a45e72132730c3518a1165b2caee92a4a}{Display\+Available\+Movement}} (\mbox{\hyperlink{class_chess_board}{Chess\+Board}} \&e, bool white\+Play)
+\begin{DoxyCompactList}\small\item\em Retrieves the coordinates of the cells whose movement is valid for the \mbox{\hyperlink{class_pawn}{Pawn}}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_pawn_a7ebfe2d05cbccc45788117327fa0428d}\label{class_pawn_a7ebfe2d05cbccc45788117327fa0428d}} 
+\index{Pawn@{Pawn}!Pawn@{Pawn}}
+\index{Pawn@{Pawn}!Pawn@{Pawn}}
+\doxysubsubsection{\texorpdfstring{Pawn()}{Pawn()}}
+{\footnotesize\ttfamily Pawn\+::\+Pawn (\begin{DoxyParamCaption}\item[{bool}]{white,  }\item[{int}]{x,  }\item[{string}]{path }\end{DoxyParamCaption})}
+
+
+
+\mbox{\hyperlink{class_pawn}{Pawn}} builder. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em white} & -\/\texorpdfstring{$>$}{>} Color of the \mbox{\hyperlink{class_pawn}{Pawn}}. \\
+\hline
+{\em path} & -\/\texorpdfstring{$>$}{>} Image path of the \mbox{\hyperlink{class_pawn}{Pawn}}. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_pawn_a3095938fb8326469c3bd05da0b8f50af}\label{class_pawn_a3095938fb8326469c3bd05da0b8f50af}} 
+\index{Pawn@{Pawn}!````~Pawn@{$\sim$Pawn}}
+\index{````~Pawn@{$\sim$Pawn}!Pawn@{Pawn}}
+\doxysubsubsection{\texorpdfstring{$\sim$Pawn()}{~Pawn()}}
+{\footnotesize\ttfamily Pawn\+::$\sim$\+Pawn (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\mbox{\hyperlink{class_pawn}{Pawn}} Destroyer. 
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_pawn_a45e72132730c3518a1165b2caee92a4a}\label{class_pawn_a45e72132730c3518a1165b2caee92a4a}} 
+\index{Pawn@{Pawn}!DisplayAvailableMovement@{DisplayAvailableMovement}}
+\index{DisplayAvailableMovement@{DisplayAvailableMovement}!Pawn@{Pawn}}
+\doxysubsubsection{\texorpdfstring{DisplayAvailableMovement()}{DisplayAvailableMovement()}}
+{\footnotesize\ttfamily list$<$ string $>$ Pawn\+::\+Display\+Available\+Movement (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_chess_board}{Chess\+Board}} \&}]{e,  }\item[{bool}]{white\+Play }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Retrieves the coordinates of the cells whose movement is valid for the \mbox{\hyperlink{class_pawn}{Pawn}}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \mbox{\hyperlink{class_chess_board}{Chess\+Board}}} & e \\
+\hline
+{\em bool} & white\+Play -\/\texorpdfstring{$>$}{>} True if it is the \mbox{\hyperlink{class_rook}{Rook}} of the white player, False otherwise. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+list$<$string$>$ values -\/\texorpdfstring{$>$}{>} List of all the coordinates of the cells valid for the movements of the \mbox{\hyperlink{class_pawn}{Pawn}}. The coordinates entered are in the format\+: \textquotesingle{}x-\/y-\/bool\textquotesingle{} where x corresponds to the column of the cell, y corresponds to the row of the cell and bool corresponds to the attribution of the color true -\/\texorpdfstring{$>$}{>} blue, false -\/\texorpdfstring{$>$}{>} pink 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{class_piece_aaa56a8eb9cab9660fa5351fef4719573}{Piece}}.
+
+\mbox{\Hypertarget{class_pawn_af1cf5dc902c57c26cf5587ee03277dfd}\label{class_pawn_af1cf5dc902c57c26cf5587ee03277dfd}} 
+\index{Pawn@{Pawn}!DoitEvoluer@{DoitEvoluer}}
+\index{DoitEvoluer@{DoitEvoluer}!Pawn@{Pawn}}
+\doxysubsubsection{\texorpdfstring{DoitEvoluer()}{DoitEvoluer()}}
+{\footnotesize\ttfamily bool Pawn\+::\+Doit\+Evoluer (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_chess_board}{Chess\+Board}} \&}]{e,  }\item[{bool}]{white\+Play }\end{DoxyParamCaption})}
+
+
+
+\mbox{\hyperlink{class_pawn_af1cf5dc902c57c26cf5587ee03277dfd}{Pawn\+::\+Doit\+Evoluer}}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em e} & \\
+\hline
+{\em white\+Play} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/camar/prog/\+Echecs/\mbox{\hyperlink{_piece_8h}{Piece.\+h}}\item 
+C\+:/\+Users/camar/prog/\+Echecs/\mbox{\hyperlink{_piece_8cpp}{Piece.\+cpp}}\end{DoxyCompactItemize}

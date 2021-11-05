@@ -1,0 +1,95 @@
+\hypertarget{_piece_8h_source}{}\doxysection{Piece.\+h}
+\label{_piece_8h_source}\index{C:/Users/camar/prog/Echecs/Piece.h@{C:/Users/camar/prog/Echecs/Piece.h}}
+\mbox{\hyperlink{_piece_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#if !defined Piece\_h}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#define Piece\_h}}
+\DoxyCodeLine{11 }
+\DoxyCodeLine{12 \textcolor{preprocessor}{\#include <iostream>}}
+\DoxyCodeLine{13 \textcolor{preprocessor}{\#include <assert.h>}}
+\DoxyCodeLine{14 \textcolor{preprocessor}{\#include <list>}}
+\DoxyCodeLine{15 }
+\DoxyCodeLine{16 \textcolor{keyword}{using namespace }std;}
+\DoxyCodeLine{17 }
+\DoxyCodeLine{18 \textcolor{keyword}{class }\mbox{\hyperlink{class_chess_board}{ChessBoard}};}
+\DoxyCodeLine{19 }
+\DoxyCodeLine{20 \textcolor{keyword}{class }\mbox{\hyperlink{class_piece}{Piece}}}
+\DoxyCodeLine{21 \{}
+\DoxyCodeLine{22    \textcolor{keyword}{protected}:}
+\DoxyCodeLine{23     \textcolor{keywordtype}{int}  \mbox{\hyperlink{class_piece_a2a6b59866b6d222740566e7cf140236b}{p\_x}};}
+\DoxyCodeLine{24     \textcolor{keywordtype}{int}  \mbox{\hyperlink{class_piece_a4eaf1c7a0acaab6bcdcbc4a8d3aad593}{p\_y}};}
+\DoxyCodeLine{25     \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_piece_a75c7e06d58acd7c42d3c8fd6ec96f8e7}{p\_white}};}
+\DoxyCodeLine{26     \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_piece_af048bfe13979bee39c05bf524a4bf5c1}{p\_firstMove}};}
+\DoxyCodeLine{27     \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_piece_ac40e836108833f73b344af19ff6a714d}{p\_isEchec}};}
+\DoxyCodeLine{28     \textcolor{keywordtype}{string} \mbox{\hyperlink{class_piece_ab4625311e61cce026308cfa88a5632c5}{p\_path}};}
+\DoxyCodeLine{29 }
+\DoxyCodeLine{30    \textcolor{keyword}{public}:}
+\DoxyCodeLine{31     \textcolor{keyword}{virtual} \mbox{\hyperlink{class_piece_a5d7a4f6bade94cb33b6f634de8aa7918}{\string~Piece}}();}
+\DoxyCodeLine{32     \mbox{\hyperlink{class_piece_a264652e6b4cf87179ac809ed9b726ed3}{Piece}}( \textcolor{keywordtype}{int} x, \textcolor{keywordtype}{int} y, \textcolor{keywordtype}{bool} white, \textcolor{keywordtype}{string} path );}
+\DoxyCodeLine{33     \textcolor{keywordtype}{void}         \mbox{\hyperlink{class_piece_ac9c9a71378ee25809cb73c53392c60a9}{Move}}( \textcolor{keywordtype}{int} x, \textcolor{keywordtype}{int} y );}
+\DoxyCodeLine{34     \textcolor{keywordtype}{int}          \mbox{\hyperlink{class_piece_a4f8420e298c5022bc4b1a6f6f4ba36ab}{GetX}}();}
+\DoxyCodeLine{35     \textcolor{keywordtype}{int}          \mbox{\hyperlink{class_piece_a6268fb5c14d635dec1d452b247334c6f}{GetY}}();}
+\DoxyCodeLine{36     \textcolor{keywordtype}{bool}         \mbox{\hyperlink{class_piece_ae3e708c954e14f6306dd936527fed410}{GetIsWhite}}();}
+\DoxyCodeLine{37     \textcolor{keywordtype}{bool}         \mbox{\hyperlink{class_piece_ae09f0e1d35cc5f98b229cf9e11cd9e07}{GetFirstMove}}();}
+\DoxyCodeLine{38     \textcolor{keywordtype}{bool}         \mbox{\hyperlink{class_piece_adb6f8b82a82a8e55a6ebd6ef5e9f98b1}{GetIsEchec}}();}
+\DoxyCodeLine{39     \textcolor{keywordtype}{void}         \mbox{\hyperlink{class_piece_a3c6d60b893c1e025b69fcb9f6c9e8788}{SetIsEchec}}();}
+\DoxyCodeLine{40     \textcolor{keywordtype}{string}       \mbox{\hyperlink{class_piece_a92d1fdefd9f72b35e4239bd39cb1d661}{GetPath}}();}
+\DoxyCodeLine{41     \textcolor{keyword}{virtual} list<string> \mbox{\hyperlink{class_piece_aaa56a8eb9cab9660fa5351fef4719573}{DisplayAvailableMovement}}( \mbox{\hyperlink{class_chess_board}{ChessBoard}} \&e, \textcolor{keywordtype}{bool} whitePlay ) = 0 ;}
+\DoxyCodeLine{42     list<string> \mbox{\hyperlink{class_piece_a902905206ecf743e6610d8128d93f290}{CheckAvailableMovementKing}}( \mbox{\hyperlink{class_chess_board}{ChessBoard}} \&e, \textcolor{keywordtype}{int} x, \textcolor{keywordtype}{int} y );}
+\DoxyCodeLine{43 \};}
+\DoxyCodeLine{44 }
+\DoxyCodeLine{45 \textcolor{keyword}{class }\mbox{\hyperlink{class_rook}{Rook}} : \textcolor{keyword}{virtual} \textcolor{keyword}{public} \mbox{\hyperlink{class_piece}{Piece}}}
+\DoxyCodeLine{46 \{}
+\DoxyCodeLine{47    \textcolor{keyword}{public}:}
+\DoxyCodeLine{48     \mbox{\hyperlink{class_rook_ad598a93f8b680be4d3bc6967efeaf0fd}{Rook}}( \textcolor{keywordtype}{bool} white, \textcolor{keywordtype}{bool} left, \textcolor{keywordtype}{string} path );}
+\DoxyCodeLine{49     \mbox{\hyperlink{class_rook_a70d445b94848b22ded850b6f58bc2972}{\string~Rook}}();}
+\DoxyCodeLine{50     list<string> \mbox{\hyperlink{class_rook_a7fd0b02434c7f546301c133e4bf0a462}{DisplayAvailableMovement}}( \mbox{\hyperlink{class_chess_board}{ChessBoard}} \&e, \textcolor{keywordtype}{bool} whitePlay );}
+\DoxyCodeLine{51 \};}
+\DoxyCodeLine{52 }
+\DoxyCodeLine{53 \textcolor{keyword}{class }\mbox{\hyperlink{class_king}{King}} : \textcolor{keyword}{public} \mbox{\hyperlink{class_piece}{Piece}}}
+\DoxyCodeLine{54 \{}
+\DoxyCodeLine{55    \textcolor{keyword}{public}:}
+\DoxyCodeLine{56     \mbox{\hyperlink{class_king_ae129882054b8ed1747e069f3a0983b46}{King}}( \textcolor{keywordtype}{bool} white, \textcolor{keywordtype}{string} path);}
+\DoxyCodeLine{57     \mbox{\hyperlink{class_king_aac368ce96e2b12f62e3608d27262e941}{\string~King}}();}
+\DoxyCodeLine{58     \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_king_a9b3f7003c86becb7c8b8dcd866d788e0}{CastlingAvailable}}( \mbox{\hyperlink{class_chess_board}{ChessBoard}} \&e, \mbox{\hyperlink{class_rook}{Rook}} *r );}
+\DoxyCodeLine{59     list<string> \mbox{\hyperlink{class_king_a003b2f49e710eb3df33b00ea0de62018}{DisplayAvailableMovement}}( \mbox{\hyperlink{class_chess_board}{ChessBoard}} \&e, \textcolor{keywordtype}{bool} whitePlay );}
+\DoxyCodeLine{60 \};}
+\DoxyCodeLine{61 }
+\DoxyCodeLine{62 \textcolor{keyword}{class }\mbox{\hyperlink{class_bishop}{Bishop}} : \textcolor{keyword}{virtual} \textcolor{keyword}{public} \mbox{\hyperlink{class_piece}{Piece}}}
+\DoxyCodeLine{63 \{}
+\DoxyCodeLine{64    \textcolor{keyword}{public}:}
+\DoxyCodeLine{65     \mbox{\hyperlink{class_bishop_aa2b5495be39e26d520ba0f3fa82c9afd}{Bishop}}( \textcolor{keywordtype}{bool} white, \textcolor{keywordtype}{bool} left, \textcolor{keywordtype}{string} path );}
+\DoxyCodeLine{66     \mbox{\hyperlink{class_bishop_a3705b4537a39d09a59143fe01a62442f}{\string~Bishop}}();}
+\DoxyCodeLine{67     list<string> \mbox{\hyperlink{class_bishop_a2abee368037846f4965a651831a29d2d}{DisplayAvailableMovement}}( \mbox{\hyperlink{class_chess_board}{ChessBoard}} \&e, \textcolor{keywordtype}{bool} whitePlay );}
+\DoxyCodeLine{68 \};}
+\DoxyCodeLine{69 }
+\DoxyCodeLine{70 \textcolor{keyword}{class }\mbox{\hyperlink{class_knight}{Knight}} : \textcolor{keyword}{public} \mbox{\hyperlink{class_piece}{Piece}}}
+\DoxyCodeLine{71 \{}
+\DoxyCodeLine{72    \textcolor{keyword}{public}:}
+\DoxyCodeLine{73     \mbox{\hyperlink{class_knight_a91713950a12dea35d071bcd90242e7af}{Knight}}( \textcolor{keywordtype}{bool} white, \textcolor{keywordtype}{bool} gauche, \textcolor{keywordtype}{string} path );}
+\DoxyCodeLine{74     \mbox{\hyperlink{class_knight_a2754123d6876babe915f4da8f761361b}{\string~Knight}}();}
+\DoxyCodeLine{75     list<string> \mbox{\hyperlink{class_knight_aecd63eaa328f7d75b4db06b9d5813de6}{DisplayAvailableMovement}}( \mbox{\hyperlink{class_chess_board}{ChessBoard}} \&e, \textcolor{keywordtype}{bool} whitePlay );}
+\DoxyCodeLine{76 \};}
+\DoxyCodeLine{77 }
+\DoxyCodeLine{78 \textcolor{keyword}{class }\mbox{\hyperlink{class_queen}{Queen}} : \textcolor{keyword}{public} \mbox{\hyperlink{class_bishop}{Bishop}}, \textcolor{keyword}{public} \mbox{\hyperlink{class_rook}{Rook}}}
+\DoxyCodeLine{79 \{}
+\DoxyCodeLine{80    \textcolor{keyword}{public}:}
+\DoxyCodeLine{81     \mbox{\hyperlink{class_queen_aa0ed58591029dbbf114569ce01abef43}{Queen}}( \textcolor{keywordtype}{bool} white, \textcolor{keywordtype}{string} path );}
+\DoxyCodeLine{82     \mbox{\hyperlink{class_queen_aa22f6c1a49a583b549bd1f940e50721d}{\string~Queen}}();}
+\DoxyCodeLine{83     list<string> \mbox{\hyperlink{class_queen_a9563b374497679ea6c86976212510df8}{DisplayAvailableMovement}}( \mbox{\hyperlink{class_chess_board}{ChessBoard}} \&e, \textcolor{keywordtype}{bool} whitePlay );}
+\DoxyCodeLine{84 \};}
+\DoxyCodeLine{85 }
+\DoxyCodeLine{86 \textcolor{keyword}{class }\mbox{\hyperlink{class_pawn}{Pawn}} : \textcolor{keyword}{public} \mbox{\hyperlink{class_piece}{Piece}}}
+\DoxyCodeLine{87 \{}
+\DoxyCodeLine{88    \textcolor{keyword}{public}:}
+\DoxyCodeLine{89     \mbox{\hyperlink{class_pawn_a7ebfe2d05cbccc45788117327fa0428d}{Pawn}}( \textcolor{keywordtype}{bool} white, \textcolor{keywordtype}{int} x, \textcolor{keywordtype}{string} path );}
+\DoxyCodeLine{90     \mbox{\hyperlink{class_pawn_a3095938fb8326469c3bd05da0b8f50af}{\string~Pawn}}();}
+\DoxyCodeLine{91     \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_pawn_af1cf5dc902c57c26cf5587ee03277dfd}{DoitEvoluer}}( \mbox{\hyperlink{class_chess_board}{ChessBoard}} \&e,\textcolor{keywordtype}{bool} whitePlay );}
+\DoxyCodeLine{92     list<string> \mbox{\hyperlink{class_pawn_a45e72132730c3518a1165b2caee92a4a}{DisplayAvailableMovement}}( \mbox{\hyperlink{class_chess_board}{ChessBoard}} \&e, \textcolor{keywordtype}{bool} whitePlay );}
+\DoxyCodeLine{93 \};}
+\DoxyCodeLine{94 }
+\DoxyCodeLine{95 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{96 }
+
+\end{DoxyCode}

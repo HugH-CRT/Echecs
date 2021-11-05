@@ -1,0 +1,91 @@
+\hypertarget{class_bishop}{}\doxysection{Bishop Class Reference}
+\label{class_bishop}\index{Bishop@{Bishop}}
+
+
+{\ttfamily \#include $<$Piece.\+h$>$}
+
+
+
+Inherits \mbox{\hyperlink{class_piece}{Piece}}.
+
+
+
+Inherited by \mbox{\hyperlink{class_queen}{Queen}}.
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_bishop_aa2b5495be39e26d520ba0f3fa82c9afd}{Bishop}} (bool white, bool left, string path)
+\begin{DoxyCompactList}\small\item\em Builder of the \mbox{\hyperlink{class_bishop}{Bishop}}. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_bishop_a3705b4537a39d09a59143fe01a62442f}{$\sim$\+Bishop}} ()
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{class_bishop}{Bishop}}\textquotesingle{}s Destroyer. \end{DoxyCompactList}\item 
+list$<$ string $>$ \mbox{\hyperlink{class_bishop_a2abee368037846f4965a651831a29d2d}{Display\+Available\+Movement}} (\mbox{\hyperlink{class_chess_board}{Chess\+Board}} \&e, bool white\+Play)
+\begin{DoxyCompactList}\small\item\em Retrieves the coordinates of the cells whose movement is valid for the \mbox{\hyperlink{class_bishop}{Bishop}}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_bishop_aa2b5495be39e26d520ba0f3fa82c9afd}\label{class_bishop_aa2b5495be39e26d520ba0f3fa82c9afd}} 
+\index{Bishop@{Bishop}!Bishop@{Bishop}}
+\index{Bishop@{Bishop}!Bishop@{Bishop}}
+\doxysubsubsection{\texorpdfstring{Bishop()}{Bishop()}}
+{\footnotesize\ttfamily Bishop\+::\+Bishop (\begin{DoxyParamCaption}\item[{bool}]{white,  }\item[{bool}]{gauche,  }\item[{string}]{path }\end{DoxyParamCaption})}
+
+
+
+Builder of the \mbox{\hyperlink{class_bishop}{Bishop}}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em white} & -\/\texorpdfstring{$>$}{>} \mbox{\hyperlink{class_bishop}{Bishop}} color. \\
+\hline
+{\em path} & -\/\texorpdfstring{$>$}{>} Image path of the \mbox{\hyperlink{class_bishop}{Bishop}} image. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_bishop_a3705b4537a39d09a59143fe01a62442f}\label{class_bishop_a3705b4537a39d09a59143fe01a62442f}} 
+\index{Bishop@{Bishop}!````~Bishop@{$\sim$Bishop}}
+\index{````~Bishop@{$\sim$Bishop}!Bishop@{Bishop}}
+\doxysubsubsection{\texorpdfstring{$\sim$Bishop()}{~Bishop()}}
+{\footnotesize\ttfamily Bishop\+::$\sim$\+Bishop (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\mbox{\hyperlink{class_bishop}{Bishop}}\textquotesingle{}s Destroyer. 
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_bishop_a2abee368037846f4965a651831a29d2d}\label{class_bishop_a2abee368037846f4965a651831a29d2d}} 
+\index{Bishop@{Bishop}!DisplayAvailableMovement@{DisplayAvailableMovement}}
+\index{DisplayAvailableMovement@{DisplayAvailableMovement}!Bishop@{Bishop}}
+\doxysubsubsection{\texorpdfstring{DisplayAvailableMovement()}{DisplayAvailableMovement()}}
+{\footnotesize\ttfamily list$<$ string $>$ Bishop\+::\+Display\+Available\+Movement (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_chess_board}{Chess\+Board}} \&}]{e,  }\item[{bool}]{white\+Play }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Retrieves the coordinates of the cells whose movement is valid for the \mbox{\hyperlink{class_bishop}{Bishop}}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \mbox{\hyperlink{class_chess_board}{Chess\+Board}}} & e \\
+\hline
+{\em bool} & white\+Play -\/\texorpdfstring{$>$}{>} True if it is the \mbox{\hyperlink{class_rook}{Rook}} of the white player, False otherwise. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+list$<$string$>$ values -\/\texorpdfstring{$>$}{>} List of all the coordinates of the cells valid for the movements of the \mbox{\hyperlink{class_bishop}{Bishop}}. The coordinates entered are in the format\+: \textquotesingle{}x-\/y-\/bool\textquotesingle{} where x corresponds to the column of the cell, y corresponds to the row of the cell and bool corresponds to the attribution of the color true -\/\texorpdfstring{$>$}{>} blue, false -\/\texorpdfstring{$>$}{>} pink 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{class_piece_aaa56a8eb9cab9660fa5351fef4719573}{Piece}}.
+
+
+
+Reimplemented in \mbox{\hyperlink{class_queen_a9563b374497679ea6c86976212510df8}{Queen}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/camar/prog/\+Echecs/\mbox{\hyperlink{_piece_8h}{Piece.\+h}}\item 
+C\+:/\+Users/camar/prog/\+Echecs/\mbox{\hyperlink{_piece_8cpp}{Piece.\+cpp}}\end{DoxyCompactItemize}

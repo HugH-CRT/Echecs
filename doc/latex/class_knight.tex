@@ -1,0 +1,83 @@
+\hypertarget{class_knight}{}\doxysection{Knight Class Reference}
+\label{class_knight}\index{Knight@{Knight}}
+
+
+{\ttfamily \#include $<$Piece.\+h$>$}
+
+
+
+Inherits \mbox{\hyperlink{class_piece}{Piece}}.
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_knight_a91713950a12dea35d071bcd90242e7af}{Knight}} (bool white, bool gauche, string path)
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{class_knight}{Knight}}\textquotesingle{}s builder. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_knight_a2754123d6876babe915f4da8f761361b}{$\sim$\+Knight}} ()
+\begin{DoxyCompactList}\small\item\em Destroyer of the \mbox{\hyperlink{class_knight}{Knight}}. \end{DoxyCompactList}\item 
+list$<$ string $>$ \mbox{\hyperlink{class_knight_aecd63eaa328f7d75b4db06b9d5813de6}{Display\+Available\+Movement}} (\mbox{\hyperlink{class_chess_board}{Chess\+Board}} \&e, bool white\+Play)
+\begin{DoxyCompactList}\small\item\em Retrieves the coordinates of cells whose movement is valid for the \mbox{\hyperlink{class_knight}{Knight}}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_knight_a91713950a12dea35d071bcd90242e7af}\label{class_knight_a91713950a12dea35d071bcd90242e7af}} 
+\index{Knight@{Knight}!Knight@{Knight}}
+\index{Knight@{Knight}!Knight@{Knight}}
+\doxysubsubsection{\texorpdfstring{Knight()}{Knight()}}
+{\footnotesize\ttfamily Knight\+::\+Knight (\begin{DoxyParamCaption}\item[{bool}]{white,  }\item[{bool}]{gauche,  }\item[{string}]{path }\end{DoxyParamCaption})}
+
+
+
+\mbox{\hyperlink{class_knight}{Knight}}\textquotesingle{}s builder. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em white} & -\/\texorpdfstring{$>$}{>} \mbox{\hyperlink{class_knight}{Knight}}\textquotesingle{}s color. \\
+\hline
+{\em path} & -\/\texorpdfstring{$>$}{>} Image path of the \mbox{\hyperlink{class_knight}{Knight}} image. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_knight_a2754123d6876babe915f4da8f761361b}\label{class_knight_a2754123d6876babe915f4da8f761361b}} 
+\index{Knight@{Knight}!````~Knight@{$\sim$Knight}}
+\index{````~Knight@{$\sim$Knight}!Knight@{Knight}}
+\doxysubsubsection{\texorpdfstring{$\sim$Knight()}{~Knight()}}
+{\footnotesize\ttfamily Knight\+::$\sim$\+Knight (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Destroyer of the \mbox{\hyperlink{class_knight}{Knight}}. 
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_knight_aecd63eaa328f7d75b4db06b9d5813de6}\label{class_knight_aecd63eaa328f7d75b4db06b9d5813de6}} 
+\index{Knight@{Knight}!DisplayAvailableMovement@{DisplayAvailableMovement}}
+\index{DisplayAvailableMovement@{DisplayAvailableMovement}!Knight@{Knight}}
+\doxysubsubsection{\texorpdfstring{DisplayAvailableMovement()}{DisplayAvailableMovement()}}
+{\footnotesize\ttfamily list$<$ string $>$ Knight\+::\+Display\+Available\+Movement (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_chess_board}{Chess\+Board}} \&}]{e,  }\item[{bool}]{white\+Play }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Retrieves the coordinates of cells whose movement is valid for the \mbox{\hyperlink{class_knight}{Knight}}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \mbox{\hyperlink{class_chess_board}{Chess\+Board}}} & e \\
+\hline
+{\em bool} & white\+Play -\/\texorpdfstring{$>$}{>} True if it is the \mbox{\hyperlink{class_rook}{Rook}} of the white player, False otherwise. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+list$<$string$>$ values -\/\texorpdfstring{$>$}{>} List of all the coordinates of the cells valid for the movements of the \mbox{\hyperlink{class_knight}{Knight}}. The coordinates entered are in the format\+: \textquotesingle{}x-\/y-\/bool\textquotesingle{} where x corresponds to the column of the cell, y corresponds to the row of the cell and bool corresponds to the attribution of the color true -\/\texorpdfstring{$>$}{>} blue, false -\/\texorpdfstring{$>$}{>} pink 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{class_piece_aaa56a8eb9cab9660fa5351fef4719573}{Piece}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/camar/prog/\+Echecs/\mbox{\hyperlink{_piece_8h}{Piece.\+h}}\item 
+C\+:/\+Users/camar/prog/\+Echecs/\mbox{\hyperlink{_piece_8cpp}{Piece.\+cpp}}\end{DoxyCompactItemize}

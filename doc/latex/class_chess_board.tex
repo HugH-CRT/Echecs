@@ -1,0 +1,154 @@
+\hypertarget{class_chess_board}{}\doxysection{Chess\+Board Class Reference}
+\label{class_chess_board}\index{ChessBoard@{ChessBoard}}
+
+
+{\ttfamily \#include $<$Chess\+Board.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_chess_board_a6585395bb4f064b4f4566df1c7fa4276}{Chess\+Board}} ()
+\begin{DoxyCompactList}\small\item\em Initializes the \mbox{\hyperlink{class_chess_board}{Chess\+Board}} with 64 null pointers. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_piece}{Piece}} $\ast$ \mbox{\hyperlink{class_chess_board_ada527a3daa532e9eb5d2fb204c6adecc}{Get\+Piece}} (int x, int y)
+\item 
+bool \mbox{\hyperlink{class_chess_board_a959eee7b43e34d71c3f76e21802af35a}{Place\+Piece}} (\mbox{\hyperlink{class_piece}{Piece}} $\ast$p)
+\begin{DoxyCompactList}\small\item\em Place the part as a parameter on the \mbox{\hyperlink{class_chess_board}{Chess\+Board}} at its coordinates. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_chess_board_a439dc6b4dca8ce92e539a748c2a177da}{Move\+Piece}} (\mbox{\hyperlink{class_piece}{Piece}} $\ast$p, int x, int y)
+\begin{DoxyCompactList}\small\item\em Clear the starting square and arriving then place the \mbox{\hyperlink{class_piece}{Piece}} in the finishing square. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_chess_board_a010f5a68acac9e26c6669d6069be97e1}{Remove\+Piece}} (int x, int y)
+\begin{DoxyCompactList}\small\item\em Remove the part at the coordinates in parameter. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_chess_board_ae60d96354cd1907fa43f592b44c5f2a8}{Check\+Roque\+Validity}} (\mbox{\hyperlink{class_king}{King}} $\ast$r, int x, int y)
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{class_chess_board_ae60d96354cd1907fa43f592b44c5f2a8}{Chess\+Board\+::\+Check\+Roque\+Validity}}. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_chess_board_a5fecdb271f8015e2b5d3a0f1ce122e92}{Do\+Roque}} (\mbox{\hyperlink{class_king}{King}} $\ast$r, \mbox{\hyperlink{class_rook}{Rook}} $\ast$p)
+\begin{DoxyCompactList}\small\item\em Cast \mbox{\hyperlink{class_king}{King}} and Tower as a parameter. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_chess_board_a6585395bb4f064b4f4566df1c7fa4276}\label{class_chess_board_a6585395bb4f064b4f4566df1c7fa4276}} 
+\index{ChessBoard@{ChessBoard}!ChessBoard@{ChessBoard}}
+\index{ChessBoard@{ChessBoard}!ChessBoard@{ChessBoard}}
+\doxysubsubsection{\texorpdfstring{ChessBoard()}{ChessBoard()}}
+{\footnotesize\ttfamily Chess\+Board\+::\+Chess\+Board (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Initializes the \mbox{\hyperlink{class_chess_board}{Chess\+Board}} with 64 null pointers. 
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_chess_board_ae60d96354cd1907fa43f592b44c5f2a8}\label{class_chess_board_ae60d96354cd1907fa43f592b44c5f2a8}} 
+\index{ChessBoard@{ChessBoard}!CheckRoqueValidity@{CheckRoqueValidity}}
+\index{CheckRoqueValidity@{CheckRoqueValidity}!ChessBoard@{ChessBoard}}
+\doxysubsubsection{\texorpdfstring{CheckRoqueValidity()}{CheckRoqueValidity()}}
+{\footnotesize\ttfamily bool Chess\+Board\+::\+Check\+Roque\+Validity (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_king}{King}} $\ast$}]{r,  }\item[{int}]{x,  }\item[{int}]{y }\end{DoxyParamCaption})}
+
+
+
+\mbox{\hyperlink{class_chess_board_ae60d96354cd1907fa43f592b44c5f2a8}{Chess\+Board\+::\+Check\+Roque\+Validity}}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \mbox{\hyperlink{class_king}{King}}} & $\ast$r -\/\texorpdfstring{$>$}{>} \mbox{\hyperlink{class_king}{King}} qui effectue le roque \\
+\hline
+{\em x} & -\/\texorpdfstring{$>$}{>} column coordinate \\
+\hline
+{\em y} & -\/\texorpdfstring{$>$}{>} line coordinate \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool -\/\texorpdfstring{$>$}{>} Determine if castling is possiblee 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_chess_board_a5fecdb271f8015e2b5d3a0f1ce122e92}\label{class_chess_board_a5fecdb271f8015e2b5d3a0f1ce122e92}} 
+\index{ChessBoard@{ChessBoard}!DoRoque@{DoRoque}}
+\index{DoRoque@{DoRoque}!ChessBoard@{ChessBoard}}
+\doxysubsubsection{\texorpdfstring{DoRoque()}{DoRoque()}}
+{\footnotesize\ttfamily void Chess\+Board\+::\+Do\+Roque (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_king}{King}} $\ast$}]{r,  }\item[{\mbox{\hyperlink{class_rook}{Rook}} $\ast$}]{t }\end{DoxyParamCaption})}
+
+
+
+Cast \mbox{\hyperlink{class_king}{King}} and Tower as a parameter. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \mbox{\hyperlink{class_king}{King}}} & $\ast$r -\/\texorpdfstring{$>$}{>} \mbox{\hyperlink{class_king}{King}} castling \\
+\hline
+{\em \mbox{\hyperlink{class_rook}{Rook}}} & $\ast$t -\/\texorpdfstring{$>$}{>} Castling \mbox{\hyperlink{class_rook}{Rook}} \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_chess_board_ada527a3daa532e9eb5d2fb204c6adecc}\label{class_chess_board_ada527a3daa532e9eb5d2fb204c6adecc}} 
+\index{ChessBoard@{ChessBoard}!GetPiece@{GetPiece}}
+\index{GetPiece@{GetPiece}!ChessBoard@{ChessBoard}}
+\doxysubsubsection{\texorpdfstring{GetPiece()}{GetPiece()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_piece}{Piece}} $\ast$ Chess\+Board\+::\+Get\+Piece (\begin{DoxyParamCaption}\item[{int}]{x,  }\item[{int}]{y }\end{DoxyParamCaption})}
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & -\/\texorpdfstring{$>$}{>} column coordinate \\
+\hline
+{\em y} & -\/\texorpdfstring{$>$}{>} line coordinate \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns the pointer to the coordinates as a parameter 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_chess_board_a439dc6b4dca8ce92e539a748c2a177da}\label{class_chess_board_a439dc6b4dca8ce92e539a748c2a177da}} 
+\index{ChessBoard@{ChessBoard}!MovePiece@{MovePiece}}
+\index{MovePiece@{MovePiece}!ChessBoard@{ChessBoard}}
+\doxysubsubsection{\texorpdfstring{MovePiece()}{MovePiece()}}
+{\footnotesize\ttfamily void Chess\+Board\+::\+Move\+Piece (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_piece}{Piece}} $\ast$}]{p,  }\item[{int}]{x,  }\item[{int}]{y }\end{DoxyParamCaption})}
+
+
+
+Clear the starting square and arriving then place the \mbox{\hyperlink{class_piece}{Piece}} in the finishing square. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \mbox{\hyperlink{class_piece}{Piece}}} & $\ast$p -\/\texorpdfstring{$>$}{>} \mbox{\hyperlink{class_piece}{Piece}} that we move \\
+\hline
+{\em x} & -\/\texorpdfstring{$>$}{>} coordinate of the targeted column \\
+\hline
+{\em y} & -\/\texorpdfstring{$>$}{>} coordinate of the targeted line \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_chess_board_a959eee7b43e34d71c3f76e21802af35a}\label{class_chess_board_a959eee7b43e34d71c3f76e21802af35a}} 
+\index{ChessBoard@{ChessBoard}!PlacePiece@{PlacePiece}}
+\index{PlacePiece@{PlacePiece}!ChessBoard@{ChessBoard}}
+\doxysubsubsection{\texorpdfstring{PlacePiece()}{PlacePiece()}}
+{\footnotesize\ttfamily bool Chess\+Board\+::\+Place\+Piece (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_piece}{Piece}} $\ast$}]{p }\end{DoxyParamCaption})}
+
+
+
+Place the part as a parameter on the \mbox{\hyperlink{class_chess_board}{Chess\+Board}} at its coordinates. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \mbox{\hyperlink{class_piece}{Piece}}} & $\ast$ -\/\texorpdfstring{$>$}{>} \mbox{\hyperlink{class_piece}{Piece}} that we want to place \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool -\/\texorpdfstring{$>$}{>} Determine if the placement went well 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_chess_board_a010f5a68acac9e26c6669d6069be97e1}\label{class_chess_board_a010f5a68acac9e26c6669d6069be97e1}} 
+\index{ChessBoard@{ChessBoard}!RemovePiece@{RemovePiece}}
+\index{RemovePiece@{RemovePiece}!ChessBoard@{ChessBoard}}
+\doxysubsubsection{\texorpdfstring{RemovePiece()}{RemovePiece()}}
+{\footnotesize\ttfamily void Chess\+Board\+::\+Remove\+Piece (\begin{DoxyParamCaption}\item[{int}]{x,  }\item[{int}]{y }\end{DoxyParamCaption})}
+
+
+
+Remove the part at the coordinates in parameter. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & -\/\texorpdfstring{$>$}{>} column coordinate \\
+\hline
+{\em y} & -\/\texorpdfstring{$>$}{>} line coordinate \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/camar/prog/\+Echecs/\mbox{\hyperlink{_chess_board_8h}{Chess\+Board.\+h}}\item 
+C\+:/\+Users/camar/prog/\+Echecs/\mbox{\hyperlink{_chess_board_8cpp}{Chess\+Board.\+cpp}}\end{DoxyCompactItemize}

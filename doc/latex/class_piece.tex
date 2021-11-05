@@ -1,0 +1,253 @@
+\hypertarget{class_piece}{}\doxysection{Piece Class Reference}
+\label{class_piece}\index{Piece@{Piece}}
+
+
+{\ttfamily \#include $<$Piece.\+h$>$}
+
+
+
+Inherited by \mbox{\hyperlink{class_bishop}{Bishop}}{\ttfamily  \mbox{[}virtual\mbox{]}}, \mbox{\hyperlink{class_king}{King}}, \mbox{\hyperlink{class_knight}{Knight}}, \mbox{\hyperlink{class_pawn}{Pawn}}, and \mbox{\hyperlink{class_rook}{Rook}}{\ttfamily  \mbox{[}virtual\mbox{]}}.
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual \mbox{\hyperlink{class_piece_a5d7a4f6bade94cb33b6f634de8aa7918}{$\sim$\+Piece}} ()
+\begin{DoxyCompactList}\small\item\em Destroyer of the \mbox{\hyperlink{class_piece}{Piece}}. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_piece_a264652e6b4cf87179ac809ed9b726ed3}{Piece}} (int x, int y, bool white, string path)
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{class_piece}{Piece}} Builder. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_piece_ac9c9a71378ee25809cb73c53392c60a9}{Move}} (int x, int y)
+\begin{DoxyCompactList}\small\item\em Updates the coordinates of the piece as well as its first move attribute. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_piece_a4f8420e298c5022bc4b1a6f6f4ba36ab}{GetX}} ()
+\begin{DoxyCompactList}\small\item\em Returns the attribute p\+\_\+x. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_piece_a6268fb5c14d635dec1d452b247334c6f}{GetY}} ()
+\begin{DoxyCompactList}\small\item\em Returns the attribute p\+\_\+y. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_piece_ae3e708c954e14f6306dd936527fed410}{Get\+Is\+White}} ()
+\begin{DoxyCompactList}\small\item\em Returns the attribute p\+\_\+white. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_piece_ae09f0e1d35cc5f98b229cf9e11cd9e07}{Get\+First\+Move}} ()
+\begin{DoxyCompactList}\small\item\em Returns the attribute p\+\_\+first\+Move. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_piece_adb6f8b82a82a8e55a6ebd6ef5e9f98b1}{Get\+Is\+Echec}} ()
+\begin{DoxyCompactList}\small\item\em Returns the attribute p\+\_\+is\+Echec. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_piece_a3c6d60b893c1e025b69fcb9f6c9e8788}{Set\+Is\+Echec}} ()
+\begin{DoxyCompactList}\small\item\em Invert bool attribute p\+\_\+is\+Echec. \end{DoxyCompactList}\item 
+string \mbox{\hyperlink{class_piece_a92d1fdefd9f72b35e4239bd39cb1d661}{Get\+Path}} ()
+\begin{DoxyCompactList}\small\item\em Returns the attribute p\+\_\+path. \end{DoxyCompactList}\item 
+virtual list$<$ string $>$ \mbox{\hyperlink{class_piece_aaa56a8eb9cab9660fa5351fef4719573}{Display\+Available\+Movement}} (\mbox{\hyperlink{class_chess_board}{Chess\+Board}} \&e, bool white\+Play)=0
+\item 
+list$<$ string $>$ \mbox{\hyperlink{class_piece_a902905206ecf743e6610d8128d93f290}{Check\+Available\+Movement\+King}} (\mbox{\hyperlink{class_chess_board}{Chess\+Board}} \&e, int x, int y)
+\begin{DoxyCompactList}\small\item\em Method called after the echec() method, checks if the \mbox{\hyperlink{class_king}{King}} has a valid move. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{class_piece_a2a6b59866b6d222740566e7cf140236b}{p\+\_\+x}}
+\item 
+int \mbox{\hyperlink{class_piece_a4eaf1c7a0acaab6bcdcbc4a8d3aad593}{p\+\_\+y}}
+\item 
+bool \mbox{\hyperlink{class_piece_a75c7e06d58acd7c42d3c8fd6ec96f8e7}{p\+\_\+white}}
+\item 
+bool \mbox{\hyperlink{class_piece_af048bfe13979bee39c05bf524a4bf5c1}{p\+\_\+first\+Move}}
+\item 
+bool \mbox{\hyperlink{class_piece_ac40e836108833f73b344af19ff6a714d}{p\+\_\+is\+Echec}}
+\item 
+string \mbox{\hyperlink{class_piece_ab4625311e61cce026308cfa88a5632c5}{p\+\_\+path}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_piece_a5d7a4f6bade94cb33b6f634de8aa7918}\label{class_piece_a5d7a4f6bade94cb33b6f634de8aa7918}} 
+\index{Piece@{Piece}!````~Piece@{$\sim$Piece}}
+\index{````~Piece@{$\sim$Piece}!Piece@{Piece}}
+\doxysubsubsection{\texorpdfstring{$\sim$Piece()}{~Piece()}}
+{\footnotesize\ttfamily Piece\+::$\sim$\+Piece (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Destroyer of the \mbox{\hyperlink{class_piece}{Piece}}. 
+
+\mbox{\Hypertarget{class_piece_a264652e6b4cf87179ac809ed9b726ed3}\label{class_piece_a264652e6b4cf87179ac809ed9b726ed3}} 
+\index{Piece@{Piece}!Piece@{Piece}}
+\index{Piece@{Piece}!Piece@{Piece}}
+\doxysubsubsection{\texorpdfstring{Piece()}{Piece()}}
+{\footnotesize\ttfamily Piece\+::\+Piece (\begin{DoxyParamCaption}\item[{int}]{x,  }\item[{int}]{y,  }\item[{bool}]{white,  }\item[{string}]{path }\end{DoxyParamCaption})}
+
+
+
+\mbox{\hyperlink{class_piece}{Piece}} Builder. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & -\/\texorpdfstring{$>$}{>} column coordinate \\
+\hline
+{\em y} & -\/\texorpdfstring{$>$}{>} line coordinate \\
+\hline
+{\em white} & -\/\texorpdfstring{$>$}{>} \mbox{\hyperlink{class_piece}{Piece}} color \\
+\hline
+{\em path} & -\/\texorpdfstring{$>$}{>} \mbox{\hyperlink{class_piece}{Piece}} image path \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_piece_a902905206ecf743e6610d8128d93f290}\label{class_piece_a902905206ecf743e6610d8128d93f290}} 
+\index{Piece@{Piece}!CheckAvailableMovementKing@{CheckAvailableMovementKing}}
+\index{CheckAvailableMovementKing@{CheckAvailableMovementKing}!Piece@{Piece}}
+\doxysubsubsection{\texorpdfstring{CheckAvailableMovementKing()}{CheckAvailableMovementKing()}}
+{\footnotesize\ttfamily list$<$ string $>$ Piece\+::\+Check\+Available\+Movement\+King (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_chess_board}{Chess\+Board}} \&}]{e,  }\item[{int}]{x,  }\item[{int}]{y }\end{DoxyParamCaption})}
+
+
+
+Method called after the echec() method, checks if the \mbox{\hyperlink{class_king}{King}} has a valid move. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \mbox{\hyperlink{class_chess_board}{Chess\+Board}}} & \&e \\
+\hline
+{\em int} & x -\/\texorpdfstring{$>$}{>} \mbox{\hyperlink{class_king}{King}}\textquotesingle{}s x position \\
+\hline
+{\em int} & y -\/\texorpdfstring{$>$}{>} \mbox{\hyperlink{class_king}{King}}\textquotesingle{}s y position \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool -\/\texorpdfstring{$>$}{>} true if the \mbox{\hyperlink{class_king}{King}} has a valid move and the piece that failed him does not leave him unsuccessful following this move, or false otherwise 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_piece_aaa56a8eb9cab9660fa5351fef4719573}\label{class_piece_aaa56a8eb9cab9660fa5351fef4719573}} 
+\index{Piece@{Piece}!DisplayAvailableMovement@{DisplayAvailableMovement}}
+\index{DisplayAvailableMovement@{DisplayAvailableMovement}!Piece@{Piece}}
+\doxysubsubsection{\texorpdfstring{DisplayAvailableMovement()}{DisplayAvailableMovement()}}
+{\footnotesize\ttfamily virtual list$<$ string $>$ Piece\+::\+Display\+Available\+Movement (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_chess_board}{Chess\+Board}} \&}]{e,  }\item[{bool}]{white\+Play }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \mbox{\hyperlink{class_rook_a7fd0b02434c7f546301c133e4bf0a462}{Rook}}, \mbox{\hyperlink{class_king_a003b2f49e710eb3df33b00ea0de62018}{King}}, \mbox{\hyperlink{class_bishop_a2abee368037846f4965a651831a29d2d}{Bishop}}, \mbox{\hyperlink{class_knight_aecd63eaa328f7d75b4db06b9d5813de6}{Knight}}, \mbox{\hyperlink{class_queen_a9563b374497679ea6c86976212510df8}{Queen}}, and \mbox{\hyperlink{class_pawn_a45e72132730c3518a1165b2caee92a4a}{Pawn}}.
+
+\mbox{\Hypertarget{class_piece_ae09f0e1d35cc5f98b229cf9e11cd9e07}\label{class_piece_ae09f0e1d35cc5f98b229cf9e11cd9e07}} 
+\index{Piece@{Piece}!GetFirstMove@{GetFirstMove}}
+\index{GetFirstMove@{GetFirstMove}!Piece@{Piece}}
+\doxysubsubsection{\texorpdfstring{GetFirstMove()}{GetFirstMove()}}
+{\footnotesize\ttfamily bool Piece\+::\+Get\+First\+Move (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Returns the attribute p\+\_\+first\+Move. 
+
+\mbox{\Hypertarget{class_piece_adb6f8b82a82a8e55a6ebd6ef5e9f98b1}\label{class_piece_adb6f8b82a82a8e55a6ebd6ef5e9f98b1}} 
+\index{Piece@{Piece}!GetIsEchec@{GetIsEchec}}
+\index{GetIsEchec@{GetIsEchec}!Piece@{Piece}}
+\doxysubsubsection{\texorpdfstring{GetIsEchec()}{GetIsEchec()}}
+{\footnotesize\ttfamily bool Piece\+::\+Get\+Is\+Echec (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Returns the attribute p\+\_\+is\+Echec. 
+
+\mbox{\Hypertarget{class_piece_ae3e708c954e14f6306dd936527fed410}\label{class_piece_ae3e708c954e14f6306dd936527fed410}} 
+\index{Piece@{Piece}!GetIsWhite@{GetIsWhite}}
+\index{GetIsWhite@{GetIsWhite}!Piece@{Piece}}
+\doxysubsubsection{\texorpdfstring{GetIsWhite()}{GetIsWhite()}}
+{\footnotesize\ttfamily bool Piece\+::\+Get\+Is\+White (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Returns the attribute p\+\_\+white. 
+
+\mbox{\Hypertarget{class_piece_a92d1fdefd9f72b35e4239bd39cb1d661}\label{class_piece_a92d1fdefd9f72b35e4239bd39cb1d661}} 
+\index{Piece@{Piece}!GetPath@{GetPath}}
+\index{GetPath@{GetPath}!Piece@{Piece}}
+\doxysubsubsection{\texorpdfstring{GetPath()}{GetPath()}}
+{\footnotesize\ttfamily string Piece\+::\+Get\+Path (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Returns the attribute p\+\_\+path. 
+
+\mbox{\Hypertarget{class_piece_a4f8420e298c5022bc4b1a6f6f4ba36ab}\label{class_piece_a4f8420e298c5022bc4b1a6f6f4ba36ab}} 
+\index{Piece@{Piece}!GetX@{GetX}}
+\index{GetX@{GetX}!Piece@{Piece}}
+\doxysubsubsection{\texorpdfstring{GetX()}{GetX()}}
+{\footnotesize\ttfamily int Piece\+::\+GetX (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Returns the attribute p\+\_\+x. 
+
+\mbox{\Hypertarget{class_piece_a6268fb5c14d635dec1d452b247334c6f}\label{class_piece_a6268fb5c14d635dec1d452b247334c6f}} 
+\index{Piece@{Piece}!GetY@{GetY}}
+\index{GetY@{GetY}!Piece@{Piece}}
+\doxysubsubsection{\texorpdfstring{GetY()}{GetY()}}
+{\footnotesize\ttfamily int Piece\+::\+GetY (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Returns the attribute p\+\_\+y. 
+
+\mbox{\Hypertarget{class_piece_ac9c9a71378ee25809cb73c53392c60a9}\label{class_piece_ac9c9a71378ee25809cb73c53392c60a9}} 
+\index{Piece@{Piece}!Move@{Move}}
+\index{Move@{Move}!Piece@{Piece}}
+\doxysubsubsection{\texorpdfstring{Move()}{Move()}}
+{\footnotesize\ttfamily void Piece\+::\+Move (\begin{DoxyParamCaption}\item[{int}]{x,  }\item[{int}]{y }\end{DoxyParamCaption})}
+
+
+
+Updates the coordinates of the piece as well as its first move attribute. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & \\
+\hline
+{\em y} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_piece_a3c6d60b893c1e025b69fcb9f6c9e8788}\label{class_piece_a3c6d60b893c1e025b69fcb9f6c9e8788}} 
+\index{Piece@{Piece}!SetIsEchec@{SetIsEchec}}
+\index{SetIsEchec@{SetIsEchec}!Piece@{Piece}}
+\doxysubsubsection{\texorpdfstring{SetIsEchec()}{SetIsEchec()}}
+{\footnotesize\ttfamily void Piece\+::\+Set\+Is\+Echec (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Invert bool attribute p\+\_\+is\+Echec. 
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{class_piece_af048bfe13979bee39c05bf524a4bf5c1}\label{class_piece_af048bfe13979bee39c05bf524a4bf5c1}} 
+\index{Piece@{Piece}!p\_firstMove@{p\_firstMove}}
+\index{p\_firstMove@{p\_firstMove}!Piece@{Piece}}
+\doxysubsubsection{\texorpdfstring{p\_firstMove}{p\_firstMove}}
+{\footnotesize\ttfamily bool Piece\+::p\+\_\+first\+Move\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{class_piece_ac40e836108833f73b344af19ff6a714d}\label{class_piece_ac40e836108833f73b344af19ff6a714d}} 
+\index{Piece@{Piece}!p\_isEchec@{p\_isEchec}}
+\index{p\_isEchec@{p\_isEchec}!Piece@{Piece}}
+\doxysubsubsection{\texorpdfstring{p\_isEchec}{p\_isEchec}}
+{\footnotesize\ttfamily bool Piece\+::p\+\_\+is\+Echec\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{class_piece_ab4625311e61cce026308cfa88a5632c5}\label{class_piece_ab4625311e61cce026308cfa88a5632c5}} 
+\index{Piece@{Piece}!p\_path@{p\_path}}
+\index{p\_path@{p\_path}!Piece@{Piece}}
+\doxysubsubsection{\texorpdfstring{p\_path}{p\_path}}
+{\footnotesize\ttfamily string Piece\+::p\+\_\+path\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{class_piece_a75c7e06d58acd7c42d3c8fd6ec96f8e7}\label{class_piece_a75c7e06d58acd7c42d3c8fd6ec96f8e7}} 
+\index{Piece@{Piece}!p\_white@{p\_white}}
+\index{p\_white@{p\_white}!Piece@{Piece}}
+\doxysubsubsection{\texorpdfstring{p\_white}{p\_white}}
+{\footnotesize\ttfamily bool Piece\+::p\+\_\+white\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{class_piece_a2a6b59866b6d222740566e7cf140236b}\label{class_piece_a2a6b59866b6d222740566e7cf140236b}} 
+\index{Piece@{Piece}!p\_x@{p\_x}}
+\index{p\_x@{p\_x}!Piece@{Piece}}
+\doxysubsubsection{\texorpdfstring{p\_x}{p\_x}}
+{\footnotesize\ttfamily int Piece\+::p\+\_\+x\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{class_piece_a4eaf1c7a0acaab6bcdcbc4a8d3aad593}\label{class_piece_a4eaf1c7a0acaab6bcdcbc4a8d3aad593}} 
+\index{Piece@{Piece}!p\_y@{p\_y}}
+\index{p\_y@{p\_y}!Piece@{Piece}}
+\doxysubsubsection{\texorpdfstring{p\_y}{p\_y}}
+{\footnotesize\ttfamily int Piece\+::p\+\_\+y\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/camar/prog/\+Echecs/\mbox{\hyperlink{_piece_8h}{Piece.\+h}}\item 
+C\+:/\+Users/camar/prog/\+Echecs/\mbox{\hyperlink{_piece_8cpp}{Piece.\+cpp}}\end{DoxyCompactItemize}

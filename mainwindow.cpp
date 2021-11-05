@@ -108,11 +108,8 @@ MainWindow::RefreshMatrix(QWidget *parent)
 void
 MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
 {
-
-
     QVariant selectedCell      = model->data( index, Qt::BackgroundRole );
     QColor colorOfSelectedCell = selectedCell.value<QColor>();
-
 
     if ( currentPiece != nullptr && currentPiece->GetIsWhite() == whitePlay && colorOfSelectedCell.value() == 255 )
     {
@@ -148,10 +145,10 @@ MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
                 }
             }
             else if ( e.GetPiece( index.column() + 1 , index.row() + 1 ) != nullptr )
-                {
-                    picturesEatedBlackPieces.push_back( e.GetPiece( index.column() + 1 , index.row() + 1 )->GetPath() );
-                    DisplayEatPieces(picturesEatedBlackPieces,false);
-                }
+            {
+                picturesEatedBlackPieces.push_back( e.GetPiece( index.column() + 1 , index.row() + 1 )->GetPath() );
+                DisplayEatPieces(picturesEatedBlackPieces,false);
+            }
 
             AddToHistory(currentPiece, index.column()+1 , index.row()+1);
             e.MovePiece( currentPiece , index.column()+1  , index.row()+1 );
@@ -163,6 +160,7 @@ MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
 
                if ( this->Echec( xBlackKing , yBlackKing ) )
                {
+                   cout << "Echec position xRoi : " << xBlackKing << " Y: " << yBlackKing << endl;
                    bool isEchecMat = this->IsEchecMat( currentPiece->CheckAvailableMovementKing( e , xBlackKing , yBlackKing ) );
 
                    if ( isEchecMat )
@@ -175,7 +173,9 @@ MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
             }
             else
             {
-                if ( e.GetPiece( xBlackKing , yBlackKing )->GetIsEchec() )  e.GetPiece( xBlackKing , yBlackKing )->SetIsEchec();
+                if ( e.GetPiece( xBlackKing , yBlackKing )->GetIsEchec() )
+                     e.GetPiece( xBlackKing , yBlackKing )->SetIsEchec();
+
                 this->SetColor( currentPiece->DisplayAvailableMovement(e,whitePlay));
 
                 if ( this->Echec( xWhiteKing , yWhiteKing ) )
@@ -198,7 +198,14 @@ MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
     {
         currentPiece = e.GetPiece(  index.column()+1  , index.row()+1 );
         this->RefreshMatrix(this);
-        if ( currentPiece != nullptr ) this->SetColor( currentPiece->DisplayAvailableMovement(e,whitePlay) );
+        if ( currentPiece != nullptr && currentPiece->GetX() == xWhiteKing && currentPiece->GetY() == yWhiteKing )
+        {
+            this->SetColor(WithdrawUnAcceptedMoveOfKing ( currentPiece->DisplayAvailableMovement( e , whitePlay ) ));
+        }
+        else
+        {
+           if ( currentPiece != nullptr ) this->SetColor( currentPiece->DisplayAvailableMovement(e,whitePlay) );
+        }
     }
 }
 
@@ -230,6 +237,64 @@ MainWindow::SetColor(list<string>values)
  * @param y -> coordinate of the king's line
  * @return bool -> Determines if the box is red
  */
+
+list<string>
+MainWindow::WithdrawUnAcceptedMoveOfKing(list<string> values)
+{
+    int line = 0;
+    for (string coordonees : values)
+    {
+        std::vector<std::string> seglist = SplitString( coordonees, '-');
+        try {
+            int xCoordonees = std::stoi( seglist.at(0) ) + 1;
+            int yCoordonees = std::stoi( seglist.at(1) ) + 1;
+
+            for ( int i = 0 ; i < 8 ; i++)
+            {
+                for ( int j = 0 ; j < 8 ; j++)
+                {
+                   if ( e.GetPiece( i , j ) != nullptr)
+                   {
+                       if ( e.GetPiece( i , j )->GetIsWhite() != whitePlay)
+                       {
+                           list<string> valuesPiece = e.GetPiece( i , j )->DisplayAvailableMovement( e, whitePlay);
+                           cout << valuesPiece.size() << endl;
+                           for (string coordonees2 : valuesPiece)
+                           {
+                               std::vector<std::string> seglistPiece = SplitString( coordonees2, '-');
+                               try {
+                                   cout << "X : " << seglist.at(0) << " Y: " << seglist.at(1) << endl;
+                                   if ( std::stoi( seglist.at(0)  ) > 0 && std::stoi( seglist.at(1) ) > 0 )
+                                   {
+                                       int xCoordoneesPiece = std::stoi( seglist.at(0) ) + 1;
+                                       int yCoordoneesPiece = std::stoi( seglist.at(1) ) + 1;
+                                       if ( xCoordonees == xCoordoneesPiece && yCoordonees == yCoordoneesPiece )
+                                       {
+                                            values.remove(coordonees);
+                                       }
+                                   }
+                               }  catch (...) {}
+                           }
+                       }
+                   }
+                }
+            }
+        }  catch (...) {}
+        line++;
+    }
+    cout << "----------" << endl;
+    for (string coordonees3 : values)
+    {
+        try {
+            std::vector<std::string> seglist = SplitString( coordonees3, '-');
+            int xtemp = std::stoi( seglist.at(0) ) + 1;
+            int ytemp = std::stoi( seglist.at(1) ) + 1;
+            cout << "X : " << xtemp << " Y: " << ytemp << endl;
+        }  catch (...) {}
+    }
+    return values;
+}
+
 bool
 MainWindow::Echec( int x , int y )
 {
@@ -503,3 +568,5 @@ MainWindow::closeEvent (QCloseEvent *event)
         event->accept();
     }
 }
+
+

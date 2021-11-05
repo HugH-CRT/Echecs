@@ -42,6 +42,7 @@ class MainWindow : public QMainWindow
         std::vector<std::string> SplitString( string, char );
         void EndGameDisplay();
         void closeEvent(QCloseEvent *event);
+        list<string> WithdrawUnAcceptedMoveOfKing(list<string>);
 
     private slots:
         void on_tableViewEchiquier_clicked( const QModelIndex &index );

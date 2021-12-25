@@ -151,6 +151,30 @@ MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
             }
 
             AddToHistory(currentPiece, index.column()+1 , index.row()+1);
+            //Part for the castling
+                if ( currentPiece->GetIsWhite() )
+                {
+                    if ( dynamic_cast<King*>(currentPiece) != nullptr && currentPiece->GetX() + 2 == index.column() + 1 )
+                    {
+                      e.MovePiece( e.GetPiece( 8 , 1 ) , 6 , 1 );
+                    }
+                    else if ( dynamic_cast<King*>(currentPiece) != nullptr && currentPiece->GetX() - 2 == index.column() + 1 )
+                    {
+                        e.MovePiece( e.GetPiece( 1 , 1 ) , 4 , 1 );
+                    }
+                }
+                else
+                {
+                    if ( dynamic_cast<King*>(currentPiece) != nullptr && currentPiece->GetX() + 2 == index.column() + 1 )
+                    {
+                      e.MovePiece( e.GetPiece( 8 , 8 ) , 6 , 8 );
+                    }
+                    else if ( dynamic_cast<King*>(currentPiece) != nullptr && currentPiece->GetX() - 2 == index.column() + 1 )
+                    {
+                        e.MovePiece( e.GetPiece( 1 , 8 ) , 4 , 8 );
+                    }
+                }
+            //
             e.MovePiece( currentPiece , index.column()+1  , index.row()+1 );
 
             if ( whitePlay )
@@ -198,6 +222,12 @@ MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
     {
         currentPiece = e.GetPiece(  index.column()+1  , index.row()+1 );
         this->RefreshMatrix(this);
+
+        if ( dynamic_cast<King*>(currentPiece) != nullptr )
+        {
+           this->SetColorForCastling();
+        }
+
 //        if ( currentPiece != nullptr && currentPiece->GetX() == xWhiteKing && currentPiece->GetY() == yWhiteKing )
 //        {
 //            this->SetColor(WithdrawUnAcceptedMoveOfKing( currentPiece->DisplayAvailableMovement( e , whitePlay ) ));
@@ -209,6 +239,33 @@ MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
                this->SetColor( currentPiece->DisplayAvailableMovement(e,whitePlay) );
            }
     }
+}
+
+void
+MainWindow::SetColorForCastling()
+{
+    list<string> values;
+    if ( dynamic_cast<Rook*>( e.GetPiece(8,1) ) != nullptr && e.GetPiece(8,1)->GetIsWhite() == currentPiece->GetIsWhite() )
+    {
+        if ( currentPiece->CastlingAvailable( e , e.GetPiece(8,1) , currentPiece ) )
+            values.push_back("6-0-true");
+    }
+    if ( dynamic_cast<Rook*>( e.GetPiece(1,1) ) != nullptr && e.GetPiece(1,1)->GetIsWhite() == currentPiece->GetIsWhite() )
+    {
+        if ( currentPiece->CastlingAvailable( e , e.GetPiece(1,1) , currentPiece ) )
+           values.push_back("2-0-true");
+    }
+    if ( dynamic_cast<Rook*>( e.GetPiece(8,8) ) != nullptr && e.GetPiece(8,8)->GetIsWhite() == currentPiece->GetIsWhite() )
+    {
+        if ( currentPiece->CastlingAvailable( e , e.GetPiece(8,8) , currentPiece ) )
+            values.push_back("6-7-true");
+    }
+    if ( dynamic_cast<Rook*>( e.GetPiece(1,8) ) != nullptr && e.GetPiece(1,8)->GetIsWhite() == currentPiece->GetIsWhite() )
+    {
+        if ( currentPiece->CastlingAvailable( e , e.GetPiece(1,8) , currentPiece ) )
+            values.push_back("2-7-true");
+    }
+    this->SetColor(values);
 }
 
 /**

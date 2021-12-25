@@ -89,30 +89,27 @@ ChessBoard::RemovePiece( int x, int y )
  * @return bool -> Determine if castling is possiblee
  */
 bool
-ChessBoard::CheckRoqueValidity(King *r,int x ,int y)
+ChessBoard::CheckRoqueValidity(Piece *k,int x ,int y)
 {
-    if ( r->GetX() > x )
+    //Si le roi se déplace à gauche du plateau
+    if ( k->GetX() > x )
     {
-        for ( int i = r->GetX() - 1  ; i >= x ; i-- )
+        //Parcours toutes les cases vers la gauche jusqua son arrivée
+        for ( int i = k->GetX() - 1  ; i >= x ; i-- )
+            //Parcours les 64 cases du plateau
             for ( int j = 0; j < 64 ; j++ )
-                if ( m_cases[j]->GetIsWhite() != r->GetIsWhite() && m_cases[j] != nullptr )
-                {
-//                    if ( m_cases[j]->mouvementValide( *this , i , y ) )
-//                    {
-//                        return false;
-//                    }
-                }
+                if ( m_cases[j] != nullptr )
+                    //Si la cases est de couleur opposée && que c'est une piece
+                    if ( m_cases[j]->GetIsWhite() != k->GetIsWhite() )
+                        //Si la piece peut atteindre la case ou le roi souhaite passer
+                        if ( m_cases[j]->Deplace( *this , i , k->GetY() ) ){ return false; }
     }
     else
-        for ( int i = r->GetX() + 1  ; i <= x ; i++ )
+        for ( int i = k->GetX() + 1  ; i <= x ; i++ )
             for ( int j = 0; j < 64 ; j++ )
-                if ( m_cases[j]->GetIsWhite()!= r->GetIsWhite() && m_cases[j] != nullptr )
-                {
-//                    if ( m_cases[j]->mouvementValide( *this , i , y ) )
-//                    {
-//                        return false;
-//                    }
-                }
+                if ( m_cases[j] != nullptr )
+                    if ( m_cases[j]->GetIsWhite() != k->GetIsWhite() )
+                        if ( m_cases[j]->Deplace( *this , i , k->GetY() ) ){ return false; }
     return true;
 }
 

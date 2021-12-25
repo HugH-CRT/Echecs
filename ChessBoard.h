@@ -22,7 +22,7 @@ class ChessBoard
     bool PlacePiece( Piece *p );
     void MovePiece( Piece *p, int x, int y );
     void RemovePiece( int x, int y );
-    bool CheckRoqueValidity( King *r, int x ,int y);
+    bool CheckRoqueValidity( Piece *k, int x ,int y);
     void DoRoque( King *r, Rook *p);
 };
 

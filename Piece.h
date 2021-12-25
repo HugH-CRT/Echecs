@@ -40,6 +40,8 @@ class Piece
     string       GetPath();
     virtual list<string> DisplayAvailableMovement( ChessBoard &e, bool whitePlay ) = 0 ;
     list<string> CheckAvailableMovementKing( ChessBoard &e, int x, int y );
+    virtual bool Deplace( ChessBoard &e, int x, int y ) = 0;
+    bool CastlingAvailable( ChessBoard &e, Piece *r, Piece *k );
 };
 
 class Rook : virtual public Piece
@@ -48,6 +50,7 @@ class Rook : virtual public Piece
     Rook( bool white, bool left, string path );
     ~Rook();
     list<string> DisplayAvailableMovement( ChessBoard &e, bool whitePlay );
+    bool Deplace( ChessBoard &e, int x, int y );
 };
 
 class King : public Piece
@@ -55,8 +58,8 @@ class King : public Piece
    public:
     King( bool white, string path);
     ~King();
-    bool CastlingAvailable( ChessBoard &e, Rook *r );
     list<string> DisplayAvailableMovement( ChessBoard &e, bool whitePlay );
+    bool Deplace( ChessBoard &e, int x, int y );
 };
 
 class Bishop : virtual public Piece
@@ -65,6 +68,7 @@ class Bishop : virtual public Piece
     Bishop( bool white, bool left, string path );
     ~Bishop();
     list<string> DisplayAvailableMovement( ChessBoard &e, bool whitePlay );
+    bool Deplace( ChessBoard &e, int x, int y );
 };
 
 class Knight : public Piece
@@ -73,6 +77,7 @@ class Knight : public Piece
     Knight( bool white, bool gauche, string path );
     ~Knight();
     list<string> DisplayAvailableMovement( ChessBoard &e, bool whitePlay );
+    bool Deplace( ChessBoard &e, int x, int y );
 };
 
 class Queen : public Bishop, public Rook
@@ -81,6 +86,7 @@ class Queen : public Bishop, public Rook
     Queen( bool white, string path );
     ~Queen();
     list<string> DisplayAvailableMovement( ChessBoard &e, bool whitePlay );
+    bool Deplace( ChessBoard &e, int x, int y );
 };
 
 class Pawn : public Piece
@@ -90,6 +96,7 @@ class Pawn : public Piece
     ~Pawn();
     bool DoitEvoluer( ChessBoard &e,bool whitePlay );
     list<string> DisplayAvailableMovement( ChessBoard &e, bool whitePlay );
+    bool Deplace( ChessBoard &e, int x, int y );
 };
 
 #endif

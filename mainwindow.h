@@ -43,6 +43,7 @@ class MainWindow : public QMainWindow
         void EndGameDisplay();
         void closeEvent(QCloseEvent *event);
         list<string> WithdrawUnAcceptedMoveOfKing(list<string>);
+        void SetColorForCastling();
 
     private slots:
         void on_tableViewEchiquier_clicked( const QModelIndex &index );

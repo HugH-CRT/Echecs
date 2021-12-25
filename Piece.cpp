@@ -112,6 +112,73 @@ Piece::CheckAvailableMovementKing(ChessBoard &e, int x, int y)
    return values;
 }
 
+/**
+ *  @brief Checks if a "castling" is possible between the King and the Rook as a parameter.
+ *  @param ChessBoard &e
+ *  @param *Rook x -> Pointer to the Rook
+ *  @return bool -> true if the displacement is possible false otherwise
+*/
+bool
+Piece::CastlingAvailable( ChessBoard &e, Piece *r, Piece *k )
+{
+    //Si le roi et la tour n'ont pas bougé
+    if ( r->GetFirstMove() && k->GetFirstMove() )
+    {
+        //Si c'est les blancs qui joue
+        if ( k->GetIsWhite() )
+        {
+            //Si la tour se situe à la droite du plateau
+            if ( r->GetX() > k->GetX() )
+            {
+                //Parcours toutes les cases entre le roi et la tour
+                for ( int i =  k->GetX() + 1; i < r->GetX(); i++ )
+                {
+                    //Récupère la piece
+                    Piece *maPiece = e.GetPiece( i , 1 );
+                    //Vérifie si il y a rien
+                    if ( maPiece != nullptr ) { return false; }
+                }
+                 return e.CheckRoqueValidity( k , 7 , 1 );
+            }
+            else
+            {
+                for ( int i =  k->GetX() - 1; i > r->GetX() ; i-- )
+                {
+                    Piece *maPiece = e.GetPiece( i , 1 );
+                    if ( maPiece != nullptr ) { return false; }
+                }
+
+                return e.CheckRoqueValidity( k , 3 , 1 );
+            }
+        }
+        else
+        {
+            if ( r->GetX() < k->GetX()  )
+            {
+                for ( int i = k->GetX() - 1; i > r->GetX() ; i-- )
+                {
+                    Piece *maPiece = e.GetPiece( i , 8 );
+                    if ( maPiece != nullptr ) { return false; }
+                }
+
+                return e.CheckRoqueValidity( k , 3 , 8 );
+            }
+            else if ( r->GetX() > k->GetX() )
+            {
+
+                for ( int i = k->GetX() + 1; i < r->GetX() ; i++ )
+                {
+                    Piece *maPiece = e.GetPiece( i , 8 );
+                    if ( maPiece != nullptr ) { return false; }
+                }
+
+                return e.CheckRoqueValidity( k , 7 , 8 );
+            }
+        }
+    }
+    return false;
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
@@ -125,68 +192,6 @@ King::King( bool white, string path ) : Piece( 5, white ? 1 : 8, white, path){}
  * @brief King's Destroyer
  */
 King::~King(){}
-
-/**
- *  @brief Checks if a "castling" is possible between the King and the Rook as a parameter.
- *  @param ChessBoard &e
- *  @param *Rook x -> Pointer to the Rook
- *  @return bool -> true if the displacement is possible false otherwise
-*/
-bool
-King::CastlingAvailable( ChessBoard &e, Rook *p )
-{
-    if ( !p_firstMove && !GetFirstMove() )
-    {
-        if ( this->p_white )
-        {
-            if ( p->GetX() > p_x )
-            {
-                for ( int i = p_x + 1; i < p->GetX(); i++ )
-                {
-                    Piece *maPiece = e.GetPiece( i , 8 );
-                    if ( maPiece != nullptr ) { return false; }
-                }
-
-                return e.CheckRoqueValidity( this , 7 , 8);
-            }
-            else if ( p->GetX() > p_x && p->GetX() == 1 && p->GetY() == 8 )
-            {
-                for ( int i = p_x - 1; i > p->GetX() ; i-- )
-                {
-                    Piece *maPiece = e.GetPiece( i , 8 );
-                    if ( maPiece != nullptr ) { return false; }
-                }
-
-                return e.CheckRoqueValidity( this , 3 , 8 );
-            }
-        }
-        else
-        {
-            if ( p->GetX() < p_x  )
-            {
-                for ( int i = p_x - 1; i > p->GetX() ; i-- )
-                {
-                    Piece *maPiece = e.GetPiece( i , 1 );
-                    if ( maPiece != nullptr ) { return false; }
-                }
-
-                return e.CheckRoqueValidity( this , 1 , 2 );
-            }
-            else if ( p->GetX() > p_x )
-            {
-
-                for ( int i = p_x + 1; i < p->GetX() ; i++ )
-                {
-                    Piece *maPiece = e.GetPiece( i , 1 );
-                    if ( maPiece != nullptr ) { return false; }
-                }
-
-                return e.CheckRoqueValidity( this , 1 , 7 );
-            }
-        }
-    }
-    return false;
-}
 
 /**
  * @brief Retrieves the coordinates of the cells whose movement is valid for the King.
@@ -560,4 +565,211 @@ Pawn::DisplayAvailableMovement(ChessBoard &e, bool whitePlay)
             casesValidePawn.push_back( std::to_string( p_x - 2 ) + "-" + std::to_string( p_y - 2 ) + "-true" );
     }
     return casesValidePawn;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/** @brief Verifie si les coordonnées renseigner sont un déplacement valide pour le roi
+    @param Echiquier &e
+    @param int x -> Position x de la case souhaitée
+    @param int y -> Position y de la case souhaitée
+    @return bool -> true si le déplacement est possible false dans le cas contraire
+*/
+bool
+King::Deplace( ChessBoard &e, int x, int y )
+{
+    if ( ( x == p_x + 1 && ( y == p_y + 1 || y == p_y  || y == p_y - 1 ) ) ||  ( x == p_x - 1 && ( y == p_y + 1 || y == p_y  || y == p_y - 1 ) ) || ( x == p_x  && ( y == p_y + 1 || y == p_y - 1 ) ) )
+    {
+        Piece *maPiece = e.GetPiece(x,y);
+
+        if ( maPiece == nullptr ) { return true; }
+        else if ( p_white != maPiece->GetIsWhite() ) { return true; }
+    }
+    return false;
+}
+
+
+/** @brief Vérifie si les coordonnées renseigner sont un déplacement valide pour la tour
+    @param Echiquier &e
+    @param int x -> Position x de la case souhaitée
+    @param int y -> Position y de la case souhaitée
+    @return bool -> true si le déplacement est possible false dans le cas contraire
+*/
+bool
+Rook::Deplace( ChessBoard &e, int x, int y )
+{
+    if ( p_x == x && p_y < y || p_x == x && p_y > y || p_x > x && p_y == y || p_x < x && p_y == y )
+    {
+        //Si on va à en bas
+        if( p_x == x && p_y < y )
+        {
+            for ( int i = p_y + 1; i < y - 1  ; i++)
+            {
+                Piece *maPiece = e.GetPiece(x,i);
+
+                if ( maPiece != nullptr ) { return false; }
+            }
+        }
+        //Si on vas en haut
+        else if ( p_x == x && p_y > y  )
+        {
+            for ( int i = p_y - 1; i >= y + 1  ; i--)
+            {
+                Piece *maPiece = e.GetPiece(x,i);
+
+                if ( maPiece != nullptr ) { return false; }
+            }
+        }
+        //Si on vas à gauche
+        else if ( p_x > x && p_y == y  )
+        {
+            for ( int i = p_x - 1; i >= x + 1  ; i--)
+            {
+                Piece *maPiece = e.GetPiece(i,y);
+
+                if ( maPiece != nullptr ) { return false; }
+            }
+        }
+        //Si on vas à droite
+        else if ( p_x < x && p_y == y  )
+        {
+            for ( int i = p_x + 1; i > x - 1  ; i++)
+            {
+                Piece *maPiece = e.GetPiece(i,y);
+
+                if ( maPiece != nullptr ) { return false; }
+            }
+        }
+        //On récupère le pointeur vers lequel on souhaite se déplacer
+        Piece *maPiece = e.GetPiece(x,y);
+
+        //Si y'a pas de pièce
+        if ( maPiece == nullptr ) { return true; }
+        else if ( p_white != maPiece->GetIsWhite() ) { return true; }
+    }
+
+   return false;
+}
+
+/** @brief Vérifie si les coordonnées renseigner sont un déplacement valide pour le fou
+    @param Echiquier &e
+    @param int x -> Position x de la case souhaitée
+    @param int y -> Position y de la case souhaitée
+    @return bool -> true si le déplacement est possible false dans le cas contraire
+*/
+bool
+Bishop::Deplace( ChessBoard &e, int x, int y )
+{
+    if ( ( ( x - p_x ) % 2 == 0 ) && ( ( y - p_y ) % 2 == 0 ) )
+    {
+        int saveLinePosition = p_y;
+        if ( x > p_x && y > p_y )
+            for ( int i = p_x + 1 ; i < y ; i ++ )
+            {
+                saveLinePosition++;
+                Piece *maPiece = e.GetPiece(i,saveLinePosition);
+                if ( maPiece != nullptr ){ return false;}
+            }
+        else if ( x > p_x && y < p_y )
+            for ( int i = p_x + 1 ; i < x ; i ++ )
+            {
+                saveLinePosition--;
+                Piece *maPiece = e.GetPiece(i,saveLinePosition);
+                if ( maPiece != nullptr ){ return false;}
+            }
+        else if ( x < p_x && y < p_y )
+        for ( int i = p_x - 1 ; i > y ; i ++ )
+        {
+            saveLinePosition--;
+            Piece *maPiece = e.GetPiece(i,saveLinePosition);
+            if ( maPiece != nullptr ){ return false;}
+        }
+        else if ( x < p_x && y > p_y )
+        for ( int i = p_x - 1 ; i < x ; i ++ )
+        {
+            saveLinePosition++;
+            Piece *maPiece = e.GetPiece(i,saveLinePosition);
+            if ( maPiece != nullptr ){ return false;}
+        }
+        //On récupère le pointeur vers lequel on souhaite se déplacer
+        Piece *maPiece = e.GetPiece(x,y);
+
+        //Si y'a pas de pièce
+        if ( maPiece == nullptr ) { return true; }
+        else if ( p_white != maPiece->GetIsWhite() ) { return true; }
+    }
+    return false;
+}
+
+/** @brief Vérifie si les coordonnées renseigner sont un déplacement valide pour le fou
+    @param Echiquier &e
+    @param int x -> Position x de la case souhaitée
+    @param int y -> Position y de la case souhaitée
+    @return bool -> true si le déplacement est possible false dans le cas contraire
+*/
+bool
+Knight::Deplace( ChessBoard &e, int x, int y )
+{
+    if ( ( ( x == p_x + 2 ) && ( y == p_y + 1 || y == p_y - 1 ) )  ||    ( ( x == p_x - 2 )  && ( y == p_y + 1 || y == p_y - 1 ) )   ||   ( ( y == p_y + 2 )  && ( x == p_x + 1 || x == p_x - 1 )  ||  ( ( y == p_y - 2 )  && ( x == p_x + 1 || x == p_x - 1 ) )  ) )
+    {
+        Piece *maPiece = e.GetPiece(x,y);
+        if ( maPiece == nullptr ) { return true; }
+        else if ( p_white != maPiece->GetIsWhite() ) { return true; }
+    }
+    return false;
+}
+
+
+/** @brief Verifie si les coordonnées renseigner sont un déplacement valide pour la reine
+    @param Echiquier &e
+    @param int x -> Position x de la case souhaitée
+    @param int y -> Position y de la case souhaitée
+    @return bool -> true si le déplacement est possible false dans le cas contraire
+*/
+bool
+Queen::Deplace( ChessBoard &e, int x, int y ) { return Bishop::Deplace( e, x, y ) || Rook::Deplace( e, x, y ); }
+
+/** @brief Vérifie si les coordonnées renseigner sont un déplacement valide pour le pion
+    @param Echiquier &e
+    @param int x -> Position x de la case souhaitée
+    @param int y -> Position y de la case souhaitée
+    @return bool -> true si le déplacement est possible false dans le cas contraire
+*/
+bool
+Pawn::Deplace( ChessBoard &e, int x, int y )
+{
+    if ( p_white )
+    {
+        if( this->p_x == x || this->p_x + 1 == x && this->p_y + 1 == y || this->p_x - 1 == x && this->p_y + 1 == y )
+        {
+            Piece *maPiece = e.GetPiece(x,y);
+
+            if ( ( p_firstMove && y == this->p_y + 2 || y == this->p_y + 1 )  || ( !p_firstMove &&  y == this->p_y + 1 ) )
+            {
+                if ( maPiece == nullptr ){ p_firstMove = false; return true; }
+                else if( this->p_x + 1 == x && this->p_y + 1 == y || this->p_x - 1 == x && this->p_y + 1 == y ) { return true; }
+            }
+        }
+    }
+    else
+    {
+        if( this->p_x == x || this->p_x - 1 == x && this->p_y + 1 == y | this->p_x - 1 == x && this->p_y - 1 == y )
+        {
+            Piece *maPiece = e.GetPiece(x,y);
+
+            if ( ( p_firstMove && y == this->p_y - 2 || y == this->p_y - 1 )  || ( !p_firstMove &&  y == this->p_y - 1 ) )
+            {
+                if (maPiece == nullptr ){ p_firstMove = false; return true; }
+                else if( this->p_x - 1 == x && this->p_y + 1 == y | this->p_x - 1 == x && this->p_y - 1 == y ) { return true; }
+            }
+        }
+    }
+    return false;
 }

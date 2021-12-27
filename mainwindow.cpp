@@ -14,6 +14,7 @@
 #include <iostream>
 #include <assert.h>
 #include "mainwindow.h"
+#include "upgradepawn.h"
 
 #include <QAbstractItemModel>
 #include <QModelIndex>
@@ -216,6 +217,14 @@ MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
 
             whitePlay = !whitePlay;
             this->RefreshMatrix(this);
+
+            if ( dynamic_cast<Pawn*>(currentPiece) != nullptr && ( index.row()+1 == 8 || index.row()+1 == 1 ) )
+            {
+                UpgradePawn pageUpgrade( this , currentPiece->GetIsWhite() );
+                pageUpgrade.setModal( true );
+                pageUpgrade.exec();
+            }
+
         }
     }
     else
@@ -239,6 +248,33 @@ MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
                this->SetColor( currentPiece->DisplayAvailableMovement(e,whitePlay) );
            }
     }
+}
+
+void
+MainWindow::receiveData( int value )
+{
+    if ( value == 1 )
+    {
+        Rook *myRook = new Rook(currentPiece->GetX(), currentPiece->GetY(),currentPiece->GetIsWhite(),true, true, currentPiece->GetIsWhite() ? ":/img/white/assets/white/rook.png" : ":/img/black/assets/black/rook.png" );
+        e.MovePiece(myRook,currentPiece->GetX() , currentPiece->GetY());
+    }
+    else if (value == 2 )
+    {
+        Bishop * myBishop = new Bishop(currentPiece->GetX(), currentPiece->GetY(),currentPiece->GetIsWhite(),true, true, currentPiece->GetIsWhite() ? ":/img/white/assets/white/bishop.png" : ":/img/black/assets/black/bishop.png" );
+        e.MovePiece(myBishop,currentPiece->GetX() , currentPiece->GetY());
+    }
+    else if ( value == 3 )
+    {
+        Knight* myKnight = new Knight(currentPiece->GetX(), currentPiece->GetY(),currentPiece->GetIsWhite(),true, true, currentPiece->GetIsWhite() ? ":/img/white/assets/white/knight.png" : ":/img/black/assets/black/knight.png" );
+        e.MovePiece(myKnight,currentPiece->GetX() , currentPiece->GetY());
+    }
+    else
+    {
+        Queen* myQueen = new Queen(currentPiece->GetX(), currentPiece->GetY(),currentPiece->GetIsWhite(),true, true, currentPiece->GetIsWhite() ? ":/img/white/assets/white/queen.png" : ":/img/black/assets/black/queen.png" );
+        e.MovePiece(myQueen,currentPiece->GetX() , currentPiece->GetY());
+    }
+
+    this->RefreshMatrix(this);
 }
 
 void

@@ -26,6 +26,9 @@ set(PROJECT_SOURCES
         ChessBoard.cpp
         ChessBoard.h
         Resource.qrc
+        upgradepawn.h
+        upgradepawn.cpp
+        upgradepawn.ui
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

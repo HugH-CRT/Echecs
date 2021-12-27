@@ -113,44 +113,4 @@ ChessBoard::CheckRoqueValidity(Piece *k,int x ,int y)
     return true;
 }
 
-/**
- * @brief Cast King and Tower as a parameter
- * @param King *r -> King castling
- * @param Rook *t -> Castling Rook
- */
-void
-ChessBoard::DoRoque( King *r, Rook *t)
-{
-    RemovePiece( r->GetX() , r->GetY() );
-    RemovePiece( t->GetX() , t->GetY() );
 
-    if ( r->GetIsWhite() )
-    {
-        if ( r->GetX() > t->GetX() )
-        {
-            r->Move( 3 , 8 );
-            t->Move( 4 , 8 );
-        }
-        else
-        {
-            r->Move( 7 , 8 );
-            t->Move( 6 , 8 );
-        }
-    }
-    else
-    {
-        if ( r->GetX() > t->GetX() )
-        {
-            r->Move( 3 , 1 );
-            t->Move( 4 , 1 );
-        }
-        else
-        {
-            r->Move( 7 , 1 );
-            t->Move( 6 , 1 );
-        }
-    }
-
-    PlacePiece(r);
-    PlacePiece(t);
-}

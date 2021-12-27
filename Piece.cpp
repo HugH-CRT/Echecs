@@ -227,7 +227,7 @@ King::DisplayAvailableMovement(ChessBoard &e, bool whitePlay)
  * @param path -> Image path of the Queen image.
  */
 Queen::Queen( bool white, string path ) : Piece( 4, white ? 1 : 8, white , path ), Bishop( white, true ,path ), Rook( white, true ,path ){}
-
+Queen::Queen( int x, int y,bool white, bool firstmove, bool left, string path ): Piece( x,y, white, path ), Bishop( white, true ,path ), Rook( white, true ,path ){}
 /**
  * @brief Queen's Destroyer
  */
@@ -259,6 +259,8 @@ Queen::DisplayAvailableMovement(ChessBoard &e, bool whitePlay)
  * @param path -> Image path of the Rook image.
  */
 Rook::Rook( bool white, bool gauche, string path ) : Piece( gauche ? 1 : 8, white ? 1 : 8, white, path ){}
+
+Rook::Rook( int x, int y,bool white, bool firstmove, bool left, string path ): Piece( x,y, white, path ){}
 
 /**
  * @brief Destroyer of the Rook.
@@ -348,6 +350,7 @@ Rook::DisplayAvailableMovement(ChessBoard &e, bool whitePlay)
  */
 Bishop::Bishop( bool white, bool gauche, string path ) : Piece( gauche ? 3 : 6, white ? 1 : 8, white, path ){}
 
+Bishop::Bishop( int x, int y,bool white, bool firstmove, bool left, string path ): Piece( x,y, white, path ){}
 /**
  * @brief Bishop's Destroyer.
  */
@@ -446,6 +449,7 @@ Bishop::DisplayAvailableMovement(ChessBoard &e, bool whitePlay)
  * @param path -> Image path of the Knight image.
  */
 Knight::Knight( bool white, bool gauche, string path ) : Piece( gauche ? 2 : 7, white ? 1 : 8, white, path ){}
+Knight::Knight( int x, int y,bool white, bool firstmove, bool left, string path ): Piece( x,y, white, path ){}
 
 /**
  * @brief Destroyer of the Knight.
@@ -518,11 +522,6 @@ Pawn::~Pawn(){}
 bool
 Pawn::DoitEvoluer(ChessBoard &e,bool whitePlay )
 {
-
-    if ((this->p_y == 8 && this->GetIsWhite() == true) || (this->p_y == 1 && this->GetIsWhite() == false))
-    {
-        cout << "le Pawn peut etre évolué" << endl;
-    }
     return true;
 }
 

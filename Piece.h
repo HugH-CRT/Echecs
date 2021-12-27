@@ -48,6 +48,7 @@ class Rook : virtual public Piece
 {
    public:
     Rook( bool white, bool left, string path );
+    Rook( int x, int y,bool white, bool firstmove, bool left, string path );
     ~Rook();
     list<string> DisplayAvailableMovement( ChessBoard &e, bool whitePlay );
     bool Deplace( ChessBoard &e, int x, int y );
@@ -66,6 +67,7 @@ class Bishop : virtual public Piece
 {
    public:
     Bishop( bool white, bool left, string path );
+    Bishop( int x, int y,bool white, bool firstmove, bool left, string path );
     ~Bishop();
     list<string> DisplayAvailableMovement( ChessBoard &e, bool whitePlay );
     bool Deplace( ChessBoard &e, int x, int y );
@@ -75,6 +77,7 @@ class Knight : public Piece
 {
    public:
     Knight( bool white, bool gauche, string path );
+    Knight( int x, int y,bool white, bool firstmove, bool left, string path );
     ~Knight();
     list<string> DisplayAvailableMovement( ChessBoard &e, bool whitePlay );
     bool Deplace( ChessBoard &e, int x, int y );
@@ -84,6 +87,7 @@ class Queen : public Bishop, public Rook
 {
    public:
     Queen( bool white, string path );
+    Queen( int x, int y,bool white, bool firstmove, bool left, string path );
     ~Queen();
     list<string> DisplayAvailableMovement( ChessBoard &e, bool whitePlay );
     bool Deplace( ChessBoard &e, int x, int y );

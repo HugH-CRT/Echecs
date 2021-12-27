@@ -18,6 +18,7 @@
 #include "Player.h"
 #include "Piece.h"
 
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -54,6 +55,9 @@ class MainWindow : public QMainWindow
         void ShowTime();
         void SetTimer();
 
+public slots:
+        void receiveData( int value );
+
 private:
         Ui::MainWindow *ui;
         QStandardItemModel *model;
@@ -76,7 +80,6 @@ private:
         int minutes = 0;
         int seconds = 0;
         QTimer *timer ;
-
 };
 
 #endif

@@ -190,7 +190,6 @@ MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
 
                    if ( isEchecMat )
                    {
-                      //  cout << "Echec et mat" << endl;
                        //Fin de partie
                    }
                    e.GetPiece( xBlackKing , yBlackKing )->SetIsEchec();
@@ -232,22 +231,83 @@ MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
         currentPiece = e.GetPiece(  index.column()+1  , index.row()+1 );
         this->RefreshMatrix(this);
 
-        if ( dynamic_cast<King*>(currentPiece) != nullptr )
-        {
-           this->SetColorForCastling();
-        }
-
-//        if ( currentPiece != nullptr && currentPiece->GetX() == xWhiteKing && currentPiece->GetY() == yWhiteKing )
-//        {
-//            this->SetColor(WithdrawUnAcceptedMoveOfKing( currentPiece->DisplayAvailableMovement( e , whitePlay ) ));
-//        }
-//        else
-//        {
-           if ( currentPiece != nullptr )
-           {
-               this->SetColor( currentPiece->DisplayAvailableMovement(e,whitePlay) );
-           }
+        if ( currentPiece != nullptr )
+            if ( !this->DoomTheKing() )
+            {
+                if ( dynamic_cast<King*>(currentPiece) != nullptr )
+                {
+                    this->SetColor( this->WithdrawUnacceptedMoveKing( currentPiece->DisplayAvailableMovement(e,whitePlay) ) );
+                    this->SetColorForCastling();
+                }
+                else
+                {
+                  this->SetColor( currentPiece->DisplayAvailableMovement(e,whitePlay) );
+                }
+            }
     }
+}
+
+list<string>
+MainWindow::WithdrawUnacceptedMoveKing(list<string> values)
+{
+    list<string> acceptedMovement;
+
+    for (string coordonees : values)
+    {
+        try {
+            bool availableMovement = true;
+            std::vector<std::string> seglist = SplitString( coordonees, '-');
+            int x = std::stoi( seglist.at(1) ) + 1;
+            int y = std::stoi( seglist.at(0) ) + 1;
+
+            for ( int j = 0; j < 64 ; j++ )
+                if ( e.GetTab()[j] != nullptr && e.GetTab()[j]->GetIsWhite() !=  currentPiece->GetIsWhite() )
+                    if ( e.GetTab()[j]->Deplace( e , y , x ) )
+                    {
+                       availableMovement = false;
+                       break;
+                    }
+            if ( availableMovement )
+               acceptedMovement.push_back( std::to_string( y - 1 ) + "-" + std::to_string( x - 1 ) + "-" + seglist.at(2) );
+
+        }  catch (...) {}
+    }
+    return acceptedMovement;
+}
+
+bool
+MainWindow::DoomTheKing()
+{
+    int tamponX;
+    int tamponY;
+    bool end = false;
+
+    for ( int j = 0; j < 64 ; j++ )
+        if ( e.GetTab()[j] != nullptr )
+            if ( e.GetTab()[j]->GetIsWhite() != currentPiece->GetIsWhite() )
+                if ( e.GetTab()[j]->Deplace( e , currentPiece->GetX() , currentPiece->GetY() ) )
+                {
+                    tamponX = e.GetTab()[j]->GetX();
+                    tamponY = e.GetTab()[j]->GetY();
+
+                    e.GetTab()[j]->SetX(currentPiece->GetX() );
+                    e.GetTab()[j]->SetY(currentPiece->GetY() );
+
+                    if ( currentPiece->GetIsWhite() )
+                    {
+                        if ( e.GetTab()[j]->Deplace( e , xWhiteKing , yWhiteKing ) )
+                           end = true;
+                    }
+                    else
+                        if ( e.GetTab()[j]->Deplace( e , xBlackKing , yBlackKing ) )
+                           end = true;
+
+
+                    e.GetTab()[j]->SetX( tamponX );
+                    e.GetTab()[j]->SetY( tamponY );
+                    if ( end ) { return true; }
+                }
+    return false;
 }
 
 void
@@ -282,25 +342,21 @@ MainWindow::SetColorForCastling()
 {
     list<string> values;
     if ( dynamic_cast<Rook*>( e.GetPiece(8,1) ) != nullptr && e.GetPiece(8,1)->GetIsWhite() == currentPiece->GetIsWhite() )
-    {
         if ( currentPiece->CastlingAvailable( e , e.GetPiece(8,1) , currentPiece ) )
             values.push_back("6-0-true");
-    }
+
     if ( dynamic_cast<Rook*>( e.GetPiece(1,1) ) != nullptr && e.GetPiece(1,1)->GetIsWhite() == currentPiece->GetIsWhite() )
-    {
         if ( currentPiece->CastlingAvailable( e , e.GetPiece(1,1) , currentPiece ) )
            values.push_back("2-0-true");
-    }
+
     if ( dynamic_cast<Rook*>( e.GetPiece(8,8) ) != nullptr && e.GetPiece(8,8)->GetIsWhite() == currentPiece->GetIsWhite() )
-    {
         if ( currentPiece->CastlingAvailable( e , e.GetPiece(8,8) , currentPiece ) )
             values.push_back("6-7-true");
-    }
+
     if ( dynamic_cast<Rook*>( e.GetPiece(1,8) ) != nullptr && e.GetPiece(1,8)->GetIsWhite() == currentPiece->GetIsWhite() )
-    {
         if ( currentPiece->CastlingAvailable( e , e.GetPiece(1,8) , currentPiece ) )
             values.push_back("2-7-true");
-    }
+
     this->SetColor(values);
 }
 
@@ -324,73 +380,6 @@ MainWindow::SetColor(list<string>values)
        }  catch (...) {}
    }
    ui->tableViewEchiquier->setModel(model);
-}
-
-/**
- * @brief Check if the king's square is red so in check
- * @param x -> coordinate of the king's column
- * @param y -> coordinate of the king's line
- * @return bool -> Determines if the box is red
- */
-
-list<string>
-MainWindow::WithdrawUnAcceptedMoveOfKing(list<string> values)
-{
-    int line = 0;
-    for (string coordonees : values)
-    {
-        std::vector<std::string> seglist = SplitString( coordonees, '-');
-        try {
-
-            int xCoordonees = std::stoi( seglist.at(0) ) + 1;
-            int yCoordonees = std::stoi( seglist.at(1) ) + 1;
-
-            for ( int i = 0 ; i < 8 ; i++)
-            {
-                for ( int j = 0 ; j < 8 ; j++)
-                {
-                   if ( e.GetPiece( i , j ) != nullptr)
-                   {
-
-                       if ( e.GetPiece( i , j )->GetIsWhite() != whitePlay)
-                       {
-                           list<string> valuesPiece;
-                           valuesPiece = e.GetPiece( i , j )->DisplayAvailableMovement( e, whitePlay);
-                           cout << valuesPiece.size() << endl;
-                           for (string coordonees2 : valuesPiece)
-                           {
-                               std::vector<std::string> seglistPiece = SplitString( coordonees2, '-');
-                               try {
-                                   if ( std::stoi( seglistPiece.at(0)  ) > 0 && std::stoi( seglistPiece.at(1) ) > 0 )
-                                   {
-                                       int xCoordoneesPiece = std::stoi( seglist.at(0) ) + 1;
-                                       int yCoordoneesPiece = std::stoi( seglist.at(1) ) + 1;
-                                       if ( xCoordonees == xCoordoneesPiece && yCoordonees == yCoordoneesPiece )
-                                       {
-                                            values.remove(coordonees);
-                                            j=9;
-                                            i=9;
-                                            break;
-                                       }
-                                   }
-                               }  catch (...) {}
-                           }
-                       }
-                   }
-                }
-            }
-        }  catch (...) {}
-        line++;
-    }
-    for (string coordonees3 : values)
-    {
-        try {
-            std::vector<std::string> seglist = SplitString( coordonees3, '-');
-            int xtemp = std::stoi( seglist.at(0) ) + 1;
-            int ytemp = std::stoi( seglist.at(1) ) + 1;
-        }  catch (...) {}
-    }
-    return values;
 }
 
 bool

@@ -34,6 +34,8 @@ ChessBoard::GetPiece( int x, int y )
     else return nullptr;
 }
 
+Piece**
+ChessBoard::GetTab(){return m_cases;}
 /**
  * @brief Place the part as a parameter on the ChessBoard at its coordinates
  * @param Piece * -> Piece that we want to place

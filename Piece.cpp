@@ -69,6 +69,11 @@ Piece::GetX() { return p_x; }
 int
 Piece::GetY() { return p_y; }
 
+void
+Piece::SetY( int y ){ p_y = y; }
+
+void
+Piece::SetX( int x ){ p_x = x; }
 /**
  * @brief Returns the attribute p_firstMove
  */
@@ -514,18 +519,6 @@ Pawn::Pawn( bool white, int x, string path ) : Piece( x, white ? 2 : 7, white, p
 Pawn::~Pawn(){}
 
 /**
- * @brief Pawn::DoitEvoluer
- * @param e
- * @param whitePlay
- * @return
- */
-bool
-Pawn::DoitEvoluer(ChessBoard &e,bool whitePlay )
-{
-    return true;
-}
-
-/**
  * @brief Retrieves the coordinates of the cells whose movement is valid for the Pawn.
  * @param ChessBoard e
  * @param bool whitePlay -> True if it is the Rook of the white player, False otherwise.
@@ -542,8 +535,9 @@ Pawn::DisplayAvailableMovement(ChessBoard &e, bool whitePlay)
     if ( p_white && whitePlay)
     {
         for ( int i = p_y + 1  ; i <= p_y + destination ; i++ )
-            if ( e.GetPiece( p_x , i  ) == nullptr )
+            if ( e.GetPiece( p_x , i  ) == nullptr )    
                 casesValidePawn.push_back( std::to_string( p_x - 1 ) + "-" + std::to_string( i - 1 )  + "-false" );
+            else break;
 
         if ( e.GetPiece( p_x + 1 , p_y + 1 ) != nullptr && e.GetPiece( p_x + 1 , p_y + 1 )->GetIsWhite() != GetIsWhite() )
             casesValidePawn.push_back( std::to_string( p_x ) + "-" + std::to_string( p_y ) + "-true");
@@ -556,6 +550,7 @@ Pawn::DisplayAvailableMovement(ChessBoard &e, bool whitePlay)
         for ( int i = p_y - 1  ; i >= p_y - destination ; i-- )
             if ( e.GetPiece( p_x , i  ) == nullptr )
               casesValidePawn.push_back(  std::to_string( p_x - 1 ) + "-" + std::to_string( i - 1 ) + "-false" );
+            else break;
 
         if ( e.GetPiece( p_x + 1 , p_y - 1 ) != nullptr && e.GetPiece( p_x + 1 , p_y - 1 )->GetIsWhite() != GetIsWhite())
             casesValidePawn.push_back( std::to_string( p_x ) + "-" + std::to_string( p_y - 2 ) + "-true");
@@ -666,44 +661,65 @@ Rook::Deplace( ChessBoard &e, int x, int y )
 bool
 Bishop::Deplace( ChessBoard &e, int x, int y )
 {
-    if ( ( ( x - p_x ) % 2 == 0 ) && ( ( y - p_y ) % 2 == 0 ) )
-    {
-        int saveLinePosition = p_y;
-        if ( x > p_x && y > p_y )
-            for ( int i = p_x + 1 ; i < y ; i ++ )
-            {
-                saveLinePosition++;
-                Piece *maPiece = e.GetPiece(i,saveLinePosition);
-                if ( maPiece != nullptr ){ return false;}
-            }
-        else if ( x > p_x && y < p_y )
-            for ( int i = p_x + 1 ; i < x ; i ++ )
-            {
-                saveLinePosition--;
-                Piece *maPiece = e.GetPiece(i,saveLinePosition);
-                if ( maPiece != nullptr ){ return false;}
-            }
-        else if ( x < p_x && y < p_y )
-        for ( int i = p_x - 1 ; i > y ; i ++ )
-        {
-            saveLinePosition--;
-            Piece *maPiece = e.GetPiece(i,saveLinePosition);
-            if ( maPiece != nullptr ){ return false;}
-        }
-        else if ( x < p_x && y > p_y )
-        for ( int i = p_x - 1 ; i < x ; i ++ )
+    int saveLinePosition = p_y;
+    if ( x > p_x && y > p_y )
+        for ( int i = p_x + 1 ; i <= x ; i ++ )
         {
             saveLinePosition++;
             Piece *maPiece = e.GetPiece(i,saveLinePosition);
-            if ( maPiece != nullptr ){ return false;}
-        }
-        //On récupère le pointeur vers lequel on souhaite se déplacer
-        Piece *maPiece = e.GetPiece(x,y);
 
-        //Si y'a pas de pièce
-        if ( maPiece == nullptr ) { return true; }
-        else if ( p_white != maPiece->GetIsWhite() ) { return true; }
-    }
+            if ( maPiece != nullptr )
+            {
+                if ( maPiece == e.GetPiece( x , y ) && p_white != maPiece->GetIsWhite()  )
+                    return true;
+                else return false;
+            }
+            else if ( i == x && saveLinePosition == y )
+                return true;
+        }
+    else if ( x > p_x && y < p_y )
+        for ( int i = p_x + 1 ; i <= x ; i ++ )
+        {
+            saveLinePosition--;
+
+            Piece *maPiece = e.GetPiece(i,saveLinePosition);
+            if ( maPiece != nullptr )
+            {
+                if ( maPiece == e.GetPiece( x , y ) && p_white != maPiece->GetIsWhite()  )
+                    return true;
+                else return false;
+            }
+            else if ( i == x && saveLinePosition == y )
+                return true;
+        }
+    else if ( x < p_x && y < p_y )
+        for ( int i = p_x - 1 ; i >= x ; i -- )
+        {
+            saveLinePosition--;
+            Piece *maPiece = e.GetPiece(i,saveLinePosition);
+            if ( maPiece != nullptr )
+            {
+                if ( maPiece == e.GetPiece( x , y ) && p_white != maPiece->GetIsWhite()  )
+                    return true;
+                else return false;
+            }
+            else if ( i == x && saveLinePosition == y )
+                return true;
+        }
+    else if ( x < p_x && y > p_y )
+        for ( int i = p_x - 1 ; i <= x ; i -- )
+            {
+                saveLinePosition++;
+                Piece *maPiece = e.GetPiece(i,saveLinePosition);
+                if ( maPiece != nullptr )
+                {
+                    if ( maPiece == e.GetPiece( x , y ) && p_white != maPiece->GetIsWhite()  )
+                        return true;
+                    else return false;
+                }
+                else if ( i == x && saveLinePosition == y )
+                    return true;
+            }
     return false;
 }
 

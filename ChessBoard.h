@@ -19,6 +19,7 @@ class ChessBoard
 
     ChessBoard();
     Piece *GetPiece( int x, int y );
+    Piece**  GetTab();
     bool PlacePiece( Piece *p );
     void MovePiece( Piece *p, int x, int y );
     void RemovePiece( int x, int y );

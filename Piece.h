@@ -33,6 +33,8 @@ class Piece
     void         Move( int x, int y );
     int          GetX();
     int          GetY();
+    void          SetX( int x );
+    void          SetY( int y );
     bool         GetIsWhite();
     bool         GetFirstMove();
     bool         GetIsEchec();
@@ -98,7 +100,6 @@ class Pawn : public Piece
    public:
     Pawn( bool white, int x, string path );
     ~Pawn();
-    bool DoitEvoluer( ChessBoard &e,bool whitePlay );
     list<string> DisplayAvailableMovement( ChessBoard &e, bool whitePlay );
     bool Deplace( ChessBoard &e, int x, int y );
 };

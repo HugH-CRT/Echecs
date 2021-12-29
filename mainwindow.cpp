@@ -243,26 +243,21 @@ MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
         if ( currentPiece != nullptr )
         {
             Piece *maPiece = this->DoomTheKing();
+
             if ( maPiece == nullptr )
             {
-                cout << "4" << endl;
                 if ( dynamic_cast<King*>(currentPiece) != nullptr )
                 {
                     this->SetColor( this->WithdrawUnacceptedMoveKing( currentPiece->DisplayAvailableMovement(e,whitePlay) ) );
                     this->SetColorForCastling();
                 }
                 else
-                {
                   this->SetColor( currentPiece->DisplayAvailableMovement(e,whitePlay) );
-                }
             }
             else if ( maPiece != currentPiece )
             {
-                cout << "5" << endl;
                 if ( currentPiece->Deplace( e , maPiece->GetX() , maPiece->GetY() ) )
                 {
-                    cout << "6" << endl;
-                    cout <<  maPiece->GetX() << " : " <<  maPiece->GetY() << endl;
                     list<string>values;
                     values.push_back( std::to_string( maPiece->GetX() - 1 ) + "-" + std::to_string( maPiece->GetY() - 1 ) + "-true" );
                     this->SetColor( values );
@@ -309,37 +304,47 @@ MainWindow::DoomTheKing()
     int nbAttaquant = 0;
     int coordonneeXAttaquant;
     int coordonneeYAttaquant;
+    list<int> values;
 
     for ( int j = 0; j < 64 ; j++ )
         if ( e.GetTab()[j] != nullptr )
             if ( e.GetTab()[j]->GetIsWhite() != currentPiece->GetIsWhite() && dynamic_cast<Knight*>(e.GetTab()[j]) == nullptr )
-                if ( e.GetTab()[j]->Deplace( e , currentPiece->GetX() , currentPiece->GetY() ) )
+            {
+                if ( e.GetTab()[j]->Deplace( e , currentPiece->GetX() , currentPiece->GetY() ) && dynamic_cast<Queen*>(e.GetTab()[j]) == nullptr )
                 {
-                    tamponX = e.GetTab()[j]->GetX();
-                    tamponY = e.GetTab()[j]->GetY();
-
-                    e.GetTab()[j]->SetX(currentPiece->GetX() );
-                    e.GetTab()[j]->SetY(currentPiece->GetY() );
-
-                    if ( currentPiece->GetIsWhite() )
-                    {
-                        if ( e.GetTab()[j]->Deplace( e , xWhiteKing , yWhiteKing ) )
-                           nbAttaquant++;
-                    }
-                    else
-                        if ( e.GetTab()[j]->Deplace( e , xBlackKing , yBlackKing ) )
-                           nbAttaquant++;
-
-                    e.GetTab()[j]->SetX( tamponX );
-                    e.GetTab()[j]->SetY( tamponY );
-
-                    if ( nbAttaquant != 0)
-                    {
-                         coordonneeXAttaquant = e.GetTab()[j]->GetX();
-                         coordonneeYAttaquant = e.GetTab()[j]->GetY();
-                    }
-
+                    values = test( e.GetTab()[j] ) ;
                 }
+                else if ( dynamic_cast<Queen*>(e.GetTab()[j]) != nullptr )
+                {
+                    Bishop monFou = Bishop( e.GetTab()[j]->GetX() , e.GetTab()[j]->GetY() , e.GetTab()[j]->GetIsWhite() , true ,true , "" );
+                    Piece* PieceFou = &monFou;
+
+                    if ( monFou.Deplace( e , currentPiece->GetX() , currentPiece->GetY() ) )
+                        values = test( PieceFou ) ;
+
+                    Rook maTour   = Rook( e.GetTab()[j]->GetX(), e.GetTab()[j]->GetY(), e.GetTab()[j]->GetIsWhite() , true , true , "" );
+                    Piece* PieceTour = &maTour;
+
+                    if ( maTour.Deplace( e ,currentPiece->GetX() , currentPiece->GetY() ) )
+                    {
+                       list<int> result = test( PieceTour );
+                       if ( result.size() > 0 )
+                           values = result;
+                    }
+                }
+                nbAttaquant += values.size() / 2;
+
+                if ( nbAttaquant != 0 )
+                {
+                     auto it = values.begin();
+
+                     std::advance(it, 0);
+                     coordonneeXAttaquant = *it;
+
+                     std::advance(it, 1);
+                     coordonneeYAttaquant = *it;
+                }
+            }
     if ( nbAttaquant == 0 ){
         return e.GetPiece(0,0);
     }
@@ -352,6 +357,101 @@ MainWindow::DoomTheKing()
     }
 }
 
+list<int>
+MainWindow::test( Piece* maPiece )
+{
+    int nbAttaquant = 0;
+    int tamponX = maPiece->GetX();
+    int tamponY = maPiece->GetY();
+    list<int> values;
+    bool tourVertical = false;
+    bool tourHorizontal = false;
+    bool diagHGFou = false;
+    bool diagHDFou = false;
+    bool diagBGFou = false;
+    bool diagBDFou = false;
+
+    if( dynamic_cast<Rook*>( maPiece ) != nullptr )
+    {
+        if ( maPiece->GetY() != currentPiece->GetY() &&  maPiece->GetX() == currentPiece->GetX() )
+        {
+            tourVertical = true;
+        }
+        else
+            tourHorizontal = true;
+    }
+    else if ( dynamic_cast<Bishop*>( maPiece ) != nullptr )
+    {
+         if ( maPiece->GetX() > currentPiece->GetX() && maPiece->GetY() > currentPiece->GetY() ) { diagBDFou = true; }
+         else if ( maPiece->GetX() > currentPiece->GetX() && maPiece->GetY() < currentPiece->GetY() ) { diagHDFou = true; }
+         else if ( maPiece->GetX() < currentPiece->GetX() && maPiece->GetY() < currentPiece->GetY() ) { diagHGFou = true; }
+         else if ( maPiece->GetX() < currentPiece->GetX() && maPiece->GetY() > currentPiece->GetY() ) { diagBGFou = true; }
+    }
+
+    maPiece->SetX( currentPiece->GetX() );
+    maPiece->SetY( currentPiece->GetY() );
+
+    if ( currentPiece->GetIsWhite() )
+    {
+        nbAttaquant += test2( xWhiteKing , yWhiteKing, maPiece , tourVertical,tourHorizontal, diagHGFou, diagHDFou , diagBGFou , diagBDFou );
+    }
+    else
+        nbAttaquant += test2( xBlackKing , yBlackKing, maPiece, tourVertical,tourHorizontal , diagHGFou, diagHDFou , diagBGFou , diagBDFou );
+
+    maPiece->SetX( tamponX );
+    maPiece->SetY( tamponY );
+
+    if ( nbAttaquant != 0 )
+    {
+         values.push_back( maPiece->GetX() );
+         values.push_back( maPiece->GetY() );
+    }
+    return values;
+}
+
+int
+MainWindow::test2(int x, int y, Piece* maPiece, bool tourVertical, bool tourHorizontal, bool diagHGFou, bool diagHDFou, bool diagBGFou, bool diagBDFou )
+{
+    int nbAttaquant = 0;
+    if ( maPiece->Deplace( e , x , y ) )
+    {
+        if ( tourVertical )
+        {
+            if ( x == maPiece->GetX())
+               nbAttaquant++;
+        }
+        else if ( tourHorizontal )
+        {
+            if ( y == maPiece->GetY())
+               nbAttaquant++;
+        }
+        else if ( diagHGFou )
+        {
+            if ( maPiece->GetX() < x && maPiece->GetY() < y )
+                nbAttaquant++;
+        }
+        else if ( diagHDFou )
+        {
+            if ( maPiece->GetX() > x && maPiece->GetY() < y )
+                nbAttaquant++;
+        }
+        else if ( diagBGFou )
+        {
+            if ( maPiece->GetX() < currentPiece->GetX() && maPiece->GetY() > currentPiece->GetY() )
+                 nbAttaquant++;
+        }
+        else if ( diagBDFou )
+        {
+            if ( maPiece->GetX() > currentPiece->GetX() && maPiece->GetY() > currentPiece->GetY() )
+                nbAttaquant++;
+        }
+        else
+        {
+           nbAttaquant++;
+        }
+    }
+    return nbAttaquant;
+}
 void
 MainWindow::receiveData( int value )
 {

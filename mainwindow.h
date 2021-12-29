@@ -46,6 +46,8 @@ class MainWindow : public QMainWindow
         void SetColorForCastling();
         Piece* DoomTheKing();
         list<string> WithdrawUnacceptedMoveKing(list<string> values);
+        list<int> test (Piece*);
+        int test2 (int ,int, Piece*, bool , bool, bool , bool , bool , bool );
 
     private slots:
         void on_tableViewEchiquier_clicked( const QModelIndex &index );

@@ -24,6 +24,18 @@
   </property>
   <property name="maximumSize">
    <size>
+    <width>1920</width>
+    <height>1080</height>
+   </size>
+  </property>
+  <property name="sizeIncrement">
+   <size>
+    <width>1920</width>
+    <height>1080</height>
+   </size>
+  </property>
+  <property name="baseSize">
+   <size>
     <width>1080</width>
     <height>950</height>
    </size>
@@ -43,6 +55,9 @@
   </property>
   <property name="locale">
    <locale language="English" country="UnitedStates"/>
+  </property>
+  <property name="inputMethodHints">
+   <set>Qt::ImhNone</set>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QTableView" name="tableViewEchiquier">
@@ -509,7 +524,27 @@ color: rgb(0, 0, 0);</string>
      <addaction name="actionDark"/>
      <addaction name="actionLight"/>
     </widget>
+    <widget class="QMenu" name="menuTaille_de_fenetre">
+     <property name="title">
+      <string>Taille de fenêtre</string>
+     </property>
+     <addaction name="actionDefault"/>
+     <addaction name="actionFullFenetrer"/>
+     <addaction name="actionFullscreen"/>
+    </widget>
+    <widget class="QMenu" name="menuLangues">
+     <property name="title">
+      <string>Langues</string>
+     </property>
+     <addaction name="actionFrancais"/>
+     <addaction name="actionAnglais"/>
+     <addaction name="actionAllemand"/>
+     <addaction name="actionRusse"/>
+     <addaction name="actionEspagnol"/>
+    </widget>
     <addaction name="menuThemes"/>
+    <addaction name="menuTaille_de_fenetre"/>
+    <addaction name="menuLangues"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -539,6 +574,46 @@ color: rgb(0, 0, 0);</string>
   <action name="actionRegles">
    <property name="text">
     <string>Rules Game</string>
+   </property>
+  </action>
+  <action name="actionDefault">
+   <property name="text">
+    <string>Default ( 960 x 1080 )</string>
+   </property>
+  </action>
+  <action name="actionFullscreen">
+   <property name="text">
+    <string>Fullscreen ( 1920 x 1080 )</string>
+   </property>
+  </action>
+  <action name="actionFrancais">
+   <property name="text">
+    <string>Français</string>
+   </property>
+  </action>
+  <action name="actionAnglais">
+   <property name="text">
+    <string>Anglais</string>
+   </property>
+  </action>
+  <action name="actionAllemand">
+   <property name="text">
+    <string>Allemand</string>
+   </property>
+  </action>
+  <action name="actionRusse">
+   <property name="text">
+    <string>Russe</string>
+   </property>
+  </action>
+  <action name="actionEspagnol">
+   <property name="text">
+    <string>Espagnol</string>
+   </property>
+  </action>
+  <action name="actionFullFenetrer">
+   <property name="text">
+    <string>Full Fenetrer</string>
    </property>
   </action>
  </widget>

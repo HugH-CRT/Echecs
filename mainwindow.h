@@ -53,6 +53,15 @@ class MainWindow : public QMainWindow
         void ActDarkMode();
         void ActLightMode();
         void ActDocumentation();
+        /** A mettre en anglais **/
+        void ActFenetreDefault();
+        void ActFenetreFullscreen();
+        void ActFenetreFullFenetrer();
+        void ActLangueFrancais();
+        void ActLangueAnglais();
+        void ActLangueAllemand();
+        void ActLangueRusse();
+        void ActLangueEspagnol();
         void ShowTime();
         void SetTimer();
 

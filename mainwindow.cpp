@@ -38,6 +38,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    this->ActFenetreDefault();
     timer = new QTimer(this);
     connect ( timer , SIGNAL( timeout() ), this, SLOT( SetTimer() ) );
 
@@ -61,6 +62,14 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionDark, SIGNAL(triggered()), this, SLOT(ActDarkMode()));
     connect(ui->actionLight, SIGNAL(triggered()), this, SLOT(ActLightMode()));
     connect(ui->actionDocumentation_Code_Source, SIGNAL(triggered()), this , SLOT(ActDocumentation()));
+    connect(ui->actionDefault, SIGNAL(triggered()), this, SLOT(ActFenetreDefault()));
+    connect(ui->actionFullscreen, SIGNAL(triggered()), this, SLOT(ActFenetreFullscreen()));
+    connect(ui->actionFullFenetrer, SIGNAL(triggered()), this, SLOT(ActFenetreFullFenetrer()));
+    connect(ui->actionFrancais, SIGNAL(triggered()), this, SLOT(ActLangueFrancais()));
+    connect(ui->actionAnglais, SIGNAL(triggered()), this, SLOT(ActLangueAnglais()));
+    connect(ui->actionAllemand, SIGNAL(triggered()), this, SLOT(ActLangueRusse()));
+    connect(ui->actionEspagnol, SIGNAL(triggered()), this, SLOT(ActLangueEspagnol()));
+
 
     timer->start();
 }
@@ -688,6 +697,81 @@ MainWindow::closeEvent (QCloseEvent *event)
     } else {
         event->accept();
     }
+}
+
+/**
+ * @brief MainWindow::ActFenetreDefault
+ */
+void
+MainWindow::ActFenetreDefault()
+{
+    this->setMaximumSize(1080, 950);
+    this->setGeometry(420, 30, 1080, 950);
+}
+
+/**
+ * @brief MainWindow::ActFenetreFullscreen
+ */
+void
+MainWindow::ActFenetreFullscreen()
+{
+    this->setMaximumSize(1920,1080);
+    this->setGeometry(0, 0, 1920, 1080);
+}
+
+/**
+ * @brief MainWindow::ActFenetreFullFenetrer
+ */
+void
+MainWindow::ActFenetreFullFenetrer()
+{
+    this->setMaximumSize(1920,1080);
+    this->setGeometry(0, 30, 1920, 1050);
+}
+
+/**
+ * @brief MainWindow::ActLangueFrancais
+ */
+void
+MainWindow::ActLangueFrancais()
+{
+
+}
+
+/**
+ * @brief MainWindow::ActLangueAnglais
+ */
+void
+MainWindow::ActLangueAnglais()
+{
+
+}
+
+/**
+ * @brief MainWindow::ActLangueAllemand
+ */
+void
+MainWindow::ActLangueAllemand()
+{
+
+}
+
+/**
+ * @brief MainWindow::ActLangueRusse
+ */
+void
+MainWindow::ActLangueRusse()
+{
+
+}
+
+/**
+ * @brief MainWindow::ActLangueEspagnol
+ */
+void
+MainWindow::ActLangueEspagnol()
+{
+
 }
 
 

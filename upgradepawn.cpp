@@ -10,7 +10,7 @@ UpgradePawn::UpgradePawn(QWidget *parent,bool isWhite ) :
 {
     ui->setupUi(this);
     connect( this ,SIGNAL( sendData(int) ), parent, SLOT( receiveData(int) ) );
-    ui->pieceUpgrade->setIconSize( QSize( 110 , 200 ) );
+    ui->pieceUpgrade->setIconSize( QSize( 100 , 100 ) );
 
     if (isWhite)
     {
@@ -26,7 +26,6 @@ UpgradePawn::UpgradePawn(QWidget *parent,bool isWhite ) :
         SetPicture( QPixmap ( ":/img/black/assets/black/knight.png" ) , 0 , 2 , monModel);
         SetPicture( QPixmap ( ":/img/black/assets/black/queen.png" ) , 0 , 3 , monModel);
     }
-
 
     ui->pieceUpgrade->setModel(monModel);
 }

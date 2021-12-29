@@ -6,44 +6,100 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>514</width>
-    <height>343</height>
+    <width>450</width>
+    <height>200</height>
    </rect>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>0</width>
+    <height>0</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>16679</width>
+    <height>16679</height>
+   </size>
+  </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Chess Game</string>
   </property>
   <widget class="QLabel" name="Title">
    <property name="geometry">
     <rect>
-     <x>140</x>
-     <y>30</y>
-     <width>221</width>
-     <height>31</height>
+     <x>75</x>
+     <y>15</y>
+     <width>300</width>
+     <height>30</height>
     </rect>
    </property>
    <property name="font">
     <font>
      <pointsize>15</pointsize>
-     <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>
    <property name="text">
     <string>Choose your upgrade</string>
    </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+   <property name="openExternalLinks">
+    <bool>false</bool>
+   </property>
   </widget>
   <widget class="QTableView" name="pieceUpgrade">
    <property name="geometry">
     <rect>
-     <x>40</x>
-     <y>100</y>
-     <width>440</width>
-     <height>200</height>
+     <x>25</x>
+     <y>70</y>
+     <width>400</width>
+     <height>100</height>
     </rect>
    </property>
+   <property name="minimumSize">
+    <size>
+     <width>400</width>
+     <height>100</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>400</width>
+     <height>100</height>
+    </size>
+   </property>
+   <property name="cursor" stdset="0">
+    <cursorShape>OpenHandCursor</cursorShape>
+   </property>
    <property name="lineWidth">
-    <number>2</number>
+    <number>0</number>
+   </property>
+   <property name="verticalScrollBarPolicy">
+    <enum>Qt::ScrollBarAlwaysOff</enum>
+   </property>
+   <property name="horizontalScrollBarPolicy">
+    <enum>Qt::ScrollBarAlwaysOff</enum>
+   </property>
+   <property name="autoScroll">
+    <bool>false</bool>
+   </property>
+   <property name="editTriggers">
+    <set>QAbstractItemView::NoEditTriggers</set>
+   </property>
+   <property name="tabKeyNavigation">
+    <bool>true</bool>
+   </property>
+   <property name="showDropIndicator" stdset="0">
+    <bool>false</bool>
+   </property>
+   <property name="dragDropOverwriteMode">
+    <bool>false</bool>
+   </property>
+   <property name="selectionMode">
+    <enum>QAbstractItemView::SingleSelection</enum>
    </property>
    <property name="iconSize">
     <size>
@@ -51,13 +107,37 @@
      <height>0</height>
     </size>
    </property>
+   <property name="textElideMode">
+    <enum>Qt::ElideLeft</enum>
+   </property>
    <property name="showGrid">
     <bool>false</bool>
    </property>
    <attribute name="horizontalHeaderVisible">
     <bool>false</bool>
    </attribute>
+   <attribute name="horizontalHeaderMinimumSectionSize">
+    <number>50</number>
+   </attribute>
+   <attribute name="horizontalHeaderDefaultSectionSize">
+    <number>100</number>
+   </attribute>
+   <attribute name="horizontalHeaderHighlightSections">
+    <bool>false</bool>
+   </attribute>
    <attribute name="verticalHeaderVisible">
+    <bool>false</bool>
+   </attribute>
+   <attribute name="verticalHeaderCascadingSectionResizes">
+    <bool>false</bool>
+   </attribute>
+   <attribute name="verticalHeaderMinimumSectionSize">
+    <number>50</number>
+   </attribute>
+   <attribute name="verticalHeaderDefaultSectionSize">
+    <number>100</number>
+   </attribute>
+   <attribute name="verticalHeaderHighlightSections">
     <bool>false</bool>
    </attribute>
   </widget>

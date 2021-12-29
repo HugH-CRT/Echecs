@@ -44,7 +44,7 @@ class MainWindow : public QMainWindow
         void EndGameDisplay();
         void closeEvent(QCloseEvent *event);
         void SetColorForCastling();
-        bool DoomTheKing();
+        Piece* DoomTheKing();
         list<string> WithdrawUnacceptedMoveKing(list<string> values);
 
     private slots:

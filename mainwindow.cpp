@@ -232,8 +232,11 @@ MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
         this->RefreshMatrix(this);
 
         if ( currentPiece != nullptr )
-            if ( !this->DoomTheKing() )
+        {
+            Piece *maPiece = this->DoomTheKing();
+            if ( maPiece == nullptr )
             {
+                cout << "4" << endl;
                 if ( dynamic_cast<King*>(currentPiece) != nullptr )
                 {
                     this->SetColor( this->WithdrawUnacceptedMoveKing( currentPiece->DisplayAvailableMovement(e,whitePlay) ) );
@@ -244,6 +247,19 @@ MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
                   this->SetColor( currentPiece->DisplayAvailableMovement(e,whitePlay) );
                 }
             }
+            else if ( maPiece != currentPiece )
+            {
+                cout << "5" << endl;
+                if ( currentPiece->Deplace( e , maPiece->GetX() , maPiece->GetY() ) )
+                {
+                    cout << "6" << endl;
+                    cout <<  maPiece->GetX() << " : " <<  maPiece->GetY() << endl;
+                    list<string>values;
+                    values.push_back( std::to_string( maPiece->GetX() - 1 ) + "-" + std::to_string( maPiece->GetY() - 1 ) + "-true" );
+                    this->SetColor( values );
+                }
+            }
+        }
     }
 }
 
@@ -275,16 +291,19 @@ MainWindow::WithdrawUnacceptedMoveKing(list<string> values)
     return acceptedMovement;
 }
 
-bool
+Piece*
 MainWindow::DoomTheKing()
 {
     int tamponX;
     int tamponY;
     bool end = false;
+    int nbAttaquant = 0;
+    int coordonneeXAttaquant;
+    int coordonneeYAttaquant;
 
     for ( int j = 0; j < 64 ; j++ )
         if ( e.GetTab()[j] != nullptr )
-            if ( e.GetTab()[j]->GetIsWhite() != currentPiece->GetIsWhite() )
+            if ( e.GetTab()[j]->GetIsWhite() != currentPiece->GetIsWhite() && dynamic_cast<Knight*>(e.GetTab()[j]) == nullptr )
                 if ( e.GetTab()[j]->Deplace( e , currentPiece->GetX() , currentPiece->GetY() ) )
                 {
                     tamponX = e.GetTab()[j]->GetX();
@@ -296,18 +315,32 @@ MainWindow::DoomTheKing()
                     if ( currentPiece->GetIsWhite() )
                     {
                         if ( e.GetTab()[j]->Deplace( e , xWhiteKing , yWhiteKing ) )
-                           end = true;
+                           nbAttaquant++;
                     }
                     else
                         if ( e.GetTab()[j]->Deplace( e , xBlackKing , yBlackKing ) )
-                           end = true;
-
+                           nbAttaquant++;
 
                     e.GetTab()[j]->SetX( tamponX );
                     e.GetTab()[j]->SetY( tamponY );
-                    if ( end ) { return true; }
+
+                    if ( nbAttaquant != 0)
+                    {
+                         coordonneeXAttaquant = e.GetTab()[j]->GetX();
+                         coordonneeYAttaquant = e.GetTab()[j]->GetY();
+                    }
+
                 }
-    return false;
+    if ( nbAttaquant == 0 ){
+        return e.GetPiece(0,0);
+    }
+    else if ( nbAttaquant == 1 ){
+         return e.GetPiece(coordonneeXAttaquant,coordonneeYAttaquant);
+    }
+    else
+    {
+        return e.GetPiece( currentPiece->GetX() , currentPiece->GetY() );
+    }
 }
 
 void

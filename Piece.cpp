@@ -599,7 +599,7 @@ King::Deplace( ChessBoard &e, int x, int y )
 bool
 Rook::Deplace( ChessBoard &e, int x, int y )
 {
-    if ( p_x == x && p_y < y || p_x == x && p_y > y || p_x > x && p_y == y || p_x < x && p_y == y )
+    if ( p_x == x && p_y != y || p_x != x && p_y == y )
     {
         //Si on va à en bas
         if( p_x == x && p_y < y )
@@ -634,7 +634,7 @@ Rook::Deplace( ChessBoard &e, int x, int y )
         //Si on vas à droite
         else if ( p_x < x && p_y == y  )
         {
-            for ( int i = p_x + 1; i > x - 1  ; i++)
+            for ( int i = p_x + 1; i < x - 1  ; i++)
             {
                 Piece *maPiece = e.GetPiece(i,y);
 

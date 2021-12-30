@@ -194,7 +194,6 @@ MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
 
                if ( this->Echec( xBlackKing , yBlackKing ) )
                {
-                   cout << "Echec position xRoi : " << xBlackKing << " Y: " << yBlackKing << endl;
                    bool isEchecMat = this->IsEchecMat( currentPiece->CheckAvailableMovementKing( e , xBlackKing , yBlackKing ) );
 
                    if ( isEchecMat )
@@ -232,7 +231,6 @@ MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
                 pageUpgrade.setModal( true );
                 pageUpgrade.exec();
             }
-
         }
     }
     else
@@ -277,18 +275,27 @@ MainWindow::WithdrawUnacceptedMoveKing(list<string> values)
         try {
             bool availableMovement = true;
             std::vector<std::string> seglist = SplitString( coordonees, '-');
-            int x = std::stoi( seglist.at(1) ) + 1;
-            int y = std::stoi( seglist.at(0) ) + 1;
+            int y = std::stoi( seglist.at(1) ) + 1;
+            int x = std::stoi( seglist.at(0) ) + 1;
 
             for ( int j = 0; j < 64 ; j++ )
                 if ( e.GetTab()[j] != nullptr && e.GetTab()[j]->GetIsWhite() !=  currentPiece->GetIsWhite() )
-                    if ( e.GetTab()[j]->Deplace( e , y , x ) )
+                    if ( e.GetTab()[j]->Deplace( e , x , y ) )
                     {
-                       availableMovement = false;
-                       break;
+                       if ( dynamic_cast<Pawn*>( e.GetTab()[j] ) != nullptr && e.GetTab()[j]->GetX() != x )
+                       {
+                           availableMovement = false;
+                           break;
+                       }
+                       else if ( dynamic_cast<Pawn*>( e.GetTab()[j] ) == nullptr )
+                       {
+                           availableMovement = false;
+                           break;
+                       }
+
                     }
             if ( availableMovement )
-               acceptedMovement.push_back( std::to_string( y - 1 ) + "-" + std::to_string( x - 1 ) + "-" + seglist.at(2) );
+               acceptedMovement.push_back( std::to_string( x - 1 ) + "-" + std::to_string( y - 1 ) + "-" + seglist.at(2) );
 
         }  catch (...) {}
     }
@@ -415,40 +422,13 @@ MainWindow::test2(int x, int y, Piece* maPiece, bool tourVertical, bool tourHori
     int nbAttaquant = 0;
     if ( maPiece->Deplace( e , x , y ) )
     {
-        if ( tourVertical )
-        {
-            if ( x == maPiece->GetX())
-               nbAttaquant++;
-        }
-        else if ( tourHorizontal )
-        {
-            if ( y == maPiece->GetY())
-               nbAttaquant++;
-        }
-        else if ( diagHGFou )
-        {
-            if ( maPiece->GetX() < x && maPiece->GetY() < y )
-                nbAttaquant++;
-        }
-        else if ( diagHDFou )
-        {
-            if ( maPiece->GetX() > x && maPiece->GetY() < y )
-                nbAttaquant++;
-        }
-        else if ( diagBGFou )
-        {
-            if ( maPiece->GetX() < currentPiece->GetX() && maPiece->GetY() > currentPiece->GetY() )
-                 nbAttaquant++;
-        }
-        else if ( diagBDFou )
-        {
-            if ( maPiece->GetX() > currentPiece->GetX() && maPiece->GetY() > currentPiece->GetY() )
-                nbAttaquant++;
-        }
-        else
-        {
-           nbAttaquant++;
-        }
+        if ( tourVertical && x == maPiece->GetX() )                                                               { nbAttaquant++; }
+        else if ( tourHorizontal && y == maPiece->GetY() )                                                        { nbAttaquant++; }
+        else if ( diagHGFou && maPiece->GetX() < x && maPiece->GetY() < y )                                       { nbAttaquant++; }
+        else if ( diagHDFou && maPiece->GetX() > x && maPiece->GetY() < y )                                       { nbAttaquant++; }
+        else if ( diagBGFou && maPiece->GetX() < currentPiece->GetX() && maPiece->GetY() > currentPiece->GetY() ) { nbAttaquant++; }
+        else if ( diagBDFou && maPiece->GetX() > currentPiece->GetX() && maPiece->GetY() > currentPiece->GetY() ) { nbAttaquant++; }
+        else { nbAttaquant++; }
     }
     return nbAttaquant;
 }
@@ -833,45 +813,30 @@ MainWindow::ActFenetreFullFenetrer()
  * @brief MainWindow::ActLangueFrancais
  */
 void
-MainWindow::ActLangueFrancais()
-{
-
-}
+MainWindow::ActLangueFrancais(){}
 
 /**
  * @brief MainWindow::ActLangueAnglais
  */
 void
-MainWindow::ActLangueAnglais()
-{
-
-}
+MainWindow::ActLangueAnglais(){}
 
 /**
  * @brief MainWindow::ActLangueAllemand
  */
 void
-MainWindow::ActLangueAllemand()
-{
-
-}
+MainWindow::ActLangueAllemand(){}
 
 /**
  * @brief MainWindow::ActLangueRusse
  */
 void
-MainWindow::ActLangueRusse()
-{
-
-}
+MainWindow::ActLangueRusse(){}
 
 /**
  * @brief MainWindow::ActLangueEspagnol
  */
 void
-MainWindow::ActLangueEspagnol()
-{
-
-}
+MainWindow::ActLangueEspagnol(){}
 
 

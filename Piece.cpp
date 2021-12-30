@@ -707,7 +707,7 @@ Bishop::Deplace( ChessBoard &e, int x, int y )
                 return true;
         }
     else if ( x < p_x && y > p_y )
-        for ( int i = p_x - 1 ; i <= x ; i -- )
+        for ( int i = p_x - 1 ; i >= x ; i -- )
             {
                 saveLinePosition++;
                 Piece *maPiece = e.GetPiece(i,saveLinePosition);

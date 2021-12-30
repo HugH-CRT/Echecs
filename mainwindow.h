@@ -48,6 +48,7 @@ class MainWindow : public QMainWindow
         list<string> WithdrawUnacceptedMoveKing(list<string> values);
         list<int> test (Piece*);
         int test2 (int ,int, Piece*, bool , bool, bool , bool , bool , bool );
+        list<string> RoadToAttack( int , int, Piece* );
 
     private slots:
         void on_tableViewEchiquier_clicked( const QModelIndex &index );

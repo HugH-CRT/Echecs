@@ -256,8 +256,25 @@ MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
             {
                 if ( currentPiece->Deplace( e , maPiece->GetX() , maPiece->GetY() ) )
                 {
-                    list<string>values;
-                    values.push_back( std::to_string( maPiece->GetX() - 1 ) + "-" + std::to_string( maPiece->GetY() - 1 ) + "-true" );
+                    list<string> values;
+                    if ( dynamic_cast<Queen*>(currentPiece) != nullptr )
+                    {
+                        Bishop monFou = Bishop( currentPiece->GetX() , currentPiece->GetY() , currentPiece->GetIsWhite() , true ,true , "" );
+                        Piece* PieceFou = &monFou;
+                        values = this->RoadToAttack( maPiece->GetX() , maPiece->GetY(), PieceFou );
+
+                        if ( values.size() == 1)
+                        {
+                            Rook maTour   = Rook( currentPiece->GetX(), currentPiece->GetY(), currentPiece->GetIsWhite() , true , true , "" );
+                            Piece* PieceTour = &maTour;
+                            values = this->RoadToAttack( maPiece->GetX() , maPiece->GetY(), PieceTour );
+                        }
+                    }
+                    else
+                    {
+                       values = this->RoadToAttack( maPiece->GetX() , maPiece->GetY(), currentPiece );
+
+                    }
                     this->SetColor( values );
                 }
             }
@@ -280,20 +297,31 @@ MainWindow::WithdrawUnacceptedMoveKing(list<string> values)
 
             for ( int j = 0; j < 64 ; j++ )
                 if ( e.GetTab()[j] != nullptr && e.GetTab()[j]->GetIsWhite() !=  currentPiece->GetIsWhite() )
-                    if ( e.GetTab()[j]->Deplace( e , x , y ) )
+                {
+                    if ( dynamic_cast<Pawn*>( e.GetTab()[j] ) == nullptr )
                     {
-                       if ( dynamic_cast<Pawn*>( e.GetTab()[j] ) != nullptr && e.GetTab()[j]->GetX() != x )
-                       {
-                           availableMovement = false;
-                           break;
-                       }
-                       else if ( dynamic_cast<Pawn*>( e.GetTab()[j] ) == nullptr )
-                       {
-                           availableMovement = false;
-                           break;
-                       }
-
+                        if ( e.GetTab()[j]->Deplace( e , x , y ) )
+                        {
+                            availableMovement = false;
+                            break;
+                        }
                     }
+                    else
+                    {
+                        if (  e.GetTab()[j]->GetIsWhite() && ( e.GetTab()[j]->GetX() + 1 == x && e.GetTab()[j]->GetY() + 1 == y || e.GetTab()[j]->GetX() - 1 == x && e.GetTab()[j]->GetY() + 1 == y ) )
+                        {
+                            availableMovement = false;
+                            break;
+                        }
+                        else if ( !e.GetTab()[j]->GetIsWhite() && ( e.GetTab()[j]->GetX() - 1 == x && e.GetTab()[j]->GetY() - 1 == y || e.GetTab()[j]->GetX() + 1 == x && e.GetTab()[j]->GetY() - 1 == y ) )
+                        {
+                            availableMovement = false;
+                            break;
+                        }
+                    }
+                }
+
+
             if ( availableMovement )
                acceptedMovement.push_back( std::to_string( x - 1 ) + "-" + std::to_string( y - 1 ) + "-" + seglist.at(2) );
 
@@ -317,6 +345,7 @@ MainWindow::DoomTheKing()
         if ( e.GetTab()[j] != nullptr )
             if ( e.GetTab()[j]->GetIsWhite() != currentPiece->GetIsWhite() && dynamic_cast<Knight*>(e.GetTab()[j]) == nullptr )
             {
+                values.clear();
                 if ( e.GetTab()[j]->Deplace( e , currentPiece->GetX() , currentPiece->GetY() ) && dynamic_cast<Queen*>(e.GetTab()[j]) == nullptr )
                 {
                     values = test( e.GetTab()[j] ) ;
@@ -341,7 +370,7 @@ MainWindow::DoomTheKing()
                 }
                 nbAttaquant += values.size() / 2;
 
-                if ( nbAttaquant != 0 )
+                if ( values.size() != 0 )
                 {
                      auto it = values.begin();
 
@@ -352,16 +381,10 @@ MainWindow::DoomTheKing()
                      coordonneeYAttaquant = *it;
                 }
             }
-    if ( nbAttaquant == 0 ){
-        return e.GetPiece(0,0);
-    }
-    else if ( nbAttaquant == 1 ){
-         return e.GetPiece(coordonneeXAttaquant,coordonneeYAttaquant);
-    }
-    else
-    {
-        return e.GetPiece( currentPiece->GetX() , currentPiece->GetY() );
-    }
+
+    if ( nbAttaquant == 0 )     { return e.GetPiece( 0 , 0 ); }
+    else if ( nbAttaquant == 1 ){ return e.GetPiece( coordonneeXAttaquant , coordonneeYAttaquant ); }
+    else                        { return e.GetPiece( currentPiece->GetX() , currentPiece->GetY() ); }
 }
 
 list<int>
@@ -422,16 +445,63 @@ MainWindow::test2(int x, int y, Piece* maPiece, bool tourVertical, bool tourHori
     int nbAttaquant = 0;
     if ( maPiece->Deplace( e , x , y ) )
     {
-        if ( tourVertical && x == maPiece->GetX() )                                                               { nbAttaquant++; }
-        else if ( tourHorizontal && y == maPiece->GetY() )                                                        { nbAttaquant++; }
-        else if ( diagHGFou && maPiece->GetX() < x && maPiece->GetY() < y )                                       { nbAttaquant++; }
-        else if ( diagHDFou && maPiece->GetX() > x && maPiece->GetY() < y )                                       { nbAttaquant++; }
-        else if ( diagBGFou && maPiece->GetX() < currentPiece->GetX() && maPiece->GetY() > currentPiece->GetY() ) { nbAttaquant++; }
-        else if ( diagBDFou && maPiece->GetX() > currentPiece->GetX() && maPiece->GetY() > currentPiece->GetY() ) { nbAttaquant++; }
+        if ( tourVertical && x == maPiece->GetX() )                         { nbAttaquant++; }
+        else if ( tourHorizontal && y == maPiece->GetY() )                  { nbAttaquant++; }
+        else if ( diagHGFou && maPiece->GetX() < x && maPiece->GetY() < y ) { nbAttaquant++; }
+        else if ( diagHDFou && maPiece->GetX() > x && maPiece->GetY() < y ) { nbAttaquant++; }
+        else if ( diagBGFou && maPiece->GetX() < x && maPiece->GetY() > y ) { nbAttaquant++; }
+        else if ( diagBDFou && maPiece->GetX() > x && maPiece->GetY() > y ) { nbAttaquant++; }
         else { nbAttaquant++; }
     }
     return nbAttaquant;
 }
+
+list<string>
+MainWindow::RoadToAttack( int x , int y, Piece* maPiece )
+{
+    list<string> values =  maPiece->DisplayAvailableMovement( e , whitePlay );;
+    list<string> result;
+
+    if ( dynamic_cast<Rook*>( maPiece ) != nullptr )
+    {
+        for (string coordonees : values)
+        {
+            std::vector<std::string> seglist = SplitString( coordonees, '-');
+            try
+            {
+                if ( maPiece->GetX() == x )
+                {
+                    if (  std::stoi( seglist.at( 0 ) ) + 1  == x )
+                        result.push_back( seglist.at( 0 ) + "-" +  seglist.at( 1 ) + "-false" );
+                }
+                else
+                    if (  std::stoi( seglist.at( 1 ) ) + 1 == y )
+                        result.push_back( seglist.at( 0 ) + "-" + seglist.at( 1 ) + "-false" );
+            }  catch (...) {}
+
+        }
+    }
+    else if ( dynamic_cast<Bishop*>( maPiece ) != nullptr )
+        for (string coordonees : values)
+            try
+            {
+                std::vector<std::string> seglist = SplitString( coordonees, '-');
+
+                if ( maPiece->GetX() < x && maPiece->GetY() < y || maPiece->GetX() > x && maPiece->GetY() > y )
+                {
+                    if ( std::stoi( seglist.at(0) ) + 1 < x && std::stoi( seglist.at(1) ) + 1 < y  || std::stoi( seglist.at(0) ) + 1 > x && std::stoi( seglist.at(1) ) + 1 > y || std::stoi( seglist.at(0) ) + 1 == x && std::stoi( seglist.at(1) ) + 1 == y)
+                        result.push_back( seglist.at( 0 ) + "-" + seglist.at( 1 ) + "-false" );
+                }
+                else if ( maPiece->GetX() < x && maPiece->GetY() > y || maPiece->GetX() > x && maPiece->GetY() < y )
+                    if ( std::stoi( seglist.at(0) ) + 1 < x && std::stoi( seglist.at(1) ) + 1 > y  || std::stoi( seglist.at(0) ) + 1 > x && std::stoi( seglist.at(1) ) + 1 < y  || std::stoi( seglist.at(0) ) + 1 == x && std::stoi( seglist.at(1) ) + 1 == y )
+                        result.push_back( seglist.at( 0 ) + "-" + seglist.at( 1 ) + "-false" );
+            } catch (...) {}
+
+    result.push_back( std::to_string( x - 1 ) + "-" + std::to_string( y - 1 )+ "-true" );
+    return result;
+}
+
+
 void
 MainWindow::receiveData( int value )
 {

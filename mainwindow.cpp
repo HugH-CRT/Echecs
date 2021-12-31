@@ -273,7 +273,6 @@ MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
                     else
                     {
                        values = this->RoadToAttack( maPiece->GetX() , maPiece->GetY(), currentPiece );
-
                     }
                     this->SetColor( values );
                 }
@@ -426,7 +425,11 @@ MainWindow::test( Piece* maPiece )
         nbAttaquant += test2( xWhiteKing , yWhiteKing, maPiece , tourVertical,tourHorizontal, diagHGFou, diagHDFou , diagBGFou , diagBDFou );
     }
     else
-        nbAttaquant += test2( xBlackKing , yBlackKing, maPiece, tourVertical,tourHorizontal , diagHGFou, diagHDFou , diagBGFou , diagBDFou );
+    {
+        cout << nbAttaquant << endl;
+        nbAttaquant += test2(  xBlackKing, yBlackKing, maPiece, tourVertical,tourHorizontal , diagHGFou, diagHDFou , diagBGFou , diagBDFou );
+        cout << nbAttaquant << endl;
+    }
 
     maPiece->SetX( tamponX );
     maPiece->SetY( tamponY );
@@ -445,6 +448,7 @@ MainWindow::test2(int x, int y, Piece* maPiece, bool tourVertical, bool tourHori
     int nbAttaquant = 0;
     if ( maPiece->Deplace( e , x , y ) )
     {
+        cout << "yo" << endl;
         if ( tourVertical && x == maPiece->GetX() )                         { nbAttaquant++; }
         else if ( tourHorizontal && y == maPiece->GetY() )                  { nbAttaquant++; }
         else if ( diagHGFou && maPiece->GetX() < x && maPiece->GetY() < y ) { nbAttaquant++; }

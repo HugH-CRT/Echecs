@@ -426,9 +426,7 @@ MainWindow::test( Piece* maPiece )
     }
     else
     {
-        cout << nbAttaquant << endl;
         nbAttaquant += test2(  xBlackKing, yBlackKing, maPiece, tourVertical,tourHorizontal , diagHGFou, diagHDFou , diagBGFou , diagBDFou );
-        cout << nbAttaquant << endl;
     }
 
     maPiece->SetX( tamponX );
@@ -448,14 +446,15 @@ MainWindow::test2(int x, int y, Piece* maPiece, bool tourVertical, bool tourHori
     int nbAttaquant = 0;
     if ( maPiece->Deplace( e , x , y ) )
     {
-        cout << "yo" << endl;
         if ( tourVertical && x == maPiece->GetX() )                         { nbAttaquant++; }
         else if ( tourHorizontal && y == maPiece->GetY() )                  { nbAttaquant++; }
+        else if ( tourVertical || tourHorizontal )                          {  }
         else if ( diagHGFou && maPiece->GetX() < x && maPiece->GetY() < y ) { nbAttaquant++; }
         else if ( diagHDFou && maPiece->GetX() > x && maPiece->GetY() < y ) { nbAttaquant++; }
         else if ( diagBGFou && maPiece->GetX() < x && maPiece->GetY() > y ) { nbAttaquant++; }
         else if ( diagBDFou && maPiece->GetX() > x && maPiece->GetY() > y ) { nbAttaquant++; }
         else { nbAttaquant++; }
+
     }
     return nbAttaquant;
 }

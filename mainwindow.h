@@ -49,6 +49,8 @@ class MainWindow : public QMainWindow
         list<int> test (Piece*);
         int test2 (int ,int, Piece*, bool , bool, bool , bool , bool , bool );
         list<string> RoadToAttack( int , int, Piece* );
+        void test3 (Piece* );
+        void isEnd();
 
     private slots:
         void on_tableViewEchiquier_clicked( const QModelIndex &index );

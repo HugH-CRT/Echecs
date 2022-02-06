@@ -186,43 +186,8 @@ MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
                 }
             //
             e.MovePiece( currentPiece , index.column()+1  , index.row()+1 );
+            isEnd();
 
-            if ( whitePlay )
-            {
-               if ( e.GetPiece( xWhiteKing , yWhiteKing )->GetIsEchec() )  e.GetPiece( xWhiteKing , yWhiteKing )->SetIsEchec();
-               this->SetColor( currentPiece->DisplayAvailableMovement( e , whitePlay ) );
-
-               if ( this->Echec( xBlackKing , yBlackKing ) )
-               {
-                   bool isEchecMat = this->IsEchecMat( currentPiece->CheckAvailableMovementKing( e , xBlackKing , yBlackKing ) );
-
-                   if ( isEchecMat )
-                   {
-                       //Fin de partie
-                   }
-                   e.GetPiece( xBlackKing , yBlackKing )->SetIsEchec();
-               }
-            }
-            else
-            {
-                if ( e.GetPiece( xBlackKing , yBlackKing )->GetIsEchec() )
-                     e.GetPiece( xBlackKing , yBlackKing )->SetIsEchec();
-
-                this->SetColor( currentPiece->DisplayAvailableMovement(e,whitePlay));
-
-                if ( this->Echec( xWhiteKing , yWhiteKing ) )
-                {
-                    bool isEchecMat = this->IsEchecMat( currentPiece->CheckAvailableMovementKing( e , xWhiteKing , yWhiteKing ) );
-
-                    if ( isEchecMat )
-                    {
-                       //  cout << "Echec et mat" << endl;
-                    }
-                    e.GetPiece( xWhiteKing , yWhiteKing )->SetIsEchec();
-                }
-            }
-
-            whitePlay = !whitePlay;
             this->RefreshMatrix(this);
 
             if ( dynamic_cast<Pawn*>(currentPiece) != nullptr && ( index.row()+1 == 8 || index.row()+1 == 1 ) )
@@ -231,52 +196,20 @@ MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
                 pageUpgrade.setModal( true );
                 pageUpgrade.exec();
             }
+            else
+            {
+                whitePlay = !whitePlay;
+            }
         }
     }
     else
     {
         currentPiece = e.GetPiece(  index.column()+1  , index.row()+1 );
         this->RefreshMatrix(this);
-
         if ( currentPiece != nullptr )
         {
             Piece *maPiece = this->DoomTheKing();
-
-            if ( maPiece == nullptr )
-            {
-                if ( dynamic_cast<King*>(currentPiece) != nullptr )
-                {
-                    this->SetColor( this->WithdrawUnacceptedMoveKing( currentPiece->DisplayAvailableMovement(e,whitePlay) ) );
-                    this->SetColorForCastling();
-                }
-                else
-                  this->SetColor( currentPiece->DisplayAvailableMovement(e,whitePlay) );
-            }
-            else if ( maPiece != currentPiece )
-            {
-                if ( currentPiece->Deplace( e , maPiece->GetX() , maPiece->GetY() ) )
-                {
-                    list<string> values;
-                    if ( dynamic_cast<Queen*>(currentPiece) != nullptr )
-                    {
-                        Bishop monFou = Bishop( currentPiece->GetX() , currentPiece->GetY() , currentPiece->GetIsWhite() , true ,true , "" );
-                        Piece* PieceFou = &monFou;
-                        values = this->RoadToAttack( maPiece->GetX() , maPiece->GetY(), PieceFou );
-
-                        if ( values.size() == 1)
-                        {
-                            Rook maTour   = Rook( currentPiece->GetX(), currentPiece->GetY(), currentPiece->GetIsWhite() , true , true , "" );
-                            Piece* PieceTour = &maTour;
-                            values = this->RoadToAttack( maPiece->GetX() , maPiece->GetY(), PieceTour );
-                        }
-                    }
-                    else
-                    {
-                       values = this->RoadToAttack( maPiece->GetX() , maPiece->GetY(), currentPiece );
-                    }
-                    this->SetColor( values );
-                }
-            }
+            test3(maPiece);
         }
     }
 }
@@ -421,15 +354,9 @@ MainWindow::test( Piece* maPiece )
     maPiece->SetY( currentPiece->GetY() );
 
     if ( currentPiece->GetIsWhite() )
-    {
         nbAttaquant += test2( xWhiteKing , yWhiteKing, maPiece , tourVertical,tourHorizontal, diagHGFou, diagHDFou , diagBGFou , diagBDFou );
-    }
     else
-    {
-        cout << nbAttaquant << endl;
         nbAttaquant += test2(  xBlackKing, yBlackKing, maPiece, tourVertical,tourHorizontal , diagHGFou, diagHDFou , diagBGFou , diagBDFou );
-        cout << nbAttaquant << endl;
-    }
 
     maPiece->SetX( tamponX );
     maPiece->SetY( tamponY );
@@ -448,7 +375,6 @@ MainWindow::test2(int x, int y, Piece* maPiece, bool tourVertical, bool tourHori
     int nbAttaquant = 0;
     if ( maPiece->Deplace( e , x , y ) )
     {
-        cout << "yo" << endl;
         if ( tourVertical && x == maPiece->GetX() )                         { nbAttaquant++; }
         else if ( tourHorizontal && y == maPiece->GetY() )                  { nbAttaquant++; }
         else if ( diagHGFou && maPiece->GetX() < x && maPiece->GetY() < y ) { nbAttaquant++; }
@@ -458,6 +384,48 @@ MainWindow::test2(int x, int y, Piece* maPiece, bool tourVertical, bool tourHori
         else { nbAttaquant++; }
     }
     return nbAttaquant;
+}
+
+
+void
+MainWindow::test3 (Piece* maPiece )
+{
+    if ( maPiece == nullptr )
+    {
+        if ( dynamic_cast<King*>(currentPiece) != nullptr )
+        {
+            this->SetColor( this->WithdrawUnacceptedMoveKing( currentPiece->DisplayAvailableMovement(e,whitePlay) ) );
+            this->SetColorForCastling();
+        }
+        else
+          this->SetColor( currentPiece->DisplayAvailableMovement(e,whitePlay) );
+    }
+    else if ( maPiece != currentPiece )
+    {
+
+        if ( currentPiece->Deplace( e , maPiece->GetX() , maPiece->GetY() ) )
+        {
+            list<string> values;
+            if ( dynamic_cast<Queen*>(currentPiece) != nullptr )
+            {
+                Bishop monFou = Bishop( currentPiece->GetX() , currentPiece->GetY() , currentPiece->GetIsWhite() , true ,true , "" );
+                Piece* PieceFou = &monFou;
+                values = this->RoadToAttack( maPiece->GetX() , maPiece->GetY(), PieceFou );
+
+                if ( values.size() == 1)
+                {
+                    Rook maTour   = Rook( currentPiece->GetX(), currentPiece->GetY(), currentPiece->GetIsWhite() , true , true , "" );
+                    Piece* PieceTour = &maTour;
+                    values = this->RoadToAttack( maPiece->GetX() , maPiece->GetY(), PieceTour );
+                }
+            }
+            else
+            {
+               values = this->RoadToAttack( maPiece->GetX() , maPiece->GetY(), currentPiece );
+            }
+            this->SetColor( values );
+        }
+    }
 }
 
 list<string>
@@ -505,6 +473,46 @@ MainWindow::RoadToAttack( int x , int y, Piece* maPiece )
     return result;
 }
 
+void
+MainWindow::isEnd()
+{
+    if ( whitePlay )
+    {
+       if ( e.GetPiece( xWhiteKing , yWhiteKing )->GetIsEchec() )  e.GetPiece( xWhiteKing , yWhiteKing )->SetIsEchec();
+       this->SetColor( currentPiece->DisplayAvailableMovement( e , whitePlay ) );
+
+       if ( this->Echec( xBlackKing , yBlackKing ) )
+       {
+           bool isEchecMat = this->IsEchecMat( currentPiece->CheckAvailableMovementKing( e , xBlackKing , yBlackKing ) );
+
+           if ( isEchecMat )
+           {
+               cout << "Echec et mat" << endl;
+               //Fin de partie
+           }
+           e.GetPiece( xBlackKing , yBlackKing )->SetIsEchec();
+       }
+    }
+    else
+    {
+        if ( e.GetPiece( xBlackKing , yBlackKing )->GetIsEchec() )
+             e.GetPiece( xBlackKing , yBlackKing )->SetIsEchec();
+
+        this->SetColor( currentPiece->DisplayAvailableMovement(e,whitePlay));
+
+        if ( this->Echec( xWhiteKing , yWhiteKing ) )
+        {
+            bool isEchecMat = this->IsEchecMat( currentPiece->CheckAvailableMovementKing( e , xWhiteKing , yWhiteKing ) );
+
+            if ( isEchecMat )
+            {
+               cout << "Echec et mat" << endl;
+            }
+            e.GetPiece( xWhiteKing , yWhiteKing )->SetIsEchec();
+        }
+    }
+    this->RefreshMatrix(this);
+}
 
 void
 MainWindow::receiveData( int value )
@@ -513,24 +521,34 @@ MainWindow::receiveData( int value )
     {
         Rook *myRook = new Rook(currentPiece->GetX(), currentPiece->GetY(),currentPiece->GetIsWhite(),true, true, currentPiece->GetIsWhite() ? ":/img/white/assets/white/rook.png" : ":/img/black/assets/black/rook.png" );
         e.MovePiece(myRook,currentPiece->GetX() , currentPiece->GetY());
+        currentPiece = myRook;
     }
     else if (value == 2 )
     {
         Bishop * myBishop = new Bishop(currentPiece->GetX(), currentPiece->GetY(),currentPiece->GetIsWhite(),true, true, currentPiece->GetIsWhite() ? ":/img/white/assets/white/bishop.png" : ":/img/black/assets/black/bishop.png" );
         e.MovePiece(myBishop,currentPiece->GetX() , currentPiece->GetY());
+        currentPiece = myBishop;
     }
     else if ( value == 3 )
     {
         Knight* myKnight = new Knight(currentPiece->GetX(), currentPiece->GetY(),currentPiece->GetIsWhite(),true, true, currentPiece->GetIsWhite() ? ":/img/white/assets/white/knight.png" : ":/img/black/assets/black/knight.png" );
         e.MovePiece(myKnight,currentPiece->GetX() , currentPiece->GetY());
+        currentPiece = myKnight;
     }
     else
     {
         Queen* myQueen = new Queen(currentPiece->GetX(), currentPiece->GetY(),currentPiece->GetIsWhite(),true, true, currentPiece->GetIsWhite() ? ":/img/white/assets/white/queen.png" : ":/img/black/assets/black/queen.png" );
         e.MovePiece(myQueen,currentPiece->GetX() , currentPiece->GetY());
+        currentPiece = myQueen;
     }
 
-    this->RefreshMatrix(this);
+    isEnd();
+    whitePlay = !whitePlay;
+    QPixmap monImage = ( whitePlay ? QPixmap ( ":/img/white/assets/white/pawn.png" ) : QPixmap ( ":/img/black/assets/black/pawn.png" ) );
+
+    ui->TourLabel->setAlignment( Qt::AlignCenter );
+    ui->TourLabel->setPixmap( monImage );
+
 }
 
 void

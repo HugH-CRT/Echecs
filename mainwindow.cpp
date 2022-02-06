@@ -889,9 +889,9 @@ MainWindow::ActFenetreDefault()
     ui->tableViewEchiquier->setGeometry(50, 140, 682, 682);
 
     /** TableViewWhite **/
-    ui->view_PionBlanc->setGeometry(0, 0 , 10, 10);
+    ui->view_PionBlanc->setGeometry(50, 90 , 682, 43);
     /** TableViewBlack **/
-    ui->view_PionNoir->setGeometry(0, 0 , 10, 10);
+    ui->view_PionNoir->setGeometry(50, 830 , 682, 43);
 }
 
 /**

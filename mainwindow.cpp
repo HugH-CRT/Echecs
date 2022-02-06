@@ -356,7 +356,9 @@ MainWindow::test( Piece* maPiece )
     if ( currentPiece->GetIsWhite() )
         nbAttaquant += test2( xWhiteKing , yWhiteKing, maPiece , tourVertical,tourHorizontal, diagHGFou, diagHDFou , diagBGFou , diagBDFou );
     else
+    {
         nbAttaquant += test2(  xBlackKing, yBlackKing, maPiece, tourVertical,tourHorizontal , diagHGFou, diagHDFou , diagBGFou , diagBDFou );
+    }
 
     maPiece->SetX( tamponX );
     maPiece->SetY( tamponY );
@@ -377,11 +379,13 @@ MainWindow::test2(int x, int y, Piece* maPiece, bool tourVertical, bool tourHori
     {
         if ( tourVertical && x == maPiece->GetX() )                         { nbAttaquant++; }
         else if ( tourHorizontal && y == maPiece->GetY() )                  { nbAttaquant++; }
+        else if ( tourVertical || tourHorizontal )                          {  }
         else if ( diagHGFou && maPiece->GetX() < x && maPiece->GetY() < y ) { nbAttaquant++; }
         else if ( diagHDFou && maPiece->GetX() > x && maPiece->GetY() < y ) { nbAttaquant++; }
         else if ( diagBGFou && maPiece->GetX() < x && maPiece->GetY() > y ) { nbAttaquant++; }
         else if ( diagBDFou && maPiece->GetX() > x && maPiece->GetY() > y ) { nbAttaquant++; }
         else { nbAttaquant++; }
+
     }
     return nbAttaquant;
 }
@@ -877,8 +881,17 @@ MainWindow::closeEvent (QCloseEvent *event)
 void
 MainWindow::ActFenetreDefault()
 {
+    /** MainWindow **/
     this->setMaximumSize(1080, 950);
-    this->setGeometry(420, 30, 1080, 950);
+    this->setGeometry(420, 60, 1080, 950);
+
+    /** Echequier **/
+    ui->tableViewEchiquier->setGeometry(50, 140, 682, 682);
+
+    /** TableViewWhite **/
+    ui->view_PionBlanc->setGeometry(0, 0 , 10, 10);
+    /** TableViewBlack **/
+    ui->view_PionNoir->setGeometry(0, 0 , 10, 10);
 }
 
 /**
@@ -887,8 +900,12 @@ MainWindow::ActFenetreDefault()
 void
 MainWindow::ActFenetreFullscreen()
 {
+    /** MainWindow **/
     this->setMaximumSize(1920,1080);
     this->setGeometry(0, 0, 1920, 1080);
+
+    /** Echequier **/
+    ui->tableViewEchiquier->setGeometry(100,50 , 900, 900);
 }
 
 /**
@@ -897,8 +914,12 @@ MainWindow::ActFenetreFullscreen()
 void
 MainWindow::ActFenetreFullFenetrer()
 {
+    /** MainWindow **/
     this->setMaximumSize(1920,1080);
     this->setGeometry(0, 30, 1920, 1050);
+
+    /** Echequier **/
+    ui->tableViewEchiquier->setGeometry(100,50 , 850, 850);
 }
 
 /**

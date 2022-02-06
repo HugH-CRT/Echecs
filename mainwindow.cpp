@@ -210,11 +210,16 @@ MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
         if ( currentPiece != nullptr && currentPiece->GetIsWhite() == whitePlay)
         {         
             Piece *maPiece = this->DoomTheKing();
-            test3(maPiece);
+            MouvementPossibleLorsqueAttaquant(maPiece);
         }
     }
 }
 
+/**
+ * @brief MainWindow::WithdrawUnacceptedMoveKing
+ * @param values
+ * @return
+ */
 list<string>
 MainWindow::WithdrawUnacceptedMoveKing(list<string> values)
 {
@@ -263,6 +268,10 @@ MainWindow::WithdrawUnacceptedMoveKing(list<string> values)
     return acceptedMovement;
 }
 
+/**
+ * @brief MainWindow::DoomTheKing
+ * @return
+ */
 Piece*
 MainWindow::DoomTheKing()
 {
@@ -320,6 +329,11 @@ MainWindow::DoomTheKing()
     else                        { return e.GetPiece( currentPiece->GetX() , currentPiece->GetY() ); }
 }
 
+/**
+ * @brief MainWindow::PredictionReineEat
+ * @param maPiece
+ * @return
+ */
 list<int>
 MainWindow::PredictionReineEat( Piece* maPiece )
 {
@@ -355,24 +369,15 @@ MainWindow::PredictionReineEat( Piece* maPiece )
     maPiece->SetY( currentPiece->GetY() );
 
     if ( currentPiece->GetIsWhite() )
-<<<<<<< Updated upstream
-        if ( currentPiece->GetX() == xWhiteKing &&  currentPiece->GetY() == yWhiteKing )
-            nbAttaquant++;
-        else
-             nbAttaquant += test2( xWhiteKing , yWhiteKing, maPiece , tourVertical,tourHorizontal, diagHGFou, diagHDFou , diagBGFou , diagBDFou );
-    else
-    {
-        if ( currentPiece->GetX() == xWhiteKing &&  currentPiece->GetY() == yWhiteKing )
-            nbAttaquant++;
-        else
-            nbAttaquant += test2(  xBlackKing, yBlackKing, maPiece, tourVertical,tourHorizontal , diagHGFou, diagHDFou , diagBGFou , diagBDFou );
 
-=======
+        if ( currentPiece->GetX() == xWhiteKing &&  currentPiece->GetY() == yWhiteKing )
+            nbAttaquant++;
+        else
+
         nbAttaquant += DeterminationNbAttaquant( xWhiteKing , yWhiteKing, maPiece , tourVertical,tourHorizontal, diagHGFou, diagHDFou , diagBGFou , diagBDFou );
     else
     {
         nbAttaquant += DeterminationNbAttaquant(  xBlackKing, yBlackKing, maPiece, tourVertical,tourHorizontal , diagHGFou, diagHDFou , diagBGFou , diagBDFou );
->>>>>>> Stashed changes
     }
 
     maPiece->SetX( tamponX );
@@ -386,6 +391,19 @@ MainWindow::PredictionReineEat( Piece* maPiece )
     return values;
 }
 
+/**
+ * @brief MainWindow::DeterminationNbAttaquant
+ * @param x
+ * @param y
+ * @param maPiece
+ * @param tourVertical
+ * @param tourHorizontal
+ * @param diagHGFou
+ * @param diagHDFou
+ * @param diagBGFou
+ * @param diagBDFou
+ * @return
+ */
 int
 MainWindow::DeterminationNbAttaquant(int x, int y, Piece* maPiece, bool tourVertical, bool tourHorizontal, bool diagHGFou, bool diagHDFou, bool diagBGFou, bool diagBDFou )
 {
@@ -407,7 +425,7 @@ MainWindow::DeterminationNbAttaquant(int x, int y, Piece* maPiece, bool tourVert
 
 
 void
-MainWindow::test3 (Piece* maPiece )
+MainWindow::MouvementPossibleLorsqueAttaquant (Piece* maPiece )
 {
     if ( maPiece == nullptr )
     {

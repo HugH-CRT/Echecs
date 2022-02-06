@@ -776,12 +776,7 @@ Pawn::Deplace( ChessBoard &e, int x, int y )
     }
     else
     {
-<<<<<<< Updated upstream
-=======
-
         cout << "test" << endl;
->>>>>>> Stashed changes
-        if( this->p_x == x || this->p_x - 1 == x && this->p_y - 1 == y || this->p_x + 1 == x && this->p_y - 1 == y )
 
         if( this->p_x == x || this->p_x - 1 == x && this->p_y + 1 == y || this->p_x - 1 == x && this->p_y - 1 == y )
         {

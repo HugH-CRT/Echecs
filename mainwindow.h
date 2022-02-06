@@ -49,7 +49,7 @@ class MainWindow : public QMainWindow
         list<int> PredictionReineEat (Piece*);
         int DeterminationNbAttaquant (int ,int, Piece*, bool , bool, bool , bool , bool , bool );
         list<string> RoadToAttack( int , int, Piece* );
-        void test3 (Piece* );
+        void MouvementPossibleLorsqueAttaquant (Piece* );
         void isEnd();
 
     private slots:

@@ -858,8 +858,17 @@ MainWindow::closeEvent (QCloseEvent *event)
 void
 MainWindow::ActFenetreDefault()
 {
+    /** MainWindow **/
     this->setMaximumSize(1080, 950);
-    this->setGeometry(420, 30, 1080, 950);
+    this->setGeometry(420, 60, 1080, 950);
+
+    /** Echequier **/
+    ui->tableViewEchiquier->setGeometry(50, 140, 682, 682);
+
+    /** TableViewWhite **/
+    ui->view_PionBlanc->setGeometry(0, 0 , 10, 10);
+    /** TableViewBlack **/
+    ui->view_PionNoir->setGeometry(0, 0 , 10, 10);
 }
 
 /**
@@ -868,8 +877,12 @@ MainWindow::ActFenetreDefault()
 void
 MainWindow::ActFenetreFullscreen()
 {
+    /** MainWindow **/
     this->setMaximumSize(1920,1080);
     this->setGeometry(0, 0, 1920, 1080);
+
+    /** Echequier **/
+    ui->tableViewEchiquier->setGeometry(100,50 , 900, 900);
 }
 
 /**
@@ -878,8 +891,12 @@ MainWindow::ActFenetreFullscreen()
 void
 MainWindow::ActFenetreFullFenetrer()
 {
+    /** MainWindow **/
     this->setMaximumSize(1920,1080);
     this->setGeometry(0, 30, 1920, 1050);
+
+    /** Echequier **/
+    ui->tableViewEchiquier->setGeometry(100,50 , 850, 850);
 }
 
 /**

@@ -776,15 +776,12 @@ Pawn::Deplace( ChessBoard &e, int x, int y )
     }
     else
     {
-        cout << "test" << endl;
         if( this->p_x == x || this->p_x - 1 == x && this->p_y - 1 == y || this->p_x + 1 == x && this->p_y - 1 == y )
         {
-            cout << "test2" << endl;
             Piece *maPiece = e.GetPiece(x,y);
 
             if ( ( p_firstMove && y == this->p_y - 2 || y == this->p_y - 1 )  || ( !p_firstMove &&  y == this->p_y - 1 ) )
             {
-                cout << "test3" << endl;
                 if (maPiece == nullptr ){ p_firstMove = false; return true; }
                 else if( this->p_x - 1 == x && this->p_y - 1 == y || this->p_x + 1 == x && this->p_y - 1 == y ) { return true; }
             }

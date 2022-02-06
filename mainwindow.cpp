@@ -184,7 +184,7 @@ MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
                         e.MovePiece( e.GetPiece( 1 , 8 ) , 4 , 8 );
                     }
                 }
-            //
+
             e.MovePiece( currentPiece , index.column()+1  , index.row()+1 );
             isEnd();
 
@@ -199,6 +199,7 @@ MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
             else
             {
                 whitePlay = !whitePlay;
+                this->RefreshMatrix(this);
             }
         }
     }
@@ -206,8 +207,8 @@ MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
     {
         currentPiece = e.GetPiece(  index.column()+1  , index.row()+1 );
         this->RefreshMatrix(this);
-        if ( currentPiece != nullptr )
-        {
+        if ( currentPiece != nullptr && currentPiece->GetIsWhite() == whitePlay)
+        {         
             Piece *maPiece = this->DoomTheKing();
             test3(maPiece);
         }
@@ -354,10 +355,17 @@ MainWindow::test( Piece* maPiece )
     maPiece->SetY( currentPiece->GetY() );
 
     if ( currentPiece->GetIsWhite() )
-        nbAttaquant += test2( xWhiteKing , yWhiteKing, maPiece , tourVertical,tourHorizontal, diagHGFou, diagHDFou , diagBGFou , diagBDFou );
+        if ( currentPiece->GetX() == xWhiteKing &&  currentPiece->GetY() == yWhiteKing )
+            nbAttaquant++;
+        else
+             nbAttaquant += test2( xWhiteKing , yWhiteKing, maPiece , tourVertical,tourHorizontal, diagHGFou, diagHDFou , diagBGFou , diagBDFou );
     else
     {
-        nbAttaquant += test2(  xBlackKing, yBlackKing, maPiece, tourVertical,tourHorizontal , diagHGFou, diagHDFou , diagBGFou , diagBDFou );
+        if ( currentPiece->GetX() == xWhiteKing &&  currentPiece->GetY() == yWhiteKing )
+            nbAttaquant++;
+        else
+            nbAttaquant += test2(  xBlackKing, yBlackKing, maPiece, tourVertical,tourHorizontal , diagHGFou, diagHDFou , diagBGFou , diagBDFou );
+
     }
 
     maPiece->SetX( tamponX );

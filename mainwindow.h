@@ -46,8 +46,8 @@ class MainWindow : public QMainWindow
         void SetColorForCastling();
         Piece* DoomTheKing();
         list<string> WithdrawUnacceptedMoveKing(list<string> values);
-        list<int> test (Piece*);
-        int test2 (int ,int, Piece*, bool , bool, bool , bool , bool , bool );
+        list<int> PredictionReineEat (Piece*);
+        int DeterminationNbAttaquant (int ,int, Piece*, bool , bool, bool , bool , bool , bool );
         list<string> RoadToAttack( int , int, Piece* );
         void test3 (Piece* );
         void isEnd();

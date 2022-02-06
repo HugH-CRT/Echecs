@@ -281,7 +281,7 @@ MainWindow::DoomTheKing()
                 values.clear();
                 if ( e.GetTab()[j]->Deplace( e , currentPiece->GetX() , currentPiece->GetY() ) && dynamic_cast<Queen*>(e.GetTab()[j]) == nullptr )
                 {
-                    values = test( e.GetTab()[j] ) ;
+                    values = PredictionReineEat( e.GetTab()[j] ) ;
                 }
                 else if ( dynamic_cast<Queen*>(e.GetTab()[j]) != nullptr )
                 {
@@ -289,14 +289,14 @@ MainWindow::DoomTheKing()
                     Piece* PieceFou = &monFou;
 
                     if ( monFou.Deplace( e , currentPiece->GetX() , currentPiece->GetY() ) )
-                        values = test( PieceFou ) ;
+                        values = PredictionReineEat( PieceFou ) ;
 
                     Rook maTour   = Rook( e.GetTab()[j]->GetX(), e.GetTab()[j]->GetY(), e.GetTab()[j]->GetIsWhite() , true , true , "" );
                     Piece* PieceTour = &maTour;
 
                     if ( maTour.Deplace( e ,currentPiece->GetX() , currentPiece->GetY() ) )
                     {
-                       list<int> result = test( PieceTour );
+                       list<int> result = PredictionReineEat( PieceTour );
                        if ( result.size() > 0 )
                            values = result;
                     }
@@ -321,7 +321,7 @@ MainWindow::DoomTheKing()
 }
 
 list<int>
-MainWindow::test( Piece* maPiece )
+MainWindow::PredictionReineEat( Piece* maPiece )
 {
     int nbAttaquant = 0;
     int tamponX = maPiece->GetX();
@@ -355,6 +355,7 @@ MainWindow::test( Piece* maPiece )
     maPiece->SetY( currentPiece->GetY() );
 
     if ( currentPiece->GetIsWhite() )
+<<<<<<< Updated upstream
         if ( currentPiece->GetX() == xWhiteKing &&  currentPiece->GetY() == yWhiteKing )
             nbAttaquant++;
         else
@@ -366,6 +367,12 @@ MainWindow::test( Piece* maPiece )
         else
             nbAttaquant += test2(  xBlackKing, yBlackKing, maPiece, tourVertical,tourHorizontal , diagHGFou, diagHDFou , diagBGFou , diagBDFou );
 
+=======
+        nbAttaquant += DeterminationNbAttaquant( xWhiteKing , yWhiteKing, maPiece , tourVertical,tourHorizontal, diagHGFou, diagHDFou , diagBGFou , diagBDFou );
+    else
+    {
+        nbAttaquant += DeterminationNbAttaquant(  xBlackKing, yBlackKing, maPiece, tourVertical,tourHorizontal , diagHGFou, diagHDFou , diagBGFou , diagBDFou );
+>>>>>>> Stashed changes
     }
 
     maPiece->SetX( tamponX );
@@ -380,7 +387,7 @@ MainWindow::test( Piece* maPiece )
 }
 
 int
-MainWindow::test2(int x, int y, Piece* maPiece, bool tourVertical, bool tourHorizontal, bool diagHGFou, bool diagHDFou, bool diagBGFou, bool diagBDFou )
+MainWindow::DeterminationNbAttaquant(int x, int y, Piece* maPiece, bool tourVertical, bool tourHorizontal, bool diagHGFou, bool diagHDFou, bool diagBGFou, bool diagBDFou )
 {
     int nbAttaquant = 0;
     if ( maPiece->Deplace( e , x , y ) )

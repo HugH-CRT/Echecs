@@ -922,6 +922,7 @@ MainWindow::ActFenetreFullFenetrer()
     ui->tableViewEchiquier->setGeometry(100,50 , 850, 850);
 }
 
+// TODO : Traduction de l'application ( non prioritaire )
 /**
  * @brief MainWindow::ActLangueFrancais
  */

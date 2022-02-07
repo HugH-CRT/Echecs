@@ -210,14 +210,15 @@ MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
         int xKing = ( whitePlay ? xWhiteKing : xBlackKing);
         int yKing = ( whitePlay ? yWhiteKing : yBlackKing);
 
-        if ( e.GetPiece( xKing , yKing )->GetIsEchec() )
+        if ( currentPiece != nullptr && currentPiece->GetIsWhite() == whitePlay )
         {
-            setPathToSaveTheKing( xKing , yKing );
-        }
-        else if ( currentPiece != nullptr && currentPiece->GetIsWhite() == whitePlay )
-        {         
-            Piece *maPiece = this->DoomTheKing();         
+            Piece *maPiece = this->DoomTheKing();
             MouvementPossibleLorsqueAttaquant(maPiece);
+
+            if ( e.GetPiece( xKing , yKing )->GetIsEchec() &&  dynamic_cast<King*>(currentPiece) == nullptr)
+            {
+                setPathToSaveTheKing( xKing , yKing );
+            }
         }
     }
 }
@@ -229,17 +230,18 @@ MainWindow::setPathToSaveTheKing( int xKing , int yKing )
      list<string> acceptedMovement;
      int saveXPiece = currentPiece->GetX();
      int saveYPiece = currentPiece->GetY();
+     bool end = false;
 
      //Parcours toutes les cases du plateau
-     for ( int i = 0; i < 8; i++)
+     for ( int i = 1; i < 9; i++)
      {
-         for ( int j = 0; j < 8; j++)
+         for ( int j = 1; j < 9; j++)
          {
              //On ne check pas le roi qui est evidemment rouge
-             if ( i != xKing && j != yKing )
+             if ( ( i != xKing && j != yKing ) || !end )
              {
                  // Check les couleurs
-                 QModelIndex index = model->index( i - 1,j - 1 , QModelIndex() );
+                 QModelIndex index = model->index( j - 1 , i - 1 , QModelIndex() );
                  QVariant selectedCell      = model->data( index, Qt::BackgroundRole );
                  QColor colorOfSelectedCell = selectedCell.value<QColor>();
 
@@ -252,12 +254,15 @@ MainWindow::setPathToSaveTheKing( int xKing , int yKing )
                     e.MovePiece( currentPiece , i , j );
 
                     //Récupère la liste des mouvement du roi
-                    list<string> kingMovement = currentPiece->CheckAvailableMovementKing( e , xKing , yKing );
+                    Piece* attaquant = this->DoomTheKing();
 
                     //Si le roi peut de nouveau bouger alors le déplacement était valide
-                    if ( kingMovement.size() != 0 )
-                      acceptedMovement.push_back( std::to_string( i - 1 ) + "-" + std::to_string( j - 1 ) + "-true" );
 
+                    if ( attaquant != nullptr && attaquant->GetX() != 0 && attaquant->GetY() != 0 )
+                    {
+                      acceptedMovement.push_back( std::to_string( i - 1 ) + "-" + std::to_string( j - 1 ) + "-true" );
+                      end = true;
+                    }
                  }
              }
          }
@@ -266,6 +271,7 @@ MainWindow::setPathToSaveTheKing( int xKing , int yKing )
      //On replace la piece courante à sa position d'origine
      e.MovePiece( currentPiece , saveXPiece , saveYPiece );
 
+     this->RefreshMatrix(this);
      //On affiche les cases en bleue
      this->SetColor( acceptedMovement );
 
@@ -485,7 +491,6 @@ MainWindow::MouvementPossibleLorsqueAttaquant (Piece* maPiece )
 {
     if ( maPiece == nullptr )
     {
-        cout << "null";
         if ( dynamic_cast<King*>(currentPiece) != nullptr )
         {
             this->SetColor( this->WithdrawUnacceptedMoveKing( currentPiece->DisplayAvailableMovement(e,whitePlay) ) );

@@ -604,7 +604,6 @@ Rook::Deplace( ChessBoard &e, int x, int y )
         //Si on va à en bas
         if( p_x == x && p_y < y )
         {
-            cout << p_y+1 << " et : " << y - 1 << endl;
             for ( int i = p_y + 1; i <= y - 1  ; i++)
             {
                 Piece *maPiece = e.GetPiece(x,i);
@@ -776,7 +775,6 @@ Pawn::Deplace( ChessBoard &e, int x, int y )
     }
     else
     {
-        cout << "test" << endl;
 
         if( this->p_x == x || this->p_x - 1 == x && this->p_y + 1 == y || this->p_x - 1 == x && this->p_y - 1 == y )
         {

@@ -101,6 +101,7 @@ private:
 
         Piece* OldPiece = nullptr;
         Piece* TempPiece = nullptr;
+
 };
 
 #endif

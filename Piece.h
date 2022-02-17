@@ -35,6 +35,7 @@ class Piece
     int          GetY();
     void         SetX( int x );
     void         SetY( int y );
+    void         SetFirstMove( bool );
     bool         GetIsWhite();
     bool         GetFirstMove();
     bool         GetIsEchec();

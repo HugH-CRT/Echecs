@@ -239,7 +239,6 @@ MainWindow::KingEscape(Piece* maPiece)
     list<string> movementKing = currentPiece->CheckAvailableMovementKing( e, currentPiece->GetX(), currentPiece->GetY() );
 
     TempPiece = currentPiece;
-
     for (string coordonees : movementKing)
     {
         std::vector<std::string> seglist = SplitString( coordonees, '-');
@@ -247,18 +246,15 @@ MainWindow::KingEscape(Piece* maPiece)
         int x = std::stoi( seglist.at(0) ) + 1;
 
         if ( OldPiece != nullptr)
-        {
-            e.PlacePiece( OldPiece );
-        }
+            e.MovePiece( OldPiece,OldPiece->GetX(),OldPiece->GetY() );
 
         if ( e.GetPiece( x , y) != nullptr)
         {
-            cout << x << y <<endl;
             OldPiece = e.GetPiece( x , y );
         }
 
-       //Deplace la piece sur la case bleue
        e.MovePiece( currentPiece , x , y );
+
        refreshKing(currentPiece->GetX(),currentPiece->GetY());
 
        Piece* attaquant = this->DoomTheKing();
@@ -269,19 +265,17 @@ MainWindow::KingEscape(Piece* maPiece)
             acceptedMovement.push_back( std::to_string( x - 1 ) + "-" + std::to_string( y - 1 ) + "-true" );
     }
 
-    if ( OldPiece != nullptr)
-    {
-        cout << "test" << endl;
-        cout << OldPiece->GetX() << OldPiece->GetY() << endl;
-        e.PlacePiece(OldPiece);
-    }
+    //Ne surtout pas inverser les 2 prochaines instructions !!
 
-    cout << "Replace" << saveXPiece << saveYPiece << endl;
     //On replace la piece courante à sa position d'origine
     e.MovePiece( currentPiece , saveXPiece , saveYPiece );
 
+    if ( OldPiece != nullptr)
+    {
+        e.MovePiece( OldPiece, OldPiece->GetX(), OldPiece->GetY());
+    }
+
     refreshKing(currentPiece->GetX(),currentPiece->GetY());
-    this->RefreshMatrix(this);
 
     this->SetColor(acceptedMovement);
 }
@@ -308,6 +302,15 @@ MainWindow::setPathToSaveTheKing( int xKing , int yKing )
      int saveXPiece = currentPiece->GetX();
      int saveYPiece = currentPiece->GetY();
      bool end = false;
+     bool isPawn = false;
+     bool firstMove = false;
+     this->SetColor( currentPiece->DisplayAvailableMovement(e,whitePlay)  );
+
+     if ( dynamic_cast<Pawn*>(currentPiece) != nullptr )
+     {
+         isPawn = true;
+         firstMove = currentPiece->GetFirstMove();
+     }
 
      //Parcours toutes les cases du plateau
      for ( int i = 1; i < 9; i++)
@@ -315,7 +318,7 @@ MainWindow::setPathToSaveTheKing( int xKing , int yKing )
          for ( int j = 1; j < 9; j++)
          {
              //On ne check pas le roi qui est evidemment rouge
-             if ( ( i != xKing && j != yKing ) || !end )
+             if ( ( i != xKing && j != yKing ) && !end )
              {
                  // Check les couleurs
                  QModelIndex index = model->index( j - 1 , i - 1 , QModelIndex() );
@@ -327,7 +330,7 @@ MainWindow::setPathToSaveTheKing( int xKing , int yKing )
                  //Si c'est coloré = mouvement possible de la piece
                  if ( isBlue )
                  {
-                     TempPiece = currentPiece;
+                     cout << "Bleu" << endl;
                      if ( OldPiece != nullptr)
                      {
                          e.PlacePiece( OldPiece);
@@ -335,39 +338,65 @@ MainWindow::setPathToSaveTheKing( int xKing , int yKing )
 
                      if ( e.GetPiece( i , j) != nullptr)
                      {
-                       OldPiece = e.GetPiece( i , j);
+                         OldPiece = e.GetPiece( i , j);
                      }
 
                     //Deplace la piece sur la case bleue
-                    e.MovePiece( TempPiece , i , j );
+                    e.MovePiece( currentPiece , i , j );
 
-                    //Récupère la liste des mouvement du roi
                     Piece* attaquant = this->DoomTheKing();
 
                     //Si le roi peut de nouveau bouger alors le déplacement était valide
 
                     if ( attaquant != nullptr && attaquant->GetX() != 0 && attaquant->GetY() != 0 )
                     {
-                      acceptedMovement.push_back( std::to_string( i - 1 ) + "-" + std::to_string( j - 1 ) + "-true" );
+                      cout << "Reprise" << endl;
+                      acceptedMovement.push_back( std::to_string( i - 1 ) + "-" + std::to_string( j - 1 ) + "-false" );
                       end = true;
+                    }
+                    else if ( attaquant == nullptr )
+                    {
+                        int xKing = ( whitePlay ? xWhiteKing : xBlackKing);
+                        int yKing = ( whitePlay ? yWhiteKing : yBlackKing);
+
+                        currentPiece->SetX(xKing);
+                        currentPiece->SetY(yKing);
+
+                        Piece* attaquant = this->DoomTheKing();
+
+                        currentPiece->SetX(i);
+                        currentPiece->SetY(j);
+
+                        if ( attaquant == nullptr )
+                        {
+                            acceptedMovement.push_back( std::to_string( i - 1 ) + "-" + std::to_string( j - 1 ) + "-true" );
+                            end = true;
+                        }
                     }
                  }
              }
          }
      }
 
+
+     //On replace la piece courante à sa position d'origine
+     e.MovePiece( currentPiece , saveXPiece , saveYPiece );
+
+
      if ( OldPiece != nullptr)
      {
          e.MovePiece( OldPiece, OldPiece->GetX(), OldPiece->GetY());
      }
 
-     //On replace la piece courante à sa position d'origine
-     e.MovePiece( currentPiece , saveXPiece , saveYPiece );
+     if ( isPawn )
+     {
+        currentPiece->SetFirstMove(firstMove);
+     }
+
 
      this->RefreshMatrix(this);
      //On affiche les cases en bleue
      this->SetColor( acceptedMovement );
-
 }
 
 /**
@@ -534,7 +563,12 @@ MainWindow::PredictionReineEat( Piece* maPiece )
     }
     else
     {
-        nbAttaquant += DeterminationNbAttaquant(  xBlackKing, yBlackKing, maPiece, tourVertical,tourHorizontal , diagHGFou, diagHDFou , diagBGFou , diagBDFou );
+        if ( currentPiece->GetX() == xBlackKing &&  currentPiece->GetY() == yBlackKing )
+        {
+            nbAttaquant++;
+        }
+        else
+            nbAttaquant += DeterminationNbAttaquant(  xBlackKing, yBlackKing, maPiece, tourVertical,tourHorizontal , diagHGFou, diagHDFou , diagBGFou , diagBDFou );
     }
 
     maPiece->SetX( tamponX );

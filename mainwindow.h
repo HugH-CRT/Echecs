@@ -71,6 +71,7 @@ class MainWindow : public QMainWindow
         void ActLangueEspagnol();
         void ShowTime();
         void SetTimer();
+        void refreshKing(int,int);
 
 public slots:
         void receiveData( int value );

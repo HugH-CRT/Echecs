@@ -212,7 +212,7 @@ MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
 
         if ( currentPiece != nullptr && currentPiece->GetIsWhite() == whitePlay )
         {
-            Piece *maPiece = this->DoomTheKing();
+            Piece *maPiece = this->DoomTheKing();           
 
             MouvementPossibleLorsqueAttaquant(maPiece);
 
@@ -236,13 +236,13 @@ MainWindow::KingEscape(Piece* maPiece)
     list<string> acceptedMovement;
     list<string> movementKing = currentPiece->CheckAvailableMovementKing( e, currentPiece->GetX(), currentPiece->GetY() );
 
+    TempPiece = currentPiece;
+
     for (string coordonees : movementKing)
     {
         std::vector<std::string> seglist = SplitString( coordonees, '-');
         int y = std::stoi( seglist.at(1) ) + 1;
         int x = std::stoi( seglist.at(0) ) + 1;
-
-        TempPiece = currentPiece;
 
         if ( OldPiece != nullptr)
         {
@@ -255,9 +255,9 @@ MainWindow::KingEscape(Piece* maPiece)
         }
 
        //Deplace la piece sur la case bleue
-       e.MovePiece( TempPiece , x , y );
+       e.MovePiece( currentPiece , x , y );
+       refreshKing(currentPiece->GetX(),currentPiece->GetY());
 
-       //Récupère la liste des mouvement du roi
        Piece* attaquant = this->DoomTheKing();
 
        //Si le roi peut de nouveau bouger alors le déplacement était valide
@@ -272,10 +272,24 @@ MainWindow::KingEscape(Piece* maPiece)
     //On replace la piece courante à sa position d'origine
     e.MovePiece( currentPiece , saveXPiece , saveYPiece );
 
-    cout << "X : " << saveXPiece << " et Y : " << saveYPiece << endl;
-    cout << "X2 : " << xWhiteKing << " et Y2 : " << yWhiteKing << endl;
+    refreshKing(currentPiece->GetX(),currentPiece->GetY());
 
     this->SetColor(acceptedMovement);
+}
+
+void
+MainWindow::refreshKing(int x , int y )
+{
+    if ( whitePlay )
+    {
+        xWhiteKing = x;
+        yWhiteKing = y;
+    }
+    else
+    {
+        xBlackKing = x;
+        yBlackKing = y;
+    }
 }
 
 void
@@ -317,7 +331,6 @@ MainWindow::setPathToSaveTheKing( int xKing , int yKing )
 
                     //Deplace la piece sur la case bleue
                     e.MovePiece( TempPiece , i , j );
-
 
                     //Récupère la liste des mouvement du roi
                     Piece* attaquant = this->DoomTheKing();
@@ -423,7 +436,7 @@ MainWindow::DoomTheKing()
                 values.clear();
                 if ( e.GetTab()[j]->Deplace( e , currentPiece->GetX() , currentPiece->GetY() ) && dynamic_cast<Queen*>(e.GetTab()[j]) == nullptr )
                 {
-                    values = PredictionReineEat( e.GetTab()[j] ) ;
+                    values = PredictionReineEat( e.GetTab()[j] );
                 }
                 else if ( dynamic_cast<Queen*>(e.GetTab()[j]) != nullptr )
                 {
@@ -502,12 +515,14 @@ MainWindow::PredictionReineEat( Piece* maPiece )
     maPiece->SetY( currentPiece->GetY() );
 
     if ( currentPiece->GetIsWhite() )
-
+    {
         if ( currentPiece->GetX() == xWhiteKing &&  currentPiece->GetY() == yWhiteKing )
+        {
             nbAttaquant++;
+        }
         else
-
-        nbAttaquant += DeterminationNbAttaquant( xWhiteKing , yWhiteKing, maPiece , tourVertical,tourHorizontal, diagHGFou, diagHDFou , diagBGFou , diagBDFou );
+            nbAttaquant += DeterminationNbAttaquant( xWhiteKing , yWhiteKing, maPiece , tourVertical,tourHorizontal, diagHGFou, diagHDFou , diagBGFou , diagBDFou );
+    }
     else
     {
         nbAttaquant += DeterminationNbAttaquant(  xBlackKing, yBlackKing, maPiece, tourVertical,tourHorizontal , diagHGFou, diagHDFou , diagBGFou , diagBDFou );
@@ -596,7 +611,10 @@ MainWindow::MouvementPossibleLorsqueAttaquant (Piece* maPiece )
         }
         else if ( dynamic_cast<Pawn*>(currentPiece) != nullptr )
         {
-            values = currentPiece->DisplayAvailableMovement( e , whitePlay );
+            if ( currentPiece->GetX() == maPiece->GetX() )
+            {
+                values = currentPiece->DisplayAvailableMovement( e , whitePlay );
+            }
         }
         this->SetColor( values );
     }

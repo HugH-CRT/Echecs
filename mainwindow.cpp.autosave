@@ -250,15 +250,11 @@ MainWindow::setPathToSaveTheKing( int xKing , int yKing )
                  //Si c'est coloré = mouvement possible de la piece
                  if ( isBlue )
                  {
-                     cout << "Test x :" << i << " et y : "<< j  << endl ;
                      TempPiece = currentPiece;
                      if ( OldPiece != nullptr)
                      {
-                         cout << "Old piece existante" << endl;
                          e.PlacePiece( OldPiece);
-                         cout << "Placement en : x" << OldPiece->GetX() << " y : " << OldPiece->GetY() << endl;
                          //OldPiece = nullptr;
-                         cout << "vide pointeur" << endl;
                      }
 
 

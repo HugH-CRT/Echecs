@@ -96,6 +96,9 @@ private:
         int minutes = 0;
         int seconds = 0;
         QTimer *timer ;
+
+        Piece* OldPiece = nullptr;
+        Piece* TempPiece = nullptr;
 };
 
 #endif

@@ -52,6 +52,7 @@ class MainWindow : public QMainWindow
         void MouvementPossibleLorsqueAttaquant (Piece* );
         void isEnd();
         void setPathToSaveTheKing( int xKing , int yKing );
+        void KingEscape(Piece*);
 
     private slots:
         void on_tableViewEchiquier_clicked( const QModelIndex &index );

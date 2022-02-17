@@ -213,16 +213,33 @@ MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
         if ( currentPiece != nullptr && currentPiece->GetIsWhite() == whitePlay )
         {
             Piece *maPiece = this->DoomTheKing();
+
             MouvementPossibleLorsqueAttaquant(maPiece);
 
             if ( e.GetPiece( xKing , yKing )->GetIsEchec() &&  dynamic_cast<King*>(currentPiece) == nullptr)
             {
                 setPathToSaveTheKing( xKing , yKing );
             }
+            else if ( dynamic_cast<King*>(currentPiece) != nullptr )
+            {
+                KingEscape(maPiece);
+            }
         }
     }
 }
 
+void
+MainWindow::KingEscape(Piece* maPiece)
+{
+    list<string> movementKing = currentPiece->CheckAvailableMovementKing( e, currentPiece->GetX(), currentPiece->GetY() );
+
+    for (string coordonees : movementKing)
+    {
+        std::vector<std::string> seglist = SplitString( coordonees, '-');
+    }
+
+
+}
 
 void
 MainWindow::setPathToSaveTheKing( int xKing , int yKing )

@@ -213,16 +213,44 @@ MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
         if ( currentPiece != nullptr && currentPiece->GetIsWhite() == whitePlay )
         {
             Piece *maPiece = this->DoomTheKing();
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
             MouvementPossibleLorsqueAttaquant(maPiece);
 
             if ( e.GetPiece( xKing , yKing )->GetIsEchec() &&  dynamic_cast<King*>(currentPiece) == nullptr)
             {
                 setPathToSaveTheKing( xKing , yKing );
             }
+<<<<<<< Updated upstream
+=======
+            else if ( dynamic_cast<King*>(currentPiece) != nullptr )
+            {
+                KingEscape(maPiece);
+            }
+>>>>>>> Stashed changes
         }
     }
 }
 
+<<<<<<< Updated upstream
+=======
+void
+MainWindow::KingEscape(Piece* maPiece)
+{
+    list<string> movementKing = currentPiece->CheckAvailableMovementKing( e, currentPiece->GetX(), currentPiece->GetY() );
+    int saveX = currentPiece
+
+    for (string coordonees : movementKing)
+    {
+        std::vector<std::string> seglist = SplitString( coordonees, '-');
+        
+    }
+
+
+}
+>>>>>>> Stashed changes
 
 void
 MainWindow::setPathToSaveTheKing( int xKing , int yKing )
@@ -246,6 +274,7 @@ MainWindow::setPathToSaveTheKing( int xKing , int yKing )
                  QColor colorOfSelectedCell = selectedCell.value<QColor>();
 
                  bool isBlue = ( colorOfSelectedCell.value() == 255 ? true : false );
+<<<<<<< Updated upstream
 
                  //Si c'est coloré = mouvement possible de la piece
                  if ( isBlue )
@@ -268,6 +297,13 @@ MainWindow::setPathToSaveTheKing( int xKing , int yKing )
                     //Deplace la piece sur la case bleue
                     e.MovePiece( TempPiece , i , j );
 
+=======
+              
+                 if ( isBlue )
+                 {
+                    //Deplace la piece sur la case bleue
+                    e.MovePiece( currentPiece , i , j );
+>>>>>>> Stashed changes
 
                     //Récupère la liste des mouvement du roi
                     Piece* attaquant = this->DoomTheKing();
@@ -284,6 +320,7 @@ MainWindow::setPathToSaveTheKing( int xKing , int yKing )
          }
      }
 
+<<<<<<< Updated upstream
      if ( OldPiece != nullptr)
      {
          cout << "Fin de ligne replacement" <<endl;
@@ -291,6 +328,8 @@ MainWindow::setPathToSaveTheKing( int xKing , int yKing )
          OldPiece = nullptr;
      }
 
+=======
+>>>>>>> Stashed changes
      //On replace la piece courante à sa position d'origine
      e.MovePiece( currentPiece , saveXPiece , saveYPiece );
 

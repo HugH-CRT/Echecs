@@ -212,9 +212,7 @@ MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
 
         if ( currentPiece != nullptr && currentPiece->GetIsWhite() == whitePlay )
         {
-            Piece *maPiece = this->DoomTheKing();           
-
-            MouvementPossibleLorsqueAttaquant(maPiece);
+            Piece *maPiece = this->DoomTheKing();
 
             if ( e.GetPiece( xKing , yKing )->GetIsEchec() &&  dynamic_cast<King*>(currentPiece) == nullptr)
             {
@@ -223,6 +221,10 @@ MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
             else if ( dynamic_cast<King*>(currentPiece) != nullptr )
             {
                 KingEscape(maPiece);
+            }
+            else
+            {
+                MouvementPossibleLorsqueAttaquant(maPiece);
             }
         }
     }
@@ -246,12 +248,13 @@ MainWindow::KingEscape(Piece* maPiece)
 
         if ( OldPiece != nullptr)
         {
-            e.PlacePiece( OldPiece);
+            e.PlacePiece( OldPiece );
         }
 
         if ( e.GetPiece( x , y) != nullptr)
         {
-          OldPiece = e.GetPiece( x , y);
+            cout << x << y <<endl;
+            OldPiece = e.GetPiece( x , y );
         }
 
        //Deplace la piece sur la case bleue
@@ -267,12 +270,18 @@ MainWindow::KingEscape(Piece* maPiece)
     }
 
     if ( OldPiece != nullptr)
-        e.MovePiece( OldPiece, OldPiece->GetX(), OldPiece->GetY());
+    {
+        cout << "test" << endl;
+        cout << OldPiece->GetX() << OldPiece->GetY() << endl;
+        e.PlacePiece(OldPiece);
+    }
 
+    cout << "Replace" << saveXPiece << saveYPiece << endl;
     //On replace la piece courante à sa position d'origine
     e.MovePiece( currentPiece , saveXPiece , saveYPiece );
 
     refreshKing(currentPiece->GetX(),currentPiece->GetY());
+    this->RefreshMatrix(this);
 
     this->SetColor(acceptedMovement);
 }

@@ -231,14 +231,51 @@ MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
 void
 MainWindow::KingEscape(Piece* maPiece)
 {
+    int saveXPiece = currentPiece->GetX();
+    int saveYPiece = currentPiece->GetY();
+    list<string> acceptedMovement;
     list<string> movementKing = currentPiece->CheckAvailableMovementKing( e, currentPiece->GetX(), currentPiece->GetY() );
 
     for (string coordonees : movementKing)
     {
         std::vector<std::string> seglist = SplitString( coordonees, '-');
+        int y = std::stoi( seglist.at(1) ) + 1;
+        int x = std::stoi( seglist.at(0) ) + 1;
+
+        TempPiece = currentPiece;
+
+        if ( OldPiece != nullptr)
+        {
+            e.PlacePiece( OldPiece);
+        }
+
+        if ( e.GetPiece( x , y) != nullptr)
+        {
+          OldPiece = e.GetPiece( x , y);
+        }
+
+       //Deplace la piece sur la case bleue
+       e.MovePiece( TempPiece , x , y );
+
+       //Récupère la liste des mouvement du roi
+       Piece* attaquant = this->DoomTheKing();
+
+       //Si le roi peut de nouveau bouger alors le déplacement était valide
+
+       if ( attaquant == nullptr )
+            acceptedMovement.push_back( std::to_string( x - 1 ) + "-" + std::to_string( y - 1 ) + "-true" );
     }
 
+    if ( OldPiece != nullptr)
+        e.MovePiece( OldPiece, OldPiece->GetX(), OldPiece->GetY());
 
+    //On replace la piece courante à sa position d'origine
+    e.MovePiece( currentPiece , saveXPiece , saveYPiece );
+
+    cout << "X : " << saveXPiece << " et Y : " << saveYPiece << endl;
+    cout << "X2 : " << xWhiteKing << " et Y2 : " << yWhiteKing << endl;
+
+    this->SetColor(acceptedMovement);
 }
 
 void
@@ -267,22 +304,14 @@ MainWindow::setPathToSaveTheKing( int xKing , int yKing )
                  //Si c'est coloré = mouvement possible de la piece
                  if ( isBlue )
                  {
-                     cout << "Test x :" << i << " et y : "<< j  << endl ;
                      TempPiece = currentPiece;
                      if ( OldPiece != nullptr)
                      {
-                         cout << "Old piece existante" << endl;
                          e.PlacePiece( OldPiece);
-                         cout << "Placement en : x" << OldPiece->GetX() << " y : " << OldPiece->GetY() << endl;
-                         //OldPiece = nullptr;
-                         cout << "vide pointeur" << endl;
                      }
-
 
                      if ( e.GetPiece( i , j) != nullptr)
                      {
-                         cout << "Deplacement non vide" << endl;
-                         cout << "i" << i << j << endl;
                        OldPiece = e.GetPiece( i , j);
                      }
 
@@ -307,9 +336,7 @@ MainWindow::setPathToSaveTheKing( int xKing , int yKing )
 
      if ( OldPiece != nullptr)
      {
-         cout << "Fin de ligne replacement" <<endl;
          e.MovePiece( OldPiece, OldPiece->GetX(), OldPiece->GetY());
-         OldPiece = nullptr;
      }
 
      //On replace la piece courante à sa position d'origine

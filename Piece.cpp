@@ -534,7 +534,6 @@ Pawn::DisplayAvailableMovement(ChessBoard &e, bool whitePlay)
 {
     list<string> casesValidePawn;
     int destination = ( GetFirstMove() ? 2 : 1 );
-    cout << "First Move : " << GetFirstMove() << endl;
 
     if ( p_white && whitePlay)
     {
@@ -718,10 +717,6 @@ Bishop::Deplace( ChessBoard &e, int x, int y )
                 Piece *maPiece = e.GetPiece(i,saveLinePosition);
                 if ( maPiece != nullptr )
                 {
-                    cout << p_white   << endl;
-                    cout << maPiece->GetIsWhite() << endl;
-                    cout << maPiece << endl;
-                    cout << maPiece << endl;
                     if ( maPiece == e.GetPiece( x , y ) && p_white != maPiece->GetIsWhite()  )
                         return true;
                     else return false;

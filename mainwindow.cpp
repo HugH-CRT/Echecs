@@ -241,6 +241,7 @@ MainWindow::KingEscape(Piece* maPiece)
     TempPiece = currentPiece;
     for (string coordonees : movementKing)
     {
+        bool eatPiece = false;
         std::vector<std::string> seglist = SplitString( coordonees, '-');
         int y = std::stoi( seglist.at(1) ) + 1;
         int x = std::stoi( seglist.at(0) ) + 1;
@@ -251,6 +252,7 @@ MainWindow::KingEscape(Piece* maPiece)
         if ( e.GetPiece( x , y) != nullptr)
         {
             OldPiece = e.GetPiece( x , y );
+            eatPiece = true;
         }
 
        e.MovePiece( currentPiece , x , y );
@@ -261,8 +263,14 @@ MainWindow::KingEscape(Piece* maPiece)
 
        //Si le roi peut de nouveau bouger alors le déplacement était valide
 
-       if ( attaquant == nullptr )
+       if ( attaquant == nullptr && eatPiece )
+       {
             acceptedMovement.push_back( std::to_string( x - 1 ) + "-" + std::to_string( y - 1 ) + "-true" );
+       }
+       else if ( attaquant == nullptr && !eatPiece)
+       {
+           acceptedMovement.push_back( std::to_string( x - 1 ) + "-" + std::to_string( y - 1 ) + "-false" );
+       }
     }
 
     //Ne surtout pas inverser les 2 prochaines instructions !!
@@ -330,7 +338,6 @@ MainWindow::setPathToSaveTheKing( int xKing , int yKing )
                  //Si c'est coloré = mouvement possible de la piece
                  if ( isBlue )
                  {
-                     cout << "Bleu" << endl;
                      if ( OldPiece != nullptr)
                      {
                          e.PlacePiece( OldPiece);
@@ -344,34 +351,12 @@ MainWindow::setPathToSaveTheKing( int xKing , int yKing )
                     //Deplace la piece sur la case bleue
                     e.MovePiece( currentPiece , i , j );
 
-                    Piece* attaquant = this->DoomTheKing();
-
                     //Si le roi peut de nouveau bouger alors le déplacement était valide
 
-                    if ( attaquant != nullptr && attaquant->GetX() != 0 && attaquant->GetY() != 0 )
+                    if ( !SomeoneCanAttachKing() )
                     {
-                      cout << "Reprise" << endl;
-                      acceptedMovement.push_back( std::to_string( i - 1 ) + "-" + std::to_string( j - 1 ) + "-false" );
-                      end = true;
-                    }
-                    else if ( attaquant == nullptr )
-                    {
-                        int xKing = ( whitePlay ? xWhiteKing : xBlackKing);
-                        int yKing = ( whitePlay ? yWhiteKing : yBlackKing);
-
-                        currentPiece->SetX(xKing);
-                        currentPiece->SetY(yKing);
-
-                        Piece* attaquant = this->DoomTheKing();
-
-                        currentPiece->SetX(i);
-                        currentPiece->SetY(j);
-
-                        if ( attaquant == nullptr )
-                        {
-                            acceptedMovement.push_back( std::to_string( i - 1 ) + "-" + std::to_string( j - 1 ) + "-true" );
-                            end = true;
-                        }
+                        acceptedMovement.push_back( std::to_string( i - 1 ) + "-" + std::to_string( j - 1 ) + "-true" );
+                        end = true;
                     }
                  }
              }
@@ -450,6 +435,25 @@ MainWindow::WithdrawUnacceptedMoveKing(list<string> values)
         }  catch (...) {}
     }
     return acceptedMovement;
+}
+
+bool
+MainWindow::SomeoneCanAttachKing()
+{
+    bool rep = false;
+    int xKing = ( whitePlay ? xWhiteKing : xBlackKing);
+    int yKing = ( whitePlay ? yWhiteKing : yBlackKing);
+
+    for ( int j = 0; j < 64 ; j++ )
+        if ( e.GetTab()[j] != nullptr && e.GetTab()[j]->GetIsWhite() !=  e.GetPiece(xKing,yKing)->GetIsWhite() )
+        {
+            if ( e.GetTab()[j]->Deplace(e,xKing,yKing) )
+            {
+                rep = true;
+                break;
+            }
+        }
+    return rep;
 }
 
 /**

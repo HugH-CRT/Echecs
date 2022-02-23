@@ -88,7 +88,7 @@ private:
         int yBlackKing = 8;
         int xWhiteKing = 5;
         int yWhiteKing = 1;
-        bool whitePlay = true;
+        bool whitePlay = false;
         list<string> picturesEatedWhitePieces;
         list<string> picturesEatedBlackPieces;
         std::vector<string> History;

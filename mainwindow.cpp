@@ -482,7 +482,27 @@ MainWindow::DoomTheKing()
                 values.clear();
                 if ( e.GetTab()[j]->Deplace( e , currentPiece->GetX() , currentPiece->GetY() ) && dynamic_cast<Queen*>(e.GetTab()[j]) == nullptr )
                 {
-                    values = PredictionReineEat( e.GetTab()[j] );
+                    if ( dynamic_cast<Bishop*>(e.GetTab()[j]) != nullptr )
+                    {
+                        if ( ( currentPiece->GetX() > e.GetTab()[j]->GetX() && currentPiece->GetY() > e.GetTab()[j]->GetY() ) || ( currentPiece->GetX() < e.GetTab()[j]->GetX() && currentPiece->GetY() < e.GetTab()[j]->GetY() ) )
+                        {
+                            if ( ( e.GetPiece(xKing,yKing)->GetX() > e.GetTab()[j]->GetX() && e.GetPiece(xKing,yKing)->GetY() > e.GetTab()[j]->GetY() ) || ( e.GetPiece(xKing,yKing)->GetX() < e.GetTab()[j]->GetX() && e.GetPiece(xKing,yKing)->GetY() < e.GetTab()[j]->GetY() )  )
+                            {
+                               values = PredictionReineEat(  e.GetTab()[j] ) ;
+                            }
+                        }
+                        else if ( ( currentPiece->GetX() > e.GetTab()[j]->GetX() && currentPiece->GetY() < e.GetTab()[j]->GetY() ) || (  currentPiece->GetX() < e.GetTab()[j]->GetX() && currentPiece->GetY() > e.GetTab()[j]->GetY() ) )
+                        {
+                            if ( ( e.GetPiece(xKing,yKing)->GetX() > e.GetTab()[j]->GetX() && e.GetPiece(xKing,yKing)->GetY() < e.GetTab()[j]->GetY() ) || (  e.GetPiece(xKing,yKing)->GetX() < e.GetTab()[j]->GetX() && e.GetPiece(xKing,yKing)->GetY() > e.GetTab()[j]->GetY() ) )
+                            {
+                               values = PredictionReineEat(  e.GetTab()[j] ) ;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        values = PredictionReineEat( e.GetTab()[j] );
+                    }
                 }
                 else if ( dynamic_cast<Queen*>(e.GetTab()[j]) != nullptr )
                 {
@@ -563,7 +583,9 @@ MainWindow::PredictionReineEat( Piece* maPiece )
             tourVertical = true;
         }
         else
+        {
             tourHorizontal = true;
+        }
     }
     else if ( dynamic_cast<Bishop*>( maPiece ) != nullptr )
     {

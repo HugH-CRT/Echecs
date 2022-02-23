@@ -176,9 +176,6 @@ MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
             }
             else
             {
-                cout << "Check roque " << endl;
-                cout << " Roi en x : " << currentPiece->GetX() << " et y : " << currentPiece->GetY() << endl;
-                cout << "Compare : " << currentPiece->GetX() - 2 << " avec : " << index.column() + 1 << endl;
                 if ( dynamic_cast<King*>(currentPiece) != nullptr && currentPiece->GetX() + 2 == index.column() + 1 )
                 {
                   e.MovePiece( e.GetPiece( 8 , 8 ) , 6 , 8 );
@@ -320,6 +317,7 @@ MainWindow::refreshKing(int x , int y )
 void
 MainWindow::setPathToSaveTheKing( int xKing , int yKing )
 {
+     OldPiece = nullptr;
      list<string> acceptedMovement;
      int saveXPiece = currentPiece->GetX();
      int saveYPiece = currentPiece->GetY();
@@ -350,9 +348,8 @@ MainWindow::setPathToSaveTheKing( int xKing , int yKing )
                      if ( OldPiece != nullptr)
                      {
                          e.MovePiece(currentPiece,saveXPiece,saveYPiece);
-                         refreshKing(saveXPiece,saveYPiece);
                          e.PlacePiece( OldPiece);
-                          OldPiece->SetFirstMove(firstMoveOldPiece);
+                         OldPiece->SetFirstMove(firstMoveOldPiece);
                      }
 
                      if ( e.GetPiece( i , j) != nullptr)
@@ -361,7 +358,7 @@ MainWindow::setPathToSaveTheKing( int xKing , int yKing )
                      }
 
                     //Deplace la piece sur la case bleue
-                    e.MovePiece( currentPiece , i , j );           
+                    e.MovePiece( currentPiece , i , j );
 
                     //Si le roi peut de nouveau bouger alors le déplacement était valide
 
@@ -376,12 +373,11 @@ MainWindow::setPathToSaveTheKing( int xKing , int yKing )
 
      //On replace la piece courante à sa position d'origine
      e.MovePiece( currentPiece , saveXPiece , saveYPiece );
-     refreshKing(xKing,yKing);
 
      if ( OldPiece != nullptr)
      {
          e.MovePiece( OldPiece, OldPiece->GetX(), OldPiece->GetY());
-          OldPiece->SetFirstMove(firstMoveOldPiece);
+         OldPiece->SetFirstMove(firstMoveOldPiece);
      }
 
      currentPiece->SetFirstMove(firstMove);
@@ -450,10 +446,12 @@ MainWindow::SomeoneCanAttachKing()
     bool rep = false;
     int xKing = ( whitePlay ? xWhiteKing : xBlackKing);
     int yKing = ( whitePlay ? yWhiteKing : yBlackKing);
+    cout << "Roi en x : " << xKing << " et y : " << yKing << endl;
 
     for ( int j = 0; j < 64 ; j++ )
         if ( e.GetTab()[j] != nullptr && e.GetTab()[j]->GetIsWhite() !=  whitePlay )
         {
+            cout << "Piece blanche en x : " << e.GetTab()[j]->GetX() << " et y : " << e.GetTab()[j]->GetY() << endl;
             if ( e.GetTab()[j]->Deplace(e,xKing,yKing) )
             {
                 rep = true;
@@ -722,7 +720,6 @@ MainWindow::RoadToAttack( int x , int y, Piece* maPiece )
 void
 MainWindow::isEnd()
 {
-    cout << "In" << endl;
     if ( whitePlay )
     {
        if ( e.GetPiece( xWhiteKing , yWhiteKing )->GetIsEchec() )  e.GetPiece( xWhiteKing , yWhiteKing )->SetIsEchec();
@@ -742,8 +739,6 @@ MainWindow::isEnd()
     }
     else
     {
-        cout << "Noir" << endl;
-        cout << " X roi : " << xBlackKing << " et y : " << yBlackKing << endl;
         if ( e.GetPiece( xBlackKing , yBlackKing )->GetIsEchec() )
              e.GetPiece( xBlackKing , yBlackKing )->SetIsEchec();
 

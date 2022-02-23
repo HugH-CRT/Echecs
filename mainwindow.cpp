@@ -252,16 +252,13 @@ MainWindow::KingEscape(Piece* maPiece)
             e.MovePiece(currentPiece,saveXPiece,saveYPiece);
             refreshKing(saveXPiece,saveYPiece);
             e.PlacePiece(OldPiece);
-            cout << "Replace la Reine en x : " << OldPiece->GetX() << " et y: " << OldPiece->GetY() << endl;
         }
 
         if ( e.GetPiece( x , y) != nullptr)
         {
-            cout << "Enlève la reine en x: " << x << " et y : " << y << endl;
             OldPiece = e.GetPiece( x , y );
             eatPiece = true;
         }
-       cout << "Roi se déplace en x: " << x << " et y : " << y << endl;
 
        e.MovePiece( currentPiece , x , y );
 
@@ -273,18 +270,10 @@ MainWindow::KingEscape(Piece* maPiece)
 
        if ( attaquant == nullptr && eatPiece )
        {
-           cout << "Rouge" << endl;
            acceptedMovement.push_back( std::to_string( x - 1 ) + "-" + std::to_string( y - 1 ) + "-true" );
        }
        else if ( attaquant == nullptr && !eatPiece)
-       {
-           cout << "Bleu" << endl;
            acceptedMovement.push_back( std::to_string( x - 1 ) + "-" + std::to_string( y - 1 ) + "-false" );
-       }
-       else
-       {
-           cout << "Case invalide" << endl;
-       }
     }
 
     //Ne surtout pas inverser les 2 prochaines instructions !!
@@ -340,7 +329,7 @@ MainWindow::setPathToSaveTheKing( int xKing , int yKing )
          for ( int j = 1; j < 9; j++)
          {
              //On ne check pas le roi qui est evidemment rouge
-             if ( ( i != xKing && j != yKing ) && !end )
+             if (  i != xKing || j != yKing  )
              {
                  // Check les couleurs
                  QModelIndex index = model->index( j - 1 , i - 1 , QModelIndex() );
@@ -348,12 +337,14 @@ MainWindow::setPathToSaveTheKing( int xKing , int yKing )
                  QColor colorOfSelectedCell = selectedCell.value<QColor>();
 
                  bool isBlue = ( colorOfSelectedCell.value() == 255 ? true : false );
-
+                 cout << "Essaye en x : " << i << " et y : " << j  <<endl;
                  //Si c'est coloré = mouvement possible de la piece
                  if ( isBlue )
                  {
+                     cout << "Case bleue en x : " << i << " et y : " << j << endl;
                      if ( OldPiece != nullptr)
                      {
+                         e.MovePiece(currentPiece,saveXPiece,saveYPiece);
                          e.PlacePiece( OldPiece);
                      }
 
@@ -369,10 +360,14 @@ MainWindow::setPathToSaveTheKing( int xKing , int yKing )
 
                     if ( !SomeoneCanAttachKing() )
                     {
+                        cout << "Safe" << endl;
                         acceptedMovement.push_back( std::to_string( i - 1 ) + "-" + std::to_string( j - 1 ) + "-true" );
-                        end = true;
                     }
                  }
+             }
+             else
+             {
+                 cout << "WUT x: " << i << " et y : " << j << endl;
              }
          }
      }
@@ -505,7 +500,6 @@ MainWindow::DoomTheKing()
                     Rook maTour   = Rook( e.GetTab()[j]->GetX(), e.GetTab()[j]->GetY(), e.GetTab()[j]->GetIsWhite() , true , true , "" );
                     Piece* PieceTour = &maTour;
 
-                    cout << "La reine "<< PieceTour->GetX() << PieceTour->GetY() << " tente de se déplacer en x : " << currentPiece->GetX() << " et y : " << currentPiece->GetY() << endl;
                     if ( maTour.Deplace( e ,currentPiece->GetX() , currentPiece->GetY() ) )
                     {
                        list<int> result = PredictionReineEat( PieceTour );

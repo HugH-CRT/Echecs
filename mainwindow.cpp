@@ -337,14 +337,14 @@ MainWindow::setPathToSaveTheKing( int xKing , int yKing )
                  QColor colorOfSelectedCell = selectedCell.value<QColor>();
 
                  bool isBlue = ( colorOfSelectedCell.value() == 255 ? true : false );
-                 cout << "Essaye en x : " << i << " et y : " << j  <<endl;
+
                  //Si c'est coloré = mouvement possible de la piece
                  if ( isBlue )
                  {
-                     cout << "Case bleue en x : " << i << " et y : " << j << endl;
                      if ( OldPiece != nullptr)
                      {
                          e.MovePiece(currentPiece,saveXPiece,saveYPiece);
+                         refreshKing(saveXPiece,saveYPiece);
                          e.PlacePiece( OldPiece);
                      }
 
@@ -354,28 +354,22 @@ MainWindow::setPathToSaveTheKing( int xKing , int yKing )
                      }
 
                     //Deplace la piece sur la case bleue
-                    e.MovePiece( currentPiece , i , j );
+                    e.MovePiece( currentPiece , i , j );           
 
                     //Si le roi peut de nouveau bouger alors le déplacement était valide
 
                     if ( !SomeoneCanAttachKing() )
                     {
-                        cout << "Safe" << endl;
                         acceptedMovement.push_back( std::to_string( i - 1 ) + "-" + std::to_string( j - 1 ) + "-true" );
                     }
                  }
              }
-             else
-             {
-                 cout << "WUT x: " << i << " et y : " << j << endl;
-             }
          }
      }
 
-
      //On replace la piece courante à sa position d'origine
      e.MovePiece( currentPiece , saveXPiece , saveYPiece );
-
+     refreshKing(xKing,yKing);
 
      if ( OldPiece != nullptr)
      {
@@ -454,7 +448,7 @@ MainWindow::SomeoneCanAttachKing()
     int yKing = ( whitePlay ? yWhiteKing : yBlackKing);
 
     for ( int j = 0; j < 64 ; j++ )
-        if ( e.GetTab()[j] != nullptr && e.GetTab()[j]->GetIsWhite() !=  e.GetPiece(xKing,yKing)->GetIsWhite() )
+        if ( e.GetTab()[j] != nullptr && e.GetTab()[j]->GetIsWhite() !=  whitePlay )
         {
             if ( e.GetTab()[j]->Deplace(e,xKing,yKing) )
             {
@@ -724,6 +718,7 @@ MainWindow::RoadToAttack( int x , int y, Piece* maPiece )
 void
 MainWindow::isEnd()
 {
+    cout << "In" << endl;
     if ( whitePlay )
     {
        if ( e.GetPiece( xWhiteKing , yWhiteKing )->GetIsEchec() )  e.GetPiece( xWhiteKing , yWhiteKing )->SetIsEchec();
@@ -743,6 +738,8 @@ MainWindow::isEnd()
     }
     else
     {
+        cout << "Noir" << endl;
+        cout << " X roi : " << xBlackKing << " et y : " << yBlackKing << endl;
         if ( e.GetPiece( xBlackKing , yBlackKing )->GetIsEchec() )
              e.GetPiece( xBlackKing , yBlackKing )->SetIsEchec();
 

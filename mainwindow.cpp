@@ -164,7 +164,6 @@ MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
             //Part for the castling
             if ( currentPiece->GetIsWhite() )
             {
-                cout << " wut " << endl;
                 if ( dynamic_cast<King*>(currentPiece) != nullptr && currentPiece->GetX() + 2 == index.column() + 1 )
                 {
                   e.MovePiece( e.GetPiece( 8 , 1 ) , 6 , 1 );
@@ -446,12 +445,10 @@ MainWindow::SomeoneCanAttachKing()
     bool rep = false;
     int xKing = ( whitePlay ? xWhiteKing : xBlackKing);
     int yKing = ( whitePlay ? yWhiteKing : yBlackKing);
-    cout << "Roi en x : " << xKing << " et y : " << yKing << endl;
 
     for ( int j = 0; j < 64 ; j++ )
         if ( e.GetTab()[j] != nullptr && e.GetTab()[j]->GetIsWhite() !=  whitePlay )
         {
-            cout << "Piece blanche en x : " << e.GetTab()[j]->GetX() << " et y : " << e.GetTab()[j]->GetY() << endl;
             if ( e.GetTab()[j]->Deplace(e,xKing,yKing) )
             {
                 rep = true;
@@ -475,6 +472,8 @@ MainWindow::DoomTheKing()
     int coordonneeXAttaquant;
     int coordonneeYAttaquant;
     list<int> values;
+    int xKing = ( whitePlay ? xWhiteKing : xBlackKing);
+    int yKing = ( whitePlay ? yWhiteKing : yBlackKing);
 
     for ( int j = 0; j < 64 ; j++ )
         if ( e.GetTab()[j] != nullptr )
@@ -491,7 +490,23 @@ MainWindow::DoomTheKing()
                     Piece* PieceFou = &monFou;
 
                     if ( monFou.Deplace( e , currentPiece->GetX() , currentPiece->GetY() ) )
-                        values = PredictionReineEat( PieceFou ) ;
+                    {
+                        if ( ( currentPiece->GetX() > e.GetTab()[j]->GetX() && currentPiece->GetY() > e.GetTab()[j]->GetY() ) || ( currentPiece->GetX() < e.GetTab()[j]->GetX() && currentPiece->GetY() < e.GetTab()[j]->GetY() ) )
+                        {
+                            if ( ( e.GetPiece(xKing,yKing)->GetX() > e.GetTab()[j]->GetX() && e.GetPiece(xKing,yKing)->GetY() > e.GetTab()[j]->GetY() ) || ( e.GetPiece(xKing,yKing)->GetX() < e.GetTab()[j]->GetX() && e.GetPiece(xKing,yKing)->GetY() < e.GetTab()[j]->GetY() )  )
+                            {
+                               values = PredictionReineEat( PieceFou ) ;
+                            }
+                        }
+                        else if ( ( currentPiece->GetX() > e.GetTab()[j]->GetX() && currentPiece->GetY() < e.GetTab()[j]->GetY() ) || (  currentPiece->GetX() < e.GetTab()[j]->GetX() && currentPiece->GetY() > e.GetTab()[j]->GetY() ) )
+                        {
+                            if ( ( e.GetPiece(xKing,yKing)->GetX() > e.GetTab()[j]->GetX() && e.GetPiece(xKing,yKing)->GetY() < e.GetTab()[j]->GetY() ) || (  e.GetPiece(xKing,yKing)->GetX() < e.GetTab()[j]->GetX() && e.GetPiece(xKing,yKing)->GetY() > e.GetTab()[j]->GetY() ) )
+                            {
+                               values = PredictionReineEat( PieceFou ) ;
+                            }
+                        }
+
+                    }
 
                     Rook maTour   = Rook( e.GetTab()[j]->GetX(), e.GetTab()[j]->GetY(), e.GetTab()[j]->GetIsWhite() , true , true , "" );
                     Piece* PieceTour = &maTour;

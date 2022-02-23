@@ -233,6 +233,7 @@ MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
 void
 MainWindow::KingEscape(Piece* maPiece)
 {
+    OldPiece = nullptr;
     int saveXPiece = currentPiece->GetX();
     int saveYPiece = currentPiece->GetY();
     list<string> acceptedMovement;
@@ -247,13 +248,20 @@ MainWindow::KingEscape(Piece* maPiece)
         int x = std::stoi( seglist.at(0) ) + 1;
 
         if ( OldPiece != nullptr)
-            e.MovePiece( OldPiece,OldPiece->GetX(),OldPiece->GetY() );
+        {
+            e.MovePiece(currentPiece,saveXPiece,saveYPiece);
+            refreshKing(saveXPiece,saveYPiece);
+            e.PlacePiece(OldPiece);
+            cout << "Replace la Reine en x : " << OldPiece->GetX() << " et y: " << OldPiece->GetY() << endl;
+        }
 
         if ( e.GetPiece( x , y) != nullptr)
         {
+            cout << "Enlève la reine en x: " << x << " et y : " << y << endl;
             OldPiece = e.GetPiece( x , y );
             eatPiece = true;
         }
+       cout << "Roi se déplace en x: " << x << " et y : " << y << endl;
 
        e.MovePiece( currentPiece , x , y );
 
@@ -265,11 +273,17 @@ MainWindow::KingEscape(Piece* maPiece)
 
        if ( attaquant == nullptr && eatPiece )
        {
-            acceptedMovement.push_back( std::to_string( x - 1 ) + "-" + std::to_string( y - 1 ) + "-true" );
+           cout << "Rouge" << endl;
+           acceptedMovement.push_back( std::to_string( x - 1 ) + "-" + std::to_string( y - 1 ) + "-true" );
        }
        else if ( attaquant == nullptr && !eatPiece)
        {
+           cout << "Bleu" << endl;
            acceptedMovement.push_back( std::to_string( x - 1 ) + "-" + std::to_string( y - 1 ) + "-false" );
+       }
+       else
+       {
+           cout << "Case invalide" << endl;
        }
     }
 
@@ -491,6 +505,7 @@ MainWindow::DoomTheKing()
                     Rook maTour   = Rook( e.GetTab()[j]->GetX(), e.GetTab()[j]->GetY(), e.GetTab()[j]->GetIsWhite() , true , true , "" );
                     Piece* PieceTour = &maTour;
 
+                    cout << "La reine "<< PieceTour->GetX() << PieceTour->GetY() << " tente de se déplacer en x : " << currentPiece->GetX() << " et y : " << currentPiece->GetY() << endl;
                     if ( maTour.Deplace( e ,currentPiece->GetX() , currentPiece->GetY() ) )
                     {
                        list<int> result = PredictionReineEat( PieceTour );

@@ -160,29 +160,34 @@ MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
             }
 
             AddToHistory(currentPiece, index.column()+1 , index.row()+1);
+
             //Part for the castling
-                if ( currentPiece->GetIsWhite() )
+            if ( currentPiece->GetIsWhite() )
+            {
+                cout << " wut " << endl;
+                if ( dynamic_cast<King*>(currentPiece) != nullptr && currentPiece->GetX() + 2 == index.column() + 1 )
                 {
-                    if ( dynamic_cast<King*>(currentPiece) != nullptr && currentPiece->GetX() + 2 == index.column() + 1 )
-                    {
-                      e.MovePiece( e.GetPiece( 8 , 1 ) , 6 , 1 );
-                    }
-                    else if ( dynamic_cast<King*>(currentPiece) != nullptr && currentPiece->GetX() - 2 == index.column() + 1 )
-                    {
-                        e.MovePiece( e.GetPiece( 1 , 1 ) , 4 , 1 );
-                    }
+                  e.MovePiece( e.GetPiece( 8 , 1 ) , 6 , 1 );
                 }
-                else
+                else if ( dynamic_cast<King*>(currentPiece) != nullptr && currentPiece->GetX() - 2 == index.column() + 1 )
                 {
-                    if ( dynamic_cast<King*>(currentPiece) != nullptr && currentPiece->GetX() + 2 == index.column() + 1 )
-                    {
-                      e.MovePiece( e.GetPiece( 8 , 8 ) , 6 , 8 );
-                    }
-                    else if ( dynamic_cast<King*>(currentPiece) != nullptr && currentPiece->GetX() - 2 == index.column() + 1 )
-                    {
-                        e.MovePiece( e.GetPiece( 1 , 8 ) , 4 , 8 );
-                    }
+                    e.MovePiece( e.GetPiece( 1 , 1 ) , 4 , 1 );
                 }
+            }
+            else
+            {
+                cout << "Check roque " << endl;
+                cout << " Roi en x : " << currentPiece->GetX() << " et y : " << currentPiece->GetY() << endl;
+                cout << "Compare : " << currentPiece->GetX() - 2 << " avec : " << index.column() + 1 << endl;
+                if ( dynamic_cast<King*>(currentPiece) != nullptr && currentPiece->GetX() + 2 == index.column() + 1 )
+                {
+                  e.MovePiece( e.GetPiece( 8 , 8 ) , 6 , 8 );
+                }
+                else if ( dynamic_cast<King*>(currentPiece) != nullptr && currentPiece->GetX() - 2 == index.column() + 1 )
+                {
+                    e.MovePiece( e.GetPiece( 1 , 8 ) , 4 , 8 );
+                }
+            }
 
             e.MovePiece( currentPiece , index.column()+1  , index.row()+1 );
             isEnd();
@@ -218,7 +223,7 @@ MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
             {
                 setPathToSaveTheKing( xKing , yKing );
             }
-            else if ( dynamic_cast<King*>(currentPiece) != nullptr )
+            else if ( dynamic_cast<King*>(currentPiece) != nullptr && e.GetPiece( xKing , yKing )->GetIsEchec() )
             {
                 KingEscape(maPiece);
             }
@@ -236,6 +241,8 @@ MainWindow::KingEscape(Piece* maPiece)
     OldPiece = nullptr;
     int saveXPiece = currentPiece->GetX();
     int saveYPiece = currentPiece->GetY();
+    bool firstMove = currentPiece->GetFirstMove();
+    bool firstMoveOldPiece;
     list<string> acceptedMovement;
     list<string> movementKing = currentPiece->CheckAvailableMovementKing( e, currentPiece->GetX(), currentPiece->GetY() );
 
@@ -252,11 +259,13 @@ MainWindow::KingEscape(Piece* maPiece)
             e.MovePiece(currentPiece,saveXPiece,saveYPiece);
             refreshKing(saveXPiece,saveYPiece);
             e.PlacePiece(OldPiece);
+            OldPiece->SetFirstMove(firstMoveOldPiece);
         }
 
         if ( e.GetPiece( x , y) != nullptr)
         {
             OldPiece = e.GetPiece( x , y );
+            firstMoveOldPiece = OldPiece->GetFirstMove();
             eatPiece = true;
         }
 
@@ -284,7 +293,9 @@ MainWindow::KingEscape(Piece* maPiece)
     if ( OldPiece != nullptr)
     {
         e.MovePiece( OldPiece, OldPiece->GetX(), OldPiece->GetY());
+        OldPiece->SetFirstMove(firstMoveOldPiece);
     }
+    currentPiece->SetFirstMove(firstMove);
 
     refreshKing(currentPiece->GetX(),currentPiece->GetY());
 
@@ -314,14 +325,9 @@ MainWindow::setPathToSaveTheKing( int xKing , int yKing )
      int saveYPiece = currentPiece->GetY();
      bool end = false;
      bool isPawn = false;
-     bool firstMove = false;
+     bool firstMove = currentPiece->GetFirstMove();
+     bool firstMoveOldPiece;
      this->SetColor( currentPiece->DisplayAvailableMovement(e,whitePlay)  );
-
-     if ( dynamic_cast<Pawn*>(currentPiece) != nullptr )
-     {
-         isPawn = true;
-         firstMove = currentPiece->GetFirstMove();
-     }
 
      //Parcours toutes les cases du plateau
      for ( int i = 1; i < 9; i++)
@@ -346,6 +352,7 @@ MainWindow::setPathToSaveTheKing( int xKing , int yKing )
                          e.MovePiece(currentPiece,saveXPiece,saveYPiece);
                          refreshKing(saveXPiece,saveYPiece);
                          e.PlacePiece( OldPiece);
+                          OldPiece->SetFirstMove(firstMoveOldPiece);
                      }
 
                      if ( e.GetPiece( i , j) != nullptr)
@@ -374,13 +381,10 @@ MainWindow::setPathToSaveTheKing( int xKing , int yKing )
      if ( OldPiece != nullptr)
      {
          e.MovePiece( OldPiece, OldPiece->GetX(), OldPiece->GetY());
+          OldPiece->SetFirstMove(firstMoveOldPiece);
      }
 
-     if ( isPawn )
-     {
-        currentPiece->SetFirstMove(firstMove);
-     }
-
+     currentPiece->SetFirstMove(firstMove);
 
      this->RefreshMatrix(this);
      //On affiche les cases en bleue

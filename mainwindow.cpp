@@ -692,6 +692,10 @@ MainWindow::MouvementPossibleLorsqueAttaquant (Piece* maPiece )
                     values = this->RoadToAttack( maPiece->GetX() , maPiece->GetY(), PieceTour );
                 }
             }
+            else if ( dynamic_cast<Pawn*>(currentPiece) != nullptr )
+            {
+                values.push_back(  std::to_string( maPiece->GetX() - 1 )  + "-" +  std::to_string( maPiece->GetY() - 1 ) + "-true" );
+            }
             else
             {
                values = this->RoadToAttack( maPiece->GetX() , maPiece->GetY(), currentPiece );
@@ -735,6 +739,7 @@ MainWindow::RoadToAttack( int x , int y, Piece* maPiece )
         }
     }
     else if ( dynamic_cast<Bishop*>( maPiece ) != nullptr )
+    {
         for (string coordonees : values)
             try
             {
@@ -749,6 +754,7 @@ MainWindow::RoadToAttack( int x , int y, Piece* maPiece )
                     if ( std::stoi( seglist.at(0) ) + 1 < x && std::stoi( seglist.at(1) ) + 1 > y  || std::stoi( seglist.at(0) ) + 1 > x && std::stoi( seglist.at(1) ) + 1 < y  || std::stoi( seglist.at(0) ) + 1 == x && std::stoi( seglist.at(1) ) + 1 == y )
                         result.push_back( seglist.at( 0 ) + "-" + seglist.at( 1 ) + "-false" );
             } catch (...) {}
+    }
 
     result.push_back( std::to_string( x - 1 ) + "-" + std::to_string( y - 1 )+ "-true" );
     return result;

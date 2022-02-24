@@ -780,7 +780,7 @@ Pawn::Deplace( ChessBoard &e, int x, int y )
     else
     {
 
-        if( this->p_x == x || this->p_x - 1 == x && this->p_y + 1 == y || this->p_x + 1 == x && this->p_y - 1 == y )
+        if( this->p_x == x || this->p_x - 1 == x && this->p_y - 1 == y || this->p_x + 1 == x && this->p_y - 1 == y )
         {
             Piece *maPiece = e.GetPiece(x,y);
 

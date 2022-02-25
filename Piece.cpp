@@ -666,6 +666,7 @@ Bishop::Deplace( ChessBoard &e, int x, int y )
 {
     int saveLinePosition = p_y;
     if ( x > p_x && y > p_y )
+    {
         for ( int i = p_x + 1 ; i <= x ; i ++ )
         {
             saveLinePosition++;
@@ -680,6 +681,7 @@ Bishop::Deplace( ChessBoard &e, int x, int y )
             else if ( i == x && saveLinePosition == y )
                 return true;
         }
+    }
     else if ( x > p_x && y < p_y )
         for ( int i = p_x + 1 ; i <= x ; i ++ )
         {
@@ -773,7 +775,7 @@ Pawn::Deplace( ChessBoard &e, int x, int y )
             if ( ( p_firstMove && y == this->p_y + 2 || y == this->p_y + 1 )  || ( !p_firstMove &&  y == this->p_y + 1 ) )
             {
                 if ( maPiece == nullptr ){ p_firstMove = false; return true; }
-                else if( this->p_x + 1 == x && this->p_y + 1 == y || this->p_x - 1 == x && this->p_y + 1 == y ) { return true; }
+                else if(  this->p_x + 1 == x && this->p_y + 1 == y && maPiece->GetIsWhite() != p_white || this->p_x - 1 == x && this->p_y + 1 == y && maPiece->GetIsWhite() != p_white ) { return true; }
             }
         }
     }
@@ -787,7 +789,7 @@ Pawn::Deplace( ChessBoard &e, int x, int y )
             if ( ( p_firstMove && y == this->p_y - 2 || y == this->p_y - 1 )  || ( !p_firstMove &&  y == this->p_y - 1 ) )
             {
                 if (maPiece == nullptr ){ p_firstMove = false; return true; }
-                else if( this->p_x - 1 == x && this->p_y - 1 == y || this->p_x + 1 == x && this->p_y - 1 == y ) { return true; }
+                else if( this->p_x - 1 == x && this->p_y - 1 == y && maPiece->GetIsWhite() != p_white || this->p_x + 1 == x && this->p_y - 1 == y && maPiece->GetIsWhite() != p_white ) { return true; }
             }
         }
     }

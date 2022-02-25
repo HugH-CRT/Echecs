@@ -207,10 +207,12 @@ MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
             {
                 int xKing = ( whitePlay ? xWhiteKing : xBlackKing);
                 int yKing = ( whitePlay ? yWhiteKing : yBlackKing);
-                e.GetPiece(xKing,yKing)->SetIsEchec();
-                this->RefreshMatrix(this);
+                if ( !e.GetPiece(xKing,yKing)->GetIsEchec() )
+                {
+                    e.GetPiece(xKing,yKing)->SetIsEchec();
+                    this->RefreshMatrix(this);
+                }
             }
-
         }
     }
     else
@@ -405,47 +407,76 @@ list<string>
 MainWindow::WithdrawUnacceptedMoveKing(list<string> values)
 {
     list<string> acceptedMovement;
+    OldPiece = nullptr;
+    bool firstMoveOldPiece;
+    int saveXPiece = currentPiece->GetX();
+    int saveYPiece = currentPiece->GetY();
+    bool firstMoveCurrentPiece = currentPiece->GetFirstMove();
 
     for (string coordonees : values)
     {
-        try {
+        try
+        {
             bool availableMovement = true;
             std::vector<std::string> seglist = SplitString( coordonees, '-');
             int y = std::stoi( seglist.at(1) ) + 1;
             int x = std::stoi( seglist.at(0) ) + 1;
 
-            for ( int j = 0; j < 64 ; j++ )
-                if ( e.GetTab()[j] != nullptr && e.GetTab()[j]->GetIsWhite() !=  currentPiece->GetIsWhite() )
+            if ( x >= 1 && x <= 8 && y >= 1 && y <= 8 )
+            {
+                if ( e.GetPiece( x , y) != nullptr)
                 {
-                    if ( dynamic_cast<Pawn*>( e.GetTab()[j] ) == nullptr )
+                    OldPiece = e.GetPiece( x , y );
+                    firstMoveOldPiece = OldPiece->GetFirstMove();
+                }
+                e.MovePiece( currentPiece , x , y );
+                refreshKing(x,y);
+
+                for ( int j = 0; j < 64 ; j++ )
+                {
+                    if ( e.GetTab()[j] != nullptr && e.GetTab()[j]->GetIsWhite() != currentPiece->GetIsWhite() )
                     {
-                        if ( e.GetTab()[j]->Deplace( e , x , y ) )
+                        if ( dynamic_cast<Pawn*>( e.GetTab()[j] ) == nullptr )
                         {
-                            availableMovement = false;
-                            break;
+                            if ( e.GetTab()[j]->Deplace( e , x , y ) )
+                            {
+                                availableMovement = false;
+                                break;
+                            }
                         }
-                    }
-                    else
-                    {
-                        if (  e.GetTab()[j]->GetIsWhite() && ( e.GetTab()[j]->GetX() + 1 == x && e.GetTab()[j]->GetY() + 1 == y || e.GetTab()[j]->GetX() - 1 == x && e.GetTab()[j]->GetY() + 1 == y ) )
+                        else
                         {
-                            availableMovement = false;
-                            break;
-                        }
-                        else if ( !e.GetTab()[j]->GetIsWhite() && ( e.GetTab()[j]->GetX() - 1 == x && e.GetTab()[j]->GetY() - 1 == y || e.GetTab()[j]->GetX() + 1 == x && e.GetTab()[j]->GetY() - 1 == y ) )
-                        {
-                            availableMovement = false;
-                            break;
+                            if (  e.GetTab()[j]->GetIsWhite() && ( e.GetTab()[j]->GetX() + 1 == x && e.GetTab()[j]->GetY() + 1 == y || e.GetTab()[j]->GetX() - 1 == x && e.GetTab()[j]->GetY() + 1 == y ) )
+                            {
+                                availableMovement = false;
+                                break;
+                            }
+                            else if ( !e.GetTab()[j]->GetIsWhite() && ( e.GetTab()[j]->GetX() - 1 == x && e.GetTab()[j]->GetY() - 1 == y || e.GetTab()[j]->GetX() + 1 == x && e.GetTab()[j]->GetY() - 1 == y ) )
+                            {
+                                availableMovement = false;
+                                break;
+                            }
                         }
                     }
                 }
 
 
-            if ( availableMovement )
-               acceptedMovement.push_back( std::to_string( x - 1 ) + "-" + std::to_string( y - 1 ) + "-" + seglist.at(2) );
+                if ( availableMovement )
+                   acceptedMovement.push_back( std::to_string( x - 1 ) + "-" + std::to_string( y - 1 ) + "-" + seglist.at(2) );
 
-        }  catch (...) {}
+                //On replace la piece courante à sa position d'origine
+                e.MovePiece( currentPiece , saveXPiece , saveYPiece );
+                refreshKing(saveXPiece,saveYPiece);
+
+                if ( OldPiece != nullptr)
+                {
+                    e.PlacePiece(OldPiece);
+                    OldPiece->SetFirstMove(firstMoveOldPiece);
+                }
+             }
+          }  catch (...) {}
     }
+    e.GetPiece(saveXPiece,saveYPiece)->SetFirstMove(firstMoveCurrentPiece);
     return acceptedMovement;
 }
 
@@ -496,7 +527,7 @@ MainWindow::DoomTheKing()
                     {
                         if ( ( currentPiece->GetX() > e.GetTab()[j]->GetX() && currentPiece->GetY() > e.GetTab()[j]->GetY() ) || ( currentPiece->GetX() < e.GetTab()[j]->GetX() && currentPiece->GetY() < e.GetTab()[j]->GetY() ) )
                         {
-                            if ( ( e.GetPiece(xKing,yKing)->GetX() >currentPiece->GetX() && e.GetPiece(xKing,yKing)->GetY() > currentPiece->GetY() ) || ( e.GetPiece(xKing,yKing)->GetX() < e.GetTab()[j]->GetX() && e.GetPiece(xKing,yKing)->GetY() < e.GetTab()[j]->GetY() ) || ( currentPiece->GetX() ==  e.GetPiece(xKing,yKing)->GetX() && currentPiece->GetY() ==e.GetPiece(xKing,yKing)->GetY() ) )
+                            if ( ( e.GetPiece(xKing,yKing)->GetX() > currentPiece->GetX() && e.GetPiece(xKing,yKing)->GetY() > currentPiece->GetY() ) || ( e.GetPiece(xKing,yKing)->GetX() < e.GetTab()[j]->GetX() && e.GetPiece(xKing,yKing)->GetY() < e.GetTab()[j]->GetY() ) || ( currentPiece->GetX() ==  e.GetPiece(xKing,yKing)->GetX() && currentPiece->GetY() == e.GetPiece(xKing,yKing)->GetY() ) )
                             {
                                values = PredictionReineEat(  e.GetTab()[j] ) ;
                             }
@@ -624,7 +655,9 @@ MainWindow::PredictionReineEat( Piece* maPiece )
             nbAttaquant++;
         }
         else
+        {
             nbAttaquant += DeterminationNbAttaquant(  xBlackKing, yBlackKing, maPiece, tourVertical,tourHorizontal , diagHGFou, diagHDFou , diagBGFou , diagBDFou );
+        }
     }
 
     maPiece->SetX( tamponX );

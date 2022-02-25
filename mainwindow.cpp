@@ -486,15 +486,17 @@ MainWindow::DoomTheKing()
                     {
                         if ( ( currentPiece->GetX() > e.GetTab()[j]->GetX() && currentPiece->GetY() > e.GetTab()[j]->GetY() ) || ( currentPiece->GetX() < e.GetTab()[j]->GetX() && currentPiece->GetY() < e.GetTab()[j]->GetY() ) )
                         {
-                            if ( ( e.GetPiece(xKing,yKing)->GetX() >currentPiece->GetX() && e.GetPiece(xKing,yKing)->GetY() > currentPiece->GetY() ) || ( e.GetPiece(xKing,yKing)->GetX() < e.GetTab()[j]->GetX() && e.GetPiece(xKing,yKing)->GetY() < e.GetTab()[j]->GetY() )  )
+                            if ( ( e.GetPiece(xKing,yKing)->GetX() >currentPiece->GetX() && e.GetPiece(xKing,yKing)->GetY() > currentPiece->GetY() ) || ( e.GetPiece(xKing,yKing)->GetX() < e.GetTab()[j]->GetX() && e.GetPiece(xKing,yKing)->GetY() < e.GetTab()[j]->GetY() ) || ( currentPiece->GetX() ==  e.GetPiece(xKing,yKing)->GetX() && currentPiece->GetY() ==e.GetPiece(xKing,yKing)->GetY() ) )
                             {
                                values = PredictionReineEat(  e.GetTab()[j] ) ;
                             }
                         }
                         else if ( ( currentPiece->GetX() > e.GetTab()[j]->GetX() && currentPiece->GetY() < e.GetTab()[j]->GetY() ) || (  currentPiece->GetX() < e.GetTab()[j]->GetX() && currentPiece->GetY() > e.GetTab()[j]->GetY() ) )
                         {
-                            if ( ( e.GetPiece(xKing,yKing)->GetX() > currentPiece->GetX() && e.GetPiece(xKing,yKing)->GetY() < currentPiece->GetY() ) || (  e.GetPiece(xKing,yKing)->GetX() < e.GetTab()[j]->GetX() && e.GetPiece(xKing,yKing)->GetY() > e.GetTab()[j]->GetY() ) )
+                            cout << "In" <<endl;
+                            if ( ( e.GetPiece(xKing,yKing)->GetX() > currentPiece->GetX() && e.GetPiece(xKing,yKing)->GetY() < currentPiece->GetY() ) || (  e.GetPiece(xKing,yKing)->GetX() < e.GetTab()[j]->GetX() && e.GetPiece(xKing,yKing)->GetY() > e.GetTab()[j]->GetY() )  || ( currentPiece->GetX() ==  e.GetPiece(xKing,yKing)->GetX() && currentPiece->GetY() == e.GetPiece(xKing,yKing)->GetY() ) )
                             {
+                               cout << "In2" <<endl;
                                values = PredictionReineEat(  e.GetTab()[j] ) ;
                             }
                         }
@@ -513,14 +515,14 @@ MainWindow::DoomTheKing()
                     {
                         if ( ( currentPiece->GetX() > e.GetTab()[j]->GetX() && currentPiece->GetY() > e.GetTab()[j]->GetY() ) || ( currentPiece->GetX() < e.GetTab()[j]->GetX() && currentPiece->GetY() < e.GetTab()[j]->GetY() ) )
                         {
-                            if ( ( e.GetPiece(xKing,yKing)->GetX() > currentPiece->GetX() && e.GetPiece(xKing,yKing)->GetY() > currentPiece->GetY() ) || ( e.GetPiece(xKing,yKing)->GetX() < e.GetTab()[j]->GetX() && e.GetPiece(xKing,yKing)->GetY() < e.GetTab()[j]->GetY() )  )
+                            if ( ( e.GetPiece(xKing,yKing)->GetX() > currentPiece->GetX() && e.GetPiece(xKing,yKing)->GetY() > currentPiece->GetY() ) || ( e.GetPiece(xKing,yKing)->GetX() < e.GetTab()[j]->GetX() && e.GetPiece(xKing,yKing)->GetY() < e.GetTab()[j]->GetY() ) || ( currentPiece->GetX() == e.GetPiece(xKing,yKing)->GetX() && currentPiece->GetY() == e.GetPiece(xKing,yKing)->GetY() ) )
                             {
                                values = PredictionReineEat( PieceFou ) ;
                             }
                         }
                         else if ( ( currentPiece->GetX() > e.GetTab()[j]->GetX() && currentPiece->GetY() < e.GetTab()[j]->GetY() ) || (  currentPiece->GetX() < e.GetTab()[j]->GetX() && currentPiece->GetY() > e.GetTab()[j]->GetY() ) )
                         {
-                            if ( ( e.GetPiece(xKing,yKing)->GetX() > currentPiece->GetX() && e.GetPiece(xKing,yKing)->GetY() < currentPiece->GetY() ) || (  e.GetPiece(xKing,yKing)->GetX() < e.GetTab()[j]->GetX() && e.GetPiece(xKing,yKing)->GetY() > e.GetTab()[j]->GetY() ) )
+                            if ( ( e.GetPiece(xKing,yKing)->GetX() > currentPiece->GetX() && e.GetPiece(xKing,yKing)->GetY() < currentPiece->GetY() ) || (  e.GetPiece(xKing,yKing)->GetX() < e.GetTab()[j]->GetX() && e.GetPiece(xKing,yKing)->GetY() > e.GetTab()[j]->GetY() ) || ( currentPiece->GetX() ==  e.GetPiece(xKing,yKing)->GetX() && currentPiece->GetY() == e.GetPiece(xKing,yKing)->GetY() ) )
                             {
                                values = PredictionReineEat( PieceFou ) ;
                             }

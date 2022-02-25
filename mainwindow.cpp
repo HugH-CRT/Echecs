@@ -201,6 +201,18 @@ MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
                 whitePlay = !whitePlay;
                 this->RefreshMatrix(this);
             }
+
+
+            if ( SomeoneCanAttachKing() )
+            {
+                cout << "In" << endl;
+                int xKing = ( whitePlay ? xWhiteKing : xBlackKing);
+                int yKing = ( whitePlay ? yWhiteKing : yBlackKing);
+                e.GetPiece(xKing,yKing)->SetIsEchec();
+                this->RefreshMatrix(this);
+
+            }
+
         }
     }
     else
@@ -493,10 +505,8 @@ MainWindow::DoomTheKing()
                         }
                         else if ( ( currentPiece->GetX() > e.GetTab()[j]->GetX() && currentPiece->GetY() < e.GetTab()[j]->GetY() ) || (  currentPiece->GetX() < e.GetTab()[j]->GetX() && currentPiece->GetY() > e.GetTab()[j]->GetY() ) )
                         {
-                            cout << "In" <<endl;
                             if ( ( e.GetPiece(xKing,yKing)->GetX() > currentPiece->GetX() && e.GetPiece(xKing,yKing)->GetY() < currentPiece->GetY() ) || (  e.GetPiece(xKing,yKing)->GetX() < e.GetTab()[j]->GetX() && e.GetPiece(xKing,yKing)->GetY() > e.GetTab()[j]->GetY() )  || ( currentPiece->GetX() ==  e.GetPiece(xKing,yKing)->GetX() && currentPiece->GetY() == e.GetPiece(xKing,yKing)->GetY() ) )
                             {
-                               cout << "In2" <<endl;
                                values = PredictionReineEat(  e.GetTab()[j] ) ;
                             }
                         }

@@ -205,12 +205,10 @@ MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
 
             if ( SomeoneCanAttachKing() )
             {
-                cout << "In" << endl;
                 int xKing = ( whitePlay ? xWhiteKing : xBlackKing);
                 int yKing = ( whitePlay ? yWhiteKing : yBlackKing);
                 e.GetPiece(xKing,yKing)->SetIsEchec();
                 this->RefreshMatrix(this);
-
             }
 
         }
@@ -511,7 +509,7 @@ MainWindow::DoomTheKing()
                             }
                         }
                     }
-                    else
+                    else if ( dynamic_cast<Pawn*>(e.GetTab()[j]) == nullptr )
                     {
                         values = PredictionReineEat( e.GetTab()[j] );
                     }

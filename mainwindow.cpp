@@ -186,9 +186,6 @@ MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
             }
 
             e.MovePiece( currentPiece , index.column()+1  , index.row()+1 );
-            isEnd();
-
-            this->RefreshMatrix(this);
 
             if ( dynamic_cast<Pawn*>(currentPiece) != nullptr && ( index.row()+1 == 8 || index.row()+1 == 1 ) )
             {
@@ -202,7 +199,6 @@ MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
                 this->RefreshMatrix(this);
             }
 
-
             if ( SomeoneCanAttachKing() )
             {
                 int xKing = ( whitePlay ? xWhiteKing : xBlackKing);
@@ -213,6 +209,8 @@ MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
                     this->RefreshMatrix(this);
                 }
             }
+
+            isEnd();
         }
     }
     else
@@ -814,43 +812,155 @@ MainWindow::RoadToAttack( int x , int y, Piece* maPiece )
     return result;
 }
 
+bool
+MainWindow::SomeoneCanSaveTheKing()
+{
+    int xKing = ( whitePlay ? xWhiteKing : xBlackKing);
+    int yKing = ( whitePlay ? yWhiteKing : yBlackKing);
+
+    for ( int j = 0; j < 64 ; j++ )
+        if ( e.GetTab()[j] != nullptr && e.GetTab()[j]->GetIsWhite() == whitePlay && ( e.GetTab()[j]->GetX() != xKing || e.GetTab()[j]->GetY() != yKing )  )
+        {
+            //Pour chacune des pièces alliés on affiche lerus mouvements possibles
+            currentPiece =  e.GetTab()[j];
+            setPathToSaveTheKing( xKing , yKing );
+
+            //Parcours toutes les cases
+            for ( int i = 1; i < 9 ; i++ )
+            {
+                for ( int j = 1; j < 9 ; j++ )
+                {
+                    //Si la case est coloré
+                    if ( this->Echec(i,j) )
+                    {
+                        return true;
+                    }
+                }
+            }
+
+        }
+    return false;
+}
+
 void
 MainWindow::isEnd()
 {
     if ( whitePlay )
     {
-       if ( e.GetPiece( xWhiteKing , yWhiteKing )->GetIsEchec() )  e.GetPiece( xWhiteKing , yWhiteKing )->SetIsEchec();
-       this->SetColor( currentPiece->DisplayAvailableMovement( e , whitePlay ) );
-
-       if ( this->Echec( xBlackKing , yBlackKing ) )
-       {
-           bool isEchecMat = this->IsEchecMat( currentPiece->CheckAvailableMovementKing( e , xBlackKing , yBlackKing ) );
-
-           if ( isEchecMat )
-           {
-               cout << "Echec et mat" << endl;
-               //Fin de partie
-           }
-           e.GetPiece( xBlackKing , yBlackKing )->SetIsEchec();
-       }
-    }
-    else
-    {
         if ( e.GetPiece( xBlackKing , yBlackKing )->GetIsEchec() )
              e.GetPiece( xBlackKing , yBlackKing )->SetIsEchec();
 
-        this->SetColor( currentPiece->DisplayAvailableMovement(e,whitePlay));
-
-        if ( this->Echec( xWhiteKing , yWhiteKing ) )
+        //Si le roi est en echec
+        if (  e.GetPiece(xWhiteKing,yWhiteKing)->GetIsEchec() )
         {
-            bool isEchecMat = this->IsEchecMat( currentPiece->CheckAvailableMovementKing( e , xWhiteKing , yWhiteKing ) );
+            this->SetColor(e.GetPiece( xWhiteKing , yWhiteKing )->CheckAvailableMovementKing( e , xWhiteKing,yWhiteKing ));
+            //On regarde si le roi à un mouvement valide
+            bool KingHaveMovement = this->PieceHaveMovement( e.GetPiece(xWhiteKing,yWhiteKing)->CheckAvailableMovementKing(e,xWhiteKing,yWhiteKing) );
 
-            if ( isEchecMat )
+            //Si le roi n'as pas de mouvement valide
+            if ( !KingHaveMovement )
             {
-               cout << "Echec et mat" << endl;
+                 if ( !SomeoneCanSaveTheKing() )
+                 {
+                    cout << "Echec et mat " << endl;
+                 }
             }
-            e.GetPiece( xWhiteKing , yWhiteKing )->SetIsEchec();
+            else
+            {
+                this->RefreshMatrix(this);
+
+                // On check si le roi à un mouvement mais qui le condamne après
+                currentPiece = e.GetPiece(xWhiteKing,yWhiteKing);
+
+                //Récupère le ou les attaquants du roi
+                Piece *maPiece = this->DoomTheKing();
+
+                //Affiche ses mouvements possible sur le plateau
+                KingEscape(maPiece);
+
+                bool doomed = true;
+
+                //Parcours toutes les cases
+                for ( int i = 1; i < 9 ; i++ )
+                {
+                    for ( int j = 1; j < 9 ; j++ )
+                    {
+                        //Si la case est coloré
+                        if ( this->Echec(i,j) )
+                        {
+                             doomed = false;
+                             break;
+                        }
+                    }
+                }
+
+                if ( doomed )
+                {
+                    if ( !SomeoneCanSaveTheKing() )
+                    {
+                       cout << "Echec et mat " << endl;
+                    }
+                }
+            }
         }
+    }
+    else
+    {
+        if ( e.GetPiece( xWhiteKing , yWhiteKing )->GetIsEchec() )  e.GetPiece( xWhiteKing , yWhiteKing )->SetIsEchec();
+
+          //Si le roi est en echec
+          if (  e.GetPiece( xBlackKing , yBlackKing )->GetIsEchec() )
+          {
+              this->SetColor(e.GetPiece( xBlackKing , yBlackKing )->CheckAvailableMovementKing( e , xBlackKing,yBlackKing ));
+              //On regarde si le roi à un mouvement valide
+              bool noMoreMovementKing = this->PieceHaveMovement(  e.GetPiece( xBlackKing , yBlackKing )->CheckAvailableMovementKing( e , xBlackKing,yBlackKing ) );
+
+              //Si le roi n'as pas de mouvement valide
+              if ( noMoreMovementKing )
+              {
+                   if ( !SomeoneCanSaveTheKing() )
+                   {
+                      cout << "Echec et mat " << endl;
+                   }
+              }
+              else
+              {
+                  this->RefreshMatrix(this);
+
+                  // On check si le roi à un mouvement mais qui le condamne après
+                  currentPiece = e.GetPiece(xBlackKing,yBlackKing);
+
+                  //Récupère le ou les attaquants du roi
+                  Piece *maPiece = this->DoomTheKing();
+
+                  //Affiche ses mouvements possible sur le plateau
+                  KingEscape(maPiece);
+
+                  bool doomed = true;
+
+                  //Parcours toutes les cases
+                  for ( int i = 1; i < 9 ; i++ )
+                  {
+                      for ( int j = 1; j < 9 ; j++ )
+                      {
+                          //Si la case est coloré
+                          if ( this->Echec(i,j) )
+                          {
+                               doomed = false;
+                               break;
+                          }
+                      }
+                  }
+
+                  if ( doomed )
+                  {
+                      if ( !SomeoneCanSaveTheKing() )
+                      {
+                         cout << "Echec et mat " << endl;
+                      }
+                  }
+              }
+          }
     }
     this->RefreshMatrix(this);
 }
@@ -940,6 +1050,8 @@ MainWindow::SetColor(list<string>values)
 bool
 MainWindow::Echec( int x , int y )
 {
+
+    cout << "Tente x : " << x << " et y " << y << endl;
     QModelIndex index = model->index( y - 1,x - 1 , QModelIndex() );
     QVariant selectedCell      = model->data( index, Qt::BackgroundRole );
     QColor colorOfSelectedCell = selectedCell.value<QColor>();
@@ -956,17 +1068,20 @@ MainWindow::Echec( int x , int y )
  * @return bool -> Determine if the king is checkmate.
  */
 bool
-MainWindow::IsEchecMat( list<string> values )
+MainWindow::PieceHaveMovement( list<string> values )
 {
-    bool isEchecMat = true;
+    bool PieceHaveMovement = false;
     for (string coordonees : values)
     {
         std::vector<std::string> seglist = SplitString( coordonees, '-');
-
-        isEchecMat = this->Echec( std::stoi( seglist.at( 0 ) ) , std::stoi( seglist.at(1) ) ) ;
-        if ( !isEchecMat )  break;
+        //Si la case est bleu ou violet = mouvement possible
+        PieceHaveMovement = this->Echec( std::stoi( seglist.at( 0 ) ) + 1 , std::stoi( seglist.at(1) ) + 1) ;
+        if ( PieceHaveMovement )
+        {
+            break;
+        }
     }
-    return isEchecMat;
+    return PieceHaveMovement;
 }
 
 /**

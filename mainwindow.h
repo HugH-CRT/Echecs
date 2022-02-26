@@ -34,7 +34,7 @@ class MainWindow : public QMainWindow
         void RefreshMatrix( QWidget* );
         void SetColor( list<string> );
         bool Echec ( int, int );
-        bool IsEchecMat( list<string> );
+        bool PieceHaveMovement( list<string> );
         void DisplayEatPieces( list<string>, bool );
         void AddToHistory( Piece*, int, int );
         const char* ConvertToChar(  string );
@@ -54,6 +54,7 @@ class MainWindow : public QMainWindow
         void setPathToSaveTheKing( int xKing , int yKing );
         void KingEscape(Piece*);
         bool SomeoneCanAttachKing();
+        bool SomeoneCanSaveTheKing();
 
     private slots:
         void on_tableViewEchiquier_clicked( const QModelIndex &index );

@@ -364,6 +364,7 @@ MainWindow::setPathToSaveTheKing( int xKing , int yKing )
                      if ( e.GetPiece( i , j) != nullptr)
                      {
                          OldPiece = e.GetPiece( i , j);
+                         firstMoveOldPiece = OldPiece->GetFirstMove();
                      }
 
                     //Deplace la piece sur la case bleue
@@ -1051,7 +1052,6 @@ bool
 MainWindow::Echec( int x , int y )
 {
 
-    cout << "Tente x : " << x << " et y " << y << endl;
     QModelIndex index = model->index( y - 1,x - 1 , QModelIndex() );
     QVariant selectedCell      = model->data( index, Qt::BackgroundRole );
     QColor colorOfSelectedCell = selectedCell.value<QColor>();

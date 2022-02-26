@@ -476,6 +476,17 @@ MainWindow::WithdrawUnacceptedMoveKing(list<string> values)
              }
           }  catch (...) {}
     }
+
+    //On replace la piece courante à sa position d'origine
+    e.MovePiece( currentPiece , saveXPiece , saveYPiece );
+    refreshKing(saveXPiece,saveYPiece);
+
+    if ( OldPiece != nullptr)
+    {
+        e.PlacePiece(OldPiece);
+        OldPiece->SetFirstMove(firstMoveOldPiece);
+    }
+
     e.GetPiece(saveXPiece,saveYPiece)->SetFirstMove(firstMoveCurrentPiece);
     return acceptedMovement;
 }

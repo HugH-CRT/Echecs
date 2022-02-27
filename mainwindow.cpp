@@ -447,12 +447,12 @@ MainWindow::WithdrawUnacceptedMoveKing(list<string> values)
                         }
                         else
                         {
-                            if (  e.GetTab()[j]->GetIsWhite() && ( e.GetTab()[j]->GetX() + 1 == x && e.GetTab()[j]->GetY() + 1 == y || e.GetTab()[j]->GetX() - 1 == x && e.GetTab()[j]->GetY() + 1 == y ) )
+                            if (  e.GetTab()[j]->GetIsWhite() && ( e.GetTab()[j]->GetX() - 1 == x && e.GetTab()[j]->GetY() - 1 == y || e.GetTab()[j]->GetX() + 1 == x && e.GetTab()[j]->GetY() - 1 == y ) )
                             {
                                 availableMovement = false;
                                 break;
                             }
-                            else if ( !e.GetTab()[j]->GetIsWhite() && ( e.GetTab()[j]->GetX() - 1 == x && e.GetTab()[j]->GetY() - 1 == y || e.GetTab()[j]->GetX() + 1 == x && e.GetTab()[j]->GetY() - 1 == y ) )
+                            else if ( !e.GetTab()[j]->GetIsWhite() && (  e.GetTab()[j]->GetX() + 1 == x && e.GetTab()[j]->GetY() + 1 == y || e.GetTab()[j]->GetX() - 1 == x && e.GetTab()[j]->GetY() + 1 == y ) )
                             {
                                 availableMovement = false;
                                 break;

@@ -41,8 +41,9 @@ MainWindow::MainWindow(QWidget *parent)
     timer = new QTimer(this);
     connect ( timer , SIGNAL( timeout() ), this, SLOT( SetTimer() ) );
 
-    assert( playerWhite.PlacePieces( e ) );
     assert( playerBlack.PlacePieces( e ) );
+    assert( playerWhite.PlacePieces( e ) );
+
 
     // Initialisation image pour le premier coup
     QPixmap monImage(":/img/white/assets/white/pawn.png");
@@ -149,14 +150,15 @@ MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
             {
                 if ( e.GetPiece( index.column() + 1 , index.row() + 1 ) != nullptr )
                 {
-                   picturesEatedWhitePieces.push_back( e.GetPiece( index.column() + 1 , index.row() + 1 )->GetPath() );
-                   DisplayEatPieces(picturesEatedWhitePieces,true);
+                    picturesEatedBlackPieces.push_back( e.GetPiece( index.column() + 1 , index.row() + 1 )->GetPath() );
+                    DisplayEatPieces(picturesEatedBlackPieces,false);
                 }
             }
             else if ( e.GetPiece( index.column() + 1 , index.row() + 1 ) != nullptr )
             {
-                picturesEatedBlackPieces.push_back( e.GetPiece( index.column() + 1 , index.row() + 1 )->GetPath() );
-                DisplayEatPieces(picturesEatedBlackPieces,false);
+
+               picturesEatedWhitePieces.push_back( e.GetPiece( index.column() + 1 , index.row() + 1 )->GetPath() );
+               DisplayEatPieces(picturesEatedWhitePieces,true);
             }
 
             AddToHistory(currentPiece, index.column()+1 , index.row()+1);
@@ -166,22 +168,22 @@ MainWindow::on_tableViewEchiquier_clicked(const QModelIndex &index)
             {
                 if ( dynamic_cast<King*>(currentPiece) != nullptr && currentPiece->GetX() + 2 == index.column() + 1 )
                 {
-                  e.MovePiece( e.GetPiece( 8 , 1 ) , 6 , 1 );
-                }
-                else if ( dynamic_cast<King*>(currentPiece) != nullptr && currentPiece->GetX() - 2 == index.column() + 1 )
-                {
-                    e.MovePiece( e.GetPiece( 1 , 1 ) , 4 , 1 );
-                }
-            }
-            else
-            {
-                if ( dynamic_cast<King*>(currentPiece) != nullptr && currentPiece->GetX() + 2 == index.column() + 1 )
-                {
                   e.MovePiece( e.GetPiece( 8 , 8 ) , 6 , 8 );
                 }
                 else if ( dynamic_cast<King*>(currentPiece) != nullptr && currentPiece->GetX() - 2 == index.column() + 1 )
                 {
                     e.MovePiece( e.GetPiece( 1 , 8 ) , 4 , 8 );
+                }
+            }
+            else
+            {           
+                if ( dynamic_cast<King*>(currentPiece) != nullptr && currentPiece->GetX() + 2 == index.column() + 1 )
+                {
+                  e.MovePiece( e.GetPiece( 8 , 1 ) , 6 , 1 );
+                }
+                else if ( dynamic_cast<King*>(currentPiece) != nullptr && currentPiece->GetX() - 2 == index.column() + 1 )
+                {
+                    e.MovePiece( e.GetPiece( 1 , 1 ) , 4 , 1 );
                 }
             }
 

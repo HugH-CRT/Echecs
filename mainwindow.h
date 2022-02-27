@@ -82,14 +82,14 @@ private:
         Ui::MainWindow *ui;
         QStandardItemModel *model;
         ChessBoard e;
-        PlayerWhite playerWhite;
         PlayerBlack  playerBlack;
+        PlayerWhite playerWhite;
         Piece *currentPiece = nullptr;
         int xBlackKing = 5;
-        int yBlackKing = 8;
+        int yBlackKing = 1;
         int xWhiteKing = 5;
-        int yWhiteKing = 1;
-        bool whitePlay = false;
+        int yWhiteKing = 8;
+        bool whitePlay = true;
         list<string> picturesEatedWhitePieces;
         list<string> picturesEatedBlackPieces;
         std::vector<string> History;

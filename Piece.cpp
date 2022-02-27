@@ -135,6 +135,30 @@ Piece::CastlingAvailable( ChessBoard &e, Piece *r, Piece *k )
         //Si c'est les blancs qui joue
         if ( k->GetIsWhite() )
         {
+            if ( r->GetX() < k->GetX()  )
+            {
+                for ( int i = k->GetX() - 1; i > r->GetX() ; i-- )
+                {
+                    Piece *maPiece = e.GetPiece( i , 8 );
+                    if ( maPiece != nullptr ) { return false; }
+                }
+
+                return e.CheckRoqueValidity( k , 3 , 8 );
+            }
+            else if ( r->GetX() > k->GetX() )
+            {
+
+                for ( int i = k->GetX() + 1; i < r->GetX() ; i++ )
+                {
+                    Piece *maPiece = e.GetPiece( i , 8 );
+                    if ( maPiece != nullptr ) { return false; }
+                }
+
+                return e.CheckRoqueValidity( k , 7 , 8 );
+            }
+        }
+        else
+        {
             //Si la tour se situe à la droite du plateau
             if ( r->GetX() > k->GetX() )
             {
@@ -159,30 +183,6 @@ Piece::CastlingAvailable( ChessBoard &e, Piece *r, Piece *k )
                 return e.CheckRoqueValidity( k , 3 , 1 );
             }
         }
-        else
-        {
-            if ( r->GetX() < k->GetX()  )
-            {
-                for ( int i = k->GetX() - 1; i > r->GetX() ; i-- )
-                {
-                    Piece *maPiece = e.GetPiece( i , 8 );
-                    if ( maPiece != nullptr ) { return false; }
-                }
-
-                return e.CheckRoqueValidity( k , 3 , 8 );
-            }
-            else if ( r->GetX() > k->GetX() )
-            {
-
-                for ( int i = k->GetX() + 1; i < r->GetX() ; i++ )
-                {
-                    Piece *maPiece = e.GetPiece( i , 8 );
-                    if ( maPiece != nullptr ) { return false; }
-                }
-
-                return e.CheckRoqueValidity( k , 7 , 8 );
-            }
-        }
     }
     return false;
 }
@@ -194,7 +194,7 @@ Piece::CastlingAvailable( ChessBoard &e, Piece *r, Piece *k )
  * @param white -> King color
  * @param path -> King Image Path
  */
-King::King( bool white, string path ) : Piece( 5, white ? 1 : 8, white, path){}
+King::King( bool white, string path ) : Piece( 5, white ? 8 : 1, white, path){}
 
 /**
  * @brief King's Destroyer
@@ -234,7 +234,7 @@ King::DisplayAvailableMovement(ChessBoard &e, bool whitePlay)
  * @param white -> Queen color
  * @param path -> Image path of the Queen image.
  */
-Queen::Queen( bool white, string path ) : Piece( 4, white ? 1 : 8, white , path ), Bishop( white, true ,path ), Rook( white, true ,path ){}
+Queen::Queen( bool white, string path ) : Piece( 4, white ? 8 : 1, white , path ), Bishop( white, true ,path ), Rook( white, true ,path ){}
 Queen::Queen( int x, int y,bool white, bool firstmove, bool left, string path ): Piece( x,y, white, path ), Bishop( white, true ,path ), Rook( white, true ,path ){}
 /**
  * @brief Queen's Destroyer
@@ -266,7 +266,7 @@ Queen::DisplayAvailableMovement(ChessBoard &e, bool whitePlay)
  * @param white -> Color of the Rook.
  * @param path -> Image path of the Rook image.
  */
-Rook::Rook( bool white, bool gauche, string path ) : Piece( gauche ? 1 : 8, white ? 1 : 8, white, path ){}
+Rook::Rook( bool white, bool gauche, string path ) : Piece( gauche ? 1 : 8, white ? 8 : 1, white, path ){}
 
 Rook::Rook( int x, int y,bool white, bool firstmove, bool left, string path ): Piece( x,y, white, path ){}
 
@@ -356,7 +356,7 @@ Rook::DisplayAvailableMovement(ChessBoard &e, bool whitePlay)
  * @param white -> Bishop color.
  * @param path -> Image path of the Bishop image.
  */
-Bishop::Bishop( bool white, bool gauche, string path ) : Piece( gauche ? 3 : 6, white ? 1 : 8, white, path ){}
+Bishop::Bishop( bool white, bool gauche, string path ) : Piece( gauche ? 3 : 6, white ? 8 : 1, white, path ){}
 
 Bishop::Bishop( int x, int y,bool white, bool firstmove, bool left, string path ): Piece( x,y, white, path ){}
 /**
@@ -456,7 +456,7 @@ Bishop::DisplayAvailableMovement(ChessBoard &e, bool whitePlay)
  * @param white -> Knight's color.
  * @param path -> Image path of the Knight image.
  */
-Knight::Knight( bool white, bool gauche, string path ) : Piece( gauche ? 2 : 7, white ? 1 : 8, white, path ){}
+Knight::Knight( bool white, bool gauche, string path ) : Piece( gauche ? 2 : 7, white ? 8 : 1, white, path ){}
 Knight::Knight( int x, int y,bool white, bool firstmove, bool left, string path ): Piece( x,y, white, path ){}
 
 /**
@@ -514,7 +514,7 @@ Knight::DisplayAvailableMovement(ChessBoard &e, bool whitePlay )
  * @param white -> Color of the Pawn.
  * @param path -> Image path of the Pawn.
  */
-Pawn::Pawn( bool white, int x, string path ) : Piece( x, white ? 2 : 7, white, path ){}
+Pawn::Pawn( bool white, int x, string path ) : Piece( x, white ? 7 : 2, white, path ){}
 
 /**
  * @brief Pawn Destroyer.
@@ -537,19 +537,6 @@ Pawn::DisplayAvailableMovement(ChessBoard &e, bool whitePlay)
 
     if ( p_white && whitePlay)
     {
-        for ( int i = p_y + 1  ; i <= p_y + destination ; i++ )
-            if ( e.GetPiece( p_x , i  ) == nullptr )    
-                casesValidePawn.push_back( std::to_string( p_x - 1 ) + "-" + std::to_string( i - 1 )  + "-false" );
-            else break;
-
-        if ( e.GetPiece( p_x + 1 , p_y + 1 ) != nullptr && e.GetPiece( p_x + 1 , p_y + 1 )->GetIsWhite() != GetIsWhite() )
-            casesValidePawn.push_back( std::to_string( p_x ) + "-" + std::to_string( p_y ) + "-true");
-
-        if ( e.GetPiece( p_x - 1 , p_y + 1 ) != nullptr && e.GetPiece( p_x - 1 , p_y + 1 )->GetIsWhite() != GetIsWhite() )
-             casesValidePawn.push_back( std::to_string( p_x - 2 ) + "-" + std::to_string( p_y )  + "-true");
-    }
-    else if ( !p_white && !whitePlay )
-    {
         for ( int i = p_y - 1  ; i >= p_y - destination ; i-- )
             if ( e.GetPiece( p_x , i  ) == nullptr )
               casesValidePawn.push_back(  std::to_string( p_x - 1 ) + "-" + std::to_string( i - 1 ) + "-false" );
@@ -560,6 +547,19 @@ Pawn::DisplayAvailableMovement(ChessBoard &e, bool whitePlay)
 
         if ( e.GetPiece( p_x - 1 , p_y - 1 ) != nullptr && e.GetPiece( p_x - 1 , p_y - 1 )->GetIsWhite() != GetIsWhite() )
             casesValidePawn.push_back( std::to_string( p_x - 2 ) + "-" + std::to_string( p_y - 2 ) + "-true" );
+    }
+    else if ( !p_white && !whitePlay )
+    {
+        for ( int i = p_y + 1  ; i <= p_y + destination ; i++ )
+            if ( e.GetPiece( p_x , i  ) == nullptr )
+                casesValidePawn.push_back( std::to_string( p_x - 1 ) + "-" + std::to_string( i - 1 )  + "-false" );
+            else break;
+
+        if ( e.GetPiece( p_x + 1 , p_y + 1 ) != nullptr && e.GetPiece( p_x + 1 , p_y + 1 )->GetIsWhite() != GetIsWhite() )
+            casesValidePawn.push_back( std::to_string( p_x ) + "-" + std::to_string( p_y ) + "-true");
+
+        if ( e.GetPiece( p_x - 1 , p_y + 1 ) != nullptr && e.GetPiece( p_x - 1 , p_y + 1 )->GetIsWhite() != GetIsWhite() )
+             casesValidePawn.push_back( std::to_string( p_x - 2 ) + "-" + std::to_string( p_y )  + "-true");
     }
     return casesValidePawn;
 }
@@ -768,20 +768,6 @@ Pawn::Deplace( ChessBoard &e, int x, int y )
 {
     if ( p_white )
     {
-        if( this->p_x == x || this->p_x + 1 == x && this->p_y + 1 == y || this->p_x - 1 == x && this->p_y + 1 == y )
-        {
-            Piece *maPiece = e.GetPiece(x,y);
-
-            if ( ( p_firstMove && y == this->p_y + 2 || y == this->p_y + 1 )  || ( !p_firstMove &&  y == this->p_y + 1 ) )
-            {
-                if ( maPiece == nullptr ){ p_firstMove = false; return true; }
-                else if(  this->p_x + 1 == x && this->p_y + 1 == y && maPiece->GetIsWhite() != p_white || this->p_x - 1 == x && this->p_y + 1 == y && maPiece->GetIsWhite() != p_white ) { return true; }
-            }
-        }
-    }
-    else
-    {
-
         if( this->p_x == x || this->p_x - 1 == x && this->p_y - 1 == y || this->p_x + 1 == x && this->p_y - 1 == y )
         {
             Piece *maPiece = e.GetPiece(x,y);
@@ -790,6 +776,19 @@ Pawn::Deplace( ChessBoard &e, int x, int y )
             {
                 if (maPiece == nullptr ){ p_firstMove = false; return true; }
                 else if( this->p_x - 1 == x && this->p_y - 1 == y && maPiece->GetIsWhite() != p_white || this->p_x + 1 == x && this->p_y - 1 == y && maPiece->GetIsWhite() != p_white ) { return true; }
+            }
+        }
+    }
+    else
+    {
+        if( this->p_x == x || this->p_x + 1 == x && this->p_y + 1 == y || this->p_x - 1 == x && this->p_y + 1 == y )
+        {
+            Piece *maPiece = e.GetPiece(x,y);
+
+            if ( ( p_firstMove && y == this->p_y + 2 || y == this->p_y + 1 )  || ( !p_firstMove &&  y == this->p_y + 1 ) )
+            {
+                if ( maPiece == nullptr ){ p_firstMove = false; return true; }
+                else if(  this->p_x + 1 == x && this->p_y + 1 == y && maPiece->GetIsWhite() != p_white || this->p_x - 1 == x && this->p_y + 1 == y && maPiece->GetIsWhite() != p_white ) { return true; }
             }
         }
     }

@@ -49,7 +49,6 @@ ChessBoard::PlacePiece( Piece *p )
     int x = p->GetX();
     int y = ( *p ).GetY();
     assert( x >= 1 && x <= 8 && y >= 1 && y <= 8 );
-    assert( x >= 1 && x <= 8 && y >= 1 && y <= 8 );
     if ( nullptr != GetPiece( x, y ) )
         return false;  // case non vide
     m_cases[( x - 1 ) + ( y - 1 ) * 8] = p;

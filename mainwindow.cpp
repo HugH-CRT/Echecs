@@ -805,27 +805,16 @@ MainWindow::RoadToAttack( int x , int y, Piece* maPiece )
             try
             {
                 std::vector<std::string> seglist = SplitString( coordonees, '-');
-                cout << "Essaye x: " << std::to_string( std::stoi( seglist.at(0) ) + 1) << " et y : " << std::to_string( std::stoi( seglist.at(1) ) + 1) << endl;
 
                 if ( maPiece->GetX() < x && maPiece->GetY() < y || maPiece->GetX() > x && maPiece->GetY() > y )
                 {
-;
                     if ( std::stoi( seglist.at(0) ) + 1 < maPiece->GetX() && std::stoi( seglist.at(1) ) + 1 < maPiece->GetY()  || std::stoi( seglist.at(0) ) + 1 > maPiece->GetX() && std::stoi( seglist.at(1) ) + 1 > maPiece->GetY() || std::stoi( seglist.at(0) ) + 1 == x && std::stoi( seglist.at(1) ) + 1 == y)
-                    {
                         result.push_back( seglist.at( 0 ) + "-" + seglist.at( 1 ) + "-false" );
-                    }
                 }
                 else if ( maPiece->GetX() < x && maPiece->GetY() > y || maPiece->GetX() > x && maPiece->GetY() < y )
-                {
-                    cout << "ino3" << endl;
-                    cout << "Current piece x : " << maPiece->GetX() << " et y: " << maPiece->GetY() << endl;
-                    cout << " X : " << x << " und y : " << y << endl;
                     if ( std::stoi( seglist.at(0) ) + 1 < maPiece->GetX() && std::stoi( seglist.at(1) ) + 1 > maPiece->GetY()  || std::stoi( seglist.at(0) ) + 1 > maPiece->GetX() && std::stoi( seglist.at(1) ) + 1 < maPiece->GetY()  || std::stoi( seglist.at(0) ) + 1 == x && std::stoi( seglist.at(1) ) + 1 == y )
-                    {
-                        cout << "ino4" << endl;
                         result.push_back( seglist.at( 0 ) + "-" + seglist.at( 1 ) + "-false" );
-                    }
-                }
+
             } catch (...) {}
     }
 

@@ -736,9 +736,12 @@ MainWindow::MouvementPossibleLorsqueAttaquant (Piece* maPiece )
         {
             if ( dynamic_cast<Queen*>(currentPiece) != nullptr )
             {
+
                 Bishop monFou = Bishop( currentPiece->GetX() , currentPiece->GetY() , currentPiece->GetIsWhite() , true ,true , "" );
                 Piece* PieceFou = &monFou;
+                cout << "IN" << endl;
                 values = this->RoadToAttack( maPiece->GetX() , maPiece->GetY(), PieceFou );
+
 
                 if ( values.size() == 1)
                 {
@@ -773,6 +776,8 @@ MainWindow::RoadToAttack( int x , int y, Piece* maPiece )
 {
     list<string> values =  maPiece->DisplayAvailableMovement( e , whitePlay );;
     list<string> result;
+    int xKing = ( whitePlay ? xWhiteKing : xBlackKing);
+    int yKing = ( whitePlay ? yWhiteKing : yBlackKing);
 
     if ( dynamic_cast<Rook*>( maPiece ) != nullptr )
     {
@@ -795,19 +800,32 @@ MainWindow::RoadToAttack( int x , int y, Piece* maPiece )
     }
     else if ( dynamic_cast<Bishop*>( maPiece ) != nullptr )
     {
+
         for (string coordonees : values)
             try
             {
                 std::vector<std::string> seglist = SplitString( coordonees, '-');
+                cout << "Essaye x: " << std::to_string( std::stoi( seglist.at(0) ) + 1) << " et y : " << std::to_string( std::stoi( seglist.at(1) ) + 1) << endl;
 
                 if ( maPiece->GetX() < x && maPiece->GetY() < y || maPiece->GetX() > x && maPiece->GetY() > y )
                 {
-                    if ( std::stoi( seglist.at(0) ) + 1 < x && std::stoi( seglist.at(1) ) + 1 < y  || std::stoi( seglist.at(0) ) + 1 > x && std::stoi( seglist.at(1) ) + 1 > y || std::stoi( seglist.at(0) ) + 1 == x && std::stoi( seglist.at(1) ) + 1 == y)
+;
+                    if ( std::stoi( seglist.at(0) ) + 1 < maPiece->GetX() && std::stoi( seglist.at(1) ) + 1 < maPiece->GetY()  || std::stoi( seglist.at(0) ) + 1 > maPiece->GetX() && std::stoi( seglist.at(1) ) + 1 > maPiece->GetY() || std::stoi( seglist.at(0) ) + 1 == x && std::stoi( seglist.at(1) ) + 1 == y)
+                    {
                         result.push_back( seglist.at( 0 ) + "-" + seglist.at( 1 ) + "-false" );
+                    }
                 }
                 else if ( maPiece->GetX() < x && maPiece->GetY() > y || maPiece->GetX() > x && maPiece->GetY() < y )
-                    if ( std::stoi( seglist.at(0) ) + 1 < x && std::stoi( seglist.at(1) ) + 1 > y  || std::stoi( seglist.at(0) ) + 1 > x && std::stoi( seglist.at(1) ) + 1 < y  || std::stoi( seglist.at(0) ) + 1 == x && std::stoi( seglist.at(1) ) + 1 == y )
+                {
+                    cout << "ino3" << endl;
+                    cout << "Current piece x : " << maPiece->GetX() << " et y: " << maPiece->GetY() << endl;
+                    cout << " X : " << x << " und y : " << y << endl;
+                    if ( std::stoi( seglist.at(0) ) + 1 < maPiece->GetX() && std::stoi( seglist.at(1) ) + 1 > maPiece->GetY()  || std::stoi( seglist.at(0) ) + 1 > maPiece->GetX() && std::stoi( seglist.at(1) ) + 1 < maPiece->GetY()  || std::stoi( seglist.at(0) ) + 1 == x && std::stoi( seglist.at(1) ) + 1 == y )
+                    {
+                        cout << "ino4" << endl;
                         result.push_back( seglist.at( 0 ) + "-" + seglist.at( 1 ) + "-false" );
+                    }
+                }
             } catch (...) {}
     }
 

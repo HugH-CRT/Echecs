@@ -1,18 +1,12 @@
-# Echecs
+# Chess Game
 
-main.cpp //remplace le testPiece.cxx
+#### Requirements :
+- C++ 17
+- Qt 6.8.1
+- MSVC x64 
 
-Chaque fichier source ce nomme en .cpp
-Chaque fichier hearder (interface) ce nomme en .h
 
-Pour exécuter le code source (fortement conseiller) QT Creator
 
-Application : 
-Pour l'exécution de l'application, lancer sous Windows (pas de vérification si fonctionnel sur d'autre plateforme)
-Lancer le "echec.exe"
-
-Documentation : Doxygen 
-Lancer le raccourci doc.html
 
 
 

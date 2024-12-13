@@ -1,6 +1,5 @@
+# Gitignore
 
-CMakeLists.txt.user
-CMakeLists.txt.user
-*.ea7832f
-CMakeLists.txt.user
+build/
 *.user
+*.txt.user
